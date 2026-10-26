@@ -100,7 +100,7 @@ window.SITE = {
     "Now I'm a mechanical engineering senior at LSU with a minor in robotics, graduating in May 2027. " +
       "In the iCORE Lab I work on hazard avoidance and path planning for unmanned surface vessels. " +
       "In summer 2026 at Integer Technologies, I designed the housing that put an acoustic modem on a BlueROV2. " +
-      "After graduation, I plan to start an M.S. in controls and mechanical systems in Fall 2027.",
+      "After graduation, I'm applying to M.S. programs in controls and mechanical systems for Fall 2027.",
   ],
 
   /* ---------- Featured project (the big card at the top of Projects) ----------
