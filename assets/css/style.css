@@ -401,3 +401,125 @@ button.xp-head:hover .xp-role { text-decoration: underline; text-decoration-colo
   .contact { min-height: 0; padding: 24px 0; }
   .sec, .numbers { padding-top: 32px; }
 }
+
+/* =====================================================================
+   Project drawings (assets/js/drawings.js): technical line art that
+   draws itself in, with numbered callouts. Photos or video replace them.
+   ===================================================================== */
+.art-box { --art-bg: #0A0A0A; }
+.pane-light .art-box { --art-bg: #FFFFFF; }
+.art-box.has-drawing {
+  display: flex; flex-direction: column;
+  background-color: var(--art-bg);
+  background-image: radial-gradient(circle, rgba(var(--dot-rgb), .07) 1px, transparent 1.4px);
+  background-size: 16px 16px;
+}
+.art-box video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.card-media.has-drawing { aspect-ratio: 16 / 11; }
+.art-tag { position: absolute; top: 12px; left: 14px; font-size: 0.7rem; color: var(--fg-3); z-index: 1; }
+.drawing-wrap { flex: 1; min-height: 0; display: flex; padding: 32px 18px 10px; }
+.drawing { width: 100%; height: 100%; overflow: visible; }
+
+.drawing .ln {
+  fill: none; stroke: var(--fg); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.2s var(--ease) calc(var(--i, 0) * 30ms);
+}
+.drawn .drawing .ln { stroke-dashoffset: 0; }
+.drawing .solid { fill: var(--art-bg); }
+.drawing .acc { stroke: var(--red); }
+.drawing .ln.cl { stroke-dasharray: .012 .012; stroke-dashoffset: 0; opacity: 0; transition: opacity .8s .4s; }
+.drawn .drawing .ln.cl { opacity: .5; }
+.drawing .ln.wave { opacity: .45; }
+.drawing .link { stroke-width: 15; }
+.drawing .link.thin { stroke-width: 10; }
+.drawing .link-in { fill: none; stroke: var(--art-bg); stroke-width: 12; stroke-linecap: round; opacity: 0; transition: opacity .3s .9s; }
+.drawing .link-in.thin { stroke-width: 7; }
+.drawn .drawing .link-in { opacity: 1; }
+.drawing .bumper { fill: rgba(215, 25, 33, .22); }
+.drawing .fillr, .drawing .lbl, .drawing .mk, .drawing .robot, .drawing .end { opacity: 0; transition: opacity .5s 1.1s; }
+.drawn .drawing .fillr, .drawn .drawing .lbl, .drawn .drawing .mk, .drawn .drawing .robot, .drawn .drawing .end { opacity: 1; }
+.drawing .fillr { fill: var(--red); }
+.drawing .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; fill: var(--fg-3); stroke: none; }
+.drawing .lbl.acc-t { fill: #FF4D4D; }
+.drawing .lbl.bump-t { fill: var(--fg); font-weight: 700; letter-spacing: .2em; }
+.drawing .mk circle { fill: var(--red); stroke: var(--art-bg); stroke-width: 2.5; transition: stroke .2s; }
+.drawing .mk.hot circle { stroke: var(--fg); }
+.drawing .mk text { fill: #fff; font-family: var(--mono); font-size: 11px; font-weight: 700; }
+.drawing .wall { fill: var(--fg); opacity: .85; }
+.drawing .route { stroke-width: 2.4; }
+.drawing .end { fill: none; stroke: var(--red); stroke-width: 1.6; }
+.drawing .robot circle { fill: var(--red); stroke: var(--art-bg); stroke-width: 2; }
+
+.callouts { position: relative; z-index: 1; list-style: none; margin: 0; padding: 0 14px 14px; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.72rem; color: var(--fg-2); }
+.callouts li { display: flex; align-items: center; gap: 7px; cursor: default; }
+.callout-n { flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--red); color: #fff; display: grid; place-items: center; font-size: 0.66rem; font-weight: 700; }
+.feat-media .callouts { font-size: 0.78rem; padding: 0 22px 20px; }
+.feat-media .drawing-wrap { padding: 40px 28px 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .drawing .ln, .drawing .ln.cl, .drawing .link-in, .drawing .fillr, .drawing .lbl, .drawing .mk, .drawing .robot, .drawing .end { transition: none; }
+}
+
+/* ---------- timeline ---------- */
+.tl { --tl-label: 12.5rem; margin: 0 0 clamp(64px, 8vw, 96px); }
+.tl-key { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 0.75rem; color: var(--fg-3); margin: 0 0 22px; }
+.tl-key .k::before { content: ""; display: inline-block; width: 18px; height: 8px; border-radius: 4px; margin-right: 8px; vertical-align: 1px; box-sizing: border-box; }
+.tl-key .work::before { background: var(--fg); }
+.tl-key .project::before { border: 1.5px solid var(--fg); }
+.tl-key .current::before { width: 8px; background: var(--red); }
+.tl-axis { position: relative; height: 26px; margin-left: var(--tl-label); font-size: 0.75rem; color: var(--fg-3); border-bottom: 1px solid var(--fg); }
+.tl-year { position: absolute; bottom: 6px; transform: translateX(-50%); }
+.tl-rows { position: relative; }
+.tl-row { display: grid; grid-template-columns: var(--tl-label) minmax(0, 1fr); align-items: center; border-bottom: 1px solid var(--ln); }
+.tl-label { font-size: 0.9rem; padding: 8px 12px 8px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tl-track { position: relative; height: 36px; }
+.tl-bar { position: absolute; top: 50%; height: 10px; translate: 0 -50%; border-radius: 5px; min-width: 10px; box-sizing: border-box; }
+.tl-bar.work { background: var(--fg); }
+.tl-bar.project { border: 1.5px solid var(--fg); }
+.tl-bar.faint { opacity: .35; }
+.tl-bar.next { border: 1.5px dashed var(--fg-3); }
+.tl-bar.current::after { content: ""; position: absolute; right: -6px; top: 50%; translate: 0 -50%; width: 12px; height: 12px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 4px rgba(215, 25, 33, .2); }
+.tl-grad, .tl-now { position: absolute; top: 0; bottom: 0; width: 0; pointer-events: none; }
+.tl-grad { border-left: 1.5px solid var(--red); }
+.tl-grad span { position: absolute; bottom: -24px; right: 6px; white-space: nowrap; font-size: 0.7rem; color: var(--todo); }
+.tl-now { border-left: 1px dashed var(--fg-3); }
+@media (max-width: 640px) {
+  .tl { --tl-label: 7.5rem; }
+  .tl-label { font-size: 0.8rem; }
+  .tl-year.odd { display: none; }
+}
+
+/* ---------- what I can do ---------- */
+.caps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 0 0 clamp(48px, 7vw, 80px); }
+.cap { background: var(--card); border-radius: 22px; padding: clamp(20px, 2.4vw, 28px); }
+.cap-title { margin: 0 0 18px; font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1; }
+.cap .points { margin: 0; font-size: 0.98rem; }
+@media (max-width: 1000px) { .caps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .caps { grid-template-columns: 1fr; } }
+
+/* ---------- hobbies (only shown when content.js has them) ---------- */
+#hobbies-pane { padding-bottom: var(--space); }
+.hob-intro { max-width: 34em; margin: 0 0 36px; font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.35; }
+.hob-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.hob-card { background: rgba(0, 0, 0, .16); border-radius: 24px; padding: clamp(22px, 3vw, 32px); }
+.hob-card.wide { grid-column: 1 / -1; }
+.hob-name { margin: 0 0 12px; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1; }
+.hob-text { margin: 0 0 20px; max-width: 34em; }
+.hob-photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.hob-photo { margin: 0; }
+.hob-photo img, .hob-photo.empty > span { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 14px; }
+.hob-photo.empty > span { display: grid; place-items: center; font-size: 0.72rem; background: rgba(0,0,0,.18) radial-gradient(circle, rgba(255,255,255,.22) 1px, transparent 1.4px) 0 0 / 14px 14px; }
+.hob-photo figcaption { margin-top: 8px; font-size: 0.72rem; }
+@media (max-width: 760px) { .hob-grid { grid-template-columns: 1fr; } .hob-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.kb-wrap { max-width: 460px; }
+.kb { position: relative; display: flex; height: 150px; }
+.kb-key { padding: 0; cursor: pointer; font: inherit; }
+.kb-key.white { flex: 1; background: #fff; border: 1.5px solid #000; border-left-width: 0; border-radius: 0 0 8px 8px; }
+.kb-key.white:first-child { border-left-width: 1.5px; }
+.kb-key.black { position: absolute; top: 0; z-index: 1; width: 7.4%; height: 60%; background: #000; border: 0; border-radius: 0 0 6px 6px; }
+.kb-key.white.down { background: #FFD3D5; }
+.kb-key.black.down { background: #444; }
+.kb-key:focus-visible { outline: 3px solid #000; outline-offset: 2px; z-index: 2; }
+.kb-hint { margin: 10px 0 0; font-size: 0.72rem; color: var(--fg-3); }

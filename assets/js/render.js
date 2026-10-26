@@ -1,5 +1,5 @@
 /* Builds the page from window.SITE (defined in content.js) and runs the
-   motion: dot fields, dot-matrix drawings, scrambling text, counters,
+   motion: dot fields, line drawings, scrambling text, counters,
    the menu, accordions, and the top bar color switching.
    You shouldn't need to edit this file to change the site's text. */
 (function () {
@@ -150,186 +150,119 @@
     })));
   } else hide(document.getElementById("about"), "#about");
 
-  /* ======================= dot-matrix drawings ======================= */
-  // Each drawing is rows of characters: "#" = lit dot, "r" = red dot, "." = off.
-  var ART = {
-    rov: [
-      "...........rrrrrr...............",
-      "...........r....r...............",
-      "...........rrrrrr...............",
-      ".............rr.................",
-      "...#######################......",
-      "...#.....................#..##..",
-      ".###.....................####.#.",
-      ".#.#..######.....######..#.#..#.",
-      ".#.#.....................#.#..#.",
-      ".###.....................####.#.",
-      "...#.....................#..##..",
-      "...#######################......",
-      ".....##...............##........",
-      "....####.............####.......",
-    ],
-    arm: [
-      "..............######............",
-      ".............#......#...........",
-      "............#........#..........",
-      "...........#..........#.........",
-      "..........#............#........",
-      ".........#..............#.......",
-      "........#................#......",
-      ".......##.................#.....",
-      "......####.................#....",
-      "......####..................#...",
-      ".......##..................###..",
-      ".......##...................#...",
-      ".......##..................r.r..",
-      ".......##...................r...",
-      ".....######.....................",
-      "....########...##############...",
-    ],
-    maze: [
-      "#######################",
-      "#.....#.........#.....#",
-      "#.###.#.#######.#.###.#",
-      "#.#...#.#.....#...#...#",
-      "#.#.###.#.###.#####.###",
-      "#.#.....#.#...#.....#.#",
-      "#.#######.#.###.###.#.#",
-      "#.........#.....#..r..#",
-      "#######################",
-    ],
-    lathe: [
-      "....######................",
-      "....#....#########........",
-      "....#............#######..",
-      "....#..................#..",
-      "....#..................#..",
-      "....#............#######..",
-      "....#....#########........",
-      "....######................",
-      "..........................",
-      "....r.................r...",
-      "....rrrrrrrrrrrrrrrrrrr...",
-      "....r.................r...",
-    ],
-    playground: [
-      "..........#......................",
-      ".........###.....................",
-      "........#####....................",
-      ".......#.....#........#########..",
-      ".......#.....#.......#.#.....#.#.",
-      ".......#######......#..#.....#..#",
-      ".......#.....##.....#..#.....#..#",
-      ".......#.....#.##...#..#.....#..#",
-      ".......#.....#...##.#..rr...rr..#",
-      ".......#.....#.....##...........#",
-      "#################################",
-    ],
-    frc: [
-      "..............#...........",
-      "..............#...........",
-      "..........#########.......",
-      "..............#...........",
-      "..............#...........",
-      "..............#...........",
-      "...####################...",
-      "...#..................#...",
-      ".rrrrrrrrrrrrrrrrrrrrrrrr.",
-      ".rrrrrrrrrrrrrrrrrrrrrrrr.",
-      "....###..........###......",
-      "....###..........###......",
-    ],
-  };
+  /* ======================= project media: video, photo, or line drawing ======================= */
+  // Priority: video, then photo, then the illustration from drawings.js.
 
-  // Draws a full grid of dim dots with the drawing lit in the middle.
-  // The lit dots switch on in random order when it scrolls into view.
-  function dotArt(host, key, gap) {
-    var rows = ART[key];
-    if (!rows) return;
-    var canvas = el("canvas", "art-canvas");
-    canvas.setAttribute("aria-hidden", "true");
-    host.appendChild(canvas);
-    var ctx = canvas.getContext("2d");
-    var bw = Math.max.apply(null, rows.map(function (r) { return r.length; })), bh = rows.length;
-    var order = {}, progress = 0, started = false, raf = 0, w, h, cols, rws, g;
-
-    function size() {
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = host.clientWidth; h = host.clientHeight;
-      if (!w || !h) return;
-      canvas.width = w * dpr; canvas.height = h * dpr;
-      canvas.style.width = w + "px"; canvas.style.height = h + "px";
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      // Shrink the dot spacing if the drawing wouldn't fit.
-      g = Math.min(gap, (w - 24) / (bw + 2), (h - 24) / (bh + 2));
-      cols = Math.floor(w / g); rws = Math.floor(h / g);
-      draw();
-    }
-
-    function draw() {
-      if (!w) return;
-      var cs = getComputedStyle(host);
-      var rgb = cs.getPropertyValue("--dot-rgb").trim() || "255,255,255";
-      ctx.clearRect(0, 0, w, h);
-      var ox = (w - (cols - 1) * g) / 2, oy = (h - (rws - 1) * g) / 2;
-      var c0 = Math.floor((cols - bw) / 2), r0 = Math.floor((rws - bh) / 2);
-      var rad = Math.max(1, g * 0.18);
-      for (var r = 0; r < rws; r++) {
-        for (var c = 0; c < cols; c++) {
-          var ch = (rows[r - r0] || "")[c - c0];
-          var on = (ch === "#" || ch === "r") && (order[r + "," + c] || 0) <= progress;
-          var x = ox + c * g, y = oy + r * g;
-          ctx.fillStyle = on ? (ch === "r" ? "#D71921" : "rgba(" + rgb + ",0.95)") : "rgba(" + rgb + ",0.1)";
-          ctx.beginPath(); ctx.arc(x, y, on ? rad * 1.9 : rad, 0, 6.2832); ctx.fill();
-        }
-      }
-    }
-
-    rows.forEach(function (row, r) {
-      for (var c = 0; c < row.length; c++) order[(r) + "," + c] = 0; // filled after size
+  var DRAW = window.DRAWINGS || {};
+  var revealQ = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      reveal(e.target);
+      revealQ.unobserve(e.target);
     });
-    function seedOrder() {
-      order = {};
-      var c0 = Math.floor((cols - bw) / 2), r0 = Math.floor((rws - bh) / 2);
-      rows.forEach(function (row, r) {
-        for (var c = 0; c < row.length; c++) order[(r + r0) + "," + (c + c0)] = Math.random() * 0.85 + (c / bw) * 0.15;
-      });
-    }
+  }, { threshold: 0.35 });
 
-    function play() {
-      if (started) return;
-      started = true;
-      seedOrder();
-      if (reduceMotion) { progress = 1; draw(); return; }
-      var t0 = performance.now();
-      (function step(now) {
-        progress = Math.min(1, (now - t0) / 1100);
-        draw();
-        if (progress < 1) raf = requestAnimationFrame(step);
-      })(t0);
+  function reveal(box) {
+    box.classList.add("drawn");
+    var anim = box.querySelector("animateMotion");
+    if (anim && !reduceMotion && anim.beginElement) {
+      setTimeout(function () { try { anim.beginElement(); } catch (e) {} }, 1300);
     }
-
-    size(); seedOrder(); progress = 0; draw();
-    new IntersectionObserver(function (es, ob) {
-      if (es[0].isIntersecting) { play(); ob.disconnect(); }
-    }, { threshold: 0.4 }).observe(host);
-    var rt;
-    window.addEventListener("resize", function () {
-      clearTimeout(rt); rt = setTimeout(function () { size(); seedOrder(); draw(); }, 150);
-    });
   }
 
-  function media(item, cls, gap) {
+  // Builds the maze drawing from its grid and solves it, so the route is real.
+  function mazeSpec(spec) {
+    var g = spec.grid, rows = g.length, cols = g[0].length;
+    var cell = Math.min(372 / cols, 196 / rows);
+    var ox = (400 - (cols - 1) * cell) / 2, oy = (225 - (rows - 1) * cell) / 2;
+    var out = "", start, end;
+    function at(r, c) { return [ox + c * cell, oy + r * cell]; }
+    for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+      var ch = g[r][c], p = at(r, c);
+      if (ch === "#") out += '<circle class="wall" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + (cell * 0.34).toFixed(1) + '"/>';
+      if (ch === "S") start = [r, c];
+      if (ch === "E") end = [r, c];
+    }
+    // breadth-first search for the shortest route
+    var prev = {}, q = [start], key = function (a) { return a[0] + "," + a[1]; };
+    prev[key(start)] = null;
+    while (q.length) {
+      var cur = q.shift();
+      if (cur[0] === end[0] && cur[1] === end[1]) break;
+      [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (d) {
+        var n = [cur[0] + d[0], cur[1] + d[1]];
+        if (g[n[0]] && g[n[0]][n[1]] && g[n[0]][n[1]] !== "#" && !(key(n) in prev)) { prev[key(n)] = cur; q.push(n); }
+      });
+    }
+    var pts = [], k = end;
+    while (k) { pts.unshift(k); k = prev[key(k)]; }
+    var d = pts.map(function (pt, i) { var p = at(pt[0], pt[1]); return (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" ");
+    var s = at(start[0], start[1]), e = at(end[0], end[1]);
+    out += '<path class="ln acc route" d="' + d + '"/>';
+    out += '<circle class="end" cx="' + e[0] + '" cy="' + e[1] + '" r="' + (cell * 0.45).toFixed(1) + '"/>';
+    out += '<g class="robot"><circle r="' + (cell * 0.5).toFixed(1) + '" cx="0" cy="0"/>' +
+      (reduceMotion ? "" : '<animateMotion dur="7s" repeatCount="indefinite" begin="indefinite" path="' + d + '"/>') + "</g>";
+    var mid = at(pts[Math.floor(pts.length * 0.55)][0], pts[Math.floor(pts.length * 0.55)][1]);
+    return { svg: out, anchors: [s, mid], robotStart: s };
+  }
+
+  function drawing(item) {
+    var spec = DRAW[item.art];
+    if (!spec) return null;
+    var built = spec.grid ? mazeSpec(spec) : spec;
+    var labels = (item.callouts || []).slice(0, built.anchors.length);
+    var marks = labels.map(function (t, i) {
+      var a = built.anchors[i];
+      return '<g class="mk" data-i="' + i + '" transform="translate(' + a[0] + " " + a[1] + ')"><circle r="9"/><text y="3.6" text-anchor="middle">' + (i + 1) + "</text></g>";
+    }).join("");
+    var holder = el("div", "drawing-wrap");
+    holder.innerHTML = '<svg class="drawing" viewBox="' + (built.box || "0 0 400 225") + '" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">' + built.svg + marks + "</svg>";
+    var svg = holder.firstChild;
+    if (built.robotStart) {
+      var rb = svg.querySelector(".robot");
+      if (reduceMotion) rb.setAttribute("transform", "translate(" + built.robotStart[0] + " " + built.robotStart[1] + ")");
+    }
+    // every line draws itself in, staggered
+    [].forEach.call(svg.querySelectorAll(".ln"), function (n, i) {
+      n.setAttribute("pathLength", "1");
+      n.style.setProperty("--i", i);
+    });
+    var parts = [el("span", "art-tag mono", ["Illustration"]), holder];
+    if (labels.length) {
+      var legend = el("ol", "callouts mono", labels.map(function (t, i) {
+        var li = el("li", null, [el("span", "callout-n", [String(i + 1)]), t]);
+        li.addEventListener("mouseenter", function () { svg.querySelector('.mk[data-i="' + i + '"]').classList.add("hot"); });
+        li.addEventListener("mouseleave", function () { svg.querySelector('.mk[data-i="' + i + '"]').classList.remove("hot"); });
+        return li;
+      }));
+      parts.push(legend);
+    }
+    return parts;
+  }
+
+  function media(item, cls) {
     var box = el("div", cls);
-    if (item.image) {
+    if (item.video) {
+      var v = document.createElement("video");
+      v.src = item.video; v.muted = true; v.loop = true; v.playsInline = true;
+      v.setAttribute("playsinline", ""); v.preload = "metadata";
+      if (item.imageAlt) v.setAttribute("aria-label", item.imageAlt);
+      if (item.image) v.poster = item.image;
+      if (reduceMotion) v.controls = true; else v.autoplay = true;
+      box.appendChild(v);
+      box.classList.add("has-photo");
+    } else if (item.image) {
       var img = document.createElement("img");
       img.src = item.image; img.alt = item.imageAlt || ""; img.loading = "lazy";
       box.appendChild(img);
       box.classList.add("has-photo");
-    } else if (item.art && ART[item.art]) {
-      requestAnimationFrame(function () { dotArt(box, item.art, gap); });
     } else {
-      box.classList.add("is-empty");
+      var parts = drawing(item);
+      if (parts) {
+        box.classList.add("has-drawing");
+        parts.forEach(function (p) { box.appendChild(p); });
+        if (reduceMotion) box.classList.add("drawn"); else revealQ.observe(box);
+      } else box.classList.add("is-empty");
     }
     return box;
   }
@@ -347,7 +280,7 @@
       F.result ? el("p", "feat-result", [F.result]) : null,
       F.tools && F.tools.length ? pills(F.tools) : null,
     ]);
-    fslot.appendChild(el("article", "feature", [media(F, "feat-media art-box", 16), info]));
+    fslot.appendChild(el("article", "feature", [media(F, "feat-media art-box"), info]));
   }
 
   /* ======================= projects ======================= */
@@ -357,7 +290,7 @@
     var cards = slot("projects");
     projects.forEach(function (p) {
       var card = el("article", "card", [
-        media(p, "card-media art-box", 11),
+        media(p, "card-media art-box"),
         el("div", "card-body", [
           el("p", "card-meta mono", [el("span", null, [p.dates]), el("span", null, [p.role])]),
           el("h3", "card-title", [p.title]),
@@ -371,6 +304,82 @@
     });
   } else hide(document.getElementById("projects"));
   if ((!F || F.draft) && !projects.length) hide(document.getElementById("featured"), "#featured");
+
+  /* ======================= timeline (built from the dates) ======================= */
+
+  var MONTHS = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+  function when(str, isEnd) {
+    str = String(str || "").trim().toLowerCase();
+    if (str === "now") { var d = new Date(); return d.getFullYear() + d.getMonth() / 12; }
+    var m = str.match(/^([a-z]{3})?[a-z]*\s*(\d{4})$/);
+    if (!m) return null;
+    var mo = m[1] in MONTHS ? MONTHS[m[1]] : (isEnd ? 11 : 0);
+    return +m[2] + (mo + (isEnd ? 1 : 0)) / 12;
+  }
+  function range(dates) {
+    var parts = String(dates || "").split(/\s+to\s+/i);
+    var a = when(parts[0], false), b = when(parts[1] || parts[0], true);
+    return a == null || b == null ? null : [a, b, /now/i.test(parts[1] || "")];
+  }
+
+  function buildTimeline() {
+    var T = S.timeline;
+    if (!T) return null;
+    var rowsData = [];
+    jobs.forEach(function (j) {
+      var r = range(j.dates);
+      if (r) rowsData.push({ label: j.timelineLabel || (j.compact ? j.role : j.org), kind: "work", r: r, faint: !!j.compact });
+    });
+    live(S.projects).forEach(function (p) {
+      var r = range(p.dates);
+      if (r) rowsData.push({ label: p.timelineLabel || p.title, kind: "project", r: r });
+    });
+    if (S.featured && !S.featured.draft) {
+      // the featured project overlaps the Integer job; it's already shown there
+    }
+    rowsData.sort(function (a, b) { return a.r[0] - b.r[0]; });
+    var from = T.from, to = T.to, span = to - from;
+    function frac(v) { return (Math.max(from, Math.min(to, v)) - from) / span; }
+    function pct(v) { return (frac(v) * 100).toFixed(2) + "%"; }
+    // markers that span all rows sit inside the track column, right of the labels
+    function across(v) { return "calc(var(--tl-label) + (100% - var(--tl-label)) * " + frac(v).toFixed(4) + ")"; }
+
+    var wrap = el("figure", "tl");
+    var axis = el("div", "tl-axis mono");
+    for (var y = from; y <= to; y++) {
+      var t = el("span", "tl-year" + (y % 2 ? " odd" : ""), [String(y)]);
+      t.style.left = pct(y);
+      axis.appendChild(t);
+    }
+    var grid = el("div", "tl-rows");
+    var gradAt = when(S.graduation, false);
+    rowsData.forEach(function (d) {
+      var bar = el("span", "tl-bar " + d.kind + (d.r[2] ? " current" : "") + (d.faint ? " faint" : ""));
+      bar.style.left = pct(d.r[0]);
+      bar.style.width = "calc(" + pct(d.r[1]) + " - " + pct(d.r[0]) + ")";
+      grid.appendChild(el("div", "tl-row", [el("span", "tl-label", [d.label]), el("span", "tl-track", [bar])]));
+    });
+    if (T.next && gradAt) {
+      var nb = el("span", "tl-bar next");
+      nb.style.left = pct(gradAt + 0.25);
+      nb.style.width = "calc(" + pct(to) + " - " + pct(gradAt + 0.25) + ")";
+      grid.appendChild(el("div", "tl-row", [el("span", "tl-label", [T.next]), el("span", "tl-track", [nb])]));
+    }
+    if (gradAt) {
+      var g = el("span", "tl-grad mono", [el("span", null, ["B.S. " + S.graduation])]);
+      g.style.left = across(gradAt);
+      grid.appendChild(g);
+    }
+    var nowMark = el("span", "tl-now");
+    nowMark.style.left = across(when("now"));
+    grid.appendChild(nowMark);
+    wrap.appendChild(el("figcaption", "tl-key mono", [
+      el("span", "k work", ["Work and research"]), el("span", "k project", ["Projects"]), el("span", "k current", ["Ongoing"]),
+    ]));
+    wrap.appendChild(axis);
+    wrap.appendChild(grid);
+    return wrap;
+  }
 
   /* ======================= experience ======================= */
 
@@ -406,6 +415,8 @@
       }
       list.appendChild(item);
     });
+    var tl = buildTimeline();
+    if (tl) slot("experience").appendChild(tl);
     slot("experience").appendChild(list);
   } else hide(document.getElementById("experience").parentNode, "#experience");
 
@@ -440,6 +451,12 @@
   var skills = live(S.skills);
   if (skills.length) {
     var sk = slot("skills");
+    var caps = live(S.capabilities);
+    if (caps.length) {
+      sk.appendChild(el("div", "caps", caps.map(function (cap) {
+        return el("article", "cap", [el("h3", "cap-title dot", [cap.title]), bullets(cap.proof)]);
+      })));
+    }
     var dl = el("dl", "spec");
     skills.forEach(function (g) {
       dl.appendChild(el("div", "spec-row", [
@@ -449,6 +466,86 @@
     });
     sk.appendChild(dl);
   } else hide(document.getElementById("skills").parentNode, "#skills");
+
+  /* ======================= hobbies (only shows if content.js has a hobbies block) ======================= */
+
+  var H = S.hobbies;
+  var hp = document.getElementById("hobbies-pane");
+  if (H && !H.draft && hp) {
+    hp.hidden = false;
+    var hs = slot("hobbies");
+    if (H.title) document.getElementById("hobbies-h").textContent = H.title;
+    if (H.intro) hs.appendChild(el("p", "hob-intro", [H.intro]));
+    var hgrid = el("div", "hob-grid");
+    (H.items || []).forEach(function (it) {
+      var card = el("article", "hob-card" + (it.photos ? " wide" : ""), [
+        el("h3", "hob-name dot", [it.name]),
+        it.text ? el("p", "hob-text", [it.text]) : null,
+      ]);
+      if (it.keys) card.appendChild(keyboard());
+      if (it.photos) {
+        card.appendChild(el("div", "hob-photos", it.photos.map(function (ph) {
+          var f = el("figure", "hob-photo" + (ph.image ? "" : " empty"));
+          if (ph.image) {
+            var im = document.createElement("img");
+            im.src = ph.image; im.alt = ph.alt || ""; im.loading = "lazy";
+            f.appendChild(im);
+          } else f.appendChild(el("span", "mono", ["Photo"]));
+          if (ph.caption) f.appendChild(el("figcaption", "mono", [ph.caption]));
+          return f;
+        })));
+      }
+      hgrid.appendChild(card);
+    });
+    hs.appendChild(hgrid);
+    var menuList = document.querySelector(".menu-list");
+    var li = el("li", null, []);
+    var a = el("a", null, [H.menuLabel || "Off the clock"]);
+    a.href = "#hobbies"; a.setAttribute("data-scramble", "");
+    li.appendChild(a);
+    menuList.insertBefore(li, menuList.lastElementChild);
+  }
+
+  // A one-octave keyboard that plays real notes (Web Audio). Keys A to K work too.
+  function keyboard() {
+    var notes = [["C", 261.63, 0], ["C#", 277.18, 1], ["D", 293.66, 0], ["D#", 311.13, 1], ["E", 329.63, 0],
+      ["F", 349.23, 0], ["F#", 369.99, 1], ["G", 392.0, 0], ["G#", 415.3, 1], ["A", 440.0, 0], ["A#", 466.16, 1],
+      ["B", 493.88, 0], ["C", 523.25, 0]];
+    var keysMap = "awsedftgyhujk";
+    var ctx = null;
+    function play(f) {
+      try {
+        ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+        var o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime;
+        o.type = "triangle"; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.25, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
+        o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 1.2);
+      } catch (e) {}
+    }
+    var kb = el("div", "kb");
+    kb.setAttribute("role", "group");
+    kb.setAttribute("aria-label", "Playable keyboard, one octave");
+    var whiteIndex = 0, buttons = [];
+    notes.forEach(function (n, i) {
+      var b = el("button", "kb-key " + (n[2] ? "black" : "white"), []);
+      b.type = "button";
+      b.setAttribute("aria-label", "Play " + n[0].replace("#", " sharp") + (i === 12 ? " (high)" : ""));
+      if (n[2]) b.style.left = "calc(" + (whiteIndex / 8 * 100) + "% - 3.7%)";
+      else whiteIndex++;
+      function hit() { play(n[1]); b.classList.add("down"); setTimeout(function () { b.classList.remove("down"); }, 160); }
+      b.addEventListener("pointerdown", function (e) { e.preventDefault(); hit(); });
+      b.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); hit(); } });
+      buttons.push({ b: b, hit: hit });
+      kb.appendChild(b);
+    });
+    kb.addEventListener("keydown", function (e) {
+      var i = keysMap.indexOf(e.key.toLowerCase());
+      if (i > -1 && !e.repeat) buttons[i].hit();
+    });
+    return el("div", "kb-wrap", [kb, el("p", "kb-hint mono", ["Tap a key"])]);
+  }
 
   /* ======================= contact + footer ======================= */
 

@@ -86,6 +86,14 @@
       </section>
     </div>
 
+    <!-- RED: hobbies. Stays hidden unless content.js has a "hobbies" block. -->
+    <div class="pane pane-red" id="hobbies-pane" data-pane="red" hidden>
+      <section class="sec" id="hobbies" aria-labelledby="hobbies-h">
+        <h2 class="sec-h dot" id="hobbies-h" data-scramble>Off the clock</h2>
+        <div data-slot="hobbies"></div>
+      </section>
+    </div>
+
     <!-- DARK: contact -->
     <section class="pane pane-dark contact" id="contact" aria-label="Contact" data-pane="dark">
       <canvas class="dotfield" aria-hidden="true"></canvas>
@@ -103,6 +111,7 @@
 
   <!-- content.js must load before render.js -->
   <script src="content.js"></script>
+  <script src="assets/js/drawings.js"></script>
   <script src="assets/js/render.js"></script>
 </body>
 </html>

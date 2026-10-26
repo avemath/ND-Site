@@ -88,8 +88,13 @@ window.SITE = {
   ],
 
   /* ---------- Featured project (big dark panel) ----------
-     "art" picks the dot drawing: rov, arm, maze, lathe, playground, frc.
-     Set "image" to a photo path (e.g. "assets/img/rov.jpg") to use a photo instead. */
+     MEDIA, in order of priority (the first one that's filled in is shown):
+       video:  a short muted loop, e.g. "assets/video/rov-test.mp4" (keep it under ~8 MB)
+       image:  a photo, e.g. "assets/img/rov.jpg" (also fill in imageAlt)
+       art:    a line drawing from assets/js/drawings.js: rov, arm, maze, lathe, playground, frc
+     The drawings are ILLUSTRATIONS (labeled that way on the page), not his actual
+     CAD. Replace them with his photos or SolidWorks renders when we get them.
+     "callouts" are the numbered labels on the drawing, in order. */
   featured: {
     title: "Modem housing for a BlueROV2",
     org: "Integer Technologies",
@@ -103,6 +108,8 @@ window.SITE = {
     result: "",                            // QUESTION: what happened in water testing? One sentence.
     tools: ["Fusion 360", "PLA", "PETG", "BlueROV2"],
     art: "rov",
+    callouts: ["Acoustic modem housing", "3D printed mount", "Quick-disconnect cable"],
+    video: "",
     image: "",
     imageAlt: "",
   },
@@ -140,6 +147,7 @@ window.SITE = {
       ],
       tools: ["3D printing", "Arduino Uno R4", "Limit switches"],
       art: "arm",
+      callouts: ["End effector", "Limit switches", "Arduino Uno R4"],
       image: "",
       imageAlt: "",
       link: "",
@@ -156,6 +164,7 @@ window.SITE = {
       ],
       tools: ["SolidWorks", "3D printing"],
       art: "maze",
+      callouts: ["Printed base and camera mount", "Autonomous route"],
       image: "",
       imageAlt: "",
       link: "",
@@ -187,7 +196,8 @@ window.SITE = {
         "Picked aluminum and polyethylene to keep it light and simple to build",
       ],
       tools: ["SolidWorks", "ADA guidelines"],
-      art: "playground",
+      art: "playground",                   // NOTE: drawing is illustrative; swap in a SolidWorks render if he has one
+      callouts: ["Designed to ADA guidelines", "Light aluminum and polyethylene"],
       image: "",
       imageAlt: "",
       link: "",
@@ -205,7 +215,8 @@ window.SITE = {
         "Designed a movable workshop storage system for competitions",
       ],
       tools: ["SolidWorks", "Onshape", "VCarve", "Markforged"],
-      art: "frc",
+      art: "frc",                          // NOTE: generic robot drawing; a photo of one of his robots would be much better
+      callouts: ["CAD in SolidWorks and Onshape", "Onyx parts on Markforged printers", "Built in 8-week seasons"],
       image: "",
       imageAlt: "",
       link: "",
@@ -253,12 +264,58 @@ window.SITE = {
     },
   ],
 
+  /* ---------- Timeline ----------
+     Drawn automatically from the dates on projects and jobs. "next" adds a
+     dashed bar after graduation. */
+  timeline: {
+    from: 2018,
+    to: 2028,
+    next: "M.S. (planned)",
+  },
+
   /* ---------- Coursework (scrolls across a red band) ---------- */
   coursework: [
     "Thermodynamics", "Heat Transfer", "Fluid Dynamics", "Manufacturing Processes",
     "System Dynamics", "Simulation Methods", "Statics", "Strength of Materials",
     "Circuits", "Electronics", "Kinematics", "Intro to Robotics", "Welding Engineering",
     "Industrial Robotics", "Instrumentation and Measurements", "Machine Design",
+  ],
+
+  /* ---------- What I can do (four cards above the skills list) ----------
+     Each one is backed by real work from the resume. */
+  capabilities: [
+    {
+      title: "Design",
+      proof: [
+        "8 years in SolidWorks, plus Onshape, Fusion 360, and Inventor",
+        "Led CAD for 5 WildStang competition robots",
+        "Designed the BlueROV2 modem housing at Integer",
+      ],
+    },
+    {
+      title: "Build",
+      proof: [
+        "Held \u00B10.005 in. on a manual lathe",
+        "MIG welding, CNC routing, and writing G-code",
+        "3D printing in PLA, PETG, and Onyx",
+      ],
+    },
+    {
+      title: "Program",
+      proof: [
+        "Python and ROS for a UR5e camera mount at iCORE",
+        "Arduino limit-switch calibration on a 5-DOF arm",
+        "Debugged autonomous maze navigation",
+      ],
+    },
+    {
+      title: "Lead and teach",
+      proof: [
+        "Coordinated sub-teams through 8-week robot builds",
+        "Taught younger members CAD and power tools",
+        "Tutored up to 100 students in the LSU Math Lab",
+      ],
+    },
   ],
 
   /* ---------- Skills (spec sheet rows) ---------- */
