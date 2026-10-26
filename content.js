@@ -346,6 +346,43 @@ window.SITE = {
     { group: "Office", items: ["Excel", "Word"] },
   ],
 
+  /* ---------- Off the clock (hobbies) ----------
+     Nicholas said yes to this being public (Oct 2026). Shows on a red panel
+     above "Let's talk", with its own menu link. Delete an item to remove it.
+     DRAFT wording: have him check it reads like him. */
+  hobbies: {
+    title: "Off the clock",
+    menuLabel: "Off the clock",
+    intro:
+      "When I'm not in the lab or the shop, I'm usually at a keyboard of a different kind, " +
+      "or flying a drone somewhere with a good view.",
+    items: [
+      {
+        name: "Piano",
+        // TODO: add a line on what he likes to play or is learning
+        text: "My favorite instrument right now.",
+        keys: true,                        // shows the playable keyboard
+      },
+      {
+        name: "Guitar",
+        text: "Three electrics, an acoustic, and a ukulele. I also played clarinet in high school band.",
+      },
+      {
+        name: "Drone photography",
+        // TODO: add where he likes to fly and what he likes to shoot
+        text: "I fly a drone for aerial photography.",
+        // Add his photos here and a grid appears. Put files in assets/img/, e.g.
+        // { image: "assets/img/drone-1.jpg", alt: "Aerial view of ...", caption: "Baton Rouge, LA" },
+        photos: [],
+      },
+      {
+        name: "Also",
+        text: "Pickleball, and chess, which I used to be really good at.",
+        wide: false,                       // NOTE: set to true once drone photos are added, so this card fills its row
+      },
+    ],
+  },
+
   /* ---------- Contact ---------- */
   contactLine:
     "Looking for internships, research positions, and grad programs in robotics, " +

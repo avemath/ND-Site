@@ -53,7 +53,7 @@ All of his info is filled in from his October 2026 resume. What's left:
 - [ ] Answer the "Questions for Nicholas" at the top of content.js (results, photos, awards),
       then fill in the `result` lines
 - [ ] Photos or short videos of projects (BlueROV2 housing, welding arm, maze robot, WildStang robots)
-- [ ] Hobbies section: not on the site. Ave has a ready-to-paste block if he wants it public
+- [ ] Hobbies ("Off the clock"): live. Add a line on what he plays, where he flies, and 3 to 6 drone photos
 - [ ] Optional: GitHub link
 - [ ] Keep content.js in sync when his resume changes
 

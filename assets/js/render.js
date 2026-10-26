@@ -497,12 +497,13 @@
     if (H.intro) hs.appendChild(el("p", "hob-intro", [H.intro]));
     var hgrid = el("div", "hob-grid");
     (H.items || []).forEach(function (it) {
-      var card = el("article", "hob-card" + (it.photos || it.wide ? " wide" : ""), [
+      var hasPhotos = it.photos && it.photos.length;
+      var card = el("article", "hob-card" + (hasPhotos || it.wide ? " wide" : ""), [
         el("h3", "hob-name dot", [it.name]),
         it.text ? el("p", "hob-text", [it.text]) : null,
       ]);
       if (it.keys) card.appendChild(keyboard());
-      if (it.photos) {
+      if (hasPhotos) {
         card.appendChild(el("div", "hob-photos", it.photos.map(function (ph) {
           var f = el("figure", "hob-photo" + (ph.image ? "" : " empty"));
           if (ph.image) {
