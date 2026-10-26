@@ -165,11 +165,11 @@ body.menu-open .bar::before { opacity: 0; }
 /* keeps grey text readable when dots light up behind it */
 .hero-inner > :not(.hero-name):not(.actions), .contact-inner .label, .contact-inner .contact-text { text-shadow: 0 0 6px #000, 0 0 14px #000; }
 
-.kicker { font-size: clamp(0.75rem, 2.6vw, 0.85rem); color: var(--fg-3); margin: 0 0 22px; text-wrap: balance; }
+.kicker { font-size: clamp(0.8rem, 2.8vw, 1.1rem); letter-spacing: .08em; color: #B5B5B5; margin: 0 0 28px; text-wrap: balance; }
 
 .hero-name {
   margin: 0;
-  font-size: clamp(3.4rem, 13vw, 10.5rem);
+  font-size: clamp(3rem, 10.5vw, 8rem);
   line-height: 0.92;
   font-weight: 800;
   text-shadow: 0 0 28px rgba(255,255,255,.18), 0 0 8px #000;
