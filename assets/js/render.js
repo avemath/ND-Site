@@ -32,13 +32,26 @@
     return n;
   }
 
+  // Hyphenated terms like "5-DOF" or "3D-printed" stay on one line.
+  function words(frag, str) {
+    str.split(/(\S*[A-Za-z0-9]-[A-Za-z0-9]\S*)/).forEach(function (part, i) {
+      if (!part) return;
+      if (i % 2) {
+        var s = document.createElement("span");
+        s.className = "nowrap";
+        s.textContent = part;
+        frag.appendChild(s);
+      } else frag.appendChild(document.createTextNode(part));
+    });
+  }
+
   // Turn a string into nodes, wrapping any [placeholder] in a marked span.
   function text(str) {
     var frag = document.createDocumentFragment();
     var re = /\[[^\[\]]+\]/g, last = 0, m;
     str = String(str);
     while ((m = re.exec(str))) {
-      if (m.index > last) frag.appendChild(document.createTextNode(str.slice(last, m.index)));
+      if (m.index > last) words(frag, str.slice(last, m.index));
       var s = document.createElement("span");
       s.className = "todo";
       s.title = "Placeholder: replace in content.js";
@@ -46,7 +59,7 @@
       frag.appendChild(s);
       last = re.lastIndex;
     }
-    if (last < str.length) frag.appendChild(document.createTextNode(str.slice(last)));
+    if (last < str.length) words(frag, str.slice(last));
     return frag;
   }
 
@@ -86,7 +99,7 @@
 
   function pills(items, cls) {
     return el("ul", "pills " + (cls || ""), (items || []).map(function (t) {
-      return el("li", "tag mono", [t]);
+      return el("li", "tag mono", [el("span", null, [t])]);
     }));
   }
 
@@ -291,7 +304,7 @@
     var parts = [tag, holder];
     if (labels.length) {
       var legend = el("ol", "callouts mono", labels.map(function (t, i) {
-        var li = el("li", null, [el("span", "callout-n", [String(i + 1)]), t]);
+        var li = el("li", null, [el("span", "callout-n", [String(i + 1)]), el("span", null, [t])]);
         li.addEventListener("mouseenter", function () { svg.querySelector('.mk[data-i="' + i + '"]').classList.add("hot"); });
         li.addEventListener("mouseleave", function () { svg.querySelector('.mk[data-i="' + i + '"]').classList.remove("hot"); });
         return li;
@@ -352,7 +365,7 @@
   var fslot = slot("featured");
   if (F && !F.draft) {
     var info = el("div", "feat-info", [
-      el("p", "feat-meta mono", [el("span", null, ["Featured"]), el("span", null, [[F.org, F.dates].filter(Boolean).join("  /  ")])]),
+      el("p", "feat-meta mono", [el("span", null, ["Featured"]), el("span", null, [F.org && F.dates ? F.org + "  /  " : F.org, F.dates ? el("span", "nowrap", [F.dates]) : null])]),
       el("h3", "feat-title", [F.title]),
       F.hook ? el("p", "feat-hook", [F.hook]) : null,
       F.points && F.points.length ? bullets(F.points) : null,
@@ -617,7 +630,7 @@
     skills.forEach(function (g) {
       dl.appendChild(el("div", "spec-row", [
         el("dt", "mono", [g.group]),
-        el("dd", null, [el("ul", "spec-items", (g.items || []).map(function (t) { return el("li", null, [t]); }))]),
+        el("dd", null, [el("ul", "spec-items", (g.items || []).map(function (t) { return el("li", null, [el("span", null, [t])]); }))]),
       ]));
     });
     sk.appendChild(dl);
