@@ -408,11 +408,6 @@ window.SITE = {
         // { image: "assets/img/drone-1.jpg", alt: "Aerial view of ...", caption: "Baton Rouge, LA" },
         photos: [],
       },
-      {
-        name: "Pickleball and chess",
-        text: "The two games I play whenever I get the chance.",
-        wide: false,                       // NOTE: set to true once drone photos are added, so this card fills its row
-      },
     ],
   },
 
