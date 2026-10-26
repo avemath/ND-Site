@@ -282,9 +282,11 @@
     return { svg: out, anchors: [s, mid], robotStart: s };
   }
 
+  var figCount = 0;   // drawings are numbered like figures on a drawing sheet
   function drawing(item) {
     var spec = DRAW[item.art];
     if (!spec) return null;
+    figCount++;
     var built = spec.grid ? mazeSpec(spec) : spec;
     var labels = (item.callouts || []).slice(0, built.anchors.length);
     var marks = labels.map(function (t, i) {
@@ -303,7 +305,8 @@
       n.setAttribute("pathLength", "1");
       n.style.setProperty("--i", i);
     });
-    var tag = el("span", "art-tag mono", ["Illustration"]);
+    // "Illustration" stays so nobody mistakes the drawing for his actual CAD
+    var tag = el("span", "art-tag mono", ["Fig. " + (figCount < 10 ? "0" : "") + figCount + " / Illustration"]);
     tag.setAttribute("aria-hidden", "true");
     var parts = [tag, holder];
     if (labels.length) {

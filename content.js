@@ -108,7 +108,7 @@ window.SITE = {
        video:  a short muted loop, e.g. "assets/video/rov-test.mp4" (keep it under ~8 MB)
        image:  a photo, e.g. "assets/img/rov.jpg" (also fill in imageAlt)
        art:    a line drawing from assets/js/drawings.js: rov, arm, maze, lathe, playground, frc
-     The drawings are ILLUSTRATIONS (labeled that way on the page), not his actual
+     The drawings are ILLUSTRATIONS (labeled "Fig. 01 / Illustration" and so on), not his actual
      CAD. Replace them with his photos or SolidWorks renders when we get them.
      "callouts" are the numbered labels on the drawing, in order. */
   featured: {
