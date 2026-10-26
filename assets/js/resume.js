@@ -42,13 +42,19 @@
     L.linkedin ? a(L.linkedin, L.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")) : null,
     L.github ? a(L.github, L.github.replace(/^https?:\/\//, "")) : null,
     S.siteUrl ? a(S.siteUrl, S.siteUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")) : null,
-  ].filter(Boolean).forEach(function (part, i) {
-    if (i) contact.appendChild(el("span", "sep", []));
-    contact.appendChild(typeof part === "string" ? document.createTextNode(part) : part);
+  ].filter(Boolean).forEach(function (part) {
+    // each item draws its own leading dot; a dot that lands at the start of a line is clipped (resume.css)
+    contact.appendChild(el("span", "ci", [part]));
   });
   root.appendChild(el("header", "head", [
     el("h1", "name", [name]),
-    el("p", "role", [[S.discipline, S.schoolShort || S.school, S.graduation ? "Class of " + S.graduation.replace(/\D*(\d{4}).*/, "$1") : ""].filter(Boolean).join("  /  ")]),
+    el("p", "role", [S.discipline, S.schoolShort || S.school, S.graduation ? "Class of " + S.graduation.replace(/\D*(\d{4}).*/, "$1") : ""]
+      .filter(Boolean).reduce(function (out, t, i, all) {
+        // each part (with its slash) stays on one line, so a narrow screen breaks between parts
+        out.push(el("span", "role-part", [t + (i < all.length - 1 ? " /" : "")]));
+        if (i < all.length - 1) out.push(" ");
+        return out;
+      }, [])),
     contact,
   ]));
 
@@ -92,6 +98,11 @@
   }
 
   root.appendChild(el("p", "foot", ["Updated " + (S.lastUpdated || "") + (S.siteUrl ? ". Portfolio: " + S.siteUrl.replace(/^https?:\/\//, "").replace(/\/$/, "") : "")]));
+
+  // "Save as PDF" names the file after the page title, so give it a clean one while printing
+  var screenTitle = document.title;
+  window.addEventListener("beforeprint", function () { document.title = name + " Resume"; });
+  window.addEventListener("afterprint", function () { document.title = screenTitle; });
 
   var btn = document.getElementById("print-btn");
   if (btn) btn.addEventListener("click", function () { window.print(); });
