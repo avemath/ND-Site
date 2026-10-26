@@ -115,7 +115,7 @@ window.SITE = {
     title: "Acoustic Modem Housing for a BlueROV2",
     org: "Integer Technologies",
     dates: "May 2026 to Aug 2026",
-    hook: "A BlueROV2 needed an acoustic modem for in-water testing. I designed the housing and mount, and chose connectors that swap quickly in the water.",
+    hook: "A BlueROV2 needed an acoustic modem for in-water testing. I designed the housing and mount, and picked connectors that disconnect quickly while the vehicle is in the water.",
     points: [
       "Designed the housing and mount in Fusion 360",
       "3D printed test and final parts in PLA and PETG",
