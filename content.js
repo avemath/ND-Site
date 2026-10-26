@@ -94,9 +94,9 @@ window.SITE = {
   /* ---------- About ----------
      Each string is one paragraph. DRAFT: have him rewrite in his own voice. */
   about: [
-    "I started using SolidWorks eight years ago on my high school FIRST team, WildStang. " +
+    "I started using SolidWorks in 2018 on my high school FIRST team, WildStang. " +
       "Over four years I led design and CAD on five competition robots, each one built in eight weeks. " +
-      "The part I still like best is taking a design from the model to a part I can wire up and test.",
+      "What I still like best is taking a design off the screen and into something I can wire up and test.",
     "Now I'm a mechanical engineering senior at LSU with a minor in robotics, graduating in May 2027. " +
       "In the iCORE Lab I work on hazard avoidance and path planning for unmanned surface vessels. " +
       "In summer 2026 at Integer Technologies, I designed the housing that put an acoustic modem on a BlueROV2. " +
