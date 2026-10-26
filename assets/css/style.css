@@ -583,13 +583,15 @@ body.menu-open .gear { visibility: hidden; }
 .tl-bar.work { background: var(--fg); }
 .tl-bar.project { border: 1.5px solid var(--fg); }
 /* side jobs: thin and pale so research and projects carry the chart */
-.tl-bar.faint { opacity: .22; height: 6px; }
+.tl-bar.faint { opacity: .45; height: 6px; }   /* still lighter, but visible (about 3:1) */
 .tl-bar.next { border: 1.5px dashed var(--fg-3); }
 .tl-bar.current::after { content: ""; position: absolute; right: -6px; top: 50%; translate: 0 -50%; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(20, 80, 168, .2); }
 .tl-grad, .tl-now { position: absolute; top: 0; bottom: 0; width: 0; pointer-events: none; }
 .tl-grad { border-left: 2px solid var(--accent); }
 .tl-grad span { position: absolute; bottom: -24px; right: 6px; white-space: nowrap; color: var(--todo); }
 .tl-now { border-left: 1px dashed var(--fg-3); }
+/* sits one line below the "B.S." label, ending at the dashed line */
+.tl-now span { position: absolute; bottom: -42px; right: 6px; white-space: nowrap; font-size: .75rem; color: var(--fg-3); }
 .tl-gap { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed var(--ln); pointer-events: none; }
 .tl-break { position: absolute; bottom: -6px; width: 14px; height: 12px; transform: translateX(-50%);
   background: linear-gradient(115deg, transparent 38%, var(--fg-3) 40%, var(--fg-3) 48%, transparent 50%, transparent 58%, var(--fg-3) 60%, var(--fg-3) 68%, transparent 70%), var(--bg); }

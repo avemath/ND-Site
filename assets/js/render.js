@@ -544,7 +544,8 @@
       gap.style.left = across(cut - 0.35);
       grid.appendChild(gap);
     }
-    var nowMark = el("span", "tl-now");
+    var nowMark = el("span", "tl-now mono", [el("span", null, ["Now"])]);
+    nowMark.setAttribute("aria-hidden", "true");
     nowMark.style.left = across(when("now"));
     grid.appendChild(nowMark);
     wrap.appendChild(el("figcaption", "tl-key mono", [
