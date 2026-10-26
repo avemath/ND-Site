@@ -109,7 +109,7 @@ window.SITE = {
     title: "Acoustic Modem Housing for a BlueROV2",
     org: "Integer Technologies",
     dates: "May 2026 to Aug 2026",
-    hook: "A BlueROV2 needed to carry an acoustic modem for in-water testing. I designed the housing and mount that carry it.",
+    hook: "A BlueROV2 needed an acoustic modem for in-water testing. I designed the housing and mount, and chose connectors that swap quickly in the water.",
     points: [
       "Designed the housing and mount in Fusion 360",
       "3D printed test and final parts in PLA and PETG",
@@ -223,7 +223,7 @@ window.SITE = {
       timelineLabel: "WildStang",
       role: "Design lead, FIRST Robotics Competition",
       dates: "Aug 2018 to May 2022",
-      hook: "Where I started using SolidWorks, in 2018.",
+      hook: "Where I learned to design and build a robot on an 8-week deadline, starting in 2018.",
       points: [
         "Led design, manufacturing, and assembly of 5 competition robots in 4 years",
         "Led CAD in SolidWorks and Onshape and trained younger members on CAD and power tools",
