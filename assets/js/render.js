@@ -118,9 +118,16 @@
   /* ======================= hero ======================= */
 
   var hero = slot("hero");
-  var kicker = [S.discipline, S.schoolShort || S.school,
-    S.graduation ? "Class of " + S.graduation.replace(/\D*(\d{4}).*/, "$1") : ""]
-    .filter(Boolean).join("  /  ");
+  // Each part (with its trailing slash) stays on one line, so a narrow
+  // screen breaks between parts and no line starts with "/".
+  var kicker = el("p", "mono kicker");
+  var kparts = [S.discipline, S.schoolShort || S.school,
+    S.graduation ? "Class of " + S.graduation.replace(/\D*(\d{4}).*/, "$1") : ""].filter(Boolean);
+  kparts.forEach(function (part, i) {
+    var last = i === kparts.length - 1;
+    kicker.appendChild(el("span", "kicker-part", [part + (last ? "" : " /")]));
+    if (!last) kicker.appendChild(document.createTextNode(" "));
+  });
 
   var name = el("h1", "hero-name dot", [el("span", null, [S.firstName]), el("span", null, [S.lastName])]);
   name.setAttribute("aria-label", fullName);
@@ -142,7 +149,7 @@
     return row;
   }
 
-  hero.appendChild(el("p", "mono kicker", [kicker]));
+  hero.appendChild(kicker);
   hero.appendChild(name);
   if (S.tagline) hero.appendChild(el("p", "tagline", [S.tagline]));
   if (S.status) hero.appendChild(el("p", "status mono", [el("span", "rec", []), S.status]));
@@ -158,8 +165,7 @@
       v.setAttribute("data-count", n.value);
       if (String(n.value).length > 3) v.classList.add("is-long");
       ul.appendChild(el("li", "num", [
-        el("p", "num-pre mono", [n.pre || " "]),
-        el("p", "num-fig", [v, n.unit ? el("span", "num-unit mono", [n.unit]) : null]),
+        el("p", "num-fig", [n.pre ? el("span", "num-pre mono", [n.pre]) : null, v, n.unit ? el("span", "num-unit mono", [n.unit]) : null]),
         el("p", "num-label", [n.label]),
       ]));
     });
