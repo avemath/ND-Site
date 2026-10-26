@@ -767,3 +767,12 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
 .more-btn:hover { color: var(--red); }
 @media (prefers-reduced-motion: reduce) { .more { transition: none; } }
 @media print { .more { grid-template-rows: 1fr !important; } .more-btn { display: none !important; } }
+
+/* ---------- timeline bars draw in left to right when the chart rises in ----------
+   .rise is only added when motion is allowed, so with reduced motion the bars are
+   simply there. The inset is negative so the "ongoing" dot past the bar's end shows. */
+.tl.rise .tl-bar {
+  clip-path: inset(-10px 100% -10px -4px);
+  transition: clip-path .9s var(--ease) calc(250ms + var(--i, 0) * 70ms), background-color .2s, border-color .2s;
+}
+.tl.rise.in .tl-bar { clip-path: inset(-10px -16px -10px -4px); }

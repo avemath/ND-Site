@@ -455,8 +455,9 @@
     }
     var grid = el("div", "tl-rows");
     var gradAt = when(S.graduation, false);
-    rowsData.forEach(function (d) {
+    rowsData.forEach(function (d, i) {
       var bar = el("span", "tl-bar " + d.kind + (d.r[2] ? " current" : "") + (d.faint ? " faint" : ""));
+      bar.style.setProperty("--i", i);   // stagger for the draw-in
       bar.style.left = pct(d.r[0]);
       bar.style.width = "calc(" + pct(d.r[1]) + " - " + pct(d.r[0]) + ")";
       var kids = [el("span", "tl-label", [d.label, el("span", "sr-only", [", " + d.dates])]), el("span", "tl-track", [bar])];
@@ -473,6 +474,7 @@
     });
     if (T.next && gradAt) {
       var nb = el("span", "tl-bar next");
+      nb.style.setProperty("--i", rowsData.length);
       nb.style.left = pct(gradAt + 0.25);
       nb.style.width = "calc(" + pct(to) + " - " + pct(gradAt + 0.25) + ")";
       grid.appendChild(el("div", "tl-row", [el("span", "tl-label", [T.next]), el("span", "tl-track", [nb])]));
