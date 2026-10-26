@@ -379,7 +379,6 @@ window.SITE = {
     { group: "CAD", items: ["SolidWorks (since 2018)", "Onshape", "Fusion 360", "Inventor"] },
     { group: "Code and controls", items: ["Python", "ROS 2", "MATLAB", "Arduino"] },
     { group: "Fabrication", items: ["3D printing", "Markforged", "MIG welding", "Manual lathe", "Haas CNC", "G-code", "CNC router", "VCarve", "Drill press", "Band saw", "Miter saw"] },
-    { group: "Office", items: ["Excel", "Word"] },
   ],
 
   /* ---------- Off the clock (hobbies) ----------
