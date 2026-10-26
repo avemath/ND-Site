@@ -407,6 +407,6 @@ window.SITE = {
 
   /* ---------- Contact ---------- */
   contactLine:
-    "I'm applying to M.S. programs in controls and mechanical systems and am open to research " +
+    "I'm applying to M.S. programs in controls and mechanical systems for Fall 2027 and am open to research " +
     "and internship roles in robotics and mechanical design. Email is the fastest way to reach me.",
 };
