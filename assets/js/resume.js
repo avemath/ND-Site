@@ -17,7 +17,7 @@
     return n;
   }
   function a(href, label) { var x = el("a", null, [label]); x.href = href; return x; }
-  var unfinished = function (t) { return /\[[^\]]+\]/.test(String(t || "")); };
+  var unfinished = function (t) { return /\[[^\[\]]+\]/.test(String(t || "")); };
   function live(list) {
     return (list || []).filter(function (x) { return x && !x.draft && !unfinished(x.title) && !unfinished(x.role); });
   }
@@ -70,10 +70,8 @@
     })));
   }
 
-  /* projects (featured first) */
-  var projects = [];
-  // The featured project is left out here: it's already covered under Experience (Integer).
-  projects = projects.concat(live(S.projects));
+  /* projects. The featured project is left out here: it's already covered under Experience (Integer). */
+  var projects = live(S.projects);
   if (projects.length) {
     root.appendChild(section("Projects", projects.map(function (p) {
       var pts = (p.points || []).slice();

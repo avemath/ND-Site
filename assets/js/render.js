@@ -35,7 +35,7 @@
   // Turn a string into nodes, wrapping any [placeholder] in a marked span.
   function text(str) {
     var frag = document.createDocumentFragment();
-    var re = /\[[^\]]+\]/g, last = 0, m;
+    var re = /\[[^\[\]]+\]/g, last = 0, m;
     str = String(str);
     while ((m = re.exec(str))) {
       if (m.index > last) frag.appendChild(document.createTextNode(str.slice(last, m.index)));
@@ -62,6 +62,16 @@
 
   function slug(str) {
     return String(str || "").toLowerCase().replace(/\[[^\]]*\]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  // Ids for cards and jobs. Two items with the same title still get different ids.
+  var usedIds = {};
+  function uniqueId(base) {
+    base = base.replace(/-$/, "") || "item";
+    var id = base, n = 2;
+    while (usedIds[id] || document.getElementById(id)) id = base + "-" + n++;
+    usedIds[id] = true;
+    return id;
   }
 
   function slot(name) { return document.querySelector('[data-slot="' + name + '"]'); }
@@ -162,9 +172,10 @@
   /* ======================= numbers strip ======================= */
 
   var nums = slot("numbers");
-  if (S.numbers && S.numbers.length) {
+  var numbers = live(S.numbers);
+  if (numbers.length) {
     var ul = el("ul", "num-list");
-    S.numbers.forEach(function (n) {
+    numbers.forEach(function (n) {
       var v = el("span", "num-value dot", [n.value]);
       v.setAttribute("data-count", n.value);
       if (String(n.value).length > 3) v.classList.add("is-long");
@@ -183,7 +194,7 @@
     ab.className = "about";
     var copy = el("div", "about-copy");
     // Only the first sentence is set large; the rest of that paragraph joins the body text.
-    var paras = S.about.slice(), m = /^(.+?[.!?])\s+([A-Z].*)$/.exec(paras[0]);
+    var paras = S.about.slice(), m = /^(.+?[a-z0-9][.!?])\s+([A-Z].*)$/.exec(paras[0]);
     if (m) paras.splice(0, 1, m[1], m[2]);
     paras.forEach(function (p, i) { copy.appendChild(el("p", i === 0 ? "lead" : "body", [p])); });
     ab.appendChild(copy);
@@ -371,19 +382,20 @@
   if (projects.length) {
     var cards = slot("projects");
     projects.forEach(function (p) {
+      p._id = uniqueId("project-" + slug(p.title));
       var card = el("article", "card", [
         media(p, "card-media art-box"),
         el("div", "card-body", [
           el("p", "card-meta mono", [el("span", null, [p.dates]), el("span", null, [p.role])]),
           el("h3", "card-title", [p.title]),
           p.hook ? el("p", "card-hook", [p.hook]) : null,
-          p.points && p.points.length ? cardBullets(p.points, "more-" + slug(p.title)) : null,
+          p.points && p.points.length ? cardBullets(p.points, "more-" + p._id) : null,
           p.result ? el("p", "card-result", [p.result]) : null,
           p.tools && p.tools.length ? pills(p.tools) : null,
           p.link ? link(p.link, "View project", "pill pill-ghost card-link") : null,
         ]),
       ]);
-      card.id = "project-" + slug(p.title);
+      card.id = p._id;
       cards.appendChild(card);
     });
   } else hide(document.getElementById("projects"));
@@ -425,15 +437,16 @@
       var r = range(j.dates);
       if (r) rowsData.push({ label: j.timelineLabel || (j.compact ? j.role : j.org), kind: "work", r: r, faint: !!j.compact, dates: j.dates, target: j._id });
     });
-    live(S.projects).forEach(function (p) {
+    // (the featured project overlaps the Integer job, so it isn't a row of its own)
+    projects.forEach(function (p) {
       var r = range(p.dates);
-      if (r) rowsData.push({ label: p.timelineLabel || p.title, kind: "project", r: r, dates: p.dates, target: "project-" + slug(p.title) });
+      if (r) rowsData.push({ label: p.timelineLabel || p.title, kind: "project", r: r, dates: p.dates, target: p._id });
     });
-    if (S.featured && !S.featured.draft) {
-      // the featured project overlaps the Integer job; it's already shown there
-    }
     rowsData.sort(function (a, b) { return a.r[0] - b.r[0]; });
-    var from = T.from, to = T.to, span = to - from;
+    if (!rowsData.length) return null;
+    var from = T.from || Math.floor(rowsData[0].r[0]);
+    var to = T.to || Math.ceil(Math.max.apply(null, rowsData.map(function (d) { return d.r[1]; })));
+    var span = to - from;
     // Years before "cut" are squeezed into a narrow strip (share of the width),
     // so a long early stretch like high school robotics doesn't leave the chart empty.
     var cut = T.cut && T.cut > from && T.cut < to ? T.cut : null, share = T.share || 0.18;
@@ -469,16 +482,14 @@
       bar.style.left = pct(d.r[0]);
       bar.style.width = "calc(" + pct(d.r[1]) + " - " + pct(d.r[0]) + ")";
       var kids = [el("span", "tl-label", [d.label, el("span", "sr-only", [", " + d.dates])]), el("span", "tl-track", [bar])];
-      if (d.target) {
-        // each row is a link to its project card or job (looked up on click: jobs aren't on the page yet)
-        var row = el("a", "tl-row tl-link", kids);
-        row.href = "#" + d.target;
-        row.addEventListener("click", function () {
-          var t = document.getElementById(d.target);
-          if (t) jumpTo(t);
-        });
-        grid.appendChild(row);
-      } else grid.appendChild(el("div", "tl-row", kids));
+      // each row is a link to its project card or job (looked up on click: jobs aren't on the page yet)
+      var row = el("a", "tl-row tl-link", kids);
+      row.href = "#" + d.target;
+      row.addEventListener("click", function () {
+        var t = document.getElementById(d.target);
+        if (t) jumpTo(t);
+      });
+      grid.appendChild(row);
     });
     if (T.next && gradAt) {
       var nb = el("span", "tl-bar next");
@@ -521,7 +532,7 @@
           el("span", "xp-org", [[job.org, job.place].filter(Boolean).join(", ")])]),
       ];
       var item = el("li", "xp-item" + (job.compact ? " compact" : ""));
-      item.id = job._id = "job-" + slug(job.org || job.role);
+      item.id = job._id = uniqueId("job-" + slug(job.org || job.role));
       if (job.compact || !(job.points && job.points.length)) {
         item.appendChild(el("div", "xp-head", head));
       } else {
@@ -606,7 +617,7 @@
     if (H.title) document.getElementById("hobbies-h").textContent = H.title;
     if (H.intro) hs.appendChild(el("p", "hob-intro", [H.intro]));
     var hgrid = el("div", "hob-grid");
-    (H.items || []).forEach(function (it) {
+    live(H.items).forEach(function (it) {
       var hasPhotos = it.photos && it.photos.length;
       var card = el("article", "hob-card" + (hasPhotos || it.wide ? " wide" : ""), [
         el("h3", "hob-name dot", [it.name]),
@@ -683,8 +694,8 @@
   if (S.contactLine) c.appendChild(el("p", "contact-text", [S.contactLine]));
   var ca = actionRow(L.email);
   if (L.email && navigator.clipboard) {
-    var copy = el("button", "pill pill-ghost copy-btn", ["Copy email"]);
-    copy.type = "button";
+    var copyBtn = el("button", "pill pill-ghost copy-btn", ["Copy email"]);
+    copyBtn.type = "button";
     var copyStatus = el("span", "sr-only", []);
     copyStatus.setAttribute("role", "status");
     function setLabel(n, t) {
@@ -693,14 +704,14 @@
       n.setAttribute("aria-label", t);
       n.textContent = t;
     }
-    copy.addEventListener("click", function () {
+    copyBtn.addEventListener("click", function () {
       navigator.clipboard.writeText(L.email).then(function () {
-        setLabel(copy, "Copied");
+        setLabel(copyBtn, "Copied");
         copyStatus.textContent = "Email address copied";
-        setTimeout(function () { setLabel(copy, "Copy email"); copyStatus.textContent = ""; }, 1800);
-      }, function () { setLabel(copy, L.email); });
+        setTimeout(function () { setLabel(copyBtn, "Copy email"); copyStatus.textContent = ""; }, 1800);
+      }, function () { setLabel(copyBtn, L.email); });
     });
-    ca.appendChild(copy);
+    ca.appendChild(copyBtn);
     ca.appendChild(copyStatus);
   }
   c.appendChild(ca);
@@ -788,6 +799,7 @@
   var menu = document.getElementById("menu");
   var menuBtn = document.querySelector(".menu-btn");
   var menuLinks = menu.querySelectorAll("a");
+  menu.querySelectorAll(".menu-list li").forEach(function (li, i) { li.style.setProperty("--d", i * 50 + "ms"); });
   var behind = [document.querySelector(".skip"), document.getElementById("main"), document.querySelector(".foot")];
   document.getElementById("bar-name").addEventListener("click", function () {
     if (document.body.classList.contains("menu-open")) setMenu(false);
@@ -803,7 +815,9 @@
     behind.forEach(function (b) { if (b) b.inert = open; }); // keep Tab inside the menu
     if (open) {
       menu.hidden = false;
-      requestAnimationFrame(function () { menu.classList.add("open"); });
+      requestAnimationFrame(function () {
+        if (document.body.classList.contains("menu-open")) menu.classList.add("open");   // unless it was closed again first
+      });
       menuLinks.forEach(function (a, i) {
         setTimeout(function () { scramble(a, 520); }, 60 + i * 70);
       });
@@ -1045,7 +1059,11 @@
       setTimeout(function () { n.style.transitionDelay = ""; }, delay + 800);
     }
     var pending = [].slice.call(targets);
-    function done(n) { io.unobserve(n); pending.splice(pending.indexOf(n), 1); }
+    function done(n) {
+      io.unobserve(n);
+      var j = pending.indexOf(n);
+      if (j > -1) pending.splice(j, 1);
+    }
     var io = new IntersectionObserver(function (es) {
       var k = 0;
       es.forEach(function (e) {
@@ -1072,6 +1090,14 @@
       if (reduceMotion) pending.slice().forEach(function (n) { n.classList.add("in"); done(n); });
     });
   })();
+
+  // A link straight to a job (the address a timeline row leaves) opens that job.
+  function fromHash() {
+    var t = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (t && t.classList.contains("xp-item")) jumpTo(t);
+  }
+  fromHash();
+  window.addEventListener("hashchange", fromHash);
 
   // Hero name decodes on load.
   setTimeout(function () {
