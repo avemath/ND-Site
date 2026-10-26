@@ -542,6 +542,10 @@ body.menu-open .gear { visibility: hidden; }
 .drawn .drawing .robot { transition-delay: 1.35s; }  /* fade in only once it starts moving */
 .drawing .fillr { fill: var(--accent); }
 .drawing .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; fill: var(--fg-3); stroke: none; }
+/* in a small drawing that text shrinks to 5 to 8 px, so it's left out
+   (the card's own text and the numbered list under the drawing say the same) */
+.art-box.has-drawing { container-type: inline-size; }
+@container (max-width: 440px) { .drawing .lbl { display: none; } }
 .drawing .lbl.acc-t { fill: var(--accent); }
 .drawing .lbl.bump-t { fill: var(--fg); font-weight: 700; letter-spacing: .2em; }
 .drawing .mk circle { fill: var(--accent); stroke: var(--art-bg); stroke-width: 2.5; transition: stroke .2s; }
