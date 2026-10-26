@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nicholas | Mechanical engineering portfolio</title>
+  <meta name="description" content="Portfolio and extended resume for Nicholas, mechanical engineering student.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' fill='%23EEF1EC' stroke='%231D2A3A' stroke-width='2.5'/%3E%3Cpath d='M10 23V9l12 14V9' fill='none' stroke='%231D2A3A' stroke-width='2.5'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="sheet">
+    <nav class="nav" aria-label="Sections">
+      <a class="nav-home" href="#top" id="nav-name">Nicholas</a>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <main id="main">
+      <!-- Everything below is filled in from content.js by assets/js/render.js -->
+      <header class="hero" id="top"></header>
+
+      <section class="block" id="about" aria-labelledby="about-h">
+        <h2 id="about-h">About</h2>
+        <div class="block-body prose" data-slot="about"></div>
+      </section>
+
+      <section class="block" id="experience" aria-labelledby="exp-h">
+        <h2 id="exp-h">Experience</h2>
+        <div class="block-body" data-slot="experience"></div>
+      </section>
+
+      <section class="block" id="projects" aria-labelledby="proj-h">
+        <h2 id="proj-h">Projects</h2>
+        <div class="block-body" data-slot="projects"></div>
+      </section>
+
+      <section class="block" id="skills" aria-labelledby="skills-h">
+        <h2 id="skills-h">Skills</h2>
+        <div class="block-body" data-slot="skills"></div>
+      </section>
+
+      <section class="block" id="outside" aria-labelledby="out-h">
+        <h2 id="out-h">Outside of engineering</h2>
+        <div class="block-body" data-slot="outside"></div>
+      </section>
+
+      <section class="block" id="contact" aria-labelledby="contact-h">
+        <h2 id="contact-h">Contact</h2>
+        <div class="block-body" data-slot="contact"></div>
+      </section>
+    </main>
+
+    <footer class="foot" data-slot="footer"></footer>
+  </div>
+
+  <noscript><p class="noscript">This site needs JavaScript turned on to show its content.</p></noscript>
+
+  <!-- content.js must load before render.js -->
+  <script src="content.js"></script>
+  <script src="assets/js/render.js"></script>
+</body>
+</html>
