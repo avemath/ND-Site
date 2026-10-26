@@ -478,7 +478,7 @@
     if (H.intro) hs.appendChild(el("p", "hob-intro", [H.intro]));
     var hgrid = el("div", "hob-grid");
     (H.items || []).forEach(function (it) {
-      var card = el("article", "hob-card" + (it.photos ? " wide" : ""), [
+      var card = el("article", "hob-card" + (it.photos || it.wide ? " wide" : ""), [
         el("h3", "hob-name dot", [it.name]),
         it.text ? el("p", "hob-text", [it.text]) : null,
       ]);

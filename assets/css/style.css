@@ -32,7 +32,7 @@
 .pane-red {
   --bg: var(--red); --fg: #FFFFFF; --fg-2: #FFFFFF; --fg-3: rgba(255,255,255,.85);
   --ln: rgba(0,0,0,.25); --tag: rgba(255,255,255,.6); --ghost: rgba(255,255,255,.7);
-  --dot-rgb: 0,0,0; --dot-a: .12;
+  --todo: #FFE0E2; --dot-rgb: 0,0,0; --dot-a: .12;
 }
 .pane { position: relative; }
 
