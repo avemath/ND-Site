@@ -660,7 +660,7 @@
         el("h3", "hob-name dot", [it.name]),
         it.text ? el("p", "hob-text", [it.text]) : null,
       ]);
-      if (it.keys) card.appendChild(keyboard());
+      if (it.keys) card.appendChild(keyboard(it.keysHint));
       if (hasPhotos) {
         card.appendChild(el("div", "hob-photos", it.photos.map(function (ph) {
           var f = el("figure", "hob-photo" + (ph.image ? "" : " empty"));
@@ -685,7 +685,7 @@
   }
 
   // A one-octave keyboard that plays real notes (Web Audio). Keys A to K work too.
-  function keyboard() {
+  function keyboard(hint) {
     var notes = [["C", 261.63, 0], ["C#", 277.18, 1], ["D", 293.66, 0], ["D#", 311.13, 1], ["E", 329.63, 0],
       ["F", 349.23, 0], ["F#", 369.99, 1], ["G", 392.0, 0], ["G#", 415.3, 1], ["A", 440.0, 0], ["A#", 466.16, 1],
       ["B", 493.88, 0], ["C", 523.25, 0]];
@@ -734,7 +734,7 @@
       var i = keysMap.indexOf(e.key.toLowerCase());
       if (i > -1 && !e.repeat) buttons[i].hit();
     });
-    return el("div", "kb-wrap", [kb, el("p", "kb-hint mono", ["Tap a key"])]);
+    return el("div", "kb-wrap", [kb, hint ? el("p", "kb-hint mono", [hint]) : null]);
   }
 
   /* ======================= contact + footer ======================= */

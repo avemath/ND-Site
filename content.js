@@ -398,6 +398,7 @@ window.SITE = {
         // TODO: add a line on what he likes to play or is learning
         text: "My favorite instrument right now.",
         keys: true,                        // shows the playable keyboard
+        keysHint: "Tap a key, or use A to K",   // small line under the keyboard
       },
       {
         name: "Guitar",
