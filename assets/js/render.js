@@ -1,4 +1,5 @@
-/* Builds the page from window.SITE (defined in content.js).
+/* Builds the page from window.SITE (defined in content.js) and runs the
+   motion: dot field, scrambling dot-matrix text, menu, and accordions.
    You shouldn't need to edit this file to change the site's text. */
 (function () {
   "use strict";
@@ -10,9 +11,10 @@
     return;
   }
 
-  /* ---------- helpers ---------- */
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Create an element with optional class and children (strings or nodes).
+  /* ======================= helpers ======================= */
+
   function el(tag, cls, kids) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -41,8 +43,6 @@
     return frag;
   }
 
-  function isPlaceholder(str) { return /^\s*\[[^\]]*\]\s*$/.test(str || ""); }
-
   function link(href, label, cls) {
     var a = el("a", cls, [label]);
     a.href = href;
@@ -55,156 +55,326 @@
   function hideSection(id) {
     var s = document.getElementById(id);
     if (s) s.hidden = true;
-    var navLink = document.querySelector('.nav a[href="#' + id + '"]');
-    if (navLink) navLink.parentNode.hidden = true;
+    var m = document.querySelector('.menu a[href="#' + id + '"]');
+    if (m) m.parentNode.hidden = true;
   }
 
-  // Meta column used by experience and project entries.
-  function meta(lines) {
-    return el("div", "entry-meta", lines.filter(Boolean).map(function (l) {
-      return el("p", null, [l]);
+  function pills(items, cls) {
+    return el("ul", "pills " + (cls || ""), (items || []).map(function (t) {
+      return el("li", "tag mono", [t]);
     }));
   }
 
   var L = S.links || {};
-  var firstName = (S.name || "").split(" ")[0] || "Portfolio";
+  var fullName = [S.firstName, S.lastName].filter(Boolean).join(" ");
+  document.title = fullName + " | " + (S.discipline || "Portfolio");
 
-  /* ---------- page title + nav ---------- */
-  var cleanName = (S.name || "").replace(/\s*\[[^\]]*\]/g, "").trim();
-  document.title = cleanName + " | " + (S.discipline || "Portfolio");
-  document.getElementById("nav-name").textContent = firstName;
+  /* ======================= hero ======================= */
 
-  /* ---------- hero ---------- */
-  var hero = document.querySelector(".hero");
+  var hero = slot("hero");
+  var kicker = [S.discipline, S.schoolShort || S.school, S.graduation ? "Class of " + S.graduation.replace(/\D*(\d{4}).*/, "$1") : ""]
+    .filter(Boolean).join("  /  ");
 
-  var dim = el("div", "dim", [el("span", "dim-label", [
-    [S.discipline, S.graduation ? "class of " + S.graduation : ""].filter(Boolean).join(", ")
-  ])]);
-  dim.setAttribute("aria-hidden", "true");
-
-  var nameWrap = el("div", "name-wrap", [dim, el("h1", "name", [S.name])]);
+  var name = el("h1", "hero-name dot", [
+    el("span", null, [S.firstName]),
+    el("span", null, [S.lastName]),
+  ]);
+  name.setAttribute("aria-label", fullName);
+  [].forEach.call(name.children, function (s) { s.setAttribute("data-scramble", ""); s.setAttribute("aria-hidden", "true"); });
 
   var actions = el("div", "actions");
+  if (L.email) actions.appendChild(link("mailto:" + L.email, "Email me", "pill pill-solid"));
+  if (L.linkedin) actions.appendChild(link(L.linkedin, "LinkedIn", "pill pill-ghost"));
+  if (L.github) actions.appendChild(link(L.github, "GitHub", "pill pill-ghost"));
   if (L.resume) {
-    var r = link(L.resume, "Download resume (PDF)", "btn");
+    var r = link(L.resume, "Resume (PDF)", "pill pill-ghost");
     r.setAttribute("download", "");
     actions.appendChild(r);
   }
-  if (L.email) {
-    actions.appendChild(isPlaceholder(L.email)
-      ? el("span", "btn-text", ["Email: ", L.email])
-      : link("mailto:" + L.email, "Email", "btn-text"));
-  }
-  if (L.linkedin) actions.appendChild(link(L.linkedin, "LinkedIn", "btn-text"));
-  if (L.github) actions.appendChild(link(L.github, "GitHub", "btn-text"));
 
-  // Title block: the info box found in the corner of every engineering drawing.
-  var rows = [
-    ["Name", S.name],
-    ["Discipline", S.discipline],
-    ["School", S.school],
-    ["Graduating", S.graduation],
-    ["Based in", S.location],
-    ["Last updated", S.lastUpdated],
-  ].filter(function (r) { return r[1]; });
+  hero.appendChild(el("p", "mono kicker", [kicker]));
+  hero.appendChild(name);
+  if (S.tagline) hero.appendChild(el("p", "tagline", [S.tagline]));
+  if (S.status) hero.appendChild(el("p", "status mono", [el("span", "rec", []), S.status]));
+  hero.appendChild(actions);
 
-  var tb = el("dl", "titleblock");
-  rows.forEach(function (r) {
-    tb.appendChild(el("div", "tb-row", [el("dt", null, [r[0]]), el("dd", null, [r[1]])]));
-  });
+  /* ======================= about ======================= */
 
-  hero.appendChild(el("div", "hero-main", [
-    nameWrap,
-    el("p", "tagline", [S.tagline]),
-    actions,
-  ]));
-  hero.appendChild(tb);
-
-  /* ---------- about ---------- */
   if (S.about && S.about.length) {
-    S.about.forEach(function (p) { slot("about").appendChild(el("p", null, [p])); });
+    var ab = slot("about");
+    ab.className = "about";
+    S.about.forEach(function (p, i) { ab.appendChild(el("p", i === 0 ? "lead" : "body", [p])); });
+    var facts = el("dl", "facts mono", [
+      ["School", S.school], ["Degree", "B.S. " + S.discipline], ["Minor", S.minor],
+      ["Graduating", S.graduation], ["Based in", S.location],
+    ].filter(function (f) { return f[1]; }).map(function (f) {
+      return el("div", null, [el("dt", null, [f[0]]), el("dd", null, [f[1]])]);
+    }));
+    ab.appendChild(facts);
   } else hideSection("about");
 
-  /* ---------- experience ---------- */
+  /* ======================= experience ======================= */
+
   if (S.experience && S.experience.length) {
-    S.experience.forEach(function (job) {
-      var body = el("div", "entry-body", [
-        el("h3", null, [job.role]),
-        el("p", "entry-org", [[job.org, job.place].filter(Boolean).join(", ")]),
-      ]);
-      if (job.points && job.points.length) {
-        body.appendChild(el("ul", "points", job.points.map(function (pt) {
-          return el("li", null, [pt]);
-        })));
+    var list = el("ol", "xp");
+    S.experience.forEach(function (job, i) {
+      var head = [
+        el("span", "xp-dates mono", [job.dates]),
+        el("span", "xp-title", [el("span", "xp-role", [job.role]), el("span", "xp-org", [[job.org, job.place].filter(Boolean).join(", ")])]),
+      ];
+      var item = el("li", "xp-item" + (job.compact ? " compact" : ""));
+      if (job.compact || !(job.points && job.points.length)) {
+        item.appendChild(el("div", "xp-head", head));
+      } else {
+        var id = "xp-" + i;
+        var btn = el("button", "xp-head", head.concat([el("span", "xp-toggle", [])]));
+        btn.type = "button";
+        btn.setAttribute("aria-controls", id);
+        var open = i === 0;
+        btn.setAttribute("aria-expanded", String(open));
+        var panel = el("div", "xp-panel", [el("ul", "points", job.points.map(function (p) { return el("li", null, [p]); }))]);
+        panel.id = id;
+        if (open) item.classList.add("open");
+        btn.addEventListener("click", function () {
+          var isOpen = item.classList.toggle("open");
+          btn.setAttribute("aria-expanded", String(isOpen));
+        });
+        item.appendChild(btn);
+        item.appendChild(panel);
       }
-      slot("experience").appendChild(el("article", "entry", [meta([job.dates]), body]));
+      list.appendChild(item);
     });
+    slot("experience").appendChild(list);
   } else hideSection("experience");
 
-  /* ---------- projects ---------- */
-  var figNum = 0;
-  function figure(src, alt, caption) {
-    figNum += 1;
-    var f = el("figure", "fig");
-    if (src) {
-      var img = document.createElement("img");
-      img.src = src;
-      img.alt = alt || "";
-      img.loading = "lazy";
-      f.appendChild(img);
-    } else {
-      f.appendChild(el("div", "fig-empty", ["No image yet"]));
+  /* ======================= coursework marquee ======================= */
+
+  var mq = slot("coursework");
+  if (S.coursework && S.coursework.length) {
+    var track = el("div", "marquee-track");
+    track.setAttribute("aria-hidden", "true");
+    for (var k = 0; k < 2; k++) {
+      S.coursework.forEach(function (c) {
+        track.appendChild(el("span", "marquee-item dot", [c]));
+        track.appendChild(el("span", "marquee-sep", []));
+      });
     }
-    f.appendChild(el("figcaption", null, ["Fig. " + figNum + ". ", caption || ""]));
-    return f;
-  }
+    // Screen readers get a plain list instead of the moving text.
+    var sr = el("p", "sr-only", ["Related coursework: " + S.coursework.join(", ") + "."]);
+    mq.appendChild(sr);
+    mq.appendChild(track);
+  } else mq.hidden = true;
+
+  /* ======================= projects ======================= */
 
   if (S.projects && S.projects.length) {
+    var cards = slot("projects");
     S.projects.forEach(function (p) {
-      var body = el("div", "entry-body", [el("h3", null, [p.title])]);
-      if (p.summary) body.appendChild(el("p", "entry-summary", [p.summary]));
-      if (p.tools) body.appendChild(el("p", "entry-tools", ["Tools: ", p.tools]));
-      if (p.link) body.appendChild(el("p", "entry-link", [link(p.link, "View project")]));
-      if (p.image) body.appendChild(figure(p.image, p.imageAlt, p.imageAlt || p.title));
-      slot("projects").appendChild(el("article", "entry", [meta([p.dates, p.role]), body]));
+      var card = el("article", "card");
+      if (p.image) {
+        var img = document.createElement("img");
+        img.src = p.image; img.alt = p.imageAlt || ""; img.loading = "lazy";
+        card.appendChild(el("div", "card-media", [img]));
+      }
+      card.appendChild(el("p", "card-meta mono", [
+        el("span", null, [p.dates]), el("span", null, [p.role]),
+      ]));
+      card.appendChild(el("h3", "card-title", [p.title]));
+      if (p.points && p.points.length) {
+        card.appendChild(el("ul", "points", p.points.map(function (x) { return el("li", null, [x]); })));
+      }
+      if (p.tools && p.tools.length) card.appendChild(pills(p.tools));
+      if (p.link) card.appendChild(link(p.link, "View project", "pill pill-ghost card-link"));
+      cards.appendChild(card);
     });
   } else hideSection("projects");
 
-  /* ---------- skills ---------- */
+  /* ======================= skills ======================= */
+
   if (S.skills && S.skills.length) {
-    var dl = el("dl", "skills");
+    var sk = slot("skills");
+    sk.className = "skills";
     S.skills.forEach(function (g) {
-      dl.appendChild(el("div", "skill-row", [el("dt", null, [g.group]), el("dd", null, [g.items])]));
+      sk.appendChild(el("div", "skill-group", [el("h3", "mono label", [g.group]), pills(g.items, "pills-lg")]));
     });
-    slot("skills").appendChild(dl);
   } else hideSection("skills");
 
-  /* ---------- outside of engineering + photos ---------- */
-  var out = slot("outside");
-  if (S.outside) out.appendChild(el("p", "prose", [S.outside]));
-  if (S.photos && S.photos.length) {
-    var grid = el("div", "photos");
-    S.photos.forEach(function (ph) { grid.appendChild(figure(ph.image, ph.caption, ph.caption)); });
-    out.appendChild(grid);
-  }
-  if (!S.outside && !(S.photos && S.photos.length)) hideSection("outside");
+  /* ======================= contact + footer ======================= */
 
-  /* ---------- contact ---------- */
   var c = slot("contact");
-  c.appendChild(el("p", "prose", [
-    "The best way to reach me is by email. I'm happy to talk about internships, " +
-    "full-time roles, or any of the projects above."
+  c.appendChild(el("p", "contact-text", [
+    "Open to internships, research, and full-time roles in mechanical design, robotics, and controls."
   ]));
-  var cl = el("ul", "contact-list");
-  if (L.email) cl.appendChild(el("li", null, ["Email: ",
-    isPlaceholder(L.email) ? L.email : link("mailto:" + L.email, L.email)]));
-  if (L.linkedin) cl.appendChild(el("li", null, ["LinkedIn: ", link(L.linkedin, L.linkedin.replace(/^https?:\/\/(www\.)?/, ""))]));
-  if (L.github) cl.appendChild(el("li", null, ["GitHub: ", link(L.github, L.github.replace(/^https?:\/\//, ""))]));
-  if (L.resume) cl.appendChild(el("li", null, ["Resume: ", link(L.resume, "PDF download")]));
-  c.appendChild(cl);
+  var ca = el("div", "actions");
+  if (L.email) ca.appendChild(link("mailto:" + L.email, L.email, "pill pill-solid"));
+  if (L.linkedin) ca.appendChild(link(L.linkedin, "LinkedIn", "pill pill-ghost"));
+  c.appendChild(ca);
 
-  /* ---------- footer ---------- */
   slot("footer").appendChild(el("p", null, [
-    "© " + new Date().getFullYear() + " " + cleanName + ". Last updated " + (S.lastUpdated || "") + "."
+    "© " + new Date().getFullYear() + " " + fullName + "   /   Updated " + (S.lastUpdated || "")
   ]));
+
+  /* ======================= scrambling dot text ======================= */
+
+  var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  function scramble(node, ms) {
+    if (reduceMotion || node.querySelector(".todo")) return;
+    var final = node.getAttribute("data-final");
+    if (!final) { final = node.textContent; node.setAttribute("data-final", final); }
+    if (node._scr) cancelAnimationFrame(node._scr);
+    var start = performance.now(), dur = ms || 650, lastTick = 0;
+    function frame(now) {
+      var t = (now - start) / dur;
+      if (now - lastTick > 45 || t >= 1) {
+        lastTick = now;
+        var out = "";
+        for (var i = 0; i < final.length; i++) {
+          var ch = final[i];
+          if (ch === " " || t >= 1 || i / final.length < t * 1.15 - 0.15) out += ch;
+          else out += GLYPHS[(Math.random() * GLYPHS.length) | 0];
+        }
+        node.textContent = out;
+      }
+      if (t < 1) node._scr = requestAnimationFrame(frame);
+    }
+    node._scr = requestAnimationFrame(frame);
+  }
+
+  // Headings decode the first time they scroll into view.
+  var seen = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { scramble(e.target); seen.unobserve(e.target); }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll(".sec [data-scramble], .contact [data-scramble]").forEach(function (n) {
+    if (!n.getAttribute("aria-hidden")) n.setAttribute("aria-label", n.textContent);
+    seen.observe(n);
+  });
+
+  // Small controls re-scramble on hover, like Nothing's menus.
+  document.querySelectorAll(".pill, .bar-name").forEach(function (n) {
+    if (n.children.length) return;
+    n.addEventListener("mouseenter", function () { scramble(n, 380); });
+  });
+
+  /* ======================= menu ======================= */
+
+  var menu = document.getElementById("menu");
+  var menuBtn = document.querySelector(".menu-btn");
+  var menuLinks = menu.querySelectorAll("a");
+
+  function setMenu(open) {
+    menuBtn.setAttribute("aria-expanded", String(open));
+    if (menuBtn._scr) cancelAnimationFrame(menuBtn._scr); // stop any hover scramble
+    menuBtn.removeAttribute("data-final");
+    menuBtn.textContent = open ? "Close" : "Menu";
+    document.body.classList.toggle("menu-open", open);
+    if (open) {
+      menu.hidden = false;
+      requestAnimationFrame(function () { menu.classList.add("open"); });
+      menuLinks.forEach(function (a, i) {
+        a.setAttribute("aria-label", a.getAttribute("data-final") || a.textContent);
+        setTimeout(function () { scramble(a, 520); }, 60 + i * 70);
+      });
+      setTimeout(function () { menuLinks[0] && menuLinks[0].focus({ preventScroll: true }); }, 50);
+    } else {
+      menu.classList.remove("open");
+      setTimeout(function () { if (!menu.classList.contains("open")) menu.hidden = true; }, reduceMotion ? 0 : 320);
+    }
+  }
+  menuBtn.addEventListener("click", function () { setMenu(menuBtn.getAttribute("aria-expanded") !== "true"); });
+  menuLinks.forEach(function (a) {
+    a.addEventListener("click", function () { setMenu(false); });
+    a.addEventListener("mouseenter", function () { scramble(a, 380); });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && document.body.classList.contains("menu-open")) { setMenu(false); menuBtn.focus(); }
+  });
+
+  /* ======================= dot field ======================= */
+  // A grid of dots that brighten near the pointer, with random dots
+  // blinking on and off like the Glyph lights on Nothing phones.
+
+  function dotfield(canvas) {
+    var ctx = canvas.getContext("2d");
+    var host = canvas.parentElement;
+    var gap, cols, rows, w, h, dpr;
+    var px = -9999, py = -9999, active = false, visible = false, raf = 0;
+    var blinks = [], lastSpawn = 0;
+    var RED = "215,25,33";
+
+    function size() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = host.clientWidth; h = host.clientHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      canvas.style.width = w + "px"; canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      gap = w < 600 ? 16 : 20;
+      cols = Math.ceil(w / gap) + 1; rows = Math.ceil(h / gap) + 1;
+      blinks = [];
+      draw(performance.now());
+    }
+
+    function draw(now) {
+      ctx.clearRect(0, 0, w, h);
+      var R = 150, ox = (w % gap) / 2, oy = (h % gap) / 2;
+      var lit = {};
+      blinks = blinks.filter(function (b) { return now - b.t < b.life; });
+      blinks.forEach(function (b) {
+        var p = (now - b.t) / b.life;
+        lit[b.i] = { a: Math.sin(p * Math.PI), red: b.red };
+      });
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var x = ox + c * gap, y = oy + r * gap;
+          var dx = x - px, dy = y - py, d = Math.sqrt(dx * dx + dy * dy);
+          var near = d < R ? Math.pow(1 - d / R, 2) : 0;
+          var b = lit[r * cols + c];
+          var a = 0.13 + near * 0.75 + (b ? b.a * 0.8 : 0);
+          var rad = 1 + near * 1.1 + (b ? b.a * 0.8 : 0);
+          ctx.fillStyle = b && b.red ? "rgba(" + RED + "," + Math.min(a, 1) + ")" : "rgba(255,255,255," + Math.min(a, 1) + ")";
+          ctx.beginPath(); ctx.arc(x, y, rad, 0, 6.2832); ctx.fill();
+        }
+      }
+    }
+
+    function loop(now) {
+      raf = 0;
+      if (!visible || document.hidden) return;
+      if (now - lastSpawn > 140) {
+        lastSpawn = now;
+        blinks.push({ i: (Math.random() * cols * rows) | 0, t: now, life: 900 + Math.random() * 900, red: Math.random() < 0.06 });
+      }
+      draw(now);
+      raf = requestAnimationFrame(loop);
+    }
+    function kick() { if (!raf && !reduceMotion) raf = requestAnimationFrame(loop); }
+
+    host.addEventListener("pointermove", function (e) {
+      var rect = canvas.getBoundingClientRect();
+      px = e.clientX - rect.left; py = e.clientY - rect.top; active = true;
+      if (reduceMotion) draw(performance.now()); else kick();
+    });
+    host.addEventListener("pointerleave", function () {
+      px = py = -9999; active = false;
+      if (reduceMotion) draw(performance.now());
+    });
+    new IntersectionObserver(function (es) {
+      visible = es[0].isIntersecting;
+      if (visible) kick();
+    }).observe(host);
+    document.addEventListener("visibilitychange", kick);
+    var rt;
+    window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(size, 150); });
+    size();
+  }
+
+  document.querySelectorAll(".dotfield").forEach(dotfield);
+
+  // Hero name decodes on load.
+  setTimeout(function () {
+    name.querySelectorAll("[data-scramble]").forEach(function (s, i) {
+      setTimeout(function () { scramble(s, 900); }, i * 180);
+    });
+  }, 150);
 })();

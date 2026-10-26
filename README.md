@@ -1,18 +1,23 @@
 # Nicholas's portfolio site
 
-A one-page portfolio and extended resume, hosted free on GitHub Pages.
-Plain HTML, CSS, and JavaScript. No build step, nothing to install.
+A one-page portfolio and extended resume for Nicholas Domke, hosted free on
+GitHub Pages. Plain HTML, CSS, and JavaScript. No build step, nothing to install.
+
+The design is modeled on nothing.tech: black background, dot-matrix type
+(the free Google font Doto), a full-screen menu, an interactive dot grid,
+and text that "decodes" as it appears. Animations turn off automatically for
+visitors who have reduced motion turned on.
 
 ## Files
 
 | File | What it is |
 |---|---|
-| `content.js` | **All of the site's text, links, and photos. This is the only file you need to edit.** |
+| `content.js` | **All of the site's text and links. This is the only file you need to edit.** |
 | `index.html` | Page skeleton |
 | `assets/css/style.css` | The look |
 | `assets/js/render.js` | Builds the page from `content.js` |
-| `assets/img/` | Put project photos and drone photos here |
-| `assets/resume.pdf` | Put his resume here with this exact name (not added yet) |
+| `assets/img/` | Put project photos here (optional, one per project card) |
+| `assets/resume.pdf` | Optional resume download (not added; see the privacy note below) |
 | `.nojekyll` | Tells GitHub Pages to serve the files as-is. Leave it. |
 
 ## Editing the content
@@ -29,18 +34,17 @@ make changes, then click **Commit changes**. The live site updates in about a mi
 
 ## Still needed (fill these in)
 
-- [ ] His last name
-- [ ] School name, expected graduation date, city
-- [ ] Email (and LinkedIn / GitHub links if he wants them shown)
-- [ ] Resume PDF saved as `assets/resume.pdf`
-- [ ] About paragraphs in his own words
-- [ ] Integer Technologies: job title, dates, 2 to 4 bullet points
-- [ ] Senior design project: name, summary, tools, a photo or render if allowed
-- [ ] Ship collision avoidance project: current status; link only once the repo is public
-- [ ] A third project (or delete that placeholder)
-- [ ] Skills (CAD, analysis, fabrication, etc.)
-- [ ] Drone photos for the gallery (or set `photos: []` to hide it)
-- [ ] Confirm he's fine with the "Outside of engineering" section being public
+All of his info is filled in from his October 2026 resume. What's left:
+
+- [ ] Senior design project: name, what it is, his role, tools (or delete that card)
+- [ ] Have him read the tagline and About paragraphs (drafted, in his voice)
+- [ ] Location: resume says Mount Prospect, IL. Change to Baton Rouge if he prefers
+- [ ] Resume download button: off for now. His resume lists his phone number, and
+      everything in this repo is public. To turn it on, add a PDF without the phone
+      number as `assets/resume.pdf` and set `resume: "assets/resume.pdf"` in content.js
+- [ ] Optional: photos of projects (welding arm, maze robot, WildStang robots)
+- [ ] Optional: GitHub link
+- [ ] Keep content.js in sync when his resume changes
 
 ## Turning on GitHub Pages
 

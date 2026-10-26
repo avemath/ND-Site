@@ -3,66 +3,78 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nicholas | Mechanical engineering portfolio</title>
-  <meta name="description" content="Portfolio and extended resume for Nicholas, mechanical engineering student.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' fill='%23EEF1EC' stroke='%231D2A3A' stroke-width='2.5'/%3E%3Cpath d='M10 23V9l12 14V9' fill='none' stroke='%231D2A3A' stroke-width='2.5'/%3E%3C/svg%3E">
+  <title>Nicholas Domke | Mechanical engineering</title>
+  <meta name="description" content="Portfolio and extended resume for Nicholas Domke, mechanical engineering student at LSU.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23000'/%3E%3Cg fill='%23fff'%3E%3Ccircle cx='9' cy='8' r='2'/%3E%3Ccircle cx='9' cy='13' r='2'/%3E%3Ccircle cx='9' cy='18' r='2'/%3E%3Ccircle cx='9' cy='23' r='2'/%3E%3Ccircle cx='14' cy='12' r='2'/%3E%3Ccircle cx='18' cy='17' r='2'/%3E%3Ccircle cx='23' cy='8' r='2'/%3E%3Ccircle cx='23' cy='13' r='2'/%3E%3Ccircle cx='23' cy='18' r='2'/%3E%3Ccircle cx='23' cy='23' r='2'/%3E%3C/g%3E%3Ccircle cx='27' cy='5' r='2' fill='%23D71921'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Doto:wght,ROND@100..900,0..100&family=Space+Grotesk:wght@300..600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <div class="sheet">
-    <nav class="nav" aria-label="Sections">
-      <a class="nav-home" href="#top" id="nav-name">Nicholas</a>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
+  <header class="bar">
+    <a class="bar-name dot" href="#top" id="bar-name">Nicholas Domke</a>
+    <button class="pill pill-ghost menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  </header>
+
+  <!-- Full-screen menu -->
+  <div class="menu" id="menu" hidden>
+    <div class="menu-dots" aria-hidden="true"></div>
+    <nav aria-label="Sections">
+      <ul class="menu-list">
+        <li><a href="#about" data-scramble>About</a></li>
+        <li><a href="#experience" data-scramble>Experience</a></li>
+        <li><a href="#projects" data-scramble>Projects</a></li>
+        <li><a href="#skills" data-scramble>Skills</a></li>
+        <li><a href="#contact" data-scramble>Contact</a></li>
       </ul>
     </nav>
-
-    <main id="main">
-      <!-- Everything below is filled in from content.js by assets/js/render.js -->
-      <header class="hero" id="top"></header>
-
-      <section class="block" id="about" aria-labelledby="about-h">
-        <h2 id="about-h">About</h2>
-        <div class="block-body prose" data-slot="about"></div>
-      </section>
-
-      <section class="block" id="experience" aria-labelledby="exp-h">
-        <h2 id="exp-h">Experience</h2>
-        <div class="block-body" data-slot="experience"></div>
-      </section>
-
-      <section class="block" id="projects" aria-labelledby="proj-h">
-        <h2 id="proj-h">Projects</h2>
-        <div class="block-body" data-slot="projects"></div>
-      </section>
-
-      <section class="block" id="skills" aria-labelledby="skills-h">
-        <h2 id="skills-h">Skills</h2>
-        <div class="block-body" data-slot="skills"></div>
-      </section>
-
-      <section class="block" id="outside" aria-labelledby="out-h">
-        <h2 id="out-h">Outside of engineering</h2>
-        <div class="block-body" data-slot="outside"></div>
-      </section>
-
-      <section class="block" id="contact" aria-labelledby="contact-h">
-        <h2 id="contact-h">Contact</h2>
-        <div class="block-body" data-slot="contact"></div>
-      </section>
-    </main>
-
-    <footer class="foot" data-slot="footer"></footer>
   </div>
+
+  <main id="main">
+    <!-- Everything below is filled in from content.js by assets/js/render.js -->
+    <section class="hero" id="top">
+      <canvas class="dotfield" aria-hidden="true"></canvas>
+      <div class="hero-inner" data-slot="hero"></div>
+      <a class="scroll-cue mono" href="#about" aria-label="Scroll to About">Scroll</a>
+    </section>
+
+    <section class="sec" id="about" aria-labelledby="about-h">
+      <h2 class="sec-h dot" id="about-h" data-scramble>About</h2>
+      <div data-slot="about"></div>
+    </section>
+
+    <section class="sec" id="experience" aria-labelledby="exp-h">
+      <h2 class="sec-h dot" id="exp-h" data-scramble>Experience</h2>
+      <div data-slot="experience"></div>
+    </section>
+
+    <div class="marquee" data-slot="coursework" aria-label="Related coursework"></div>
+
+    <section class="sec" id="projects" aria-labelledby="proj-h">
+      <h2 class="sec-h dot" id="proj-h" data-scramble>Projects</h2>
+      <div class="cards" data-slot="projects"></div>
+    </section>
+
+    <section class="sec" id="skills" aria-labelledby="skills-h">
+      <h2 class="sec-h dot" id="skills-h" data-scramble>Skills</h2>
+      <div data-slot="skills"></div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-h">
+      <canvas class="dotfield" aria-hidden="true"></canvas>
+      <div class="contact-inner">
+        <p class="mono label">Contact</p>
+        <h2 class="contact-h dot" id="contact-h" data-scramble>Let's talk</h2>
+        <div data-slot="contact"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot mono" data-slot="footer"></footer>
 
   <noscript><p class="noscript">This site needs JavaScript turned on to show its content.</p></noscript>
 
