@@ -76,8 +76,23 @@
     }));
   }
 
-  function bullets(items) {
-    return el("ul", "points", (items || []).map(function (x) { return el("li", null, [x]); }));
+  function bullets(items, fmt) {
+    return el("ul", "points", (items || []).map(function (x) { return el("li", null, [fmt ? fmt(x) : x]); }));
+  }
+
+  // "(see Featured)" or "(see Projects)" in a bullet becomes a link to that section.
+  function seeLinks(str) {
+    var frag = document.createDocumentFragment(), re = /\(see (Featured|Projects)\)/g, last = 0, m;
+    while ((m = re.exec(str))) {
+      frag.appendChild(text(str.slice(last, m.index) + "(see "));
+      var a = el("a", "see-link", [m[1]]);
+      a.href = m[1] === "Featured" ? "#featured" : "#projects";
+      frag.appendChild(a);
+      frag.appendChild(text(")"));
+      last = re.lastIndex;
+    }
+    frag.appendChild(text(str.slice(last)));
+    return frag;
   }
 
   var L = S.links || {};
@@ -440,7 +455,7 @@
         btn.type = "button";
         btn.setAttribute("aria-controls", id);
         btn.setAttribute("aria-expanded", String(open));
-        var panel = el("div", "xp-panel", [bullets(job.points)]);
+        var panel = el("div", "xp-panel", [bullets(job.points, seeLinks)]);
         panel.id = id;
         panel.inert = !open;           // hidden bullets stay out of screen readers and tab order
         if (open) item.classList.add("open");
