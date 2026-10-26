@@ -297,7 +297,7 @@
       F.result ? el("p", "feat-result", [F.result]) : null,
       F.tools && F.tools.length ? pills(F.tools) : null,
     ]);
-    fslot.appendChild(el("article", "feature", [media(F, "feat-media art-box"), info]));
+    fslot.appendChild(el("article", "feature pane-dark", [media(F, "feat-media art-box"), info]));
   }
 
   /* ======================= projects ======================= */
@@ -358,7 +358,14 @@
     }
     rowsData.sort(function (a, b) { return a.r[0] - b.r[0]; });
     var from = T.from, to = T.to, span = to - from;
-    function frac(v) { return (Math.max(from, Math.min(to, v)) - from) / span; }
+    // Years before "cut" are squeezed into a narrow strip (share of the width),
+    // so a long early stretch like high school robotics doesn't leave the chart empty.
+    var cut = T.cut && T.cut > from && T.cut < to ? T.cut : null, share = T.share || 0.18;
+    function frac(v) {
+      v = Math.max(from, Math.min(to, v));
+      if (!cut) return (v - from) / span;
+      return v < cut ? (v - from) / (cut - from) * share : share + (v - cut) / (to - cut) * (1 - share);
+    }
     function pct(v) { return (frac(v) * 100).toFixed(2) + "%"; }
     // markers that span all rows sit inside the track column, right of the labels
     function across(v) { return "calc(var(--tl-label) + (100% - var(--tl-label)) * " + frac(v).toFixed(4) + ")"; }
@@ -366,9 +373,17 @@
     var wrap = el("figure", "tl");
     var axis = el("div", "tl-axis mono");
     for (var y = from; y <= to; y++) {
-      var t = el("span", "tl-year" + (y % 2 ? " odd" : ""), [String(y)]);
+      var early = cut && y < cut;
+      if (early && ((y - from) % 2 || y >= cut - 1)) continue;   // sparse labels in the squeezed part
+      var t = el("span", "tl-year" + (y % 2 ? " odd" : "") + (early && y !== from ? " early" : ""), [String(y)]);
       t.style.left = pct(y);
       axis.appendChild(t);
+    }
+    if (cut) {
+      var brk = el("span", "tl-break", []);
+      brk.style.left = pct(cut - 0.35);
+      brk.setAttribute("aria-hidden", "true");
+      axis.appendChild(brk);
     }
     var grid = el("div", "tl-rows");
     var gradAt = when(S.graduation, false);
@@ -388,6 +403,11 @@
       var g = el("span", "tl-grad mono", [el("span", null, ["B.S. " + S.graduation])]);
       g.style.left = across(gradAt);
       grid.appendChild(g);
+    }
+    if (cut) {
+      var gap = el("span", "tl-gap");
+      gap.style.left = across(cut - 0.35);
+      grid.appendChild(gap);
     }
     var nowMark = el("span", "tl-now");
     nowMark.style.left = across(when("now"));

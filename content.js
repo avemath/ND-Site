@@ -290,6 +290,8 @@ window.SITE = {
   timeline: {
     from: 2018,
     to: 2028,
+    cut: 2023,          // years before this are squeezed into a narrow strip
+    share: 0.2,         // how much of the width that strip gets
     next: "M.S. (planned)",
   },
 
@@ -377,7 +379,7 @@ window.SITE = {
       },
       {
         name: "Also",
-        text: "Pickleball, and chess, which I used to be really good at.",
+        text: "I also play pickleball and chess.",
         wide: false,                       // NOTE: set to true once drone photos are added, so this card fills its row
       },
     ],
