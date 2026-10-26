@@ -61,7 +61,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
 
-html { scroll-behavior: smooth; background: #000; } /* sections have their own top padding, so jumps land on the pane edge */
+html { scroll-behavior: smooth; background: #000; scroll-padding-top: 84px; } /* sections have their own top padding, so jumps land on the pane edge */
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
@@ -93,6 +93,7 @@ h2:focus { outline: none; }
   padding: 10px 16px; border-radius: 999px; font-family: var(--mono); font-size: 0.8rem;
 }
 .skip:focus { top: 12px; }
+.skip:focus-visible { outline-color: var(--accent-lt); }   /* it sits on the black hero */
 
 /* ---------- pills ---------- */
 .pill {
@@ -340,6 +341,7 @@ body.menu-open .bar::before { opacity: 0; }
   padding: 24px 0; background: none; border: 0; color: inherit; font: inherit; text-align: left;
 }
 button.xp-head { cursor: pointer; }
+.xp-h { margin: 0; font: inherit; }
 .compact .xp-head { grid-template-columns: 12em minmax(0, 1fr); padding: 18px 0; }
 .xp-dates { font-size: 0.8rem; color: var(--fg-3); }
 .xp-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
@@ -677,6 +679,7 @@ main { counter-reset: sec; }
 .sec-h { counter-increment: sec; }
 .sec-h::before {
   content: "Sec. " counter(sec, decimal-leading-zero);
+  content: "Sec. " counter(sec, decimal-leading-zero) / "";   /* empty alt text keeps it out of the heading's name (older browsers use the line above) */
   display: block; margin: 0 0 20px;
   font-family: var(--mono); font-size: 0.75rem; font-weight: 400; letter-spacing: 0.06em;
   font-variation-settings: normal; color: var(--fg-3); white-space: pre;
@@ -801,6 +804,7 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
   transition: clip-path .9s var(--ease) calc(250ms + var(--i, 0) * 70ms), background-color .2s, border-color .2s;
 }
 .tl.rise.in .tl-bar { clip-path: inset(-10px -16px -10px -4px); }
+@media (prefers-reduced-motion: reduce) { .tl.rise .tl-bar { clip-path: none; transition: none; } }
 
 /* ---------- current section in the top bar (desktop and tablet) ---------- */
 .bar-sec {

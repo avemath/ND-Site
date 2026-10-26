@@ -178,9 +178,12 @@
     numbers.forEach(function (n) {
       var v = el("span", "num-value dot", [n.value]);
       v.setAttribute("data-count", n.value);
+      v.setAttribute("aria-hidden", "true");   // the digits scramble; screen readers get the sr-only copy
+
       if (String(n.value).length > 3) v.classList.add("is-long");
       ul.appendChild(el("li", "num", [
-        el("p", "num-fig", [n.pre ? el("span", "num-pre mono", [n.pre]) : null, v, n.unit ? el("span", "num-unit mono", [n.unit]) : null]),
+        el("p", "num-fig", [n.pre ? el("span", "num-pre mono", [n.pre]) : null, v, el("span", "sr-only", [String(n.value)]),
+          n.unit ? el("span", "num-unit mono", [n.unit]) : null]),
         el("p", "num-label", [n.label]),
       ]));
     });
@@ -283,7 +286,9 @@
       n.setAttribute("pathLength", "1");
       n.style.setProperty("--i", i);
     });
-    var parts = [el("span", "art-tag mono", ["Illustration"]), holder];
+    var tag = el("span", "art-tag mono", ["Illustration"]);
+    tag.setAttribute("aria-hidden", "true");
+    var parts = [tag, holder];
     if (labels.length) {
       var legend = el("ol", "callouts mono", labels.map(function (t, i) {
         var li = el("li", null, [el("span", "callout-n", [String(i + 1)]), t]);
@@ -291,6 +296,7 @@
         li.addEventListener("mouseleave", function () { svg.querySelector('.mk[data-i="' + i + '"]').classList.remove("hot"); });
         return li;
       }));
+      legend.setAttribute("aria-label", "Parts in the drawing");
       parts.push(legend);
     }
     return parts;
@@ -304,7 +310,8 @@
       v.setAttribute("playsinline", ""); v.preload = "metadata";
       if (item.imageAlt) v.setAttribute("aria-label", item.imageAlt);
       if (item.image) v.poster = item.image;
-      if (reduceMotion) v.controls = true; else v.autoplay = true;
+      v.controls = true;
+      if (!reduceMotion) v.autoplay = true;
       box.appendChild(v);
       box.classList.add("has-photo");
     } else if (item.image) {
@@ -422,6 +429,12 @@
   function jumpTo(target) {
     var btn = target.querySelector("button.xp-head");
     if (btn && !target.classList.contains("open")) btn.click();
+    // move keyboard and screen reader focus there too
+    var f = btn || target.querySelector("h3");
+    if (f) {
+      if (!btn) f.tabIndex = -1;
+      f.focus({ preventScroll: true });
+    }
     if (reduceMotion) return;
     target.classList.remove("flash");
     void target.offsetWidth;   // restart the animation if clicked twice
@@ -460,7 +473,9 @@
     function across(v) { return "calc(var(--tl-label) + (100% - var(--tl-label)) * " + frac(v).toFixed(4) + ")"; }
 
     var wrap = el("figure", "tl");
+    wrap.setAttribute("aria-label", "Timeline of work and projects");
     var axis = el("div", "tl-axis mono");
+    axis.setAttribute("aria-hidden", "true");
     for (var y = from; y <= to; y++) {
       var early = cut && y < cut;
       if (early && ((y - from) % 2 || y >= cut - 1)) continue;   // sparse labels in the squeezed part
@@ -481,7 +496,7 @@
       bar.style.setProperty("--i", i);   // stagger for the draw-in
       bar.style.left = pct(d.r[0]);
       bar.style.width = "calc(" + pct(d.r[1]) + " - " + pct(d.r[0]) + ")";
-      var kids = [el("span", "tl-label", [d.label, el("span", "sr-only", [", " + d.dates])]), el("span", "tl-track", [bar])];
+      var kids = [el("span", "tl-label", [d.label, el("span", "sr-only", [" (" + d.dates + ")"])]), el("span", "tl-track", [bar])];
       // each row is a link to its project card or job (looked up on click: jobs aren't on the page yet)
       var row = el("a", "tl-row tl-link", kids);
       row.href = "#" + d.target;
@@ -500,6 +515,7 @@
     }
     if (gradAt) {
       var g = el("span", "tl-grad mono", [el("span", null, ["B.S. " + S.graduation])]);
+      g.setAttribute("aria-hidden", "true");
       g.style.left = across(gradAt);
       grid.appendChild(g);
     }
@@ -550,7 +566,7 @@
           btn.setAttribute("aria-expanded", String(isOpen));
           panel.inert = !isOpen;
         });
-        item.appendChild(btn);
+        item.appendChild(el("h3", "xp-h", [btn]));   // a heading, so screen readers can jump between jobs
         item.appendChild(panel);
       }
       list.appendChild(item);
@@ -678,8 +694,20 @@
       function hit() { play(n[1]); b.classList.add("down"); setTimeout(function () { b.classList.remove("down"); }, 160); }
       b.addEventListener("pointerdown", function (e) { e.preventDefault(); hit(); });
       b.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); hit(); } });
+      b.tabIndex = i ? -1 : 0;   // one tab stop for the whole keyboard; arrow keys move between keys
       buttons.push({ b: b, hit: hit });
       kb.appendChild(b);
+    });
+    kb.addEventListener("keydown", function (e) {
+      var now = buttons.findIndex(function (x) { return x.b === document.activeElement; });
+      if (now < 0) return;
+      var to = { ArrowRight: now + 1, ArrowDown: now + 1, ArrowLeft: now - 1, ArrowUp: now - 1, Home: 0, End: buttons.length - 1 }[e.key];
+      if (to == null) return;
+      e.preventDefault();
+      to = Math.max(0, Math.min(buttons.length - 1, to));
+      buttons[now].b.tabIndex = -1;
+      buttons[to].b.tabIndex = 0;
+      buttons[to].b.focus();
     });
     kb.addEventListener("keydown", function (e) {
       var i = keysMap.indexOf(e.key.toLowerCase());
