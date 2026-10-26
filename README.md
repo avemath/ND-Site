@@ -12,7 +12,7 @@ that snaps to the dot grid and shows X/Y in inches.
 Each row of the timeline in Experience links to its project card or job.
 
 The design is modeled on nothing.tech: dot-matrix type (the free Google font
-Doto), alternating light grey (#F4F4F4), white, and blueprint blue (#1450A8) panes between a black hero and contact section, a soft graphite featured project card, a full-screen
+Doto), alternating light grey (#F4F4F4), white, and blueprint blue (#1450A8, drawn like blueprint paper with a grid) panes between a black hero and contact section, a soft graphite featured project card, a full-screen
 menu, an interactive dot grid, line drawings of each project that sketch
 themselves in, and text that "decodes" as it appears. Animations turn off
 automatically for visitors who have reduced motion turned on.
