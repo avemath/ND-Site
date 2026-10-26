@@ -133,7 +133,8 @@
       url: S.siteUrl || undefined, email: L.email ? "mailto:" + L.email : undefined,
       jobTitle: S.discipline ? S.discipline + " student" : undefined,
       affiliation: S.school ? { "@type": "CollegeOrUniversity", name: S.school } : undefined,
-      knowsAbout: (S.skills || []).reduce(function (all, g) { return all.concat(g.items || []); }, []),
+      knowsAbout: (S.skills || []).reduce(function (all, g) { return all.concat(g.items || []); }, [])
+        .map(function (t) { return String(t).replace(/\s*\(.*?\)/g, ""); }),
       sameAs: [L.linkedin, L.github].filter(Boolean),
     };
     var tag = document.createElement("script");
@@ -898,12 +899,14 @@
   });
   var contactH = document.querySelector(".contact-h");
   if (contactH) secMarks.push({ h: contactH, text: "Contact" });
-  function updateSec() {
-    if (!secLabel) return;
+  function readSec() {
     var t = "";
     // a section counts once its heading passes the middle of the screen
     secMarks.forEach(function (m) { if (m.h.getBoundingClientRect().top < window.innerHeight / 2) t = m.text; });
-    if (t === secShown) return;
+    return t;
+  }
+  function updateSec(t) {
+    if (!secLabel || t === secShown) return;
     secShown = t;
     secLabel.classList.toggle("on", !!t);
     if (!t) return;   // fade out, keeping the old text while it does
@@ -920,10 +923,14 @@
       var r = panes[i].getBoundingClientRect();
       if (r.top <= y && r.bottom > y) { kind = panes[i].getAttribute("data-pane"); break; }
     }
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    var sec = readSec();
+    // writes after all the reads
     bar.setAttribute("data-on", kind);
     if (themeMeta) themeMeta.content = THEME[kind] || THEME.dark;
-    turnGear();
-    updateSec();
+    turnGear(progress);
+    updateSec(sec);
   }
 
   /* ---------- scroll gear: turns as you scroll, teeth fill blue toward the bottom ---------- */
@@ -954,16 +961,15 @@
     svgG.appendChild(gearRot);
     gearHost.appendChild(svgG);
   }
-  function turnGear() {
+  function turnGear(p) {
     if (!gearRot) return;
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
     gearRot.setAttribute("transform", reduceMotion ? "" : "rotate(" + (p * 720).toFixed(1) + ")");
     var lit = Math.round(p * gearTeeth.length);
     gearTeeth.forEach(function (t, i) { t.classList.toggle("lit", i < lit); });
   }
-  window.addEventListener("scroll", function () { if (!barTick) barTick = requestAnimationFrame(updateBar); }, { passive: true });
-  window.addEventListener("resize", updateBar);
+  function barSoon() { if (!barTick) barTick = requestAnimationFrame(updateBar); }
+  window.addEventListener("scroll", barSoon, { passive: true });
+  window.addEventListener("resize", barSoon);
   updateBar();
 
   /* ======================= dot field ======================= */
@@ -975,7 +981,8 @@
     var host = canvas.parentElement;
     var gap, cols, rows, w, h, dpr, rgb, baseA;
     var px = -9999, py = -9999, visible = false, raf = 0;
-    var blinks = [], lastSpawn = 0;
+    var blinks = [], lastSpawn = 0, lastDraw = 0, moved = false;
+    var base = document.createElement("canvas"), bctx = base.getContext("2d");
 
     function size() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -988,29 +995,52 @@
       baseA = parseFloat(cs.getPropertyValue("--dot-a")) || 0.13;
       gap = w < 600 ? 16 : 20;
       cols = Math.ceil(w / gap) + 1; rows = Math.ceil(h / gap) + 1;
+      // the resting grid, drawn once and copied in each frame
+      base.width = canvas.width; base.height = canvas.height;
+      bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      bctx.fillStyle = "rgba(" + rgb + "," + baseA + ")";
+      var ox = (w % gap) / 2, oy = (h % gap) / 2;
+      bctx.beginPath();
+      for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+        bctx.moveTo(ox + c * gap + 1, oy + r * gap);
+        bctx.arc(ox + c * gap, oy + r * gap, 1, 0, 6.2832);
+      }
+      bctx.fill();
       blinks = [];
       draw(performance.now());
     }
 
     function draw(now) {
-      ctx.clearRect(0, 0, w, h);
+      lastDraw = now; moved = false;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(base, 0, 0);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       var R = 150, ox = (w % gap) / 2, oy = (h % gap) / 2;
       var lit = {};
       blinks = blinks.filter(function (b) { return now - b.t < b.life; });
       blinks.forEach(function (b) {
         lit[b.i] = { a: Math.sin(((now - b.t) / b.life) * Math.PI), accent: b.accent };
       });
-      for (var r = 0; r < rows; r++) {
-        for (var c = 0; c < cols; c++) {
-          var x = ox + c * gap, y = oy + r * gap;
-          var dx = x - px, dy = y - py, d = Math.sqrt(dx * dx + dy * dy);
-          var near = d < R ? Math.pow(1 - d / R, 2) : 0;
-          var b = lit[r * cols + c];
-          var a = Math.min(1, baseA + near * 0.75 + (b ? b.a * 0.8 : 0));
-          ctx.fillStyle = b && b.accent ? "rgba(122,167,255," + a + ")" : "rgba(" + rgb + "," + a + ")";
-          ctx.beginPath(); ctx.arc(x, y, 1 + near * 1.1 + (b ? b.a * 0.8 : 0), 0, 6.2832); ctx.fill();
-        }
+      // only dots near the pointer or blinking differ from the resting grid
+      var todo = Object.keys(lit).map(Number);
+      if (px > -R && py > -R && px < w + R && py < h + R) {
+        var c0 = Math.max(0, Math.floor((px - R - ox) / gap)), c1 = Math.min(cols - 1, Math.ceil((px + R - ox) / gap));
+        var r0 = Math.max(0, Math.floor((py - R - oy) / gap)), r1 = Math.min(rows - 1, Math.ceil((py + R - oy) / gap));
+        for (var r = r0; r <= r1; r++) for (var c = c0; c <= c1; c++) if (!lit[r * cols + c]) todo.push(r * cols + c);
       }
+      todo.forEach(function (i) {
+        var r = Math.floor(i / cols), c = i % cols;
+        var x = ox + c * gap, y = oy + r * gap;
+        var dx = x - px, dy = y - py, d = Math.sqrt(dx * dx + dy * dy);
+        var near = d < R ? Math.pow(1 - d / R, 2) : 0;
+        var b = lit[i];
+        if (!near && !b) return;
+        var a = Math.min(1, baseA + near * 0.75 + (b ? b.a * 0.8 : 0));
+        ctx.clearRect(x - 4, y - 4, 8, 8);   // remove the resting dot underneath
+        ctx.fillStyle = b && b.accent ? "rgba(122,167,255," + a + ")" : "rgba(" + rgb + "," + a + ")";
+        ctx.beginPath(); ctx.arc(x, y, 1 + near * 1.1 + (b ? b.a * 0.8 : 0), 0, 6.2832); ctx.fill();
+      });
     }
 
     function loop(now) {
@@ -1020,7 +1050,8 @@
         lastSpawn = now;
         blinks.push({ i: (Math.random() * cols * rows) | 0, t: now, life: 900 + Math.random() * 900, accent: Math.random() < 0.06 });
       }
-      draw(now);
+      // blinks alone are slow, so about 30 frames a second is plenty; pointer moves draw right away
+      if (moved || now - lastDraw > 30) draw(now);
       raf = requestAnimationFrame(loop);
     }
     function kick() { if (!raf && !reduceMotion) raf = requestAnimationFrame(loop); }
@@ -1028,6 +1059,7 @@
     host.addEventListener("pointermove", function (e) {
       var rect = canvas.getBoundingClientRect();
       px = e.clientX - rect.left; py = e.clientY - rect.top;
+      moved = true;
       if (reduceMotion) draw(performance.now()); else kick();
     });
     host.addEventListener("pointerleave", function () {
@@ -1047,10 +1079,22 @@
 
   document.querySelectorAll(".dotfield").forEach(dotfield);
 
-  onMotionChange.push(function () {
-    document.querySelectorAll("svg.drawing").forEach(function (s) {
-      try { if (reduceMotion) s.pauseAnimations(); else s.unpauseAnimations(); } catch (e) {}
+  // The maze robot and the coursework ticker pause while they're off screen.
+  function syncAnim(s) {
+    try { if (reduceMotion || !s._onScreen) s.pauseAnimations(); else s.unpauseAnimations(); } catch (e) {}
+  }
+  var animQ = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.target.classList.contains("marquee")) e.target.classList.toggle("offscreen", !e.isIntersecting);
+      else { e.target._onScreen = e.isIntersecting; syncAnim(e.target); }
     });
+  });
+  document.querySelectorAll("svg.drawing").forEach(function (s) {
+    if (s.querySelector("animateMotion")) animQ.observe(s);
+  });
+  if (band && !band.hidden) animQ.observe(band);
+  onMotionChange.push(function () {
+    document.querySelectorAll("svg.drawing").forEach(syncAnim);
   });
 
   /* ---------- CAD-style crosshair in the hero ----------

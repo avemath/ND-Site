@@ -394,7 +394,7 @@ button.xp-head:hover .xp-role { text-decoration: underline; text-decoration-colo
   mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
 .marquee-track { display: flex; align-items: center; width: max-content; animation: marquee 80s linear infinite; }
-.marquee:hover .marquee-track, .marquee.paused .marquee-track { animation-play-state: paused; }
+.marquee:hover .marquee-track, .marquee.paused .marquee-track, .marquee.offscreen .marquee-track { animation-play-state: paused; }
 .marquee-item { font-size: clamp(1.4rem, 3vw, 2.2rem); white-space: nowrap; }
 .marquee-sep { width: 8px; height: 8px; border-radius: 50%; background: #fff; margin: 0 clamp(20px, 3vw, 40px); flex: none; }
 .marquee-btn { flex: none; min-height: 44px; padding: 0 14px; font-size: 0.72rem; background: transparent; color: #fff; border: 1px solid var(--ghost); }
