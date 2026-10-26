@@ -4,8 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nicholas Domke | Mechanical engineering</title>
-  <meta name="description" content="Portfolio and extended resume for Nicholas Domke, mechanical engineering student at LSU.">
+  <meta name="description" content="Nicholas Domke, mechanical engineering student at LSU. Robotics, underwater vehicle hardware, and path planning for unmanned surface vessels.">
   <meta name="theme-color" content="#000000">
+  <meta property="og:title" content="Nicholas Domke | Mechanical engineering">
+  <meta property="og:description" content="Mechanical engineering student at LSU. Robotics, underwater vehicle hardware, and path planning for unmanned surface vessels.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23000'/%3E%3Cg fill='%23fff'%3E%3Ccircle cx='9' cy='8' r='2'/%3E%3Ccircle cx='9' cy='13' r='2'/%3E%3Ccircle cx='9' cy='18' r='2'/%3E%3Ccircle cx='9' cy='23' r='2'/%3E%3Ccircle cx='14' cy='12' r='2'/%3E%3Ccircle cx='18' cy='17' r='2'/%3E%3Ccircle cx='23' cy='8' r='2'/%3E%3Ccircle cx='23' cy='13' r='2'/%3E%3Ccircle cx='23' cy='18' r='2'/%3E%3Ccircle cx='23' cy='23' r='2'/%3E%3C/g%3E%3Ccircle cx='27' cy='5' r='2' fill='%23D71921'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,18 +18,18 @@
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="bar">
-    <a class="bar-name dot" href="#top" id="bar-name">Nicholas Domke</a>
+    <a class="bar-name dot" href="#top" id="bar-name" aria-label="Nicholas Domke, back to top">Nicholas Domke</a>
     <button class="pill pill-ghost menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
   </header>
 
   <!-- Full-screen menu -->
-  <div class="menu" id="menu" hidden>
+  <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Site menu" hidden>
     <div class="menu-dots" aria-hidden="true"></div>
     <nav aria-label="Sections">
       <ul class="menu-list">
         <li><a href="#about" data-scramble>About</a></li>
+        <li><a href="#featured" data-scramble>Projects</a></li>
         <li><a href="#experience" data-scramble>Experience</a></li>
-        <li><a href="#projects" data-scramble>Projects</a></li>
         <li><a href="#skills" data-scramble>Skills</a></li>
         <li><a href="#contact" data-scramble>Contact</a></li>
       </ul>
@@ -35,46 +37,67 @@
   </div>
 
   <main id="main">
-    <!-- Everything below is filled in from content.js by assets/js/render.js -->
-    <section class="hero" id="top">
+    <!-- Everything below is filled in from content.js by assets/js/render.js.
+         Panes alternate dark / light / red to give the page rhythm. -->
+
+    <!-- DARK: hero -->
+    <section class="pane pane-dark hero" id="top" data-pane="dark">
       <canvas class="dotfield" aria-hidden="true"></canvas>
       <div class="hero-inner" data-slot="hero"></div>
-      <a class="scroll-cue mono" href="#about" aria-label="Scroll to About">Scroll</a>
+      <a class="scroll-cue mono" href="#about">Scroll</a>
     </section>
 
-    <section class="sec" id="about" aria-labelledby="about-h">
-      <h2 class="sec-h dot" id="about-h" data-scramble>About</h2>
-      <div data-slot="about"></div>
-    </section>
+    <!-- LIGHT: numbers + about -->
+    <div class="pane pane-light" data-pane="light">
+      <div class="numbers" data-slot="numbers"></div>
+      <section class="sec" id="about" aria-labelledby="about-h">
+        <h2 class="sec-h dot" id="about-h" data-scramble>About</h2>
+        <div data-slot="about"></div>
+      </section>
+    </div>
 
-    <section class="sec" id="experience" aria-labelledby="exp-h">
-      <h2 class="sec-h dot" id="exp-h" data-scramble>Experience</h2>
-      <div data-slot="experience"></div>
-    </section>
+    <!-- DARK: featured + projects -->
+    <div class="pane pane-dark" data-pane="dark">
+      <section class="sec" id="featured" aria-labelledby="feat-h">
+        <h2 class="sec-h dot" id="feat-h" data-scramble>Projects</h2>
+        <div data-slot="featured"></div>
+      </section>
+      <section class="sec sec-tight" id="projects" aria-label="More projects">
+        <div class="cards" data-slot="projects"></div>
+      </section>
+    </div>
 
-    <div class="marquee" data-slot="coursework" aria-label="Related coursework"></div>
+    <!-- LIGHT: experience -->
+    <div class="pane pane-light" data-pane="light">
+      <section class="sec" id="experience" aria-labelledby="exp-h">
+        <h2 class="sec-h dot" id="exp-h" data-scramble>Experience</h2>
+        <div data-slot="experience"></div>
+      </section>
+    </div>
 
-    <section class="sec" id="projects" aria-labelledby="proj-h">
-      <h2 class="sec-h dot" id="proj-h" data-scramble>Projects</h2>
-      <div class="cards" data-slot="projects"></div>
-    </section>
+    <!-- RED: coursework marquee -->
+    <div class="pane pane-red marquee" data-pane="red" data-slot="coursework"></div>
 
-    <section class="sec" id="skills" aria-labelledby="skills-h">
-      <h2 class="sec-h dot" id="skills-h" data-scramble>Skills</h2>
-      <div data-slot="skills"></div>
-    </section>
+    <!-- LIGHT: skills -->
+    <div class="pane pane-light" data-pane="light">
+      <section class="sec" id="skills" aria-labelledby="skills-h">
+        <h2 class="sec-h dot" id="skills-h" data-scramble>Skills</h2>
+        <div data-slot="skills"></div>
+      </section>
+    </div>
 
-    <section class="contact" id="contact" aria-labelledby="contact-h">
+    <!-- DARK: contact -->
+    <section class="pane pane-dark contact" id="contact" aria-label="Contact" data-pane="dark">
       <canvas class="dotfield" aria-hidden="true"></canvas>
       <div class="contact-inner">
         <p class="mono label">Contact</p>
-        <h2 class="contact-h dot" id="contact-h" data-scramble>Let's talk</h2>
+        <h2 class="contact-h dot" data-scramble>Let's talk</h2>
         <div data-slot="contact"></div>
       </div>
     </section>
   </main>
 
-  <footer class="foot mono" data-slot="footer"></footer>
+  <footer class="pane pane-dark foot mono" data-pane="dark" data-slot="footer"></footer>
 
   <noscript><p class="noscript">This site needs JavaScript turned on to show its content.</p></noscript>
 
