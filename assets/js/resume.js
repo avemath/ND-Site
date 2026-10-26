@@ -36,7 +36,8 @@
 
   /* header */
   var contact = el("p", "contact");
-  [S.location,
+  // "Baton Rouge, LA (hometown: Mount Prospect, IL)" when both are set
+  [S.currentLocation ? S.currentLocation + (S.location ? " (hometown: " + S.location + ")" : "") : S.location,
     L.email ? a("mailto:" + L.email, L.email) : null,
     L.linkedin ? a(L.linkedin, L.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")) : null,
     L.github ? a(L.github, L.github.replace(/^https?:\/\//, "")) : null,

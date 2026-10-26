@@ -56,6 +56,9 @@ a { color: inherit; text-decoration-color: var(--accent); text-underline-offset:
   .row { flex-direction: column; gap: 0; }
   .row-date { text-align: left; }
   .skills div { grid-template-columns: 1fr; gap: 0; }
+  /* contact details one per line, so no separator dot starts a line */
+  .contact { flex-direction: column; align-items: flex-start; }
+  .contact .sep { display: none; }
 }
 
 @page { size: letter; margin: 0.5in; }

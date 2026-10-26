@@ -87,14 +87,12 @@ All of his info is filled in from his October 2026 resume. Here's what's left:
 - [ ] Senior design project: it's hidden as a draft. Fill in the name, hook, bullets,
       and tools, then delete `draft: true`
 - [ ] Have him read the tagline and the About paragraphs (I drafted them in his voice)
-- [ ] Location: his resume says Mount Prospect, IL. Change it to Baton Rouge if he prefers
 - [ ] Get his answers to the "Questions for Nicholas" at the top of `content.js`
       (results, photos, awards), then fill in the `result` lines
 - [ ] Photos or short videos of his projects (BlueROV2 housing, welding arm, maze
       robot, WildStang robots)
 - [ ] Hobbies ("Off the clock"): this section is already live. Add a line on what he
       plays, where he flies, and 3 to 6 drone photos
-- [ ] Optional: a link to his GitHub
 - [ ] Keep `content.js` in sync whenever his resume changes
 
 ## Turning on GitHub Pages

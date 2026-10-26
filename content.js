@@ -26,8 +26,7 @@
    4. Maze robot: did it finish the maze?
    5. WildStang: any awards or event results 2018 to 2022?
    6. Senior design: project name, his role, sponsor.
-   7. Location: Baton Rouge or Mount Prospect? Open to relocating?
-   8. A GitHub with ROS or Python code he'd like linked?
+   7. Open to relocating?
    ========================================================================== */
 
 window.SITE = {
@@ -40,9 +39,12 @@ window.SITE = {
   school: "Louisiana State University",
   schoolShort: "LSU",
   graduation: "May 2027",
-  // NOTE: resume says Mount Prospect, IL (hometown). Change to "Baton Rouge, LA" if he prefers.
+  // Hometown, from his resume. Shown in the About facts as "Hometown".
   location: "Mount Prospect, IL",
-  locationLabel: "Hometown",               // Use "Based in" if location is changed to where he lives now
+  locationLabel: "Hometown",
+  // Where he lives now. Adds a "Currently in" row to the About facts, and the
+  // resume page shows "Baton Rouge, LA (hometown: Mount Prospect, IL)". Set to "" to hide.
+  currentLocation: "Baton Rouge, LA",
   lastUpdated: "October 2026",             // Change this whenever the site is updated
   // Shown in the drawing title block in the footer. Bump the letter (C, D, E...)
   // whenever the site gets a real update, like a revision on an engineering drawing.
@@ -63,7 +65,7 @@ window.SITE = {
   links: {
     email: "nmdomke2004@gmail.com",
     linkedin: "https://www.linkedin.com/in/nicholas-domke/",
-    github: "",                            // Add if he wants his GitHub shown
+    github: "https://github.com/nmdomke",
     // The "Resume" button. resume.html is a printable resume page built from
     // this file, with no phone number. You can also point this at a PDF in the
     // assets folder (e.g. "assets/resume.pdf"), but his current PDF lists his
@@ -72,7 +74,7 @@ window.SITE = {
   },
 
   // Shown under Education on the printable resume page.
-  gradIntent: "Applying to M.S. programs in controls and mechanical systems",   // QUESTION: which entry term? (Fall 2027?)
+  gradIntent: "Applying to M.S. programs in controls and mechanical systems for Fall 2027",
 
   /* ---------- Numbers strip (big dot-matrix numbers under the hero) ----------
      "pre" is small text above the number, "unit" is small blue text after it.
@@ -94,7 +96,7 @@ window.SITE = {
     "Now I'm a mechanical engineering senior at LSU with a minor in robotics, graduating in May 2027. " +
       "In the iCORE Lab I work on hazard avoidance and path planning for unmanned surface vessels. " +
       "In summer 2026 at Integer Technologies, I designed the housing that put an acoustic modem on a BlueROV2. " +
-      "After graduation, I plan to pursue an M.S. in controls and mechanical systems.",
+      "After graduation, I plan to start an M.S. in controls and mechanical systems in Fall 2027.",
   ],
 
   /* ---------- Featured project (big dark panel) ----------
@@ -115,7 +117,7 @@ window.SITE = {
       "3D printed test and final parts in PLA and PETG",
       "Selected cables and connectors that connect and disconnect quickly while the vehicle is in the water",
     ],
-    result: "",                            // QUESTION: what happened in water testing? One sentence.
+    result: "Tested in the water on the BlueROV2.",   // QUESTION: how did testing go, and did the quick-disconnects work?
     tools: ["Fusion 360", "PLA", "PETG", "BlueROV2"],
     // Spec table on the card, like the parts list on a drawing. When filled in,
     // it shows instead of the tool pills. Delete a row to drop it.
@@ -295,7 +297,7 @@ window.SITE = {
     },
     {
       role: "Server",
-      org: "ENTERRIUM and Texas Roadhouse",
+      org: "Enterrium and Texas Roadhouse",
       place: "Chicago area",
       dates: "May 2023 to Jan 2026",
       compact: true,
