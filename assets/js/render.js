@@ -339,6 +339,26 @@
 
   /* ======================= projects ======================= */
 
+  // Cards show 3 bullets; any extras open under a "+ N more" button so the cards line up.
+  function cardBullets(items, id) {
+    if (items.length <= 3) return bullets(items);
+    var extra = items.length - 3;
+    var rest = el("div", "more", [bullets(items.slice(3))]);
+    rest.id = id;
+    rest.inert = true;
+    var btn = el("button", "more-btn mono", ["+ " + extra + " more"]);
+    btn.type = "button";
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-controls", id);
+    btn.addEventListener("click", function () {
+      var open = rest.classList.toggle("open");
+      rest.inert = !open;
+      btn.setAttribute("aria-expanded", String(open));
+      btn.textContent = open ? "Show less" : "+ " + extra + " more";
+    });
+    return el("div", "pts", [bullets(items.slice(0, 3)), rest, btn]);
+  }
+
   var projects = live(S.projects);
   if (projects.length) {
     var cards = slot("projects");
@@ -349,7 +369,7 @@
           el("p", "card-meta mono", [el("span", null, [p.dates]), el("span", null, [p.role])]),
           el("h3", "card-title", [p.title]),
           p.hook ? el("p", "card-hook", [p.hook]) : null,
-          p.points && p.points.length ? bullets(p.points) : null,
+          p.points && p.points.length ? cardBullets(p.points, "more-" + slug(p.title)) : null,
           p.result ? el("p", "card-result", [p.result]) : null,
           p.tools && p.tools.length ? pills(p.tools) : null,
           p.link ? link(p.link, "View project", "pill pill-ghost card-link") : null,

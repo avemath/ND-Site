@@ -752,3 +752,18 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
 .xp-item.flash { animation-name: flash-row; }
 @keyframes flash { 0%, 35% { box-shadow: 0 0 0 2px var(--red); } 100% { box-shadow: 0 0 0 2px transparent; } }
 @keyframes flash-row { 0%, 35% { background: rgba(215, 25, 33, .08); } 100% { background: transparent; } }
+
+/* ---------- project cards: extra bullets behind "+ N more" ---------- */
+.pts { margin-bottom: 20px; }
+.pts .points { margin-bottom: 0; }
+.more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s var(--ease); }
+.more > * { overflow: hidden; min-height: 0; }
+.more.open { grid-template-rows: 1fr; }
+.more-btn {
+  min-height: 32px; margin-top: 2px; padding: 0 0 0 20px; background: none; border: 0; cursor: pointer;
+  color: var(--fg); font-size: 0.75rem;
+  text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: 4px;
+}
+.more-btn:hover { color: var(--red); }
+@media (prefers-reduced-motion: reduce) { .more { transition: none; } }
+@media print { .more { grid-template-rows: 1fr !important; } .more-btn { display: none !important; } }
