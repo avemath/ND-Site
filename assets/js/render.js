@@ -374,7 +374,7 @@
       F.result ? el("p", "feat-result", [F.result]) : null,
       F.specs && F.specs.length ? specTable(F.specs) : F.tools && F.tools.length ? pills(F.tools) : null,
     ]);
-    fslot.appendChild(el("article", "feature pane-dark", [media(F, "feat-media art-box"), info]));
+    fslot.appendChild(el("article", "feature", [media(F, "feat-media art-box"), info]));
   }
 
   /* ======================= projects ======================= */
