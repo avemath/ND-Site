@@ -593,4 +593,122 @@ body.menu-open .gear { visibility: hidden; }
 .kb-key:focus-visible { outline: 3px solid #000; outline-offset: 2px; z-index: 2; }
 .kb-hint { margin: 10px 0 0; font-size: 0.72rem; color: var(--fg-3); }
 
-@media (max-width: 640px) { .tl-label { white-space: normal; line-height: 1.2; } }
+
+/* =====================================================================
+   Art direction pass (from the visual review)
+   ===================================================================== */
+   ===================================================================== */
+
+/* 1. featured card was inheriting the pane's 128px bottom padding */
+
+/* 2. menu pill: var(--ghost) is undefined on .bar, so the border never drew */
+.menu-btn { border: 1px solid rgba(255,255,255,.5); }
+.bar[data-on="light"] .menu-btn, .bar[data-on="white"] .menu-btn { border-color: rgba(0,0,0,.35); }
+
+/* 3. top bar matches white panes instead of laying grey over them */
+.bar[data-on="light"], .bar[data-on="white"] { box-shadow: 0 1px 0 rgba(0,0,0,.06); }
+.bar[data-on="white"] { color: #000; background: rgba(255,255,255,.84); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); }
+.bar[data-on="white"]::before { opacity: 0; }
+
+/* 4. one left edge inside every card: art tag + callouts align with the body text */
+.art-tag { top: 20px; left: clamp(20px, 2.6vw, 28px); }
+.callouts { padding: 0 clamp(20px, 2.6vw, 28px) clamp(16px, 2vw, 22px); }
+.feat-media .art-tag { top: 24px; left: clamp(24px, 4vw, 48px); }
+.feat-media .callouts { padding: 0 clamp(24px, 4vw, 48px) clamp(24px, 3vw, 36px); }
+.card-media { box-shadow: inset 0 -1px 0 var(--ln); }
+
+/* 5. card grid: last row of two splits the width instead of one stretched card */
+@media (min-width: 1100px) {
+  .cards { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .card { grid-column: span 2; }
+  .card:last-child:nth-child(3n+2), .card:nth-last-child(2):nth-child(3n+1) { grid-column: span 3; flex-direction: column; }
+  .card:last-child:nth-child(3n+2) .card-media { aspect-ratio: 16 / 9; flex: none; }
+  .card:last-child:nth-child(3n+2) .card-body { flex: 1; }
+  .card:last-child:nth-child(3n+1) { grid-column: 1 / -1; flex-direction: row; }
+  .card:last-child:nth-child(3n+1) .card-media { aspect-ratio: auto; flex: 1 1 50%; }
+  .card:last-child:nth-child(3n+1) .card-body { flex: 1 1 50%; }
+}
+@media (min-width: 700px) and (max-width: 1099px) {
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card:last-child:nth-child(odd) { grid-column: 1 / -1; flex-direction: row; }
+  .card:last-child:nth-child(odd) .card-media { aspect-ratio: auto; flex: 1 1 50%; }
+  .card:last-child:nth-child(odd) .card-body { flex: 1 1 50%; }
+}
+.card:not(:has(a)):hover { border-color: transparent; }
+
+/* 6. section index labels: 01 / About, 02 / Projects ... */
+main { counter-reset: sec; }
+.sec-h { counter-increment: sec; }
+.sec-h::before {
+  content: "Sec. " counter(sec, decimal-leading-zero);
+  display: block; margin: 0 0 20px;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 400; letter-spacing: 0.06em;
+  font-variation-settings: normal; color: var(--fg-3); white-space: pre;
+}
+.pane-red .sec-h::before { color: rgba(255,255,255,.8); }
+
+/* 7. small Doto titles: heavier so the dots read as letters, not texture */
+.cap-title, .hob-name, .tb-title .tb-value { font-weight: 900; }
+
+/* 8. capabilities: 2-up so bullets don't wrap every 3 words */
+@media (min-width: 561px) { .caps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.cap { padding: clamp(24px, 3vw, 36px); }
+.cap { border-radius: 24px; }
+
+/* 9. skills: separators at line START are clipped, so no dangling red dot at line end */
+.spec-row dd { overflow: hidden; }
+.spec-items { margin-left: -37px; }
+.spec-items li::before { content: ""; flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--red); margin: 0 16px; }
+.spec-items li:not(:last-child)::after { content: none; }
+
+/* 10. hobbies: piano card holds the left column; outlined cards instead of muddy dark red */
+@media (min-width: 761px) {
+  .hob-card:has(.kb) { grid-row: span 2; }
+  .hob-card:last-child:nth-child(4):not(.wide) { grid-column: 1 / -1; }
+}
+.hob-card { background: rgba(0,0,0,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.28); }
+.kb-wrap { max-width: 520px; }
+.kb { height: 170px; }
+
+/* 11. accordion toggle in a circle, matching the pill language */
+.xp-toggle { width: 34px; height: 34px; border: 1px solid var(--tag); border-radius: 50%; transition: border-color .2s, background-color .2s; }
+.xp-toggle::before, .xp-toggle::after { width: 14px; background-size: 4.5px 3px; }
+button.xp-head:hover .xp-toggle { border-color: var(--fg); }
+.open .xp-toggle { background: var(--fg); border-color: var(--fg); }
+.open .xp-toggle::before { background-image: radial-gradient(circle, var(--bg) 1.4px, transparent 1.7px); }
+.xp-head { grid-template-columns: 12em minmax(0, 1fr) 34px; }
+
+/* 12. timeline: end labels stay inside the grid; phone gets full-width rows, no ellipses */
+.tl-year.end { transform: translateX(-100%); }
+.tl-grad { border-left-width: 2px; }
+@media (max-width: 640px) {
+  .tl { --tl-label: 0px; }
+  .tl-axis { margin-left: 0; }
+  .tl-row { grid-template-columns: 1fr; align-items: stretch; }
+  .tl-label { padding: 10px 0 0; font-size: 0.8rem; white-space: normal; }
+  .tl-track { height: 22px; }
+}
+
+/* phone: drawings get their own box, callouts sit under them */
+@media (max-width: 640px) {
+  .art-box.has-drawing.card-media, .feat-media.has-drawing { aspect-ratio: auto; }
+  .art-box.has-drawing .drawing-wrap { flex: none; aspect-ratio: 16 / 10; padding: 44px 12px 8px; }
+}
+
+/* consistency: one radius family, one tag height */
+.feature { border-radius: 28px; }
+.card, .hob-card { border-radius: 24px; }
+.tag { padding: 0 12px; height: 30px; display: inline-flex; align-items: center; }
+.tl-year:first-child { transform: none; }
+@media (max-width: 640px) {
+  .xp-head { grid-template-columns: minmax(0, 1fr) 34px; }
+  .tl-label { justify-self: start; position: relative; z-index: 1; background: var(--bg); padding-right: 8px; }
+}
+
+/* headline line breaks and small consistency fixes */
+.feat-title, .card-title, .cap-title, .hob-name, .contact-text { text-wrap: balance; }
+.feat-title { max-width: 14em; }
+.num-pre { font-size: .8rem; color: var(--fg-2); }
+@media (min-width: 1001px) { .tblock { grid-template-columns: 3fr repeat(7, minmax(0, 1fr)); } }
+.tb-copy { text-align: right; }
+.art-tag, .callouts, .kb-hint, .hob-photo figcaption, .tl-grad span { font-size: .75rem; }

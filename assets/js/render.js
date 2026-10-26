@@ -375,7 +375,7 @@
     for (var y = from; y <= to; y++) {
       var early = cut && y < cut;
       if (early && ((y - from) % 2 || y >= cut - 1)) continue;   // sparse labels in the squeezed part
-      var t = el("span", "tl-year" + (y % 2 ? " odd" : "") + (early && y !== from ? " early" : ""), [String(y)]);
+      var t = el("span", "tl-year" + (y % 2 ? " odd" : "") + (early && y !== from ? " early" : "") + (y === to ? " end" : ""), [String(y)]);
       t.style.left = pct(y);
       axis.appendChild(t);
     }
@@ -742,7 +742,7 @@
   var bar = document.querySelector(".bar");
   var themeMeta = document.querySelector('meta[name="theme-color"]');
   var panes = document.querySelectorAll("[data-pane]");
-  var THEME = { dark: "#000000", light: "#F4F4F4", red: "#D71921" };
+  var THEME = { dark: "#000000", light: "#F4F4F4", white: "#FFFFFF", red: "#D71921" };
   var barTick = 0;
   function updateBar() {
     barTick = 0;
