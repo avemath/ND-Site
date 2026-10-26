@@ -348,15 +348,15 @@ button.xp-head { cursor: pointer; }
 .xp-org { color: var(--fg-3); }
 button.xp-head:hover .xp-role { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }
 
-/* plus / minus made of dots, in a circle like the pills */
+/* plus / minus in a circle like the pills */
 .xp-toggle {
   position: relative; width: 34px; height: 34px; align-self: center; justify-self: end;
   border: 1px solid var(--tag); border-radius: 50%; transition: border-color .2s, background-color .2s;
 }
 .xp-toggle::before, .xp-toggle::after {
-  content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 3px; translate: -50% -50%;
-  background: radial-gradient(circle, var(--fg) 1.4px, transparent 1.7px) 0 50% / 4.5px 3px repeat-x;
-  transition: rotate .3s var(--ease), opacity .3s;
+  content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.5px; translate: -50% -50%;
+  background: var(--fg); border-radius: 1px;
+  transition: rotate .3s var(--ease), opacity .3s, background-color .2s;
 }
 .xp-toggle::after { rotate: 90deg; }
 .open .xp-toggle::after { rotate: 0deg; opacity: 0; }
@@ -699,7 +699,7 @@ main { counter-reset: sec; }
 /* 11. accordion toggle in a circle, matching the pill language */
 button.xp-head:hover .xp-toggle { border-color: var(--fg); }
 .open .xp-toggle { background: var(--fg); border-color: var(--fg); }
-.open .xp-toggle::before { background-image: radial-gradient(circle, var(--bg) 1.4px, transparent 1.7px); }
+.open .xp-toggle::before { background: var(--bg); }   /* minus, light on the dark circle */
 
 /* 12. timeline: end labels stay inside the grid; phone gets full-width rows, no ellipses */
 .tl-year.end { transform: translateX(-100%); }
