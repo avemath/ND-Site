@@ -650,8 +650,9 @@ body.menu-open .gear { visibility: hidden; }
 .feat-media .art-tag { top: 24px; left: clamp(24px, 4vw, 48px); }
 .card-media { box-shadow: inset 0 -1px 0 var(--ln); }
 
-/* 5. card grid: last row of two splits the width instead of one stretched card */
-@media (min-width: 1100px) {
+/* 5. card grid: last row of two splits the width instead of one stretched card.
+   3 across only from 1240px; narrower than that the drawings get too small. */
+@media (min-width: 1240px) {
   .cards { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .card { grid-column: span 2; }
   .card:last-child:nth-child(3n+2), .card:nth-last-child(2):nth-child(3n+1) { grid-column: span 3; flex-direction: column; }
@@ -661,7 +662,7 @@ body.menu-open .gear { visibility: hidden; }
   .card:last-child:nth-child(3n+1) .card-media { aspect-ratio: auto; flex: 1 1 50%; }
   .card:last-child:nth-child(3n+1) .card-body { flex: 1 1 50%; }
 }
-@media (min-width: 700px) and (max-width: 1099px) {
+@media (min-width: 700px) and (max-width: 1239px) {
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .card:last-child:nth-child(odd) { grid-column: 1 / -1; flex-direction: row; }
   .card:last-child:nth-child(odd) .card-media { aspect-ratio: auto; flex: 1 1 50%; }
