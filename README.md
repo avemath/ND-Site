@@ -16,9 +16,15 @@ I based the design on nothing.tech:
 
 - The big lettering is dot-matrix type, using Doto, a free Google font.
 - The page has a black top section (the hero) and a black contact section. In
-  between, the sections switch between light grey (#F4F4F4), white, and blueprint
-  blue (#1450A8). The blue sections are drawn like blueprint paper, with a grid.
-- The featured project gets a big card at the top of the Projects section.
+  between, the sections take turns:
+  - About and Experience are a light grey (#EFF0F2).
+  - Projects and Skills are one shade darker (#E4E6E9) with a faint dot grid, like
+    a drafting table. The cards on them are white with a thin border and a soft
+    shadow, so they sit on the grey like sheets of paper.
+  - The coursework strip and "Off the clock" are blueprint blue (#1450A8), drawn
+    like blueprint paper with a grid.
+- The featured project gets a big white card at the top of the Projects section,
+  with a blue stripe along its top edge.
 - The menu opens full screen.
 - The top section has a grid of dots that reacts to the mouse.
 - Each project has a line drawing that sketches itself in as you scroll to it.
@@ -32,6 +38,10 @@ Since he's a mechanical engineer, I added a few engineering touches:
 - On a computer, the mouse pointer in the top section becomes a CAD crosshair. It
   snaps to the dot grid and shows X/Y coordinates in inches.
 - Each row of the timeline in the Experience section links to that project card or job.
+- On a computer, hovering over a card (a project, a skill, or a hobby) selects it
+  like a part in CAD: the card lifts a little, its border turns blue, and small
+  corner brackets snap in around it. Tabbing into a card with the keyboard does
+  the same thing.
 
 If a visitor has "reduce motion" turned on in their device settings, the animations
 turn off automatically.
