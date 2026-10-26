@@ -243,14 +243,13 @@ body.menu-open .bar::before { opacity: 0; }
 .num-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--fg); }
 .num { padding: 28px 20px 0 0; }
 .num + .num { padding-left: 20px; border-left: 1px solid var(--ln); }
-/* small prefix ("±", "up to") sits top-left of the figure, mirroring the blue unit on the right */
-.num-pre { font-size: 0.8rem; color: var(--fg-3); margin-top: .3em; white-space: nowrap; }
-.num-fig { margin: 4px 0 10px; display: flex; align-items: flex-start; gap: 6px; }
+/* small prefix ("±", "up to") sits just above the figure, so every figure starts at the column edge */
+.num-pre { position: absolute; bottom: 100%; left: 0; margin-bottom: 2px; font-size: 0.8rem; color: var(--fg-3); white-space: nowrap; }
+.num-fig { position: relative; margin: 4px 0 10px; display: flex; align-items: flex-start; gap: 6px; }
 .num-value { font-size: clamp(2.8rem, 5.6vw, 5.2rem); font-weight: 800; line-height: 1; letter-spacing: 0; white-space: nowrap; }
 .num-value.is-long { font-size: clamp(2rem, 3.6vw, 3.4rem); margin-top: .35em; } /* long values like 0.005 */
 .num-unit { color: var(--accent); font-size: 0.85rem; margin-top: .3em; font-weight: 700; text-transform: lowercase; }
 .num-label { margin: 0; font-size: 0.95rem; color: var(--fg-2); max-width: 15em; }
-@media (max-width: 380px) { .num-fig { flex-wrap: wrap; } }   /* "up to 100" fits on the smallest phones */
 @media (max-width: 860px) {
   .num-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .num:nth-child(3) { padding-left: 0; border-left: 0; }

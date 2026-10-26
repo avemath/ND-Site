@@ -75,8 +75,8 @@ Open `content.js` and follow the notes at the top. The short version:
   only on the resume page.
 - **Revision letter:** `revision` is the REV box in the footer. Bump the letter
   (C to D, and so on) when the site gets a real update.
-- **Every year:** bump the "8 yrs" SolidWorks number and the "eight years" in the
-  About text. He started in 2018.
+- **Every year:** bump the "eight years" in the About text. He started in 2018.
+  (The "yrs using SolidWorks" number counts itself, so it doesn't need a bump.)
 - **If the page goes blank after an edit,** look for a missing quote or comma.
 
 To edit on github.com: open `content.js`, click the pencil icon, make your changes,

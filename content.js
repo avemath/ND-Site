@@ -81,9 +81,10 @@ window.SITE = {
 
   /* ---------- Numbers strip (big dot-matrix numbers under the hero) ----------
      "pre" is small text above the number, "unit" is small blue text after it.
+     "since" counts the years since then on its own, so it never goes out of date.
      Only real numbers from his resume. */
   numbers: [
-    { pre: "",      value: "8",     unit: "yrs", label: "using SolidWorks" },   // NOTE: bump this each year (started 2018)
+    { pre: "",      since: 2018,    unit: "yrs", label: "using SolidWorks" },   // he started in 2018
     { pre: "",      value: "5",     unit: "",    label: "competition robots built with WildStang" },
     // 5 thou = 0.005 in. Written this way because the dot font has no "±" and its decimal point reads poorly.
     { pre: "±",     value: "5",     unit: "thou", label: "tolerance held on a manual lathe (0.005 in.)" },

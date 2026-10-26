@@ -191,13 +191,15 @@
   if (numbers.length) {
     var ul = el("ul", "num-list");
     numbers.forEach(function (n) {
-      var v = el("span", "num-value dot", [n.value]);
-      v.setAttribute("data-count", n.value);
+      // "since: 2018" turns into the number of years since then
+      var value = n.since ? String(new Date().getFullYear() - n.since) : n.value;
+      var v = el("span", "num-value dot", [value]);
+      v.setAttribute("data-count", value);
       v.setAttribute("aria-hidden", "true");   // the digits scramble; screen readers get the sr-only copy
 
-      if (String(n.value).length > 3) v.classList.add("is-long");
+      if (String(value).length > 3) v.classList.add("is-long");
       ul.appendChild(el("li", "num", [
-        el("p", "num-fig", [n.pre ? el("span", "num-pre mono", [n.pre]) : null, v, el("span", "sr-only", [String(n.value)]),
+        el("p", "num-fig", [n.pre ? el("span", "num-pre mono", [n.pre]) : null, v, el("span", "sr-only", [String(value)]),
           n.unit ? el("span", "num-unit mono", [n.unit]) : null]),
         el("p", "num-label", [n.label]),
       ]));
