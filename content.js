@@ -282,7 +282,7 @@ window.SITE = {
       resumePoints: [
         "Research proximity hazard avoidance and path planning for unmanned surface vessels",
         "Designed a mount for a laser camera and an RGB camera on a UR5e robotic arm to detect surface defects on wind turbine blades (ROS, Python)",
-        "Built a 3D-printed 5-DOF robotic arm that performs mock welding, using an Arduino Uno R4 and limit switches for autonomous calibration",
+        // The mock welding arm is left out here: it has its own entry under Projects on the resume.
       ],
     },
     {
