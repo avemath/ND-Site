@@ -35,7 +35,7 @@ window.SITE = {
   /* ---------- Basics ---------- */
   firstName: "Nicholas",                   // He prefers "Nicholas", not "Nick"
   lastName: "Domke",
-  discipline: "Mechanical engineering",
+  discipline: "Mechanical Engineering",
   minor: "Robotics",
   school: "Louisiana State University",
   schoolShort: "LSU",
@@ -48,11 +48,11 @@ window.SITE = {
 
   // Under his name at the top. DRAFT: have him approve the wording.
   tagline:
-    "I design and build robots, from the CAD model to the part on the bench. " +
-    "Lately that means path planning for unmanned boats and a modem housing for an underwater robot.",
+    "I design and build robots, from the CAD model to the finished part. " +
+    "This year I built a modem housing for an underwater robot, and now I'm working on path planning for unmanned boats.",
 
   // The line with the blinking red dot. Set to "" to hide it.
-  status: "Now: Path planning for unmanned surface vessels, LSU iCORE Lab",
+  status: "Now: path planning for unmanned surface vessels at the LSU iCORE Lab",
 
   /* ---------- Links ----------
      Leave a link as "" to hide it. */
@@ -68,14 +68,14 @@ window.SITE = {
   },
 
   // Shown under Education on the printable resume page.
-  gradIntent: "Planning to pursue an M.S. in controls and mechanical systems; applications planned for Fall 2026",
+  gradIntent: "Applying to M.S. programs in controls and mechanical systems",   // QUESTION: which entry term? (Fall 2027?)
 
   /* ---------- Numbers strip (big dot-matrix numbers under the hero) ----------
      "pre" is small text above the number, "unit" is small red text after it.
      Only real numbers from his resume. */
   numbers: [
-    { pre: "",      value: "8",     unit: "yrs", label: "using SolidWorks" },
-    { pre: "",      value: "5",     unit: "",    label: "competition robots built on WildStang" },
+    { pre: "",      value: "8",     unit: "yrs", label: "using SolidWorks" },   // NOTE: bump this each year (started 2018)
+    { pre: "",      value: "5",     unit: "",    label: "competition robots built with WildStang" },
     // 5 thou = 0.005 in. Written this way because the dot font has no "±" and its decimal point reads poorly.
     { pre: "±",     value: "5",     unit: "thou", label: "tolerance held on a manual lathe (0.005 in.)" },
     { pre: "up to", value: "100",   unit: "",    label: "students tutored in the LSU Math Lab" },
@@ -86,11 +86,11 @@ window.SITE = {
   about: [
     "I started using SolidWorks eight years ago on my high school FIRST team, WildStang. " +
       "Over four years I led design and CAD on five competition robots, each one built in eight weeks. " +
-      "I still like the full loop best: model it, print or machine it, wire it, test it.",
+      "The part I still like best is taking a design from the model to a part I can wire up and test.",
     "Now I'm a mechanical engineering senior at LSU with a minor in robotics, graduating in May 2027. " +
       "In the iCORE Lab I work on hazard avoidance and path planning for unmanned surface vessels. " +
-      "Last summer at Integer Technologies I designed the housing that put an acoustic modem on a BlueROV2. " +
-      "Next, I'm planning an M.S. in controls and mechanical systems.",
+      "In summer 2026 at Integer Technologies, I designed the housing that put an acoustic modem on a BlueROV2. " +
+      "After graduation, I plan to pursue an M.S. in controls and mechanical systems.",
   ],
 
   /* ---------- Featured project (big dark panel) ----------
@@ -102,19 +102,19 @@ window.SITE = {
      CAD. Replace them with his photos or SolidWorks renders when we get them.
      "callouts" are the numbered labels on the drawing, in order. */
   featured: {
-    title: "Modem housing for a BlueROV2",
+    title: "Acoustic Modem Housing for a BlueROV2",
     org: "Integer Technologies",
-    dates: "Summer 2026",
-    hook: "An underwater robot needed to carry an acoustic modem. I designed the housing that got it there.",
+    dates: "May 2026 to Aug 2026",
+    hook: "A BlueROV2 needed to carry an acoustic modem for in-water testing. I designed the housing and mount that carry it.",
     points: [
       "Designed the housing and mount in Fusion 360",
-      "Printed test and final parts in PLA and PETG",
-      "Chose cables and connectors that can be swapped while the vehicle is still in the water",
+      "3D printed test and final parts in PLA and PETG",
+      "Selected cables and connectors that connect and disconnect quickly while the vehicle is in the water",
     ],
     result: "",                            // QUESTION: what happened in water testing? One sentence.
     tools: ["Fusion 360", "PLA", "PETG", "BlueROV2"],
     art: "rov",
-    callouts: ["Acoustic modem housing", "3D printed mount", "Quick-disconnect cable"],
+    callouts: ["Acoustic modem housing", "3D-printed mount", "Quick-disconnect cable"],
     video: "",
     image: "",
     imageAlt: "",
@@ -143,13 +143,13 @@ window.SITE = {
       title: "Mock Welding Robotic Arm",
       role: "iCORE Lab",
       dates: "Mar 2026 to May 2026",
-      hook: "A 5-DOF arm I printed myself that calibrates itself with limit switches.",
+      hook: "A 3D-printed 5-DOF arm that calibrates itself using limit switches.",
       points: [
-        "Designed the end effector for a 5 degree of freedom DIY robot arm",
+        "Designed the end effector for a DIY 5-DOF robot arm",
         "3D printed the arm and end effector",
         "Mounted and wired the electronics around an Arduino Uno R4",
         "Used limit switches so the arm calibrates itself",
-        "Ran quantitative analysis of how the arm behaved",   // QUESTION: what was measured?
+        "Measured and analyzed the arm's performance",   // QUESTION: what was measured?
       ],
       result: "",                          // QUESTION: one sentence on what the analysis found
       tools: ["3D printing", "Arduino Uno R4", "Limit switches"],
@@ -163,10 +163,10 @@ window.SITE = {
       title: "Robot Maze Navigation",
       role: "Intro to Robotics",
       dates: "Oct 2025 to Dec 2025",
-      hook: "A robot that finds its own way through a maze.",
+      hook: "An autonomous robot that finds its own way through a maze.",
       points: [
         "Designed the mobile base and camera mount in SolidWorks, then 3D printed them",
-        "Worked with another mechanical engineer and a team of computer science students",
+        "Worked with a second mechanical engineering student and a team of computer science students",
         "Helped debug the autonomous navigation and object detection code",
       ],
       result: "",                          // QUESTION: did it finish the maze?
@@ -181,10 +181,10 @@ window.SITE = {
       title: "Manufacturing Lab Projects",
       role: "Manufacturing Processes",
       dates: "Jan 2025 to Apr 2025",
-      hook: "Three machines, three parts: lathe, welder, CNC.",
+      hook: "Shop work on a manual lathe, a MIG welder, and a Haas CNC router.",
       points: [
         "Turned a clutch alignment pin on a manual lathe to ±0.005 in.",
-        "MIG welded a metal stool",
+        "MIG welded a metal stool",                       // QUESTION: steel?
         "Wrote G-code and ran a Haas CNC router to cut an aluminum heat exchanger",
       ],
       tools: ["Manual lathe", "MIG welding", "Haas CNC", "G-code"],
@@ -195,13 +195,13 @@ window.SITE = {
     },
     {
       title: "Inclusive Playground",
-      role: "Team of 6",
+      role: "Team of six",                     // QUESTION: which course was this for?
       dates: "Sep 2023 to Dec 2023",
-      hook: "A playground designed so kids with any disability can use it.",
+      hook: "A playground designed to ADA guidelines for kids with disabilities.",
       points: [
         "Studied existing playground designs against ADA guidelines",
-        "Built the SolidWorks model and merged all six teammates' parts",
-        "Picked aluminum and polyethylene to keep it light and simple to build",
+        "Built the SolidWorks model and merged the team's parts into one assembly",
+        "Selected aluminum and polyethylene to keep the structure light and easy to build",
       ],
       tools: ["SolidWorks", "ADA guidelines"],
       art: "playground",                   // NOTE: drawing is illustrative; swap in a SolidWorks render if he has one
@@ -212,15 +212,15 @@ window.SITE = {
     },
     {
       title: "WildStang Robotics",
-      role: "FIRST Robotics, design lead",
+      role: "Design lead, FIRST Robotics Competition",
       dates: "Aug 2018 to May 2022",
-      hook: "Where the eight years of SolidWorks started.",
+      hook: "Where I started using SolidWorks, in 2018.",
       points: [
         "Led design, manufacturing, and assembly of 5 competition robots in 4 years",
-        "Led CAD in SolidWorks and Onshape, and taught younger members CAD and power tools",
-        "Kept sub-teams on schedule so each robot was running within the 8-week build",
-        "Ran the CNC router (VCarve) and printed Onyx parts on Markforged printers",
-        "Designed a movable workshop storage system for competitions",
+        "Led CAD in SolidWorks and Onshape and trained younger members on CAD and power tools",
+        "Kept sub-teams on schedule so every robot ran within the 8-week build season",
+        "Ran the team's CNC router using VCarve and printed Onyx parts on Markforged printers",
+        "Designed a movable workshop storage system for use at competitions",
       ],
       result: "",                          // QUESTION: any awards or event results 2018 to 2022?
       tools: ["SolidWorks", "Onshape", "VCarve", "Markforged"],
@@ -241,15 +241,15 @@ window.SITE = {
       place: "Baton Rouge, LA",
       dates: "Mar 2026 to now",
       points: [
-        "Researching proximity hazard avoidance and path planning for unmanned surface vessels",
-        "Designed a mount for a laser camera and RGB camera on a UR5e robotic arm to find surface defects on wind turbine blades, using ROS and Python",
-        "Built a 5-DOF mock welding robotic arm (see Projects)",
+        "Research proximity hazard avoidance and path planning for unmanned surface vessels",
+        "Designed a mount for a laser camera and an RGB camera on a UR5e robotic arm to detect surface defects on wind turbine blades (ROS, Python)",
+        "Built a 3D-printed 5-DOF robotic arm for mock welding (see Projects)",
       ],
       // Used on the printable resume page (resume.html) instead of "points".
       resumePoints: [
-        "Researching proximity hazard avoidance and path planning for unmanned surface vessels",
-        "Designed a mount for a laser camera and RGB camera on a UR5e robotic arm to detect surface imperfections on wind turbine blades, using ROS and Python",
-        "Built a 3D printed 5-DOF robotic arm that performs mock welding, using an Arduino Uno R4 and limit switches for autonomous calibration",
+        "Research proximity hazard avoidance and path planning for unmanned surface vessels",
+        "Designed a mount for a laser camera and an RGB camera on a UR5e robotic arm to detect surface defects on wind turbine blades (ROS, Python)",
+        "Built a 3D-printed 5-DOF robotic arm that performs mock welding, using an Arduino Uno R4 and limit switches for autonomous calibration",
       ],
     },
     {
@@ -258,12 +258,12 @@ window.SITE = {
       place: "Baton Rouge, LA",
       dates: "May 2026 to Aug 2026",
       points: [
-        "Designed and printed the housing that mounts an acoustic modem on a BlueROV2 for in-water testing (see Featured)",
+        "Designed and 3D printed the housing that mounts an acoustic modem on a BlueROV2 for in-water testing (see Featured)",
       ],
       resumePoints: [
-        "Designed a housing and mounting solution in Fusion 360 to integrate an acoustic modem with a BlueROV2 for in-water testing",
+        "Designed a housing and mount in Fusion 360 to integrate an acoustic modem with a BlueROV2 for in-water testing",
         "3D printed parts in PLA and PETG for testing and final assembly",
-        "Chose cables and connectors for quick connection and removal while the vehicle is in the water",
+        "Selected cables and connectors for quick connection and removal while the vehicle is in the water",
       ],
     },
     {
@@ -297,10 +297,10 @@ window.SITE = {
 
   /* ---------- Coursework (scrolls across a red band) ---------- */
   coursework: [
-    "Thermodynamics", "Heat Transfer", "Fluid Dynamics", "Manufacturing Processes",
-    "System Dynamics", "Simulation Methods", "Statics", "Strength of Materials",
-    "Circuits", "Electronics", "Kinematics", "Intro to Robotics", "Welding Engineering",
-    "Industrial Robotics", "Instrumentation and Measurements", "Machine Design",
+    "System Dynamics", "Kinematics", "Industrial Robotics", "Instrumentation and Measurements",
+    "Machine Design", "Intro to Robotics", "Simulation Methods", "Thermodynamics", "Heat Transfer",
+    "Fluid Dynamics", "Manufacturing Processes", "Statics", "Strength of Materials",
+    "Circuits", "Electronics", "Welding Engineering",
   ],
 
   /* ---------- What I can do (four cards above the skills list) ----------
@@ -309,7 +309,7 @@ window.SITE = {
     {
       title: "Design",
       proof: [
-        "8 years in SolidWorks, plus Onshape, Fusion 360, and Inventor",
+        "SolidWorks since 2018, plus Onshape, Fusion 360, and Inventor",
         "Led CAD for 5 WildStang competition robots",
         "Designed the BlueROV2 modem housing at Integer",
       ],
@@ -318,23 +318,23 @@ window.SITE = {
       title: "Build",
       proof: [
         "Held \u00B10.005 in. on a manual lathe",
-        "MIG welding, CNC routing, and writing G-code",
-        "3D printing in PLA, PETG, and Onyx",
+        "MIG welded a stool and wrote G-code for a Haas CNC router",
+        "3D printed parts in PLA, PETG, and Onyx",
       ],
     },
     {
       title: "Program",
       proof: [
-        "Python and ROS for a UR5e camera mount at iCORE",
-        "Arduino limit-switch calibration on a 5-DOF arm",
-        "Debugged autonomous maze navigation",
+        "Worked with ROS and Python on a UR5e inspection setup at the iCORE Lab",
+        "Used an Arduino Uno R4 and limit switches for self-calibration on a 5-DOF arm",
+        "Helped debug autonomous navigation and object detection code",
       ],
     },
     {
       title: "Lead and teach",
       proof: [
         "Coordinated sub-teams through 8-week robot builds",
-        "Taught younger members CAD and power tools",
+        "Trained younger WildStang members on CAD and power tools",
         "Tutored up to 100 students in the LSU Math Lab",
       ],
     },
@@ -342,9 +342,9 @@ window.SITE = {
 
   /* ---------- Skills (spec sheet rows) ---------- */
   skills: [
-    { group: "CAD", items: ["SolidWorks (8 yrs)", "Onshape", "Fusion 360", "Inventor"] },
+    { group: "CAD", items: ["SolidWorks (since 2018)", "Onshape", "Fusion 360", "Inventor"] },
     { group: "Code and controls", items: ["Python", "ROS 2", "MATLAB", "Arduino"] },
-    { group: "Fabrication", items: ["3D printing", "MIG welding", "Manual lathe", "CNC router", "VCarve", "Drill press", "Band saw", "Miter saw"] },
+    { group: "Fabrication", items: ["3D printing", "Markforged", "MIG welding", "Manual lathe", "Haas CNC", "G-code", "CNC router", "VCarve", "Drill press", "Band saw", "Miter saw"] },
     { group: "Office", items: ["Excel", "Word"] },
   ],
 
@@ -356,7 +356,7 @@ window.SITE = {
     title: "Off the clock",
     menuLabel: "Off the clock",
     intro:
-      "When I'm not in the lab or the shop, I'm usually at a keyboard of a different kind, " +
+      "Outside the lab and the shop, I'm usually at a keyboard of a different kind " +
       "or flying a drone somewhere with a good view.",
     items: [
       {
@@ -367,7 +367,7 @@ window.SITE = {
       },
       {
         name: "Guitar",
-        text: "Three electrics, an acoustic, and a ukulele. I also played clarinet in high school band.",
+        text: "I own three electrics, an acoustic, and a ukulele. I also played clarinet in my high school band.",
       },
       {
         name: "Drone photography",
@@ -378,8 +378,8 @@ window.SITE = {
         photos: [],
       },
       {
-        name: "Also",
-        text: "I also play pickleball and chess.",
+        name: "Pickleball and chess",
+        text: "The two games I play whenever I get the chance.",
         wide: false,                       // NOTE: set to true once drone photos are added, so this card fills its row
       },
     ],
@@ -387,6 +387,6 @@ window.SITE = {
 
   /* ---------- Contact ---------- */
   contactLine:
-    "Looking for internships, research positions, and grad programs in robotics, " +
-    "mechanical design, and controls. Email is the fastest way to reach me.",
+    "I'm applying to M.S. programs in controls and mechanical systems and am open to research " +
+    "and internship roles in robotics and mechanical design. Email is the fastest way to reach me.",
 };

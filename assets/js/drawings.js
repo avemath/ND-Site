@@ -130,8 +130,8 @@
         '<circle class="ln" cx="288" cy="168" r="3"/><circle class="ln" cx="372" cy="168" r="3"/>' +
         '<path class="ln acc" d="M296 92 H364 V108 H296 V124 H364 V140 H296 V156 H364"/>' +
         '<text class="lbl" x="71" y="208" text-anchor="middle">LATHE</text>' +
-        '<text class="lbl" x="200" y="208" text-anchor="middle">MIG WELD</text>' +
-        '<text class="lbl" x="330" y="208" text-anchor="middle">CNC</text>',
+        '<text class="lbl" x="200" y="208" text-anchor="middle">MIG WELDER</text>' +
+        '<text class="lbl" x="330" y="208" text-anchor="middle">CNC ROUTER</text>',
       anchors: [],
     },
 

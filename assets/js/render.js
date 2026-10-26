@@ -161,7 +161,7 @@
     ab.appendChild(copy);
     ab.appendChild(el("dl", "facts mono", [
       ["School", S.school], ["Degree", "B.S. " + S.discipline], ["Minor", S.minor],
-      ["Graduating", S.graduation], ["Based in", S.location],
+      ["Graduating", S.graduation], ["Hometown", S.location],
     ].filter(function (f) { return f[1]; }).map(function (f) {
       return el("div", null, [el("dt", null, [f[0]]), el("dd", null, [f[1]])]);
     })));

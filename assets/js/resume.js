@@ -70,7 +70,7 @@
 
   /* projects (featured first) */
   var projects = [];
-  if (S.featured && !S.featured.draft) projects.push({ title: S.featured.title, role: S.featured.org, dates: S.featured.dates, points: S.featured.points, result: S.featured.result });
+  // The featured project is left out here: it's already covered under Experience (Integer).
   projects = projects.concat(live(S.projects));
   if (projects.length) {
     root.appendChild(section("Projects", projects.map(function (p) {
@@ -91,7 +91,7 @@
     }))]));
   }
 
-  root.appendChild(el("p", "foot", ["Updated " + (S.lastUpdated || "") + (S.siteUrl ? ". Full portfolio with project details: " + S.siteUrl.replace(/^https?:\/\//, "").replace(/\/$/, "") : "")]));
+  root.appendChild(el("p", "foot", ["Updated " + (S.lastUpdated || "") + (S.siteUrl ? ". Portfolio: " + S.siteUrl.replace(/^https?:\/\//, "").replace(/\/$/, "") : "")]));
 
   var btn = document.getElementById("print-btn");
   if (btn) btn.addEventListener("click", function () { window.print(); });
