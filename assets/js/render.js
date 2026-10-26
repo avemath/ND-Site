@@ -181,6 +181,7 @@
   hero.appendChild(name);
   if (S.tagline) hero.appendChild(el("p", "tagline", [S.tagline]));
   if (S.status) hero.appendChild(el("p", "status mono", [el("span", "rec", []), S.status]));
+  if (S.seeking) hero.appendChild(el("p", "status seeking mono", [S.seeking]));
   hero.appendChild(actionRow());
 
   /* ======================= numbers strip ======================= */

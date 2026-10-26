@@ -60,6 +60,8 @@ window.SITE = {
 
   // The line with the blinking blue dot. Set to "" to hide it.
   status: "Now: path planning for unmanned surface vessels at the LSU iCORE Lab",
+  // A second small line under it, saying what he's looking for. Set to "" to hide it.
+  seeking: "Applying to M.S. programs for Fall 2027. Open to research and internship roles.",
 
   /* ---------- Links ----------
      Leave a link as "" to hide it. */
