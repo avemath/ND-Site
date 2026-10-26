@@ -116,6 +116,7 @@ window.SITE = {
       "Designed the housing and mount in Fusion 360",
       "3D printed test and final parts in PLA and PETG",
       "Selected cables and connectors that connect and disconnect quickly while the vehicle is in the water",
+      "Printed and tested several prototype versions before the final housing",   // DRAFT: confirm with Nicholas
     ],
     result: "Tested in the water on the BlueROV2.",   // QUESTION: how did testing go, and did the quick-disconnects work?
     tools: ["Fusion 360", "PLA", "PETG", "BlueROV2"],
@@ -125,10 +126,10 @@ window.SITE = {
       { label: "Role", value: "Mechanical Engineering Intern" },
       { label: "CAD", value: "Fusion 360" },
       { label: "Materials", value: "PLA, PETG" },
-      { label: "Vehicle", value: "BlueROV2" },
+      { label: "Vehicle", value: "BlueROV2" },   // QUESTION: is this the BlueROV2 Heavy configuration?
     ],
     art: "rov",
-    callouts: ["Acoustic modem housing", "3D-printed mount", "Quick-disconnect cable"],
+    callouts: ["3D-printed modem housing", "Acoustic modem", "Cable into the vehicle"],
     video: "",
     image: "",
     imageAlt: "",

@@ -20,41 +20,58 @@
 
   window.DRAWINGS = {
 
-    /* BlueROV2 side view with the acoustic modem housing on top */
+    /* BlueROV2 side view (front is on the right, at the camera dome), with
+       Nicholas's 3D-printed modem housing sleeve on top. Drawn from his photos:
+       frame side plate with skids, foam floats with cap plates and lifting eyes,
+       ducted thrusters with cone tips, electronics tube, lights, sonar below. */
     rov: {
-      box: "28 14 352 190",
+      box: "26 12 350 202",
       svg:
-        '<path class="ln wave" d="' + waves(26, 30, 380) + '"/>' +
-        // frame side plate
-        '<rect class="ln" x="78" y="96" width="236" height="92" rx="14"/>' +
-        '<rect class="ln" x="96" y="160" width="40" height="16" rx="8"/>' +
-        '<rect class="ln" x="256" y="160" width="40" height="16" rx="8"/>' +
-        // vertical thrusters on top
-        '<rect class="ln solid" x="104" y="82" width="34" height="14" rx="3"/>' +
-        '<rect class="ln solid" x="254" y="82" width="34" height="14" rx="3"/>' +
-        '<path class="ln" d="M110 89 H132 M260 89 H282"/>' +
-        // electronics tube with clear dome and camera
-        '<rect class="ln solid" x="112" y="112" width="182" height="34" rx="4"/>' +
-        '<path class="ln" d="M294 112 a17 17 0 0 1 0 34"/>' +
-        '<circle class="ln" cx="302" cy="129" r="5"/>' +
-        '<path class="ln" d="M140 112 V146 M266 112 V146"/>' +
-        // battery tube
-        '<rect class="ln solid" x="152" y="150" width="104" height="20" rx="4"/>' +
-        // vectored thrusters, front and back
-        '<g transform="translate(330 176) rotate(-28)"><rect class="ln solid" x="-17" y="-10" width="34" height="20" rx="5"/><path class="ln" d="M-9 0 H9"/></g>' +
-        '<g transform="translate(62 176) rotate(28)"><rect class="ln solid" x="-17" y="-10" width="34" height="20" rx="5"/><path class="ln" d="M-9 0 H9"/></g>' +
-        // bubbles
-        '<circle class="ln" cx="352" cy="150" r="3"/><circle class="ln" cx="362" cy="136" r="2"/><circle class="ln" cx="368" cy="124" r="1.5"/>' +
-        // modem housing + mount (accent, his design)
-        '<rect class="ln acc solid" x="166" y="88" width="64" height="8" rx="2"/>' +
-        '<path class="ln acc" d="M176 88 L184 78 M220 88 L212 78"/>' +
-        '<rect class="ln acc solid" x="180" y="44" width="36" height="36" rx="6"/>' +
-        '<path class="ln acc" d="M180 56 H216 M180 68 H216"/>' +
-        '<path class="ln acc" d="M188 44 a10 8 0 0 1 20 0"/>' +
-        // cable with quick-disconnect
-        '<path class="ln acc" d="M216 62 C 248 62, 262 82, 262 112"/>' +
-        '<rect class="fillr" x="243" y="68" width="10" height="7" rx="1.5" transform="rotate(35 248 71.5)"/>',
-      anchors: [[198, 52], [198, 92], [250, 74]],
+        '<path class="ln wave" d="' + waves(24, 30, 372) + '"/>' +
+        // frame side plate: big cutout, and a bottom rail with bolt holes
+        '<path class="ln" d="M66 127 H334 V178 Q334 198 314 198 H86 Q66 198 66 178 Z"/>' +
+        '<path class="ln" d="M92 160 Q92 140 112 140 H288 Q308 140 308 160 V166 Q308 184 290 184 H110 Q92 184 92 166 Z"/>' +
+        '<path class="ln" d="M84 191 h.1 M108 191 h.1 M132 191 h.1 M156 191 h.1 M180 191 h.1 M204 191 h.1 M228 191 h.1 M252 191 h.1 M276 191 h.1 M300 191 h.1"/>' +
+        // bottom skids with windows, and the sonar between them
+        '<rect class="ln solid" x="92" y="198" width="100" height="12" rx="2"/>' +
+        '<path class="ln" d="M102 202 h20 v4 h-20 z M132 202 h20 v4 h-20 z M162 202 h20 v4 h-20 z"/>' +
+        '<rect class="ln solid" x="254" y="198" width="64" height="12" rx="2"/>' +
+        '<path class="ln" d="M264 202 h18 v4 h-18 z M292 202 h18 v4 h-18 z"/>' +
+        '<rect class="ln solid" x="204" y="192" width="38" height="12" rx="5"/>' +
+        // electronics tube with the clear camera dome at the front
+        '<rect class="ln solid" x="116" y="153" width="164" height="20" rx="3"/>' +
+        '<path class="ln" d="M134 153 V173 M262 153 V173"/>' +
+        '<path class="ln" d="M280 153 a12 10 0 0 1 0 20"/>' +
+        // thruster shelf running past both ends, with ducted thrusters and cone tips
+        '<rect class="ln solid" x="34" y="146" width="332" height="6" rx="2"/>' +
+        '<rect class="ln solid" x="38" y="130" width="44" height="16" rx="3"/>' +
+        '<path class="ln solid" d="M50 130 L60 113 L70 130 Z"/>' +
+        '<rect class="ln solid" x="318" y="130" width="44" height="16" rx="3"/>' +
+        '<path class="ln solid" d="M330 130 L340 113 L350 130 Z"/>' +
+        // lights at the front corners
+        '<circle class="ln solid" cx="326" cy="108" r="4"/>' +
+        '<circle class="ln solid" cx="334" cy="186" r="4"/>' +
+        // foam float, its black cap plate, and lifting eye bolts
+        '<rect class="ln solid" x="84" y="101" width="232" height="26" rx="3"/>' +
+        '<rect class="ln solid" x="78" y="96" width="244" height="5" rx="1.5"/>' +
+        '<path class="ln" d="M98 96 V91 M302 96 V91"/>' +
+        '<circle class="ln" cx="98" cy="86" r="5"/><circle class="ln" cx="302" cy="86" r="5"/>' +
+        // bubbles off the front
+        '<circle class="ln" cx="368" cy="104" r="3"/><circle class="ln" cx="364" cy="90" r="2"/><circle class="ln" cx="368" cy="79" r="1.5"/>' +
+        // cable from the rear end cap down into the vehicle
+        '<path class="ln" d="M138 58 C 104 54, 98 82, 120 96"/>' +
+        '<path class="ln" d="M138 70 C 116 72, 114 86, 130 96"/>' +
+        // acoustic modem: black cylinder with bolted end caps (not his part)
+        '<rect class="ln solid" x="136" y="48" width="16" height="38" rx="3"/>' +
+        '<rect class="ln solid" x="248" y="41" width="22" height="52" rx="4"/>' +
+        '<circle class="ln" cx="259" cy="47" r="1.2"/><circle class="ln" cx="259" cy="60" r="1.2"/>' +
+        '<circle class="ln" cx="259" cy="74" r="1.2"/><circle class="ln" cx="259" cy="87" r="1.2"/>' +
+        // modem housing sleeve and saddle (accent, his design)
+        '<path class="ln acc solid" d="M162 89 L154 96 H246 L238 89 Z"/>' +
+        '<rect class="ln acc solid" x="150" y="44" width="100" height="46" rx="7"/>' +
+        '<path class="ln acc" d="M166 54 V66 M178 54 V66 M190 54 V66"/>' +
+        '<path class="ln acc" d="M150 80 H250"/>',
+      anchors: [[218, 64], [259, 67], [113, 62]],
     },
 
     /* 5-DOF arm doing a mock weld */
