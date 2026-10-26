@@ -25,6 +25,8 @@
     list = (list || []).filter(function (t) { return !unfinished(t); });
     return list.length ? el("ul", "pts", list.map(function (t) { return el("li", null, [t]); })) : null;
   }
+  // "Mar 2026 to now" reads "Mar 2026 to Present" on the resume (content.js keeps "now" for the timeline)
+  function when(dates) { return String(dates || "").replace(/\bnow$/i, "Present"); }
   function section(title, kids) { return el("section", "sec", [el("h2", "sec-h", [title])].concat(kids)); }
   function row(left, right, sub) {
     return el("div", "row", [el("div", "row-main", [left, sub || null]), el("div", "row-date", [right])]);
@@ -70,7 +72,7 @@
   if (jobs.length) {
     root.appendChild(section("Experience", jobs.map(function (j) {
       return el("article", "item", [
-        row(el("h3", null, [j.role]), j.dates, el("p", "sub", [[j.org, j.place].filter(Boolean).join(", ")])),
+        row(el("h3", null, [j.role]), when(j.dates), el("p", "sub", [[j.org, j.place].filter(Boolean).join(", ")])),
         j.compact ? null : bullets(j.resumePoints || j.points),
       ]);
     })));
@@ -83,7 +85,7 @@
       var pts = (p.points || []).slice();
       if (p.result && !unfinished(p.result)) pts.push(p.result);
       return el("article", "item", [
-        row(el("h3", null, [p.title]), p.dates, p.role ? el("p", "sub", [p.role]) : null),
+        row(el("h3", null, [p.title]), when(p.dates), p.role ? el("p", "sub", [p.role]) : null),
         bullets(pts),
       ]);
     })));
