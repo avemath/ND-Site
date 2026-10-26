@@ -855,3 +855,6 @@ body.menu-open .bar-sec { visibility: hidden; }
   .card::after, .feature::after, .cap::after, .hob-card::after { inset: 10px; transition: opacity .12s; }
 }
 @media print { .card::after, .feature::after, .cap::after, .hob-card::after { display: none; } }
+
+/* ---------- very wide screens: a little more room for the content ---------- */
+@media (min-width: 1600px) { :root { --max: 1400px; } }
