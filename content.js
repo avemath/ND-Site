@@ -43,6 +43,9 @@ window.SITE = {
   // NOTE: resume says Mount Prospect, IL (hometown). Change to "Baton Rouge, LA" if he prefers.
   location: "Mount Prospect, IL",
   lastUpdated: "October 2026",             // Change this whenever the site is updated
+  // Shown in the drawing title block in the footer. Bump the letter (C, D, E...)
+  // whenever the site gets a real update, like a revision on an engineering drawing.
+  revision: "C",
   // The live address. Update this if the site moves to his own GitHub account.
   siteUrl: "https://avemath.github.io/ND-Site/",
 

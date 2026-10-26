@@ -5,6 +5,10 @@ Plain HTML, CSS, and JavaScript. No build step, nothing to install.
 
 Live: https://avemath.github.io/ND-Site/ (resume page: `resume.html`)
 
+Engineering touches: the footer is a drawing title block, a gear in the top bar
+turns as you scroll, and on a computer the hero cursor becomes a CAD crosshair
+that snaps to the dot grid and shows X/Y in inches.
+
 The design is modeled on nothing.tech: dot-matrix type (the free Google font
 Doto), alternating black, light grey (#F4F4F4), and red panes, a full-screen
 menu, an interactive dot grid, line drawings of each project that sketch
@@ -38,6 +42,8 @@ Open `content.js` and follow the notes at the top. Short version:
 - Projects show, in order of priority: a `video`, then an `image`, then the line drawing (`art`).
 - `result` on a project adds a highlighted outcome line. Leave it `""` until there's a real one.
 - Experience items can have `resumePoints`: longer bullets used only on the resume page.
+- `revision` (the REV box in the footer's title block): bump the letter when the site gets a real update.
+- Also bump the "8 yrs" SolidWorks number each year (he started in 2018).
 - If the page goes blank after an edit, look for a missing quote or comma.
 
 You can edit right on github.com: open `content.js`, click the pencil icon,

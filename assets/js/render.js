@@ -605,9 +605,27 @@
   }
   c.appendChild(ca);
 
-  slot("footer").appendChild(el("p", null, [
-    "© " + new Date().getFullYear() + " " + fullName + "   /   Updated " + (S.lastUpdated || "")
-  ]));
+  // The footer is laid out like the title block in the corner of an engineering drawing.
+  (function () {
+    var initials = (S.firstName || "").charAt(0) + ". " + (S.lastName || "");
+    function cell(label, value, cls) {
+      return el("div", "tb-cell" + (cls ? " " + cls : ""), [el("span", "tb-label", [label]), el("span", "tb-value", [value])]);
+    }
+    var tb = el("div", "tblock mono", [
+      cell("Title", fullName + ", portfolio and resume", "tb-title"),
+      cell("Engineer", initials),
+      cell("Discipline", S.discipline || ""),
+      cell("Date", S.lastUpdated || ""),
+      cell("Scale", "1:1"),
+      cell("Units", "in."),
+      cell("Sheet", "1 of 1"),
+      cell("Rev", S.revision || "A", "tb-rev"),
+    ]);
+    tb.setAttribute("role", "group");
+    tb.setAttribute("aria-label", "Site details");
+    slot("footer").appendChild(tb);
+    slot("footer").appendChild(el("p", "tb-copy", ["\u00A9 " + new Date().getFullYear() + " " + fullName]));
+  })();
 
   /* ======================= scrambling dot text ======================= */
 
@@ -722,6 +740,44 @@
     }
     bar.setAttribute("data-on", kind);
     if (themeMeta) themeMeta.content = THEME[kind] || THEME.dark;
+    turnGear();
+  }
+
+  /* ---------- scroll gear: turns as you scroll, teeth fill red toward the bottom ---------- */
+  var gearHost = document.querySelector(".gear"), gearRot = null, gearTeeth = [];
+  if (gearHost) {
+    var NS = "http://www.w3.org/2000/svg", TEETH = 12;
+    var svgG = document.createElementNS(NS, "svg");
+    svgG.setAttribute("viewBox", "-20 -20 40 40");
+    svgG.setAttribute("focusable", "false");
+    gearRot = document.createElementNS(NS, "g");
+    for (var ti = 0; ti < TEETH; ti++) {
+      var tooth = document.createElementNS(NS, "rect");
+      tooth.setAttribute("x", "-2.6"); tooth.setAttribute("y", "-18"); tooth.setAttribute("width", "5.2");
+      tooth.setAttribute("height", "6.5"); tooth.setAttribute("rx", "1");
+      tooth.setAttribute("transform", "rotate(" + (ti * 360 / TEETH) + ")");
+      tooth.setAttribute("class", "gear-tooth");
+      gearRot.appendChild(tooth);
+      gearTeeth.push(tooth);
+    }
+    var body = document.createElementNS(NS, "circle");
+    body.setAttribute("r", "12.5"); body.setAttribute("class", "gear-body");
+    var hub = document.createElementNS(NS, "circle");
+    hub.setAttribute("r", "4"); hub.setAttribute("class", "gear-hub");
+    var keyway = document.createElementNS(NS, "rect");
+    keyway.setAttribute("x", "-1.2"); keyway.setAttribute("y", "-6.4"); keyway.setAttribute("width", "2.4"); keyway.setAttribute("height", "3");
+    keyway.setAttribute("class", "gear-key");
+    gearRot.appendChild(body); gearRot.appendChild(hub); gearRot.appendChild(keyway);
+    svgG.appendChild(gearRot);
+    gearHost.appendChild(svgG);
+  }
+  function turnGear() {
+    if (!gearRot) return;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    gearRot.setAttribute("transform", reduceMotion ? "" : "rotate(" + (p * 720).toFixed(1) + ")");
+    var lit = Math.round(p * gearTeeth.length);
+    gearTeeth.forEach(function (t, i) { t.classList.toggle("lit", i < lit); });
   }
   window.addEventListener("scroll", function () { if (!barTick) barTick = requestAnimationFrame(updateBar); }, { passive: true });
   window.addEventListener("resize", updateBar);
@@ -807,6 +863,39 @@
   }
 
   document.querySelectorAll(".dotfield").forEach(dotfield);
+
+  /* ---------- CAD-style crosshair in the hero ----------
+     With a mouse, the cursor becomes a crosshair that snaps to the dot grid,
+     with live X/Y coordinates in inches from the hero's center (Y up is
+     positive, like a sketch in SolidWorks). Touch screens skip this. */
+  (function () {
+    var heroEl = document.querySelector(".hero");
+    if (!heroEl || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    var hl = el("span", "cad-h", []), vl = el("span", "cad-v", []), box = el("span", "cad-box", []);
+    var read = el("p", "cad-read mono", []);
+    [hl, vl, box, read].forEach(function (n) { n.setAttribute("aria-hidden", "true"); heroEl.appendChild(n); });
+    heroEl.classList.add("cad-on");
+    var raf = 0, ex = 0, ey = 0;
+    function fmt(v) { return (v >= 0 ? "+" : "\u2212") + Math.abs(v).toFixed(3); }
+    function draw() {
+      raf = 0;
+      var w = heroEl.clientWidth, h = heroEl.clientHeight, gap = w < 600 ? 16 : 20;
+      var ox = (w % gap) / 2, oy = (h % gap) / 2;
+      var sx = ox + Math.round((ex - ox) / gap) * gap, sy = oy + Math.round((ey - oy) / gap) * gap;
+      hl.style.transform = "translateY(" + sy + "px)";
+      vl.style.transform = "translateX(" + sx + "px)";
+      box.style.transform = "translate(" + sx + "px," + sy + "px)";
+      read.textContent = "X " + fmt((sx - w / 2) / 96) + "   Y " + fmt((h / 2 - sy) / 96) + "   IN   SNAP: GRID";
+    }
+    heroEl.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      var r = heroEl.getBoundingClientRect();
+      ex = e.clientX - r.left; ey = e.clientY - r.top;
+      heroEl.classList.add("cad-active");
+      if (!raf) raf = requestAnimationFrame(draw);
+    });
+    heroEl.addEventListener("pointerleave", function () { heroEl.classList.remove("cad-active"); });
+  })();
 
   // Hero name decodes on load.
   setTimeout(function () {
