@@ -4,7 +4,7 @@
    Source: Nicholas_Domke_Resume.pdf (Oct 2026). Update both together.
 
    HOW TO EDIT
-   - Anything in [square brackets] is a placeholder. It shows in red with a
+   - Anything in [square brackets] is a placeholder. It shows in blue with a
      dashed underline so it's easy to spot. Replace it and delete the brackets.
    - draft: true hides a whole item from the live site. Use it while an
      item still has placeholders, then delete the line when it's ready.
@@ -55,7 +55,7 @@ window.SITE = {
     "I design and build robots, from the CAD model to the finished part, " +
     "including an acoustic modem housing for an underwater robot and a 3D-printed arm that calibrates itself.",
 
-  // The line with the blinking red dot. Set to "" to hide it.
+  // The line with the blinking blue dot. Set to "" to hide it.
   status: "Now: path planning for unmanned surface vessels at the LSU iCORE Lab",
 
   /* ---------- Links ----------
@@ -75,7 +75,7 @@ window.SITE = {
   gradIntent: "Applying to M.S. programs in controls and mechanical systems",   // QUESTION: which entry term? (Fall 2027?)
 
   /* ---------- Numbers strip (big dot-matrix numbers under the hero) ----------
-     "pre" is small text above the number, "unit" is small red text after it.
+     "pre" is small text above the number, "unit" is small blue text after it.
      Only real numbers from his resume. */
   numbers: [
     { pre: "",      value: "8",     unit: "yrs", label: "using SolidWorks" },   // NOTE: bump this each year (started 2018)
@@ -313,7 +313,7 @@ window.SITE = {
     next: "M.S. (planned)",
   },
 
-  /* ---------- Coursework (scrolls across a red band) ---------- */
+  /* ---------- Coursework (scrolls across a blue band) ---------- */
   coursework: [
     "System Dynamics", "Kinematics", "Industrial Robotics", "Instrumentation and Measurements",
     "Machine Design", "Intro to Robotics", "Simulation Methods", "Thermodynamics", "Heat Transfer",
@@ -367,7 +367,7 @@ window.SITE = {
   ],
 
   /* ---------- Off the clock (hobbies) ----------
-     Nicholas said yes to this being public (Oct 2026). Shows on a red panel
+     Nicholas said yes to this being public (Oct 2026). Shows on a blue panel
      above "Let's talk", with its own menu link. Delete an item to remove it.
      DRAFT wording: have him check it reads like him. */
   hobbies: {

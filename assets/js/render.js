@@ -824,7 +824,7 @@
   var bar = document.querySelector(".bar");
   var themeMeta = document.querySelector('meta[name="theme-color"]');
   var panes = document.querySelectorAll("[data-pane]");
-  var THEME = { dark: "#000000", light: "#F4F4F4", white: "#FFFFFF", red: "#D71921" };
+  var THEME = { dark: "#000000", light: "#F4F4F4", white: "#FFFFFF", blue: "#1450A8" };
   var barTick = 0;
   /* ---------- current section name in the top bar, like a sheet label ---------- */
   var secLabel = document.querySelector(".bar-sec"), secShown = "";
@@ -863,7 +863,7 @@
     updateSec();
   }
 
-  /* ---------- scroll gear: turns as you scroll, teeth fill red toward the bottom ---------- */
+  /* ---------- scroll gear: turns as you scroll, teeth fill blue toward the bottom ---------- */
   var gearHost = document.querySelector(".gear"), gearRot = null, gearTeeth = [];
   if (gearHost) {
     var NS = "http://www.w3.org/2000/svg", TEETH = 12;
@@ -935,7 +935,7 @@
       var lit = {};
       blinks = blinks.filter(function (b) { return now - b.t < b.life; });
       blinks.forEach(function (b) {
-        lit[b.i] = { a: Math.sin(((now - b.t) / b.life) * Math.PI), red: b.red };
+        lit[b.i] = { a: Math.sin(((now - b.t) / b.life) * Math.PI), accent: b.accent };
       });
       for (var r = 0; r < rows; r++) {
         for (var c = 0; c < cols; c++) {
@@ -944,7 +944,7 @@
           var near = d < R ? Math.pow(1 - d / R, 2) : 0;
           var b = lit[r * cols + c];
           var a = Math.min(1, baseA + near * 0.75 + (b ? b.a * 0.8 : 0));
-          ctx.fillStyle = b && b.red ? "rgba(215,25,33," + a + ")" : "rgba(" + rgb + "," + a + ")";
+          ctx.fillStyle = b && b.accent ? "rgba(122,167,255," + a + ")" : "rgba(" + rgb + "," + a + ")";
           ctx.beginPath(); ctx.arc(x, y, 1 + near * 1.1 + (b ? b.a * 0.8 : 0), 0, 6.2832); ctx.fill();
         }
       }
@@ -955,7 +955,7 @@
       if (!visible || document.hidden || reduceMotion) return;
       if (now - lastSpawn > 140) {
         lastSpawn = now;
-        blinks.push({ i: (Math.random() * cols * rows) | 0, t: now, life: 900 + Math.random() * 900, red: Math.random() < 0.06 });
+        blinks.push({ i: (Math.random() * cols * rows) | 0, t: now, life: 900 + Math.random() * 900, accent: Math.random() < 0.06 });
       }
       draw(now);
       raf = requestAnimationFrame(loop);

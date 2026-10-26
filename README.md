@@ -12,7 +12,7 @@ that snaps to the dot grid and shows X/Y in inches.
 Each row of the timeline in Experience links to its project card or job.
 
 The design is modeled on nothing.tech: dot-matrix type (the free Google font
-Doto), alternating light grey (#F4F4F4), white, and red panes between a black hero and contact section, a soft graphite featured project card, a full-screen
+Doto), alternating light grey (#F4F4F4), white, and blueprint blue (#1450A8) panes between a black hero and contact section, a soft graphite featured project card, a full-screen
 menu, an interactive dot grid, line drawings of each project that sketch
 themselves in, and text that "decodes" as it appears. Animations turn off
 automatically for visitors who have reduced motion turned on.
@@ -37,7 +37,7 @@ automatically for visitors who have reduced motion turned on.
 
 Open `content.js` and follow the notes at the top. Short version:
 
-- Anything in `[square brackets]` is a placeholder. It shows on the site in red
+- Anything in `[square brackets]` is a placeholder. It shows on the site in blue
   with a dashed underline so you can find it. Replace it and delete the brackets.
 - `draft: true` on an item hides it from the live site and the resume page until it's ready.
 - Set a field to `""` to hide it.

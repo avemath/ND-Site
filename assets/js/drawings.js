@@ -5,8 +5,8 @@
 
    Classes used in the markup:
      ln   = line that draws itself in when the card scrolls into view
-     acc  = red accent (the part Nicholas designed or the key detail)
-     fillr = solid red, solid = filled with the card background (hides lines behind)
+     acc  = blue accent (the part Nicholas designed or the key detail)
+     fillr = solid accent blue, solid = filled with the card background (hides lines behind)
      cl   = thin dashed construction / center line
      lbl  = small mono label */
 (function () {
@@ -45,7 +45,7 @@
         '<g transform="translate(62 176) rotate(28)"><rect class="ln solid" x="-17" y="-10" width="34" height="20" rx="5"/><path class="ln" d="M-9 0 H9"/></g>' +
         // bubbles
         '<circle class="ln" cx="352" cy="150" r="3"/><circle class="ln" cx="362" cy="136" r="2"/><circle class="ln" cx="368" cy="124" r="1.5"/>' +
-        // modem housing + mount (red, his design)
+        // modem housing + mount (accent, his design)
         '<rect class="ln acc solid" x="166" y="88" width="64" height="8" rx="2"/>' +
         '<path class="ln acc" d="M176 88 L184 78 M220 88 L212 78"/>' +
         '<rect class="ln acc solid" x="180" y="44" width="36" height="36" rx="6"/>' +
@@ -83,7 +83,7 @@
         '<circle class="ln solid" cx="108" cy="140" r="12"/><circle class="ln" cx="108" cy="140" r="3"/>' +
         '<circle class="ln solid" cx="180" cy="72" r="11"/><circle class="ln" cx="180" cy="72" r="3"/>' +
         '<circle class="ln solid" cx="268" cy="98" r="8"/>' +
-        // limit switches (red squares at the joints)
+        // limit switches (accent squares at the joints)
         '<rect class="fillr" x="118" y="122" width="7" height="7" rx="1"/>' +
         '<rect class="fillr" x="188" y="56" width="7" height="7" rx="1"/>' +
         // end effector: torch
@@ -140,7 +140,7 @@
       box: "6 54 388 148",
       svg:
         '<path class="ln" d="M12 192 H388"/>' +
-        // ramp (red: the accessibility feature)
+        // ramp (accent: the accessibility feature)
         '<path class="ln acc" style="stroke-width:3" d="M28 190 L112 132"/>' +
         '<path class="ln acc" d="M28 168 L112 110 M40 182 V160 M70 161 V139 M100 140 V118"/>' +
         // tower
@@ -167,7 +167,7 @@
         // elevator tower
         '<path class="ln" d="M150 128 V30 M172 128 V30 M146 30 H176 M150 80 L172 56"/>' +
         '<circle class="ln" cx="161" cy="120" r="6"/>' +
-        // carriage (red) and arm with claw
+        // carriage (accent) and arm with claw
         '<rect class="ln acc solid" x="140" y="48" width="42" height="24" rx="3"/>' +
         '<path class="ln" d="M182 60 H236"/>' +
         '<path class="ln acc" d="M234 50 H258 L266 58 M234 82 H258 L266 74"/>' +
