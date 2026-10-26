@@ -18,7 +18,7 @@ I based the design on nothing.tech:
 - The page has a black top section (the hero) and a black contact section. In
   between, the sections switch between light grey (#F4F4F4), white, and blueprint
   blue (#1450A8). The blue sections are drawn like blueprint paper, with a grid.
-- The featured project sits on a soft dark grey card.
+- The featured project gets a big card at the top of the Projects section.
 - The menu opens full screen.
 - The top section has a grid of dots that reacts to the mouse.
 - Each project has a line drawing that sketches itself in as you scroll to it.

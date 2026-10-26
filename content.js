@@ -103,7 +103,7 @@ window.SITE = {
       "After graduation, I plan to start an M.S. in controls and mechanical systems in Fall 2027.",
   ],
 
-  /* ---------- Featured project (big dark panel) ----------
+  /* ---------- Featured project (the big card at the top of Projects) ----------
      MEDIA, in order of priority (the first one that's filled in is shown):
        video:  a short muted loop, e.g. "assets/video/rov-test.mp4" (keep it under ~8 MB)
        image:  a photo, e.g. "assets/img/rov.jpg" (also fill in imageAlt)
