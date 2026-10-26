@@ -895,7 +895,7 @@
   var bar = document.querySelector(".bar");
   var themeMeta = document.querySelector('meta[name="theme-color"]');
   var panes = document.querySelectorAll("[data-pane]");
-  var THEME = { dark: "#000000", light: "#F4F4F4", white: "#FFFFFF", blue: "#1450A8" };
+  var THEME = { dark: "#000000", light: "#EFF0F2", white: "#E4E6E9", blue: "#1450A8" };
   var barTick = 0;
   /* ---------- current section name in the top bar, like a sheet label ---------- */
   var secLabel = document.querySelector(".bar-sec"), secShown = "";
