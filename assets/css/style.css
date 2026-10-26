@@ -412,8 +412,8 @@ button.xp-head:hover .xp-role { text-decoration: underline; text-decoration-colo
 
 /* ---------- contact ---------- */
 .contact {
-  min-height: 72svh; display: grid; place-items: center;
-  padding: 100px var(--gutter);
+  display: grid; place-items: center;
+  padding: clamp(72px, 7vw, 96px) var(--gutter);   /* sized by its content, so less black at the bottom */
   text-align: center; overflow: hidden;
 }
 .contact-inner { position: relative; z-index: 1; }
