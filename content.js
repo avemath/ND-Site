@@ -193,7 +193,7 @@ window.SITE = {
       timelineLabel: "Maze robot",
       role: "Intro to Robotics",
       dates: "Oct 2025 to Dec 2025",
-      hook: "An autonomous robot that finds its own way through a maze.",
+      hook: "An autonomous robot built to navigate a maze using a camera.",
       points: [
         "Designed the mobile base and camera mount in SolidWorks, then 3D printed them",
         "Worked with a second mechanical engineering student and a team of computer science students",
