@@ -60,6 +60,10 @@
     return a;
   }
 
+  function slug(str) {
+    return String(str || "").toLowerCase().replace(/\[[^\]]*\]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
   function slot(name) { return document.querySelector('[data-slot="' + name + '"]'); }
 
   function live(list) { return (list || []).filter(function (x) { return x && !x.draft; }); }
@@ -307,6 +311,15 @@
 
   /* ======================= featured ======================= */
 
+  // A small spec table, like the parts list on a drawing.
+  function specTable(rows) {
+    var dl = el("dl", "feat-spec mono", rows.filter(function (r) { return r && r.value; }).map(function (r) {
+      return el("div", null, [el("dt", null, [r.label]), el("dd", null, [r.value])]);
+    }));
+    dl.setAttribute("aria-label", "Project specs");
+    return dl;
+  }
+
   var F = S.featured;
   var fslot = slot("featured");
   if (F && !F.draft) {
@@ -316,7 +329,7 @@
       F.hook ? el("p", "feat-hook", [F.hook]) : null,
       F.points && F.points.length ? bullets(F.points) : null,
       F.result ? el("p", "feat-result", [F.result]) : null,
-      F.tools && F.tools.length ? pills(F.tools) : null,
+      F.specs && F.specs.length ? specTable(F.specs) : F.tools && F.tools.length ? pills(F.tools) : null,
     ]);
     fslot.appendChild(el("article", "feature pane-dark", [media(F, "feat-media art-box"), info]));
   }
@@ -339,7 +352,7 @@
           p.link ? link(p.link, "View project", "pill pill-ghost card-link") : null,
         ]),
       ]);
-      card.id = "project-" + String(p.title).toLowerCase().replace(/\[[^\]]*\]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      card.id = "project-" + slug(p.title);
       cards.appendChild(card);
     });
   } else hide(document.getElementById("projects"));
@@ -362,17 +375,28 @@
     return a == null || b == null ? null : [a, b, /now/i.test(parts[1] || "")];
   }
 
+  // Opens a closed job before jumping to it, then briefly outlines the target.
+  function jumpTo(target) {
+    var btn = target.querySelector("button.xp-head");
+    if (btn && !target.classList.contains("open")) btn.click();
+    if (reduceMotion) return;
+    target.classList.remove("flash");
+    void target.offsetWidth;   // restart the animation if clicked twice
+    target.classList.add("flash");
+    setTimeout(function () { target.classList.remove("flash"); }, 1700);
+  }
+
   function buildTimeline() {
     var T = S.timeline;
     if (!T) return null;
     var rowsData = [];
     jobs.forEach(function (j) {
       var r = range(j.dates);
-      if (r) rowsData.push({ label: j.timelineLabel || (j.compact ? j.role : j.org), kind: "work", r: r, faint: !!j.compact, dates: j.dates });
+      if (r) rowsData.push({ label: j.timelineLabel || (j.compact ? j.role : j.org), kind: "work", r: r, faint: !!j.compact, dates: j.dates, target: j._id });
     });
     live(S.projects).forEach(function (p) {
       var r = range(p.dates);
-      if (r) rowsData.push({ label: p.timelineLabel || p.title, kind: "project", r: r, dates: p.dates });
+      if (r) rowsData.push({ label: p.timelineLabel || p.title, kind: "project", r: r, dates: p.dates, target: "project-" + slug(p.title) });
     });
     if (S.featured && !S.featured.draft) {
       // the featured project overlaps the Integer job; it's already shown there
@@ -412,7 +436,17 @@
       var bar = el("span", "tl-bar " + d.kind + (d.r[2] ? " current" : "") + (d.faint ? " faint" : ""));
       bar.style.left = pct(d.r[0]);
       bar.style.width = "calc(" + pct(d.r[1]) + " - " + pct(d.r[0]) + ")";
-      grid.appendChild(el("div", "tl-row", [el("span", "tl-label", [d.label, el("span", "sr-only", [", " + d.dates])]), el("span", "tl-track", [bar])]));
+      var kids = [el("span", "tl-label", [d.label, el("span", "sr-only", [", " + d.dates])]), el("span", "tl-track", [bar])];
+      if (d.target) {
+        // each row is a link to its project card or job (looked up on click: jobs aren't on the page yet)
+        var row = el("a", "tl-row tl-link", kids);
+        row.href = "#" + d.target;
+        row.addEventListener("click", function () {
+          var t = document.getElementById(d.target);
+          if (t) jumpTo(t);
+        });
+        grid.appendChild(row);
+      } else grid.appendChild(el("div", "tl-row", kids));
     });
     if (T.next && gradAt) {
       var nb = el("span", "tl-bar next");
@@ -435,6 +469,7 @@
     grid.appendChild(nowMark);
     wrap.appendChild(el("figcaption", "tl-key mono", [
       el("span", "k work", ["Work and research"]), el("span", "k project", ["Projects"]), el("span", "k current", ["Ongoing"]),
+      el("span", "tl-hint", ["Select a row to jump to it"]),
     ]));
     wrap.appendChild(axis);
     wrap.appendChild(grid);
@@ -453,6 +488,7 @@
           el("span", "xp-org", [[job.org, job.place].filter(Boolean).join(", ")])]),
       ];
       var item = el("li", "xp-item" + (job.compact ? " compact" : ""));
+      item.id = job._id = "job-" + slug(job.org || job.role);
       if (job.compact || !(job.points && job.points.length)) {
         item.appendChild(el("div", "xp-head", head));
       } else {

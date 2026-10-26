@@ -9,6 +9,8 @@ Engineering touches: the footer is a drawing title block, a gear in the top bar
 turns as you scroll, and on a computer the hero cursor becomes a CAD crosshair
 that snaps to the dot grid and shows X/Y in inches.
 
+Each row of the timeline in Experience links to its project card or job.
+
 The design is modeled on nothing.tech: dot-matrix type (the free Google font
 Doto), alternating light grey (#F4F4F4), white, and red panes between a black hero and contact section, a soft graphite featured project card, a full-screen
 menu, an interactive dot grid, line drawings of each project that sketch
@@ -41,6 +43,7 @@ Open `content.js` and follow the notes at the top. Short version:
 - Set a field to `""` to hide it.
 - Projects show, in order of priority: a `video`, then an `image`, then the line drawing (`art`).
 - `result` on a project adds a highlighted outcome line. Leave it `""` until there's a real one.
+- `specs` on the featured project is the small spec table (Role, CAD, Materials...). When it's filled in it shows instead of the tool pills.
 - Experience items can have `resumePoints`: longer bullets used only on the resume page.
 - `revision` (the REV box in the footer's title block): bump the letter when the site gets a real update.
 - Each year, bump the "8 yrs" SolidWorks number and the "eight years" in the About text (he started in 2018).

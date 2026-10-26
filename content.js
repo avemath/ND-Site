@@ -117,6 +117,14 @@ window.SITE = {
     ],
     result: "",                            // QUESTION: what happened in water testing? One sentence.
     tools: ["Fusion 360", "PLA", "PETG", "BlueROV2"],
+    // Spec table on the card, like the parts list on a drawing. When filled in,
+    // it shows instead of the tool pills. Delete a row to drop it.
+    specs: [
+      { label: "Role", value: "Mechanical Engineering Intern" },
+      { label: "CAD", value: "Fusion 360" },
+      { label: "Materials", value: "PLA, PETG" },
+      { label: "Vehicle", value: "BlueROV2" },
+    ],
     art: "rov",
     callouts: ["Acoustic modem housing", "3D-printed mount", "Quick-disconnect cable"],
     video: "",

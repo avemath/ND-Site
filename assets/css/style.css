@@ -726,3 +726,26 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
 .rise.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none; transition: none; } }
 @media print { .rise { opacity: 1 !important; transform: none !important; } }
+
+/* ---------- featured spec table (parts-list style) ---------- */
+.feat-spec { margin: auto 0 0; font-size: 0.8rem; border-top: 1px solid var(--fg-3); }
+.feat-spec div { display: grid; grid-template-columns: 7em minmax(0, 1fr); gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--ln); }
+.feat-spec dt { color: var(--fg-3); }
+.feat-spec dd { margin: 0; }
+
+/* ---------- timeline rows link to their card or job ---------- */
+.tl-link { color: inherit; text-decoration: none; }
+.tl-link .tl-label { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: text-decoration-color .2s; }
+.tl-link:hover .tl-label, .tl-link:focus-visible .tl-label { text-decoration-color: var(--red); }
+.tl-link .tl-bar { transition: background-color .2s, border-color .2s; }
+.tl-link:hover .tl-bar.work, .tl-link:focus-visible .tl-bar.work { background: var(--red); opacity: 1; }
+.tl-link:hover .tl-bar.project, .tl-link:focus-visible .tl-bar.project { border-color: var(--red); background: rgba(215, 25, 33, .12); }
+.tl-link:focus-visible { outline-offset: 0; border-radius: 0; }
+.tl-hint { margin-left: auto; }
+@media (hover: none) { .tl-hint { display: none; } }
+.card, .xp-item { scroll-margin-top: 88px; }
+/* brief outline on the block a timeline row jumped to */
+.flash { animation: flash 1.6s var(--ease); }
+.xp-item.flash { animation-name: flash-row; }
+@keyframes flash { 0%, 35% { box-shadow: 0 0 0 2px var(--red); } 100% { box-shadow: 0 0 0 2px transparent; } }
+@keyframes flash-row { 0%, 35% { background: rgba(215, 25, 33, .08); } 100% { background: transparent; } }
