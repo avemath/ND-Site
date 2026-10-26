@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- GitHub Pages shows this page for any address on the site that doesn't exist,
+       at any depth, so every link below starts from the base address. If the site
+       moves to Nicholas's GitHub, update this line (the README lists every spot). -->
+  <base href="/ND-Site/">
+  <title>Page not found</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Doto:wght,ROND@700..900,100&family=Space+Grotesk:wght@300..600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>.nf-code { font-size: clamp(6rem, 30vw, 14rem); }</style>
+</head>
+<body>
+  <main class="pane pane-dark hero" id="main">
+    <div class="hero-inner">
+      <p class="mono kicker" id="nf-name"></p>
+      <h1 class="hero-name dot nf-code">404</h1>
+      <p class="tagline">This page doesn't exist. It may have moved.</p>
+      <div class="actions">
+        <a class="pill pill-solid" href="./">Back to the portfolio</a>
+        <a class="pill pill-ghost" href="resume.html">Resume</a>
+      </div>
+    </div>
+  </main>
+  <script src="content.js"></script>
+  <script>
+    // His name comes from content.js, like everywhere else on the site.
+    (function () {
+      var S = window.SITE;
+      if (!S) return;
+      var name = [S.firstName, S.lastName].filter(Boolean).join(" ");
+      document.title = "Page not found | " + name;
+      document.getElementById("nf-name").textContent = name;
+    })();
+  </script>
+</body>
+</html>

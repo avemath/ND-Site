@@ -49,6 +49,9 @@ turn off automatically.
 | `assets/js/resume.js` | Builds the resume page from `content.js` |
 | `assets/js/drawings.js` | The project line drawings (used until photos replace them) |
 | `assets/og.png` | The preview image that shows up when the link is shared in a text, on LinkedIn, or in Slack |
+| `assets/favicon.svg`, `assets/apple-touch-icon.png` | The little "N" icon in browser tabs, search results, and on phone home screens |
+| `404.html` | The page people see if they go to an address on the site that doesn't exist |
+| `sitemap.xml` | A list of the site's pages for search engines |
 | `assets/img/` | Project photos go here |
 | `.nojekyll` | A hidden, empty file that tells GitHub Pages to serve the files as they are. Leave it. |
 
@@ -97,6 +100,8 @@ All of his info is filled in from his October 2026 resume. Here's what's left:
 - [ ] Hobbies ("Off the clock"): this section is already live. Add a line on what he
       plays, where he flies, and 3 to 6 drone photos
 - [ ] Optional: link his GitHub (github.com/nmdomke) once he has projects on it
+- [ ] Optional: add the site to Google Search Console and submit `sitemap.xml`, so
+      Google finds it sooner
 - [ ] Keep `content.js` in sync whenever his resume changes
 
 ## Turning on GitHub Pages
@@ -128,7 +133,7 @@ When I hand this off to Nicholas, I'll do one of these:
 ### After the move, update the address
 
 Link previews and search engines need the full address, so the old one has to be
-replaced everywhere it appears. There are seven spots in three files:
+replaced everywhere it appears. There are ten spots in five files:
 
 `content.js`
 - [ ] `siteUrl`: the site's address, used on the resume page and in the info for
@@ -144,6 +149,16 @@ replaced everywhere it appears. There are seven spots in three files:
 - [ ] `og:url`: same as above, for the resume page (keep `resume.html` on the end)
 - [ ] `og:image`: the full address of the preview image
 
+`sitemap.xml`
+- [ ] Both addresses: the main page and `resume.html`
+
+`404.html` (near the top)
+- [ ] `<base href="/ND-Site/">`: change `/ND-Site/` to the new repo name, like
+      `/<new-repo-name>/`. If he renames the repo to `<his-username>.github.io`,
+      it's just `/`
+
 ## Previewing on your computer
 
 Double-click `index.html` (or `resume.html`) to open it in your browser. That's it.
+(`404.html` only looks right on the live site, because its links start from the
+site's address.)
