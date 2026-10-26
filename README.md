@@ -96,6 +96,7 @@ All of his info is filled in from his October 2026 resume. Here's what's left:
       robot, WildStang robots)
 - [ ] Hobbies ("Off the clock"): this section is already live. Add a line on what he
       plays, where he flies, and 3 to 6 drone photos
+- [ ] Optional: link his GitHub (github.com/nmdomke) once he has projects on it
 - [ ] Keep `content.js` in sync whenever his resume changes
 
 ## Turning on GitHub Pages

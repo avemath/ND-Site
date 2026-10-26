@@ -65,7 +65,7 @@ window.SITE = {
   links: {
     email: "nmdomke2004@gmail.com",
     linkedin: "https://www.linkedin.com/in/nicholas-domke/",
-    github: "https://github.com/nmdomke",
+    github: "",                            // His GitHub (github.com/nmdomke) is empty for now. Add the link once he has projects on it
     // The "Resume" button. resume.html is a printable resume page built from
     // this file, with no phone number. You can also point this at a PDF in the
     // assets folder (e.g. "assets/resume.pdf"), but his current PDF lists his
