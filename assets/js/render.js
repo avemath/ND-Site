@@ -826,6 +826,30 @@
   var panes = document.querySelectorAll("[data-pane]");
   var THEME = { dark: "#000000", light: "#F4F4F4", white: "#FFFFFF", red: "#D71921" };
   var barTick = 0;
+  /* ---------- current section name in the top bar, like a sheet label ---------- */
+  var secLabel = document.querySelector(".bar-sec"), secShown = "";
+  var secMarks = [].filter.call(document.querySelectorAll(".sec-h"), function (h) {
+    return !h.closest("[hidden]");
+  }).map(function (h, i) {
+    return { h: h, text: "Sec. " + (i < 9 ? "0" : "") + (i + 1) + " / " + h.textContent };
+  });
+  var contactH = document.querySelector(".contact-h");
+  if (contactH) secMarks.push({ h: contactH, text: "Contact" });
+  function updateSec() {
+    if (!secLabel) return;
+    var t = "";
+    // a section counts once its heading passes the middle of the screen
+    secMarks.forEach(function (m) { if (m.h.getBoundingClientRect().top < window.innerHeight / 2) t = m.text; });
+    if (t === secShown) return;
+    secShown = t;
+    secLabel.classList.toggle("on", !!t);
+    if (!t) return;   // fade out, keeping the old text while it does
+    if (secLabel._scr) cancelAnimationFrame(secLabel._scr);
+    secLabel.removeAttribute("data-final");
+    secLabel.textContent = t;
+    scramble(secLabel, 420);
+  }
+
   function updateBar() {
     barTick = 0;
     var y = bar.offsetHeight / 2, kind = "dark";
@@ -836,6 +860,7 @@
     bar.setAttribute("data-on", kind);
     if (themeMeta) themeMeta.content = THEME[kind] || THEME.dark;
     turnGear();
+    updateSec();
   }
 
   /* ---------- scroll gear: turns as you scroll, teeth fill red toward the bottom ---------- */

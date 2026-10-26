@@ -776,3 +776,13 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
   transition: clip-path .9s var(--ease) calc(250ms + var(--i, 0) * 70ms), background-color .2s, border-color .2s;
 }
 .tl.rise.in .tl-bar { clip-path: inset(-10px -16px -10px -4px); }
+
+/* ---------- current section in the top bar (desktop and tablet) ---------- */
+.bar-sec {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  font-size: 0.75rem; letter-spacing: 0.08em; white-space: nowrap; pointer-events: none;
+  opacity: 0; transition: opacity .25s;
+}
+.bar-sec.on { opacity: .75; }
+body.menu-open .bar-sec { visibility: hidden; }
+@media (max-width: 760px) { .bar-sec { display: none; } }

@@ -6,7 +6,7 @@ Plain HTML, CSS, and JavaScript. No build step, nothing to install.
 Live: https://avemath.github.io/ND-Site/ (resume page: `resume.html`)
 
 Engineering touches: the footer is a drawing title block, a gear in the top bar
-turns as you scroll, and on a computer the hero cursor becomes a CAD crosshair
+turns as you scroll, the top bar names the current section like a sheet label, and on a computer the hero cursor becomes a CAD crosshair
 that snaps to the dot grid and shows X/Y in inches.
 
 Each row of the timeline in Experience links to its project card or job.
