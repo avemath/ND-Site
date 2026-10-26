@@ -55,8 +55,8 @@ window.SITE = {
 
   // Under his name at the top. DRAFT: have him approve the wording.
   tagline:
-    "I design and build robots, from the CAD model to the finished part, " +
-    "including an acoustic modem housing for an underwater robot and a 3D-printed arm that calibrates itself.",
+    "I design and build robot hardware, from CAD model to finished part: " +
+    "an acoustic modem housing for an underwater robot and a 3D-printed arm that calibrates itself.",
 
   // The line with the blinking blue dot. Set to "" to hide it.
   status: "Now: path planning for unmanned surface vessels at the LSU iCORE Lab",
