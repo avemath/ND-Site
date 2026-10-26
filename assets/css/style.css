@@ -285,6 +285,7 @@ body.menu-open .bar::before { opacity: 0; }
 .card-title { margin: 0 0 8px; font-size: clamp(1.3rem, 2vw, 1.55rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.01em; }
 .card-hook { margin: 0 0 16px; color: var(--fg-2); font-size: 1rem; }
 .card .points { font-size: 0.98rem; margin-bottom: 20px; }
+.card-result { margin: -6px 0 20px; padding-left: 12px; border-left: 2px solid var(--red); font-size: .98rem; }
 .card .pills { margin-top: auto; }
 .card-link { align-self: flex-start; margin-top: 18px; }
 

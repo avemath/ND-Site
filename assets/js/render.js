@@ -84,6 +84,22 @@
   var fullName = [S.firstName, S.lastName].filter(Boolean).join(" ");
   document.title = fullName + " | " + (S.discipline || "Portfolio");
 
+  /* ======================= search engine info (schema.org Person) ======================= */
+  try {
+    var ld = {
+      "@context": "https://schema.org", "@type": "Person", name: fullName,
+      url: S.siteUrl || undefined, email: L.email ? "mailto:" + L.email : undefined,
+      jobTitle: S.discipline ? S.discipline + " student" : undefined,
+      affiliation: S.school ? { "@type": "CollegeOrUniversity", name: S.school } : undefined,
+      knowsAbout: (S.skills || []).reduce(function (all, g) { return all.concat(g.items || []); }, []),
+      sameAs: [L.linkedin, L.github].filter(Boolean),
+    };
+    var tag = document.createElement("script");
+    tag.type = "application/ld+json";
+    tag.textContent = JSON.stringify(ld);
+    document.head.appendChild(tag);
+  } catch (e) {}
+
   /* ======================= hero ======================= */
 
   var hero = slot("hero");
@@ -103,8 +119,9 @@
     if (L.linkedin) row.appendChild(link(L.linkedin, "LinkedIn", "pill pill-ghost"));
     if (L.github) row.appendChild(link(L.github, "GitHub", "pill pill-ghost"));
     if (L.resume) {
-      var r = link(L.resume, "Resume (PDF)", "pill pill-ghost");
-      r.setAttribute("download", "");
+      var isPdf = /\.pdf$/i.test(L.resume);
+      var r = link(L.resume, isPdf ? "Resume (PDF)" : "Resume", "pill pill-ghost");
+      if (isPdf) r.setAttribute("download", "");
       row.appendChild(r);
     }
     return row;
@@ -296,10 +313,12 @@
           el("h3", "card-title", [p.title]),
           p.hook ? el("p", "card-hook", [p.hook]) : null,
           p.points && p.points.length ? bullets(p.points) : null,
+          p.result ? el("p", "card-result", [p.result]) : null,
           p.tools && p.tools.length ? pills(p.tools) : null,
           p.link ? link(p.link, "View project", "pill pill-ghost card-link") : null,
         ]),
       ]);
+      card.id = "project-" + String(p.title).toLowerCase().replace(/\[[^\]]*\]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
       cards.appendChild(card);
     });
   } else hide(document.getElementById("projects"));
@@ -328,11 +347,11 @@
     var rowsData = [];
     jobs.forEach(function (j) {
       var r = range(j.dates);
-      if (r) rowsData.push({ label: j.timelineLabel || (j.compact ? j.role : j.org), kind: "work", r: r, faint: !!j.compact });
+      if (r) rowsData.push({ label: j.timelineLabel || (j.compact ? j.role : j.org), kind: "work", r: r, faint: !!j.compact, dates: j.dates });
     });
     live(S.projects).forEach(function (p) {
       var r = range(p.dates);
-      if (r) rowsData.push({ label: p.timelineLabel || p.title, kind: "project", r: r });
+      if (r) rowsData.push({ label: p.timelineLabel || p.title, kind: "project", r: r, dates: p.dates });
     });
     if (S.featured && !S.featured.draft) {
       // the featured project overlaps the Integer job; it's already shown there
@@ -357,7 +376,7 @@
       var bar = el("span", "tl-bar " + d.kind + (d.r[2] ? " current" : "") + (d.faint ? " faint" : ""));
       bar.style.left = pct(d.r[0]);
       bar.style.width = "calc(" + pct(d.r[1]) + " - " + pct(d.r[0]) + ")";
-      grid.appendChild(el("div", "tl-row", [el("span", "tl-label", [d.label]), el("span", "tl-track", [bar])]));
+      grid.appendChild(el("div", "tl-row", [el("span", "tl-label", [d.label, el("span", "sr-only", [", " + d.dates])]), el("span", "tl-track", [bar])]));
     });
     if (T.next && gradAt) {
       var nb = el("span", "tl-bar next");
@@ -552,6 +571,17 @@
   var c = slot("contact");
   if (S.contactLine) c.appendChild(el("p", "contact-text", [S.contactLine]));
   var ca = actionRow(L.email);
+  if (L.email && navigator.clipboard) {
+    var copy = el("button", "pill pill-ghost copy-btn", ["Copy email"]);
+    copy.type = "button";
+    copy.addEventListener("click", function () {
+      navigator.clipboard.writeText(L.email).then(function () {
+        copy.firstChild.textContent = "Copied";
+        setTimeout(function () { copy.firstChild.textContent = "Copy email"; }, 1800);
+      }, function () { copy.firstChild.textContent = L.email; });
+    });
+    ca.appendChild(copy);
+  }
   c.appendChild(ca);
 
   slot("footer").appendChild(el("p", null, [
@@ -611,6 +641,11 @@
 
   /* ======================= menu ======================= */
 
+  if (L.resume) {
+    var ml = document.querySelector(".menu-list"), rli = el("li", null, []);
+    var ra = el("a", null, ["Resume"]); ra.href = L.resume; ra.setAttribute("data-scramble", "");
+    rli.appendChild(ra); ml.appendChild(rli);
+  }
   var menu = document.getElementById("menu");
   var menuBtn = document.querySelector(".menu-btn");
   var menuLinks = menu.querySelectorAll("a");
@@ -641,7 +676,7 @@
     a.addEventListener("click", function () {
       setMenu(false);
       // Move focus to the section heading so keyboard users land where they jumped.
-      var t = document.querySelector(a.hash + " h2");
+      var t = a.hash && document.querySelector(a.hash + " h2");
       if (t) { t.tabIndex = -1; setTimeout(function () { t.focus({ preventScroll: true }); }, 0); }
     });
     a.addEventListener("mouseenter", function () { scramble(a, 380); });

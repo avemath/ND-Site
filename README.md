@@ -1,24 +1,30 @@
 # Nicholas's portfolio site
 
-A one-page portfolio and extended resume for Nicholas Domke, hosted free on
-GitHub Pages. Plain HTML, CSS, and JavaScript. No build step, nothing to install.
+A portfolio and extended resume for Nicholas Domke, hosted free on GitHub Pages.
+Plain HTML, CSS, and JavaScript. No build step, nothing to install.
+
+Live: https://avemath.github.io/ND-Site/ (resume page: `resume.html`)
 
 The design is modeled on nothing.tech: dot-matrix type (the free Google font
 Doto), alternating black, light grey (#F4F4F4), and red panes, a full-screen
-menu, an interactive dot grid, dot-matrix drawings of each project, and text
-that "decodes" as it appears. Animations turn off automatically for visitors
-who have reduced motion turned on.
+menu, an interactive dot grid, line drawings of each project that sketch
+themselves in, and text that "decodes" as it appears. Animations turn off
+automatically for visitors who have reduced motion turned on.
 
 ## Files
 
 | File | What it is |
 |---|---|
 | `content.js` | **All of the site's text and links. This is the only file you need to edit.** |
-| `index.html` | Page skeleton |
-| `assets/css/style.css` | The look |
-| `assets/js/render.js` | Builds the page from `content.js` |
-| `assets/img/` | Put project photos here (optional, one per project card) |
-| `assets/resume.pdf` | Optional resume download (not added; see the privacy note below) |
+| `index.html` | Portfolio page skeleton, plus link-preview tags |
+| `resume.html` | Printable resume built from `content.js`. No phone number. Visitors can save it as a PDF |
+| `assets/css/style.css` | The portfolio's look |
+| `assets/css/resume.css` | The resume page's look (screen and print) |
+| `assets/js/render.js` | Builds the portfolio from `content.js` |
+| `assets/js/resume.js` | Builds the resume page from `content.js` |
+| `assets/js/drawings.js` | The project line drawings (used until photos replace them) |
+| `assets/og.png` | The preview image shown when the link is shared in a text, LinkedIn, or Slack |
+| `assets/img/` | Put project photos here |
 | `.nojekyll` | Tells GitHub Pages to serve the files as-is. Leave it. |
 
 ## Editing the content
@@ -27,10 +33,11 @@ Open `content.js` and follow the notes at the top. Short version:
 
 - Anything in `[square brackets]` is a placeholder. It shows on the site in red
   with a dashed underline so you can find it. Replace it and delete the brackets.
-- `draft: true` on an item hides it from the live site until it's ready.
+- `draft: true` on an item hides it from the live site and the resume page until it's ready.
 - Set a field to `""` to hide it.
-- Each project has a dot-matrix drawing (`art`). Add a photo path to `image`
-  and the photo replaces the drawing.
+- Projects show, in order of priority: a `video`, then an `image`, then the line drawing (`art`).
+- `result` on a project adds a highlighted outcome line. Leave it `""` until there's a real one.
+- Experience items can have `resumePoints`: longer bullets used only on the resume page.
 - If the page goes blank after an edit, look for a missing quote or comma.
 
 You can edit right on github.com: open `content.js`, click the pencil icon,
@@ -43,11 +50,10 @@ All of his info is filled in from his October 2026 resume. What's left:
 - [ ] Senior design project: hidden as a draft. Fill in name, hook, bullets, tools, then delete `draft: true`
 - [ ] Have him read the tagline and About paragraphs (drafted, in his voice)
 - [ ] Location: resume says Mount Prospect, IL. Change to Baton Rouge if he prefers
-- [ ] Resume download button: off for now. His resume lists his phone number, and
-      everything in this repo is public. To turn it on, add a PDF without the phone
-      number as `assets/resume.pdf` and set `resume: "assets/resume.pdf"` in content.js
-- [ ] Answer the "Questions for Nicholas" at the top of content.js (results, photos, awards)
-- [ ] Optional: photos of projects (BlueROV2 housing, welding arm, maze robot, WildStang robots)
+- [ ] Answer the "Questions for Nicholas" at the top of content.js (results, photos, awards),
+      then fill in the `result` lines
+- [ ] Photos or short videos of projects (BlueROV2 housing, welding arm, maze robot, WildStang robots)
+- [ ] Hobbies section: not on the site. Ave has a ready-to-paste block if he wants it public
 - [ ] Optional: GitHub link
 - [ ] Keep content.js in sync when his resume changes
 
@@ -73,6 +79,11 @@ Pick one:
 Tip: if he names his repo exactly `<his-username>.github.io`, the site lives at
 the shorter `https://<his-username>.github.io/` with no repo name at the end.
 
+**After the move, update the address in three places** (link previews need full addresses):
+1. `siteUrl` in `content.js`
+2. `og:url` and `og:image` near the top of `index.html`
+3. `og:image` near the top of `resume.html`
+
 ## Previewing locally
 
-Double-click `index.html` to open it in a browser. That's it.
+Double-click `index.html` (or `resume.html`) to open it in a browser. That's it.

@@ -1,0 +1,69 @@
+/* Printable resume page. On screen: a white letter-size sheet on grey.
+   In print: just the sheet, black on white, Letter size. */
+:root {
+  --ink: #000000;
+  --ink-2: #333333;
+  --ink-3: #5E5E5E;
+  --rule: #CFCFCF;
+  --red: #D71921;
+  --desk: #E6E6E6;
+  --dot: "Doto", "Space Mono", monospace;
+  --sans: "Space Grotesk", system-ui, sans-serif;
+  --mono: "Space Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html { background: var(--desk); }
+body { margin: 0; padding: 24px 16px 64px; background: var(--desk); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration-color: var(--red); text-underline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 4px; }
+
+.tools { max-width: 8.5in; margin: 0 auto 16px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.pill { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; font-family: var(--mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: .06em; text-decoration: none; cursor: pointer; }
+.pill.ghost { border: 1px solid #8C8C8C; background: transparent; color: var(--ink); }
+.pill.ghost:hover { border-color: var(--ink); }
+.pill.solid { border: 1px solid var(--ink); background: var(--ink); color: #fff; }
+.pill.solid:hover { background: var(--red); border-color: var(--red); }
+
+.sheet { max-width: 8.5in; margin: 0 auto; background: #fff; padding: clamp(24px, 6vw, 0.6in); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 12px 40px rgba(0,0,0,.08); }
+
+.head { padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+.name { margin: 0; font-family: var(--dot); font-weight: 800; font-variation-settings: "ROND" 100; text-transform: uppercase; font-size: clamp(2rem, 6vw, 2.6rem); line-height: 1; letter-spacing: .02em; }
+.role { margin: 10px 0 6px; font-family: var(--mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); }
+.contact { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; font-size: .9rem; }
+.sep { width: 4px; height: 4px; border-radius: 50%; background: var(--red); margin: 0 10px; }
+
+.sec { margin-top: 18px; }
+.sec-h { margin: 0 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.item + .item { margin-top: 10px; }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.row-main { min-width: 0; }
+.row h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+.row-date { flex: none; font-family: var(--mono); font-size: .75rem; color: var(--ink-3); text-align: right; white-space: nowrap; }
+.sub { margin: 1px 0 0; color: var(--ink-2); font-size: .92rem; }
+.line { margin: 6px 0 0; font-size: .92rem; color: var(--ink-2); }
+.line strong { color: var(--ink); font-weight: 600; }
+.pts { margin: 4px 0 0; padding-left: 18px; color: var(--ink-2); font-size: .92rem; }
+.pts li { margin: 2px 0; }
+.pts li::marker { color: var(--red); }
+.skills { margin: 0; display: grid; gap: 4px; }
+.skills div { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 12px; font-size: .92rem; }
+.skills dt { font-weight: 600; }
+.skills dd { margin: 0; color: var(--ink-2); }
+.foot { margin: 22px 0 0; font-family: var(--mono); font-size: .7rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.noscript { max-width: 8.5in; margin: 0 auto; font-family: var(--mono); }
+
+@media (max-width: 560px) {
+  .row { flex-direction: column; gap: 0; }
+  .row-date { text-align: left; }
+  .skills div { grid-template-columns: 1fr; gap: 0; }
+}
+
+@page { size: letter; margin: 0.5in; }
+@media print {
+  html, body { background: #fff; padding: 0; font-size: 10.5pt; }
+  .tools, noscript { display: none !important; }
+  .sheet { max-width: none; padding: 0; box-shadow: none; }
+  .item { break-inside: avoid; }
+  .sec-h { break-after: avoid; }
+  a { text-decoration: none; }
+}
