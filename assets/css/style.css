@@ -183,7 +183,7 @@ body.menu-open .bar::before { opacity: 0; }
 }
 
 /* block + inline dot, so a wrapped status stays centered with the dot on its first line */
-.status { margin: 26px auto 0; max-width: 40em; font-size: 0.8rem; color: var(--fg-3); text-wrap: balance; }
+.status { margin: 26px auto 0; font-size: 0.8rem; color: var(--fg-3); text-wrap: balance; }
 .rec { display: inline-block; margin-right: 10px; vertical-align: 0.05em; width: 9px; height: 9px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px var(--red); animation: rec 1.6s steps(1) infinite; }
 @keyframes rec { 50% { opacity: .15; } }
 @media (prefers-reduced-motion: reduce) { .rec { animation: none; } }
