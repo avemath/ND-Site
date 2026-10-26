@@ -182,7 +182,10 @@
   if (S.about && S.about.length) {
     ab.className = "about";
     var copy = el("div", "about-copy");
-    S.about.forEach(function (p, i) { copy.appendChild(el("p", i === 0 ? "lead" : "body", [p])); });
+    // Only the first sentence is set large; the rest of that paragraph joins the body text.
+    var paras = S.about.slice(), m = /^(.+?[.!?])\s+([A-Z].*)$/.exec(paras[0]);
+    if (m) paras.splice(0, 1, m[1], m[2]);
+    paras.forEach(function (p, i) { copy.appendChild(el("p", i === 0 ? "lead" : "body", [p])); });
     ab.appendChild(copy);
     ab.appendChild(el("dl", "facts mono", [
       ["School", S.school], ["Degree", "B.S. " + S.discipline], ["Minor", S.minor],
