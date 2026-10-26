@@ -251,7 +251,7 @@ window.SITE = {
       points: [
         "Led design, manufacturing, and assembly of 5 competition robots in 4 years",
         "Led CAD in SolidWorks and Onshape and trained younger members on CAD and power tools",
-        "Kept sub-teams on schedule so every robot ran within the 8-week build season",
+        "Kept sub-teams on schedule so each robot was working within the 8-week build season",
         "Ran the team's CNC router using VCarve and printed Onyx parts on Markforged printers",
         "Designed a movable workshop storage system for use at competitions",
       ],
