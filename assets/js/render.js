@@ -314,6 +314,13 @@
 
   /* ======================= featured ======================= */
 
+  // Optional second photo on the featured card (image2), with a caption.
+  function secondPhoto(item) {
+    var img = document.createElement("img");
+    img.src = item.image2; img.alt = item.image2Alt || ""; img.loading = "lazy";
+    return el("figure", "feat-photo", [img, item.image2Caption ? el("figcaption", "mono", [item.image2Caption]) : null]);
+  }
+
   // A small spec table, like the parts list on a drawing.
   function specTable(rows) {
     var dl = el("dl", "feat-spec mono", rows.filter(function (r) { return r && r.value; }).map(function (r) {
@@ -331,6 +338,7 @@
       el("h3", "feat-title", [F.title]),
       F.hook ? el("p", "feat-hook", [F.hook]) : null,
       F.points && F.points.length ? bullets(F.points) : null,
+      F.image2 ? secondPhoto(F) : null,
       F.result ? el("p", "feat-result", [F.result]) : null,
       F.specs && F.specs.length ? specTable(F.specs) : F.tools && F.tools.length ? pills(F.tools) : null,
     ]);

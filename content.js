@@ -133,6 +133,14 @@ window.SITE = {
     video: "",
     image: "",
     imageAlt: "",
+    // Optional second photo, shown under the bullets with a small caption.
+    // Leave image2 as "" to hide it. Example:
+    //   image2: "assets/img/rov-housing-prototypes.jpg",
+    //   image2Alt: "3D-printed prototype housings and clamps in red, blue, and white on a desk",
+    //   image2Caption: "Prototype versions of the housing.",
+    image2: "",
+    image2Alt: "",
+    image2Caption: "",
   },
 
   /* ---------- Projects ----------

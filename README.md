@@ -63,6 +63,9 @@ Open `content.js` and follow the notes at the top. The short version:
 - **Hiding one field:** set it to `""` (empty quotes).
 - **Photos:** each project shows the first thing it has, in this order: a `video`,
   then an `image`, then its line drawing (`art`).
+- **Second photo:** the featured project can also show a second photo under its
+  bullets, with a small caption. Fill in `image2`, `image2Alt`, and `image2Caption`.
+  Leave `image2` as `""` to hide it.
 - **Results:** `result` on a project adds a highlighted line about how it turned out.
   Leave it `""` until there's a real one.
 - **Spec table:** `specs` on the featured project is the small table (Role, CAD,

@@ -280,6 +280,15 @@ body.menu-open .bar::before { opacity: 0; }
 .feat-title { margin: 0 0 14px; font-size: clamp(1.7rem, 3vw, 2.5rem); line-height: 1.12; font-weight: 500; letter-spacing: -0.015em; }
 .feat-hook { margin: 0 0 22px; font-size: 1.15rem; color: var(--fg-2); }
 .feat-result { margin: 0 0 22px; padding-left: 14px; border-left: 2px solid var(--accent); }
+/* optional second photo under the bullets (image2 in content.js) */
+.feat-photo { margin: 0 0 22px; }
+.feat-photo img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 14px; background: var(--card); }
+.feat-photo figcaption { margin-top: 8px; font-size: 0.75rem; color: var(--fg-3); }
+/* desktop: a featured PHOTO keeps a landscape shape and stays in view while the
+   text beside it scrolls, instead of stretching to the card's full height */
+@media (min-width: 861px) {
+  .feat-media.has-photo { align-self: start; aspect-ratio: 6 / 5; position: sticky; top: 88px; }
+}
 .feature .pills { margin-top: auto; padding-top: 6px; }
 @media (max-width: 860px) {
   .feature { grid-template-columns: 1fr; }
