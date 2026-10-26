@@ -42,6 +42,7 @@ window.SITE = {
   graduation: "May 2027",
   // NOTE: resume says Mount Prospect, IL (hometown). Change to "Baton Rouge, LA" if he prefers.
   location: "Mount Prospect, IL",
+  locationLabel: "Hometown",               // Use "Based in" if location is changed to where he lives now
   lastUpdated: "October 2026",             // Change this whenever the site is updated
   // Shown in the drawing title block in the footer. Bump the letter (C, D, E...)
   // whenever the site gets a real update, like a revision on an engineering drawing.
@@ -144,6 +145,7 @@ window.SITE = {
     },
     {
       title: "Mock Welding Robotic Arm",
+      timelineLabel: "Welding arm",        // shorter name used on the timeline
       role: "iCORE Lab",
       dates: "Mar 2026 to May 2026",
       hook: "A 3D-printed 5-DOF arm that calibrates itself using limit switches.",
@@ -164,6 +166,7 @@ window.SITE = {
     },
     {
       title: "Robot Maze Navigation",
+      timelineLabel: "Maze robot",
       role: "Intro to Robotics",
       dates: "Oct 2025 to Dec 2025",
       hook: "An autonomous robot that finds its own way through a maze.",
@@ -182,6 +185,7 @@ window.SITE = {
     },
     {
       title: "Manufacturing Lab Projects",
+      timelineLabel: "Manufacturing lab",
       role: "Manufacturing Processes",
       dates: "Jan 2025 to Apr 2025",
       hook: "Shop work on a manual lathe, a MIG welder, and a Haas CNC router.",
@@ -198,6 +202,7 @@ window.SITE = {
     },
     {
       title: "Inclusive Playground",
+      timelineLabel: "Playground",
       role: "Team of six",                     // QUESTION: which course was this for?
       dates: "Sep 2023 to Dec 2023",
       hook: "A playground designed to ADA guidelines for kids with disabilities.",
@@ -215,6 +220,7 @@ window.SITE = {
     },
     {
       title: "WildStang Robotics",
+      timelineLabel: "WildStang",
       role: "Design lead, FIRST Robotics Competition",
       dates: "Aug 2018 to May 2022",
       hook: "Where I started using SolidWorks, in 2018.",
@@ -258,6 +264,7 @@ window.SITE = {
     {
       role: "Mechanical Engineering Intern",
       org: "Integer Technologies",
+      timelineLabel: "Integer",
       place: "Baton Rouge, LA",
       dates: "May 2026 to Aug 2026",
       points: [

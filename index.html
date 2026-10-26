@@ -8,7 +8,9 @@
   <meta name="theme-color" content="#000000">
   <!-- Link previews (texts, LinkedIn, Slack). These need full addresses: if the
        site moves to Nicholas's GitHub, update the two URLs below. -->
+  <link rel="canonical" href="https://avemath.github.io/ND-Site/">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nicholas Domke">
   <meta property="og:title" content="Nicholas Domke | Mechanical Engineering">
   <meta property="og:description" content="Mechanical engineering senior at LSU with a robotics minor. Underwater vehicle hardware, robot arms, and path planning for unmanned surface vessels.">
   <meta property="og:url" content="https://avemath.github.io/ND-Site/">
@@ -17,11 +19,12 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Nicholas Domke, Mechanical Engineering, LSU, Class of 2027">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23000'/%3E%3Cg fill='%23fff'%3E%3Ccircle cx='9' cy='8' r='2'/%3E%3Ccircle cx='9' cy='13' r='2'/%3E%3Ccircle cx='9' cy='18' r='2'/%3E%3Ccircle cx='9' cy='23' r='2'/%3E%3Ccircle cx='14' cy='12' r='2'/%3E%3Ccircle cx='18' cy='17' r='2'/%3E%3Ccircle cx='23' cy='8' r='2'/%3E%3Ccircle cx='23' cy='13' r='2'/%3E%3Ccircle cx='23' cy='18' r='2'/%3E%3Ccircle cx='23' cy='23' r='2'/%3E%3C/g%3E%3Ccircle cx='27' cy='5' r='2' fill='%23D71921'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='8'%20fill='%23000'/%3E%3Cg%20fill='%23fff'%3E%3Ccircle%20cx='9'%20cy='8'%20r='2'/%3E%3Ccircle%20cx='9'%20cy='13'%20r='2'/%3E%3Ccircle%20cx='9'%20cy='18'%20r='2'/%3E%3Ccircle%20cx='9'%20cy='23'%20r='2'/%3E%3Ccircle%20cx='14'%20cy='12'%20r='2'/%3E%3Ccircle%20cx='18'%20cy='17'%20r='2'/%3E%3Ccircle%20cx='23'%20cy='8'%20r='2'/%3E%3Ccircle%20cx='23'%20cy='13'%20r='2'/%3E%3Ccircle%20cx='23'%20cy='18'%20r='2'/%3E%3Ccircle%20cx='23'%20cy='23'%20r='2'/%3E%3C/g%3E%3Ccircle%20cx='27'%20cy='5'%20r='2'%20fill='%23D71921'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Doto:wght,ROND@100..900,0..100&family=Space+Grotesk:wght@300..600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <noscript><style>main > :not(.hero), .scroll-cue, .bar-right { display: none !important; }</style></noscript>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -55,12 +58,19 @@
     <!-- DARK: hero -->
     <section class="pane pane-dark hero" id="top" data-pane="dark">
       <canvas class="dotfield" aria-hidden="true"></canvas>
-      <div class="hero-inner" data-slot="hero"></div>
-      <a class="scroll-cue mono" href="#about">Scroll</a>
+      <div class="hero-inner" data-slot="hero">
+        <noscript>
+          <h1 class="hero-name dot"><span>Nicholas</span><span>Domke</span></h1>
+          <p class="tagline">This site needs JavaScript to show the full portfolio. Reach Nicholas at
+            <a href="mailto:nmdomke2004@gmail.com">nmdomke2004@gmail.com</a> or on
+            <a href="https://www.linkedin.com/in/nicholas-domke/">LinkedIn</a>.</p>
+        </noscript>
+      </div>
+      <a class="scroll-cue mono" href="#intro">Scroll</a>
     </section>
 
     <!-- LIGHT: numbers + about -->
-    <div class="pane pane-light" data-pane="light">
+    <div class="pane pane-light" id="intro" data-pane="light">
       <div class="numbers" data-slot="numbers"></div>
       <section class="sec" id="about" aria-labelledby="about-h">
         <h2 class="sec-h dot" id="about-h" data-scramble>About</h2>
@@ -119,7 +129,7 @@
 
   <footer class="pane pane-dark foot mono" data-pane="dark" data-slot="footer"></footer>
 
-  <noscript><p class="noscript">This site needs JavaScript turned on to show its content.</p></noscript>
+
 
   <!-- content.js must load before render.js -->
   <script src="content.js"></script>

@@ -4,7 +4,8 @@
 (function () {
   "use strict";
   var S = window.SITE, root = document.getElementById("resume");
-  if (!S || !root) return;
+  if (!root) return;
+  if (!S) { root.innerHTML = '<p class="noscript">content.js didn\'t load. Check it for a missing quote or comma.</p>'; return; }
 
   function el(tag, cls, kids) {
     var n = document.createElement(tag);
@@ -87,7 +88,7 @@
   var skills = (S.skills || []).filter(function (g) { return g && !g.draft; });
   if (skills.length) {
     root.appendChild(section("Skills", [el("dl", "skills", skills.map(function (g) {
-      return el("div", null, [el("dt", null, [g.group]), el("dd", null, [g.items.join(", ")])]);
+      return el("div", null, [el("dt", null, [g.group]), el("dd", null, [(g.items || []).join(", ")])]);
     }))]));
   }
 

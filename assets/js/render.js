@@ -161,7 +161,7 @@
     ab.appendChild(copy);
     ab.appendChild(el("dl", "facts mono", [
       ["School", S.school], ["Degree", "B.S. " + S.discipline], ["Minor", S.minor],
-      ["Graduating", S.graduation], ["Hometown", S.location],
+      ["Graduating", S.graduation], [S.locationLabel || "Hometown", S.location],
     ].filter(function (f) { return f[1]; }).map(function (f) {
       return el("div", null, [el("dt", null, [f[0]]), el("dd", null, [f[1]])]);
     })));
@@ -500,7 +500,7 @@
     skills.forEach(function (g) {
       dl.appendChild(el("div", "spec-row", [
         el("dt", "mono", [g.group]),
-        el("dd", null, [el("ul", "spec-items", g.items.map(function (t) { return el("li", null, [t]); }))]),
+        el("dd", null, [el("ul", "spec-items", (g.items || []).map(function (t) { return el("li", null, [t]); }))]),
       ]));
     });
     sk.appendChild(dl);
@@ -572,7 +572,7 @@
       var b = el("button", "kb-key " + (n[2] ? "black" : "white"), []);
       b.type = "button";
       b.setAttribute("aria-label", "Play " + n[0].replace("#", " sharp") + (i === 12 ? " (high)" : ""));
-      if (n[2]) b.style.left = "calc(" + (whiteIndex / 8 * 100) + "% - 3.7%)";
+      if (n[2]) b.style.left = "calc(" + (whiteIndex / 8 * 100) + "% - var(--bk) / 2)";
       else whiteIndex++;
       function hit() { play(n[1]); b.classList.add("down"); setTimeout(function () { b.classList.remove("down"); }, 160); }
       b.addEventListener("pointerdown", function (e) { e.preventDefault(); hit(); });
@@ -595,13 +595,23 @@
   if (L.email && navigator.clipboard) {
     var copy = el("button", "pill pill-ghost copy-btn", ["Copy email"]);
     copy.type = "button";
+    var copyStatus = el("span", "sr-only", []);
+    copyStatus.setAttribute("role", "status");
+    function setLabel(n, t) {
+      if (n._scr) cancelAnimationFrame(n._scr);   // stop any hover scramble so it can't overwrite this
+      n.removeAttribute("data-final");
+      n.setAttribute("aria-label", t);
+      n.textContent = t;
+    }
     copy.addEventListener("click", function () {
       navigator.clipboard.writeText(L.email).then(function () {
-        copy.firstChild.textContent = "Copied";
-        setTimeout(function () { copy.firstChild.textContent = "Copy email"; }, 1800);
-      }, function () { copy.firstChild.textContent = L.email; });
+        setLabel(copy, "Copied");
+        copyStatus.textContent = "Email address copied";
+        setTimeout(function () { setLabel(copy, "Copy email"); copyStatus.textContent = ""; }, 1800);
+      }, function () { setLabel(copy, L.email); });
     });
     ca.appendChild(copy);
+    ca.appendChild(copyStatus);
   }
   c.appendChild(ca);
 
@@ -688,7 +698,10 @@
   var menu = document.getElementById("menu");
   var menuBtn = document.querySelector(".menu-btn");
   var menuLinks = menu.querySelectorAll("a");
-  var behind = [document.getElementById("main"), document.querySelector(".foot")];
+  var behind = [document.querySelector(".skip"), document.getElementById("main"), document.querySelector(".foot")];
+  document.getElementById("bar-name").addEventListener("click", function () {
+    if (document.body.classList.contains("menu-open")) setMenu(false);
+  });
 
   function setMenu(open) {
     if (menuBtn._scr) cancelAnimationFrame(menuBtn._scr); // stop any hover scramble
@@ -863,6 +876,12 @@
   }
 
   document.querySelectorAll(".dotfield").forEach(dotfield);
+
+  onMotionChange.push(function () {
+    document.querySelectorAll("svg.drawing").forEach(function (s) {
+      try { if (reduceMotion) s.pauseAnimations(); else s.unpauseAnimations(); } catch (e) {}
+    });
+  });
 
   /* ---------- CAD-style crosshair in the hero ----------
      With a mouse, the cursor becomes a crosshair that snaps to the dot grid,

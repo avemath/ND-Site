@@ -10,7 +10,7 @@ turns as you scroll, and on a computer the hero cursor becomes a CAD crosshair
 that snaps to the dot grid and shows X/Y in inches.
 
 The design is modeled on nothing.tech: dot-matrix type (the free Google font
-Doto), alternating black, light grey (#F4F4F4), and red panes, a full-screen
+Doto), alternating light grey (#F4F4F4), white, and red panes between a black hero and contact section, a soft graphite featured project card, a full-screen
 menu, an interactive dot grid, line drawings of each project that sketch
 themselves in, and text that "decodes" as it appears. Animations turn off
 automatically for visitors who have reduced motion turned on.
@@ -43,7 +43,7 @@ Open `content.js` and follow the notes at the top. Short version:
 - `result` on a project adds a highlighted outcome line. Leave it `""` until there's a real one.
 - Experience items can have `resumePoints`: longer bullets used only on the resume page.
 - `revision` (the REV box in the footer's title block): bump the letter when the site gets a real update.
-- Also bump the "8 yrs" SolidWorks number each year (he started in 2018).
+- Each year, bump the "8 yrs" SolidWorks number and the "eight years" in the About text (he started in 2018).
 - If the page goes blank after an edit, look for a missing quote or comma.
 
 You can edit right on github.com: open `content.js`, click the pencil icon,
