@@ -937,6 +937,48 @@
     heroEl.addEventListener("pointerleave", function () { heroEl.classList.remove("cad-active"); });
   })();
 
+  /* ======================= content rises in on scroll ======================= */
+  // Blocks fade up a short distance the first time they scroll into view.
+  // Blocks entering together are staggered slightly. Skipped for reduced motion.
+  (function () {
+    if (reduceMotion || !("IntersectionObserver" in window)) return;
+    var targets = document.querySelectorAll(".num, .about-copy, .facts, .feature, .card, .tl, .xp-item, " +
+      ".cap, .spec, .hob-intro, .hob-card, .contact-text");
+    function show(n, delay) {
+      n.style.transitionDelay = delay + "ms";
+      n.classList.add("in");
+      // clear the delay afterwards so hover transitions on the block stay instant
+      setTimeout(function () { n.style.transitionDelay = ""; }, delay + 800);
+    }
+    var pending = [].slice.call(targets);
+    function done(n) { io.unobserve(n); pending.splice(pending.indexOf(n), 1); }
+    var io = new IntersectionObserver(function (es) {
+      var k = 0;
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        show(e.target, Math.min(k++, 4) * 80);
+        done(e.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    targets.forEach(function (n) { n.classList.add("rise"); io.observe(n); });
+    // A jump (link, reload partway down) can carry a block from below the screen to
+    // above it without it ever intersecting. Show those right away.
+    var skipTick = 0;
+    function catchUp() {
+      skipTick = 0;
+      pending.slice().forEach(function (n) {
+        if (n.getBoundingClientRect().bottom < 0) { n.classList.add("in"); done(n); }
+      });
+      if (!pending.length) window.removeEventListener("scroll", onScroll);
+    }
+    function onScroll() { if (!skipTick) skipTick = requestAnimationFrame(catchUp); }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("load", catchUp);
+    onMotionChange.push(function () {
+      if (reduceMotion) pending.slice().forEach(function (n) { n.classList.add("in"); done(n); });
+    });
+  })();
+
   // Hero name decodes on load.
   setTimeout(function () {
     name.querySelectorAll("[data-scramble]").forEach(function (s, i) {

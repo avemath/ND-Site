@@ -720,3 +720,9 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
 @media (min-width: 1001px) { .tblock { grid-template-columns: 2.6fr 1fr 1.5fr 1.1fr repeat(4, minmax(0, .8fr)); } }
 .tb-copy { text-align: right; }
 .art-tag, .callouts, .kb-hint, .hob-photo figcaption, .tl-grad span { font-size: .75rem; }
+
+/* ---------- content rises in on scroll (render.js adds .rise, then .in) ---------- */
+.rise { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease), border-color .25s; }
+.rise.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none; transition: none; } }
+@media print { .rise { opacity: 1 !important; transform: none !important; } }
