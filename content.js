@@ -21,7 +21,8 @@
    QUESTIONS FOR NICHOLAS (answers would make the site stronger)
    1. Photos: BlueROV2 with the housing, welding arm, maze robot, lathe pin,
       stool, WildStang robots. Any of these can replace a dot drawing.
-   2. Integer: did the housing go in the water? Did the quick-disconnects work?
+   2. Integer: the housing was tested in the water. How did the test go, and
+      did the quick-disconnects work?
    3. Welding arm: what did the quantitative analysis measure and find?
    4. Maze robot: did it finish the maze?
    5. WildStang: any awards or event results 2018 to 2022?
@@ -116,9 +117,10 @@ window.SITE = {
       "Designed the housing and mount in Fusion 360",
       "3D printed test and final parts in PLA and PETG",
       "Selected cables and connectors that connect and disconnect quickly while the vehicle is in the water",
-      "Printed and tested several prototype versions before the final housing",   // DRAFT: confirm with Nicholas
+      // DRAFT: confirm with Nicholas, then uncomment this line to show it.
+      // "Printed and tested several prototype versions before the final housing",
     ],
-    result: "Tested in the water on the BlueROV2.",   // QUESTION: how did testing go, and did the quick-disconnects work?
+    result: "Tested in the water on the BlueROV2.",   // QUESTION: how did the test go, and did the quick-disconnects work?
     tools: ["Fusion 360", "PLA", "PETG", "BlueROV2"],
     // Spec table on the card, like the parts list on a drawing. When filled in,
     // it shows instead of the tool pills. Delete a row to drop it.
