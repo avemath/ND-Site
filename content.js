@@ -197,14 +197,13 @@ window.SITE = {
       dates: "Oct 2025 to Dec 2025",
       hook: "An autonomous robot built to navigate a maze using a camera.",
       points: [
-        "Designed the mobile base and camera mount in SolidWorks, then 3D printed them",
-        "Worked with a second mechanical engineering student and a team of computer science students",
-        "Helped debug the autonomous navigation and object detection code",
+        "Designed the base and camera system in SolidWorks, then 3D printed them",
+        "Team of 3: two mechanical engineers and one computer science student",
       ],
-      result: "",                          // QUESTION: did it finish the maze?
+      result: "Finished the maze.",
       tools: ["SolidWorks", "3D printing"],
       art: "maze",
-      callouts: ["Printed base and camera mount", "Autonomous route"],
+      callouts: ["Printed base and camera system", "Autonomous route"],
       image: "",
       imageAlt: "",
       link: "",
@@ -217,7 +216,7 @@ window.SITE = {
       hook: "Shop work on a manual lathe, a MIG welder, and a Haas CNC router.",
       points: [
         "Turned a clutch alignment pin on a manual lathe to ±0.005 in.",
-        "MIG welded a metal stool",                       // QUESTION: steel?
+        "MIG welded a steel stool",
         "Wrote G-code and ran a Haas CNC router to cut an aluminum heat exchanger",
       ],
       tools: ["Manual lathe", "MIG welding", "Haas CNC", "G-code"],
@@ -229,7 +228,7 @@ window.SITE = {
     {
       title: "Inclusive Playground",
       timelineLabel: "Playground",
-      role: "Team of six",                     // QUESTION: which course was this for?
+      role: "Sophomore design course, team of 6 mechanical engineers",
       dates: "Sep 2023 to Dec 2023",
       hook: "A playground designed to ADA guidelines for kids with disabilities.",
       points: [
@@ -354,7 +353,7 @@ window.SITE = {
       title: "Build",
       proof: [
         "Held \u00B10.005 in. on a manual lathe",
-        "MIG welded a stool and wrote G-code for a Haas CNC router",
+        "MIG welded a steel stool and wrote G-code for a Haas CNC router",
         "3D printed parts in PLA, PETG, and Onyx",
       ],
     },
