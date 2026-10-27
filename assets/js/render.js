@@ -199,7 +199,7 @@
 
       if (String(value).length > 3) v.classList.add("is-long");
       ul.appendChild(el("li", "num", [
-        el("p", "num-fig", [n.pre ? el("span", "num-pre mono", [n.pre]) : null, v, el("span", "sr-only", [String(value)]),
+        el("p", "num-fig", [n.pre ? el("span", "num-pre mono", [n.pre]) : null, v, el("span", "sr-only", [n.spoken || String(value)]),
           n.unit ? el("span", "num-unit mono", [n.unit]) : null]),
         el("p", "num-label", [n.label]),
       ]));
