@@ -278,15 +278,17 @@ body.menu-open .bar::before { opacity: 0; }
   box-shadow: 0 24px 48px -20px rgba(0,0,0,.45);
   counter-reset: num;
 }
-.num { position: relative; padding: 16px 16px 18px; background: #fff; color: #111; }
-.num::before { content: "0" counter(num); content: "0" counter(num) / ""; counter-increment: num; display: block; margin-bottom: 14px; font-family: var(--mono); font-size: 0.7rem; color: #575757; }
+/* each cell: its index (01 to 04) in the top-left corner; the number and its unit
+   centered on one baseline ("8 yrs"), and the label centered under them */
+.num { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 16px 22px; background: #fff; color: #111; text-align: center; }
+.num::before { content: "0" counter(num); content: "0" counter(num) / ""; counter-increment: num; position: absolute; top: 14px; left: 16px; font-family: var(--mono); font-size: 0.7rem; color: #575757; }
 /* small prefix ("±", "up to") sits just above the figure */
-.num-pre { position: absolute; bottom: 100%; left: 0; margin-bottom: 2px; font-size: 0.8rem; color: #575757; white-space: nowrap; }
-.num-fig { position: relative; margin: 0 0 12px; display: flex; align-items: flex-start; gap: 6px; }
-.num-value { font-size: clamp(2.4rem, 4.6vw, 4.2rem); font-weight: 800; line-height: 1; letter-spacing: 0; white-space: nowrap; }
-.num-value.is-long { font-size: clamp(2rem, 3.6vw, 3.4rem); margin-top: .35em; } /* long values like 0.005 */
-.num-unit { color: var(--fg-3); font-size: 0.85rem; margin-top: .3em; font-weight: 700; text-transform: lowercase; }
-.num-label { margin: 0; font-size: 1rem; color: #3A3A3A; max-width: 15em; }
+.num-pre { position: absolute; bottom: 100%; left: 50%; translate: -50% 0; margin-bottom: 2px; font-size: 0.8rem; color: #575757; white-space: nowrap; }
+.num-fig { position: relative; margin: 0 0 14px; display: flex; justify-content: center; align-items: baseline; gap: 8px; }
+.num-value { font-size: clamp(3.4rem, 6.9vw, 6.3rem); font-weight: 800; line-height: 1; letter-spacing: 0; white-space: nowrap; }
+.num-value.is-long { font-size: clamp(3rem, 5.4vw, 5.1rem); } /* long values like 0.005 */
+.num-unit { color: var(--fg-3); font-size: 1.15rem; font-weight: 700; text-transform: lowercase; }
+.num-label { margin: 0; font-size: 1rem; line-height: 1.35; color: #3A3A3A; max-width: 15em; text-wrap: balance; }
 /* the About heading after the card gets the same breathing room as between sections */
 #intro > .numbers + .sec { padding-top: calc(var(--space) * 1.2); }   /* the card reads as content, so the heading gets a full step of space */
 @media (max-width: 860px) {
@@ -294,8 +296,9 @@ body.menu-open .bar::before { opacity: 0; }
   .num-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 420px) {
-  .num { padding: 14px 14px 16px; }
-  .num::before { margin-bottom: 10px; }
+  .num { padding: 36px 10px 16px; }
+  .num::before { top: 12px; left: 12px; }
+  .num-label { font-size: 0.85rem; }
 }
 
 /* ---------- about ---------- */
