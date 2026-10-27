@@ -470,7 +470,7 @@
     var cards = slot("projects");
     projects.forEach(function (p) {
       p._id = uniqueId("project-" + slug(p.title));
-      var card = el("article", "card", [
+      var card = el("article", "card" + (p.model ? " card-wide" : ""), [
         media(p, "card-media art-box"),
         el("div", "card-body", [
           el("p", "card-meta mono", [p.dates ? el("span", null, [p.dates]) : null, el("span", null, [p.role])]),

@@ -682,22 +682,38 @@ body.menu-open .gear { visibility: hidden; }
 .card-media { box-shadow: inset 0 -1px 0 var(--ln); }
 
 /* 5. card grid: last row of two splits the width instead of one stretched card.
-   3 across only from 1240px; narrower than that the drawings get too small. */
+   3 across only from 1240px; narrower than that the drawings get too small.
+   A card with a 3D model (.card-wide) takes two slots, model on the left, so the
+   tall arm gets room; "dense" lets the next card fill in beside it. The
+   last-row rules count cards, so they only apply when there's no wide card. */
 @media (min-width: 1240px) {
-  .cards { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .cards { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-flow: dense; }
   .card { grid-column: span 2; }
-  .card:last-child:nth-child(3n+2), .card:nth-last-child(2):nth-child(3n+1) { grid-column: span 3; flex-direction: column; }
-  .card:last-child:nth-child(3n+2) .card-media, .card:nth-last-child(2):nth-child(3n+1) .card-media { aspect-ratio: 16 / 9; flex: none; }
-  .card:last-child:nth-child(3n+2) .card-body, .card:nth-last-child(2):nth-child(3n+1) .card-body { flex: 1; }
-  .card:last-child:nth-child(3n+1) { grid-column: 1 / -1; flex-direction: row; }
-  .card:last-child:nth-child(3n+1) .card-media { aspect-ratio: auto; flex: 1 1 50%; }
-  .card:last-child:nth-child(3n+1) .card-body { flex: 1 1 50%; }
+  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+2), .cards:not(:has(> .card-wide)) .card:nth-last-child(2):nth-child(3n+1) { grid-column: span 3; flex-direction: column; }
+  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+2) .card-media, .cards:not(:has(> .card-wide)) .card:nth-last-child(2):nth-child(3n+1) .card-media { aspect-ratio: 16 / 9; flex: none; }
+  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+2) .card-body, .cards:not(:has(> .card-wide)) .card:nth-last-child(2):nth-child(3n+1) .card-body { flex: 1; }
+  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+1) { grid-column: 1 / -1; flex-direction: row; }
+  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+1) .card-media { aspect-ratio: auto; flex: 1 1 50%; }
+  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+1) .card-body { flex: 1 1 50%; }
+  .card.card-wide { grid-column: span 4; flex-direction: row; }
 }
 @media (min-width: 700px) and (max-width: 1239px) {
-  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .card:last-child:nth-child(odd) { grid-column: 1 / -1; flex-direction: row; }
-  .card:last-child:nth-child(odd) .card-media { aspect-ratio: auto; flex: 1 1 50%; }
-  .card:last-child:nth-child(odd) .card-body { flex: 1 1 50%; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: dense; }
+  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(odd),
+  .cards:has(> .card-wide) .card:last-child:nth-child(even) { grid-column: 1 / -1; flex-direction: row; }
+  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(odd) .card-media,
+  .cards:has(> .card-wide) .card:last-child:nth-child(even) .card-media { aspect-ratio: auto; flex: 1 1 50%; }
+  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(odd) .card-body,
+  .cards:has(> .card-wide) .card:last-child:nth-child(even) .card-body { flex: 1 1 50%; }
+  .card.card-wide { grid-column: 1 / -1; flex-direction: row; }
+}
+@media (min-width: 700px) {
+  .card-wide .card-media { aspect-ratio: auto; flex: 1 1 50%; min-width: 0; min-height: 440px; }
+  .card-wide .card-body { flex: 1 1 50%; min-width: 0; }
+}
+@media (max-width: 699px) {
+  .card-wide .card-media.has-drawing { aspect-ratio: auto; }
+  .card-wide .art-box.has-drawing .drawing-wrap { flex: none; aspect-ratio: 1 / 1; }
 }
 
 /* 6. section index labels: 01 / About, 02 / Projects ... */
@@ -893,3 +909,4 @@ body.menu-open .bar-sec { visibility: hidden; }
 
 /* ---------- very wide screens: a little more room for the content ---------- */
 @media (min-width: 1600px) { :root { --max: 1400px; } }
+
