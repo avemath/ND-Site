@@ -924,7 +924,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 .lb-close { position: absolute; top: 10px; right: 10px; background: #fff; color: #000; border: 1px solid #8C8C8C; }
 /* a photo with its own white background can show whole instead of cropped (imageFit: "contain") */
 .art-box.fit-contain { background: #fff; }
-.art-box.fit-contain img { object-fit: contain; padding: 8px; }
+.art-box.fit-contain img { object-fit: contain; padding: 14px 10px 8px; }
 .lightbox { position: fixed; }
 
 /* ---------- "See all 5 robots" link on the WildStang card ---------- */

@@ -360,7 +360,8 @@ window.SITE = {
      A strip right after the project cards, laid out like the revision block on an
      engineering drawing: REV A for the first robot, REV E for the last. Each panel
      shows a photo, role tags, and a one-line summary; selecting it opens the full
-     details ("text") below the strip. "thumb" is the panel photo, "image" opens larger.
+     details ("text") below the strip. "thumb" is the photo on the panel and in the
+     details; "image" is the full photo that opens when you tap it.
      fit: "contain" shows a white-background photo whole instead of cropping it. */
   robots: {
     title: "Five robots, four seasons",
@@ -370,7 +371,7 @@ window.SITE = {
       { rev: "A", season: "2019", year: "Freshman", roles: ["Driver"],
         summary: "Built and assembled parts and earned a driver spot as a freshman.",
         text: "Built and assembled parts, learned to run the CNC router, and earned a driver spot as a freshman, which almost never happens.",
-        image: "assets/img/wildstang-2019.jpg", thumb: "assets/img/wildstang-2019-thumb.jpg", fit: "cover",
+        image: "assets/img/wildstang-2019.jpg", thumb: "assets/img/wildstang-2019-thumb.jpg", fit: "contain",   // thumb is cropped around the robot
         alt: "WildStang's 2019 robot: a tall robot with a metal frame tower and blue 111 bumpers, in front of a brick wall" },
       { rev: "B", season: "2020", year: "Sophomore", roles: ["Co-lead", "Driver"],
         summary: "Designed the drive base and gearbox; 95% of the robot was made in house.",

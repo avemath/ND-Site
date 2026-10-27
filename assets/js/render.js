@@ -537,7 +537,7 @@
       active = btn;
       btn.setAttribute("aria-expanded", "true");
       var img = document.createElement("img");
-      img.src = r.image || r.thumb; img.alt = r.alt || "";
+      img.src = r.thumb || r.image; img.alt = r.alt || "";
       var photo = el("button", "rev-detail-photo" + (r.fit === "contain" ? " contain" : ""), [img, el("span", "sr-only", [" (opens a larger photo)"])]);
       photo.type = "button";
       photo.addEventListener("click", function () { lightbox(r.image, r.alt, "REV " + r.rev + " / " + r.season + " / " + r.year); });
