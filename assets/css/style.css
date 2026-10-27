@@ -1283,3 +1283,4 @@ body.menu-open .bar-sec { visibility: hidden; }
 .facts dt { color: #0D3B80; }
 .facts dd { color: #000; }
 .tl-row.has-note .tl-label { white-space: normal; overflow: visible; }   /* "B.S. Mechanical Engineering" wraps instead of being cut off */
+#coursework { scroll-margin-top: 72px; }   /* Skills links (MATLAB, ROS 2) land on the coursework band below the top bar */

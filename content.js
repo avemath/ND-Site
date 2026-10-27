@@ -608,25 +608,25 @@ window.SITE = {
        note:   a short line under the tool name (only facts from his resume or answers)
        since:  a start year; shows as "N yrs, since YEAR" and keeps itself up to date
        usedOn: the projects it was used on, by their exact title ("featured" means
-               the featured project). These become links to the project cards.
+               the featured project, "coursework" the coursework band). These become
+               links. To change a link's label, write { to: "coursework", label: "..." }.
      Tools with no usedOn are listed together on an "Also used" line at the bottom,
      unless they have row: true.
-     The resume page lists every tool, grouped the same way. */
+     The resume page has its own two Skills lines, in the "resume" block above. */
   skillsTitle: "Tools and skills, with where each was used",
   skills: [
     { group: "CAD", items: [
       { tool: "SolidWorks", since: 2018, usedOn: ["Senior Design: Electric Boat", "Mock Welding Robotic Arm", "Wind Turbine Blade Inspection Mount", "Robot Maze Navigation", "Inclusive Playground", "WildStang Robotics"] },
       { tool: "Onshape", note: "Led CAD at WildStang", usedOn: ["WildStang Robotics"] },
       { tool: "Fusion 360", usedOn: ["featured"] },
-      { tool: "Inventor" },
     ] },
-    // QUESTION: where did he use Inventor, MATLAB, and ROS 2? Add those projects to usedOn so the rows link to them.
     { group: "Code and controls", items: [
       { tool: "Python", usedOn: ["USV Path Planning"] },
       { tool: "Matplotlib", usedOn: ["USV Path Planning"] },
       { tool: "Arduino IDE, Arduino Uno", usedOn: ["Mock Welding Robotic Arm"] },
-      { tool: "MATLAB", row: true },        // row: true keeps it in the table even without a project link
-      { tool: "ROS 2", row: true },
+      // "coursework" links to the coursework band; a label can name the course work it was used in
+      { tool: "MATLAB", note: "Across classes and class projects", usedOn: ["coursework"] },
+      { tool: "ROS 2", usedOn: [{ to: "coursework", label: "Industrial Robotics labs" }] },
     ] },
     { group: "Fabrication", items: [
       { tool: "3D printing (PLA, PETG)", usedOn: ["featured", "Mock Welding Robotic Arm", "Robot Maze Navigation"] },

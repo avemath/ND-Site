@@ -1148,6 +1148,12 @@
     var where = {};
     projects.forEach(function (p) { where[p.title] = { id: p._id, label: p.timelineLabel || p.title }; });
     if (F && !F.draft) where.featured = { id: "featured-project", label: F.shortLabel || F.title };
+    if (S.coursework && S.coursework.length) where.coursework = { id: "coursework", label: "Coursework" };
+    // a usedOn entry is a title, or { to: title, label: "..." } to name the link differently
+    function target(k) {
+      var w = where[typeof k === "string" ? k : k.to];
+      return w && typeof k !== "string" && k.label ? { id: w.id, label: k.label } : w;
+    }
     var rowsN = 0, also = [], tbody = el("tbody", null, []);
     skills.forEach(function (g) {
       var linked = function (t) { return (t.usedOn && t.usedOn.length) || t.row; };   // row: true keeps an unlinked tool in the table
@@ -1160,7 +1166,7 @@
       listed.forEach(function (t) {
         rowsN++;
         var note = t.since ? (new Date().getFullYear() - t.since) + " yrs, since " + t.since : t.note;
-        var targets = (t.usedOn || []).map(function (k) { return where[k]; }).filter(Boolean);
+        var targets = (t.usedOn || []).map(target).filter(Boolean);
         var name = el("th", "bom-tool", [el("span", "bom-name", [t.tool]), note ? el("span", "bom-note mono", [note]) : null]);
         name.scope = "row";
         var tr = el("tr", "bom-row", [
