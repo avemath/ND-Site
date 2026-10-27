@@ -945,6 +945,7 @@
       function hit() { play(n.f); b.classList.add("down"); setTimeout(function () { b.classList.remove("down"); }, 160); }
       b.addEventListener("pointerdown", function (e) {
         e.preventDefault();
+        kb.classList.add("by-pointer");   // no focus marker after a click or tap
         b.focus({ preventScroll: true });   // so the letter keys keep working after a tap
         rove(i);
         hit();
@@ -957,6 +958,8 @@
     function rove(to) {
       buttons.forEach(function (x, k) { x.b.tabIndex = k === to ? 0 : -1; });
     }
+    // a key press brings the focus marker back
+    kb.addEventListener("keydown", function () { kb.classList.remove("by-pointer"); });
     kb.addEventListener("keydown", function (e) {
       var now = buttons.findIndex(function (x) { return x.b === document.activeElement; });
       if (now < 0) return;

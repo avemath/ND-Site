@@ -655,9 +655,14 @@ body.menu-open .gear { visibility: hidden; }
 .kb-key.black { position: absolute; top: 0; z-index: 1; width: var(--bk); height: 62%; background: linear-gradient(#000 70%, #2B2B2B 92%, #111); border: 0; border-radius: 0 0 5px 5px; box-shadow: 0 2px 0 rgba(0,0,0,.25); }
 .kb-key.white.down { background: #D3E1F7; }
 .kb-key.black.down { background: #444; }
-/* focus ring drawn inside the key, so it shows against the white neighbors and the navy card */
-.kb-key:focus-visible { outline: 3px solid #1450A8; outline-offset: -6px; z-index: 2; }
-.kb-key.black:focus-visible { outline-color: #7AA7FF; }
+/* keyboard focus: a blue bar along the bottom of a white key, or a blue tint on a black
+   key. The black keys always stay on top. Only for keyboard focus, not after a click or tap. */
+.kb-key.black { z-index: 2; }
+.kb-key:focus { outline: none; }
+.kb-key.white:focus-visible { box-shadow: inset 0 -7px 0 #1450A8; }
+.kb-key.black:focus-visible { background: linear-gradient(#1450A8 70%, #3C6FC4 92%, #1450A8); }
+.kb.by-pointer .kb-key.white:focus-visible { box-shadow: none; }
+.kb.by-pointer .kb-key.black:focus-visible { background: linear-gradient(#000 70%, #2B2B2B 92%, #111); }
 .kb-hint { margin: 10px 0 0; color: var(--fg-3); }
 
 
