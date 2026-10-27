@@ -283,6 +283,12 @@
   }
 
   var figCount = 0;   // drawings are numbered like figures on a drawing sheet
+  // keeps "Fig. 01, 02, ..." in page order (a photo that falls back to its drawing joins late)
+  function renumberFigs() {
+    [].forEach.call(document.querySelectorAll(".art-tag"), function (t, i) {
+      t.textContent = t.textContent.replace(/^Fig\. \d+/, "Fig. " + (i < 9 ? "0" : "") + (i + 1));
+    });
+  }
   function drawing(item) {
     var spec = DRAW[item.art];
     if (!spec) return null;
@@ -398,6 +404,13 @@
     var nav = photos.length > 1 ? el("span", "gal-nav", [arrow("\u2190", "Previous photo", -1), count, arrow("\u2192", "Next photo", 1)]) : null;
     show(0);
     var panel = el("div", "tab-media art-box has-gallery", [el("div", "gal-stage", [open]), el("div", "gal-bar", [cap, nav])]);
+    // left and right arrow keys step through the photos, like the arrow buttons
+    if (photos.length > 1) panel.addEventListener("keydown", function (e) {
+      var d = { ArrowLeft: -1, ArrowRight: 1 }[e.key];
+      if (!d) return;
+      e.preventDefault();
+      show(i + d);
+    });
     panel.setAttribute("aria-label", label);
     return panel;
   }
@@ -573,6 +586,7 @@
         box.classList.remove("has-photo");
         box.classList.add("has-drawing", "drawn");
         parts.forEach(function (p) { box.appendChild(p); });
+        renumberFigs();
       });
       box.appendChild(img);
       box.classList.add("has-photo");
@@ -773,8 +787,9 @@
     }));
     rslot.appendChild(el("div", "rev-frame", [row]));
     rslot.appendChild(detail);
-    rsec.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && active && !(lb && lb.open)) { e.preventDefault(); closeRobot(true); }
+    // Escape closes the open robot from anywhere (focus returns to its panel if focus was in the strip)
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && active && !(lb && lb.open)) { e.preventDefault(); closeRobot(rsec.contains(document.activeElement)); }
     });
   }
   if ((!F || F.draft) && !projects.length) hide(document.getElementById("featured"), "#featured");
