@@ -355,10 +355,18 @@ window.SITE = {
         "Selected aluminum and polyethylene to keep the structure light and easy to build",
       ],
       tools: ["SolidWorks", "ADA guidelines"],
-      art: "playground",                   // NOTE: drawing is illustrative; swap in a SolidWorks render if he has one
+      art: "playground",
       callouts: ["Designed to ADA guidelines", "Light aluminum and polyethylene"],
       image: "",
       imageAlt: "",
+      // the line drawing is the first tab; his SolidWorks model is the second
+      tabs: [
+        { label: "Drawing" },
+        { label: "CAD model", photos: [
+          { image: "assets/img/playground-cad.jpg", caption: "SolidWorks model of the playground.",
+            alt: "SolidWorks model of the playground in purple and gold: a fenced lot with a play structure and a small house with a covered porch" },
+        ] },
+      ],
       link: "",
     },
     {
