@@ -42,6 +42,9 @@ Since he's a mechanical engineer, I added a few engineering touches:
 - On a computer, the mouse pointer in the top section becomes a CAD crosshair. It
   snaps to the dot grid and shows X/Y coordinates in inches.
 - Each row of the timeline in the Experience section links to that project card or job.
+- Right after the project cards, "Five robots, four seasons" shows his five WildStang
+  robots like the revision block on a drawing, REV A (2019) through REV E (2022).
+  Selecting one opens its details. On a phone the robots scroll sideways.
 - On a computer, hovering over a card (a project, a skill, or a hobby) selects it
   like a part in CAD: the card lifts a little, its border turns blue, and small
   corner brackets snap in around it. Tabbing into a card with the keyboard does
