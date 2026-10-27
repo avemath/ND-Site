@@ -745,9 +745,9 @@ main { counter-reset: sec; }
 
 /* 9. skills: separators at line START are clipped, so no dangling dot at line end */
 
-/* 10. hobbies: piano card holds the left column */
+/* 10. hobbies: the piano card spans the top row */
 @media (min-width: 761px) {
-  .hob-card:has(.kb) { grid-row: span 2; }
+  .hob-card:has(.kb) { grid-column: 1 / -1; }   /* the piano spans the full width on top */
 }
 .hob-name { color: #FFFFFF; }
 
@@ -1167,10 +1167,9 @@ body.menu-open .bar-sec { visibility: hidden; }
 }
 .hob-view:focus-visible { outline: 3px solid #7AA7FF; outline-offset: 2px; }
 
-/* the piano card spans both rows on the left: its keyboard grows to fill the card
-   (up to realistic key proportions) so the left and right columns stay balanced */
-@media (min-width: 761px) {
-  .hob-card:has(.kb) { display: flex; flex-direction: column; }
-  .hob-card:has(.kb) .kb-wrap { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; max-width: none; }
-  .hob-card:has(.kb) .kb { flex: 1; height: auto; min-height: 170px; max-height: 380px; }
-}
+/* the piano card spans the full width on top: text above, the keyboard centered
+   below it at a comfortable size; guitar and drone sit side by side underneath and
+   share the row's height */
+.hob-card:has(.kb) .kb-wrap { max-width: 640px; margin: 4px auto 0; }
+.hob-card:has(.kb) .kb { height: 190px; }
+@media (min-width: 761px) { .hob-card:has(.kb) .hob-text { max-width: 46em; } }
