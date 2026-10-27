@@ -416,13 +416,6 @@ button.xp-head:hover .xp-role { text-decoration: underline; text-decoration-colo
 }
 
 /* ---------- skills: spec sheet ---------- */
-.spec { margin: 0; border-top: 1px solid var(--fg); }
-.spec-row { display: grid; grid-template-columns: 12em minmax(0, 1fr); gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--ln); }
-.spec-row dt { font-size: 0.8rem; color: var(--fg-3); padding-top: 4px; }
-.spec-row dd { margin: 0; }
-.spec-items { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 0; font-size: clamp(1.1rem, 1.8vw, 1.35rem); }
-.spec-items li { display: inline-flex; align-items: center; }
-@media (max-width: 640px) { .spec-row { grid-template-columns: 1fr; gap: 8px; } }
 
 /* ---------- contact ---------- */
 .contact {
@@ -628,11 +621,6 @@ body.menu-open .gear { visibility: hidden; }
 
 /* ---------- what I can do ---------- */
 /* 2-up so bullets don't wrap every 3 words */
-.caps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 0 clamp(48px, 7vw, 80px); }
-.cap { background: var(--card); border-radius: 24px; padding: clamp(24px, 3vw, 36px); }
-.cap-title { margin: 0 0 18px; font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1; }
-.cap .points { margin: 0; font-size: 0.98rem; }
-@media (max-width: 560px) { .caps { grid-template-columns: 1fr; } }
 
 /* ---------- hobbies (only shown when content.js has them) ---------- */
 #hobbies-pane { padding-bottom: calc(var(--space) * .7); }
@@ -735,12 +723,9 @@ main { counter-reset: sec; }
 .pane-blue .sec-h::before { color: rgba(255,255,255,.8); }
 
 /* 7. small Doto titles: heavier so the dots read as letters, not texture */
-.cap-title, .hob-name, .tb-title .tb-value { font-weight: 900; }
+.hob-name, .tb-title .tb-value { font-weight: 900; }
 
 /* 9. skills: separators at line START are clipped, so no dangling dot at line end */
-.spec-row dd { overflow: hidden; }
-.spec-items { margin-left: -37px; }
-.spec-items li::before { content: ""; flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin: 0 16px; }
 
 /* 10. hobbies: piano card holds the left column */
 @media (min-width: 761px) {
@@ -775,7 +760,7 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
 }
 
 /* headline line breaks and small consistency fixes */
-.feat-title, .card-title, .cap-title, .hob-name, .contact-text { text-wrap: balance; }
+.feat-title, .card-title, .hob-name, .contact-text { text-wrap: balance; }
 .feat-title { max-width: 14em; }
 .art-tag, .callouts, .kb-hint, .hob-photo figcaption, .tl-grad span { font-size: .75rem; }
 
@@ -845,9 +830,8 @@ body.menu-open .bar-sec { visibility: hidden; }
 @media (max-width: 760px) { .bar-sec { display: none; } }
 
 /* ---------- white cards on the drafting-table panes: a thin border and a soft layered shadow ---------- */
-.card, .feature, .cap { box-shadow: var(--sh, none); }
-.cap { border: 1px solid #D6D9DE; }
-.card, .cap {
+.card, .feature { box-shadow: var(--sh, none); }
+.card {
   --sh: 0 1px 1px rgba(0,0,0,.04), 0 2px 6px rgba(0,0,0,.05), 0 16px 32px -14px rgba(0,0,0,.16);
   --sh-hover: 0 2px 3px rgba(0,0,0,.05), 0 10px 22px -6px rgba(0,0,0,.13), 0 30px 56px -18px rgba(0,0,0,.24);
 }
@@ -862,11 +846,11 @@ body.menu-open .bar-sec { visibility: hidden; }
    The card lifts 4px, its border turns blue, its shadow deepens, and corner brackets
    snap in like a selection box. translate (not transform) is used for the lift, so it
    doesn't fight the scroll reveal. Nothing changes size, so the layout never shifts. */
-.card, .feature, .cap, .hob-card {
+.card, .feature, .hob-card {
   position: relative;
   transition: translate .25s var(--ease), box-shadow .25s var(--ease), border-color .2s;
 }
-.card::after, .feature::after, .cap::after, .hob-card::after {
+.card::after, .feature::after, .hob-card::after {
   content: ""; position: absolute; inset: 18px; z-index: 3; pointer-events: none; opacity: 0;
   --b: linear-gradient(var(--accent), var(--accent));
   background:
@@ -878,23 +862,23 @@ body.menu-open .bar-sec { visibility: hidden; }
   transition: inset .2s var(--ease), opacity .12s;
 }
 @media (hover: hover) {
-  .card:hover, .feature:hover, .cap:hover, .hob-card:hover {
+  .card:hover, .feature:hover, .hob-card:hover {
     translate: 0 -4px; border-color: var(--accent);
     box-shadow: var(--sh-hover, 0 18px 36px -14px rgba(16, 24, 40, .28));
   }
-  .card:hover::after, .feature:hover::after, .cap:hover::after, .hob-card:hover::after { inset: 10px; opacity: 1; }
+  .card:hover::after, .feature:hover::after, .hob-card:hover::after { inset: 10px; opacity: 1; }
 }
-.card:focus-within, .feature:focus-within, .cap:focus-within, .hob-card:focus-within {
+.card:focus-within, .feature:focus-within, .hob-card:focus-within {
   translate: 0 -4px; border-color: var(--accent);
   box-shadow: var(--sh-hover, 0 18px 36px -14px rgba(16, 24, 40, .28));
 }
-.card:focus-within::after, .feature:focus-within::after, .cap:focus-within::after, .hob-card:focus-within::after { inset: 10px; opacity: 1; }
+.card:focus-within::after, .feature:focus-within::after, .hob-card:focus-within::after { inset: 10px; opacity: 1; }
 /* reduced motion: no lift and no snapping, but the blue border and brackets still show */
 @media (prefers-reduced-motion: reduce) {
-  .card, .feature, .cap, .hob-card { translate: none !important; }
-  .card::after, .feature::after, .cap::after, .hob-card::after { inset: 10px; transition: opacity .12s; }
+  .card, .feature, .hob-card { translate: none !important; }
+  .card::after, .feature::after, .hob-card::after { inset: 10px; transition: opacity .12s; }
 }
-@media print { .card::after, .feature::after, .cap::after, .hob-card::after { display: none; } }
+@media print { .card::after, .feature::after, .hob-card::after { display: none; } }
 
 /* ---------- very wide screens: a little more room for the content ---------- */
 @media (min-width: 1600px) { :root { --max: 1400px; } }
@@ -995,3 +979,53 @@ body.menu-open .bar-sec { visibility: hidden; }
   .rev-panel, .rev-photo img { transition: none; }
   .rev-panel:hover .rev-photo img { scale: none; }
 }
+
+/* ---------- Skills: a bill of materials, like the parts list on a drawing ----------
+   A white sheet with a heavy drawing border and a title-block header. Each tool is
+   a numbered item; its tags link to the project cards it was used on. */
+.bom { background: #fff; border: 1.5px solid #111; border-radius: 4px; overflow: hidden; box-shadow: 0 16px 32px -14px rgba(0,0,0,.16); }
+.bom-head { display: grid; grid-template-columns: 1fr auto auto; border-bottom: 1.5px solid #111; }
+.bom-cell { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-left: 1px solid #111; }
+.bom-cell:first-child { border-left: 0; }
+.bom-k { font-size: 0.62rem; color: var(--fg-3); }
+.bom-v { font-size: 0.8rem; color: #111; }
+.bom-table { width: 100%; border-collapse: collapse; }
+.bom-table thead th { padding: 10px 16px; border-bottom: 1px solid #111; background: #F6F7F9; text-align: left; font-size: 0.68rem; font-weight: 400; color: var(--fg-3); }
+.bom-table thead th + th, .bom-row > * + * { border-left: 1px solid #D6D9DE; }
+.bom-group th { padding: 16px 16px 8px; border-top: 1px solid #111; text-align: left; font-size: 0.72rem; font-weight: 700; letter-spacing: .08em; color: var(--accent); }
+.bom-group:first-child th { border-top: 0; }
+.bom-row > * { padding: 11px 16px; border-top: 1px solid #E3E5E9; vertical-align: middle; text-align: left; }
+.bom-n { width: 1%; font-size: 0.78rem; font-weight: 700; color: var(--accent); }
+.bom-tool { width: 30%; font-weight: 500; }
+.bom-name { display: block; }
+.bom-note { display: block; margin-top: 3px; font-size: 0.66rem; font-weight: 400; color: var(--fg-3); }
+.bom-links { display: flex; flex-wrap: wrap; gap: 6px; }
+.bom-link {
+  display: inline-flex; align-items: center; min-height: 30px; padding: 2px 11px;
+  border: 1px solid var(--tag); border-radius: 999px; font-size: 0.66rem; color: #111; text-decoration: none;
+  transition: border-color .15s, color .15s, background-color .15s;
+}
+.bom-link:hover, .bom-link:focus-visible { border-color: var(--accent); color: var(--accent); }
+.bom-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* the row under the pointer (or holding keyboard focus) is selected, like a row in a parts list */
+.bom-row { transition: background-color .15s, box-shadow .15s; }
+.bom-row:hover, .bom-row:focus-within { background: #EEF3FB; box-shadow: inset 3px 0 0 var(--accent); }
+.bom-row:hover .bom-link, .bom-row:focus-within .bom-link { border-color: var(--accent); color: var(--accent); }
+.bom-also { margin: 0; padding: 12px 16px; border-top: 1px solid #111; font-size: 0.92rem; color: var(--fg-2); }
+.bom-also-k { font-size: 0.68rem; color: var(--fg-3); }
+.bom-hint { margin: 0; padding: 10px 16px; border-top: 1.5px solid #111; font-size: 0.66rem; color: var(--fg-3); }
+/* project cards a Skills row points to get a blue outline */
+.card.skill-hot, .feature.skill-hot { border-color: var(--accent); }
+/* phones: each row stacks (number, tool and note, then its project tags) */
+@media (max-width: 640px) {
+  .bom-head { grid-template-columns: 1fr 1fr; }
+  .bom-head .bom-cell:first-child { grid-column: 1 / -1; border-bottom: 1px solid #111; }
+  .bom-head .bom-cell:nth-child(2) { border-left: 0; }
+  .bom-table thead { display: none; }
+  .bom-row { display: grid; grid-template-columns: 2.4em minmax(0, 1fr); padding: 10px 14px; border-top: 1px solid #E3E5E9; }
+  .bom-row > * { padding: 2px 0; border: 0 !important; width: auto; }
+  .bom-row .bom-used { grid-column: 2; padding-top: 6px; }
+  .bom-group th { display: block; }
+}
+@media (prefers-reduced-motion: reduce) { .bom-row, .bom-link { transition: none; } }
+@media print { .bom { box-shadow: none; } .bom-hint { display: none; } }

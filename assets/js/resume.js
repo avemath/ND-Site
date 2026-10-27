@@ -96,7 +96,10 @@
   var skills = (S.skills || []).filter(function (g) { return g && !g.draft; });
   if (skills.length) {
     root.appendChild(section("Skills", [el("dl", "skills", skills.map(function (g) {
-      return el("div", null, [el("dt", null, [g.group]), el("dd", null, [(g.items || []).join(", ")])]);
+      // every tool in the group, with its start year if it has one ("SolidWorks (since 2018)")
+      return el("div", null, [el("dt", null, [g.group]), el("dd", null, [(g.items || []).map(function (t) {
+        return typeof t === "string" ? t : t.tool + (t.since ? " (since " + t.since + ")" : "");
+      }).join(", ")])]);
     }))]));
   }
 

@@ -118,6 +118,7 @@ window.SITE = {
      "callouts" are the numbered labels on the drawing, in order. */
   featured: {
     title: "Acoustic Modem Mount for a BlueROV2",
+    shortLabel: "BlueROV2 mount",            // its name on the Skills tags
     org: "Integer Technologies",
     dates: "May 2026 to Aug 2026",
     hook: "A BlueLink SARbot, an underwater vehicle built on the BlueROV2, needed an acoustic modem for in-water testing. The modem sits in a watertight enclosure from Blue Robotics. I designed both 3D-printed parts: the mount that holds the enclosure on the vehicle, and a Raspberry Pi mount that fits inside it.",
@@ -479,50 +480,43 @@ window.SITE = {
     "Circuits", "Electronics", "Welding Engineering",
   ],
 
-  /* ---------- What I can do (four cards above the skills list) ----------
-     Each one is backed by real work from the resume. */
-  capabilities: [
-    {
-      title: "Design",
-      proof: [
-        "SolidWorks since 2018, plus Onshape, Fusion 360, and Inventor",
-        "Led CAD for 5 WildStang competition robots",
-        "Designed 3D-printed modem mounts for a BlueROV2-based vehicle at Integer",
-      ],
-    },
-    {
-      title: "Build",
-      proof: [
-        "Held \u00B10.005 in. on a manual lathe",
-        "MIG welded a steel stool and wrote G-code for a Haas CNC router",
-        "3D printed parts in PLA, PETG, and Onyx",
-      ],
-    },
-    {
-      title: "Code and controls",
-      proof: [
-        "Building a path planner for unmanned surface vessels in Python",
-        "Tuning artificial potential field and ant colony optimization models in simulation",
-        "Wired a 5-DOF arm around an Arduino Uno R4 and measured its position error",
-      ],
-    },
-    {
-      title: "Lead and teach",
-      proof: [
-        "Led WildStang, a team of about 80, as primary team lead junior and senior years",
-        "Trained younger WildStang members on CAD and power tools",
-        "Tutored up to 100 students in the LSU Math Lab",
-      ],
-    },
-  ],
-
-  /* ---------- Skills (spec sheet rows) ---------- */
+  /* ---------- Skills: a bill of materials ----------
+     Laid out like the parts list on an engineering drawing. Each tool can have:
+       note:   a short line under the tool name (only facts from his resume or answers)
+       since:  a start year; shows as "N yrs, since YEAR" and keeps itself up to date
+       usedOn: the projects it was used on, by their exact title ("featured" means
+               the featured project). These become links to the project cards.
+     Tools with no usedOn are listed together on an "Also used" line at the bottom.
+     The resume page lists every tool, grouped the same way. */
+  skillsTitle: "Tools and skills, with where each was used",
   skills: [
-    { group: "CAD", items: ["SolidWorks (since 2018)", "Onshape", "Fusion 360", "Inventor"] },
+    { group: "CAD", items: [
+      { tool: "SolidWorks", since: 2018, usedOn: ["Senior Design: Electric Boat", "Wind Turbine Blade Inspection Mount", "Robot Maze Navigation", "Inclusive Playground", "WildStang Robotics"] },
+      { tool: "Onshape", note: "Led CAD at WildStang", usedOn: ["WildStang Robotics"] },
+      { tool: "Fusion 360", usedOn: ["featured"] },
+      { tool: "Inventor" },
+    ] },
     // QUESTION: what did he use ROS 2 for?
-    { group: "Code and controls", items: ["Python", "Matplotlib", "ROS 2", "MATLAB", "Arduino"] },
-    { group: "Fabrication", items: ["3D printing", "Markforged", "MIG welding", "Manual lathe", "Haas CNC", "G-code", "CNC router", "VCarve", "Drill press", "Band saw", "Miter saw"] },
+    { group: "Code and controls", items: [
+      { tool: "Python", usedOn: ["USV Path Planning"] },
+      { tool: "Matplotlib", usedOn: ["USV Path Planning"] },
+      { tool: "Arduino", usedOn: ["Mock Welding Robotic Arm"] },
+      { tool: "ROS 2" },
+      { tool: "MATLAB" },
+    ] },
+    { group: "Fabrication", items: [
+      { tool: "3D printing (PLA, PETG)", usedOn: ["featured", "Mock Welding Robotic Arm", "Robot Maze Navigation"] },
+      { tool: "Markforged (Onyx)", usedOn: ["WildStang Robotics"] },
+      { tool: "CNC router, VCarve", note: "Ran the team's router", usedOn: ["WildStang Robotics"] },
+      { tool: "Haas CNC, G-code", note: "Wrote the G-code", usedOn: ["Manufacturing Lab Projects"] },
+      { tool: "Manual lathe", note: "Held \u00B10.005 in.", usedOn: ["Manufacturing Lab Projects"] },
+      { tool: "MIG welding", usedOn: ["Manufacturing Lab Projects"] },
+      { tool: "Soldering", usedOn: ["Mock Welding Robotic Arm"] },
+      { tool: "Drill press" }, { tool: "Band saw" }, { tool: "Miter saw" },
+    ] },
   ],
+  skillsAlsoLabel: "Also used",
+  skillsHint: "Hover a row to highlight those projects. Select a project to jump to it.",
 
   /* ---------- Off the clock (hobbies) ----------
      Nicholas said yes to this being public (Oct 2026). Shows on a blue panel

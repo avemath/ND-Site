@@ -433,7 +433,9 @@
       F.result ? el("p", "feat-result", [F.result]) : null,
       F.specs && F.specs.length ? specTable(F.specs) : F.tools && F.tools.length ? pills(F.tools) : null,
     ]);
-    fslot.appendChild(el("article", "feature", [media(F, "feat-media art-box"), info]));
+    var feat = el("article", "feature", [media(F, "feat-media art-box"), info]);
+    feat.id = "featured-project";   // Skills links point here
+    fslot.appendChild(feat);
   }
 
   /* ======================= projects ======================= */
@@ -782,25 +784,72 @@
     band.appendChild(pause);
   } else hide(band);
 
-  /* ======================= skills (spec sheet) ======================= */
+  /* ======================= skills: a bill of materials =======================
+     Laid out like the parts list on a drawing. Each tool links to the project
+     cards it was used on: hovering or focusing a row outlines those cards, and
+     selecting a tag jumps to its card. Tools without a project go on one
+     "Also used" line at the bottom. */
 
   var skills = live(S.skills);
   if (skills.length) {
     var sk = slot("skills");
-    var caps = live(S.capabilities);
-    if (caps.length) {
-      sk.appendChild(el("div", "caps", caps.map(function (cap) {
-        return el("article", "cap", [el("h3", "cap-title dot", [cap.title]), bullets(cap.proof)]);
-      })));
-    }
-    var dl = el("dl", "spec");
+    var where = {};
+    projects.forEach(function (p) { where[p.title] = { id: p._id, label: p.timelineLabel || p.title }; });
+    if (F && !F.draft) where.featured = { id: "featured-project", label: F.shortLabel || F.title };
+    var rowsN = 0, also = [], tbody = el("tbody", null, []);
     skills.forEach(function (g) {
-      dl.appendChild(el("div", "spec-row", [
-        el("dt", "mono", [g.group]),
-        el("dd", null, [el("ul", "spec-items", (g.items || []).map(function (t) { return el("li", null, [el("span", null, [t])]); }))]),
-      ]));
+      var listed = (g.items || []).filter(function (t) { return t.usedOn && t.usedOn.length; });
+      (g.items || []).forEach(function (t) { if (!(t.usedOn && t.usedOn.length)) also.push(t.tool); });
+      if (!listed.length) return;
+      var gh = el("th", "mono", [g.group]);
+      gh.colSpan = 3; gh.scope = "colgroup";
+      tbody.appendChild(el("tr", "bom-group", [gh]));
+      listed.forEach(function (t) {
+        rowsN++;
+        var note = t.since ? (new Date().getFullYear() - t.since) + " yrs, since " + t.since : t.note;
+        var targets = t.usedOn.map(function (k) { return where[k]; }).filter(Boolean);
+        var name = el("th", "bom-tool", [el("span", "bom-name", [t.tool]), note ? el("span", "bom-note mono", [note]) : null]);
+        name.scope = "row";
+        var tr = el("tr", "bom-row", [
+          el("td", "bom-n mono", [(rowsN < 10 ? "0" : "") + rowsN]),
+          name,
+          el("td", "bom-used", [el("div", "bom-links", targets.map(function (w) {
+            var a = el("a", "bom-link mono", [w.label]);
+            a.href = "#" + w.id;
+            a.addEventListener("click", function () {
+              var c = document.getElementById(w.id);
+              if (!c) return;
+              // after the browser follows the link: focus the card and flash it (a steady
+              // outline instead of the flash when motion is reduced)
+              setTimeout(function () {
+                jumpTo(c);
+                if (reduceMotion) { c.classList.add("skill-hot"); setTimeout(function () { c.classList.remove("skill-hot"); }, 1600); }
+              }, 0);
+            });
+            return a;
+          }))]),
+        ]);
+        function mark(on) {
+          targets.forEach(function (w) { var c = document.getElementById(w.id); if (c) c.classList.toggle("skill-hot", on); });
+        }
+        tr.addEventListener("mouseenter", function () { mark(true); });
+        tr.addEventListener("mouseleave", function () { mark(false); });
+        tr.addEventListener("focusin", function () { mark(true); });
+        tr.addEventListener("focusout", function () { mark(false); });
+        tbody.appendChild(tr);
+      });
     });
-    sk.appendChild(dl);
+    var table = el("table", "bom-table", [
+      el("thead", "mono", [el("tr", null, ["Item", "Tool", "Used on"].map(function (h) { var th = el("th", null, [h]); th.scope = "col"; return th; }))]),
+      tbody,
+    ]);
+    var cell = function (k, v) { return el("span", "bom-cell", [el("span", "bom-k", [k]), el("span", "bom-v", [v])]); };
+    sk.appendChild(el("div", "bom", [
+      el("div", "bom-head mono", [cell("Title", S.skillsTitle || "Tools and skills"), cell("Sheet", "Parts list"), cell("Items", String(rowsN))]),
+      table,
+      also.length ? el("p", "bom-also", [el("span", "bom-also-k mono", [(S.skillsAlsoLabel || "Also used") + ":"]), " " + also.join(", ")]) : null,
+      S.skillsHint ? el("p", "bom-hint mono", [S.skillsHint]) : null,
+    ]));
   } else hide(document.getElementById("skills").parentNode, "#skills");
 
   /* ======================= hobbies (only shows if content.js has a hobbies block) ======================= */
@@ -1337,7 +1386,7 @@
   (function () {
     if (reduceMotion || !("IntersectionObserver" in window)) return;
     var targets = document.querySelectorAll(".num, .about-copy, .facts, .feature, .card, .tl, .xp-item, " +
-      ".cap, .spec, .hob-intro, .hob-card, .contact-text");
+      ".bom, .hob-intro, .hob-card, .contact-text");
     function show(n, delay) {
       n.style.transitionDelay = delay + "ms";
       n.classList.add("in");
