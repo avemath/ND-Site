@@ -733,6 +733,26 @@ body.menu-open .gear { visibility: hidden; }
 .card .pills { margin-top: 0; }   /* tags sit right after the content, no empty space above them */
 .cards .card-media.has-drawing { aspect-ratio: auto; }
 .cards .card-media.has-drawing .drawing-wrap { flex: none; aspect-ratio: 16 / 10; }
+/* a photo (or photo tabs, like the maze robot's) gets a 4:3 picture area under its tab row:
+   the photo fills it, and a render on another tab sits whole on white */
+.cards .card-media.has-photo { aspect-ratio: 4 / 3; }
+.cards .card-media.has-tabs:has(> .tab-stack > .tab-media.has-photo:first-child) { aspect-ratio: auto; }
+.cards .card-media.has-tabs:has(> .tab-stack > .tab-media.has-photo:first-child) > .tab-stack { flex: none; aspect-ratio: 4 / 3; }
+.cards .tab-stack > .tab-media.has-photo { position: relative; }
+.cards .tab-stack > .tab-media.has-gallery { background: #fff; }
+/* while a render's tab is showing, the whole picture area (tab row too) is white like the render */
+.cards .card-media.has-tabs:has(> .tab-stack > .tab-media.has-gallery:not(.is-off)) { background-color: #fff; background-image: none; }
+/* one photo, no arrows: a slimmer caption line, so the picture can be bigger */
+.cards .has-gallery:not(:has(.gal-nav)) .gal-stage { inset: 8px 8px 34px; }
+.cards .has-gallery:not(:has(.gal-nav)) .gal-bar { bottom: 3px; min-height: 28px; }
+/* a CAD render's own light background fades into the white at its edges, so it reads as
+   part of the picture area rather than a box on it */
+.cards .has-gallery .gal-photo img {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent), linear-gradient(transparent, #000 7%, #000 93%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent), linear-gradient(transparent, #000 7%, #000 93%, transparent);
+  mask-composite: intersect;
+}
 /* a drawing with tabs (the playground: Drawing / CAD model): the drawing keeps the same
    16:10 size under the tab row, and the photo tab fills that same box */
 .cards .card-media.has-tabs:has(> .tab-stack > .tab-media.has-drawing:first-child) { aspect-ratio: auto; }
