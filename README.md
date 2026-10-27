@@ -63,6 +63,7 @@ turn off automatically.
 | `404.html` | The page people see if they go to an address on the site that doesn't exist |
 | `sitemap.xml` | A list of the site's pages for search engines |
 | `assets/img/` | Project photos go here |
+| `assets/video/` | Short silent clips, like his path planning simulation (an MP4, a WebM, and a still frame) |
 | `.nojekyll` | A hidden, empty file that tells GitHub Pages to serve the files as they are. Leave it. |
 
 ## Editing the content
@@ -75,7 +76,8 @@ Open `content.js` and follow the notes at the top. The short version:
   page until it's ready.
 - **Hiding one field:** set it to `""` (empty quotes).
 - **Photos:** each project shows the first thing it has, in this order: a `video`,
-  then an `image`, then its line drawing (`art`).
+  then an `image`, then its line drawing (`art`). A video plays silently on a loop
+  while it's on screen, with a Play/Pause button.
 - **Second photo:** the featured project can also show a second photo under its
   bullets, with a small caption. Fill in `image2`, `image2Alt`, and `image2Caption`.
   Leave `image2` as `""` to hide it.
@@ -84,8 +86,10 @@ Open `content.js` and follow the notes at the top. The short version:
 - **Spec table:** `specs` on the featured project is the small table (Role, CAD,
   Materials, and so on). When it's filled in, it shows instead of the tool pills
   (the small rounded labels).
-- **Resume bullets:** jobs can have `resumePoints`, which are longer bullets used
-  only on the resume page.
+- **Resume bullets:** jobs and projects can have `resumePoints`, which are bullets
+  used only on the resume page. I use them to keep the resume on one page.
+  `resume: false` leaves a project off the resume (the two iCORE Lab cards are
+  already covered under the iCORE job).
 - **Revision letter:** `revision` is the REV box in the footer. Bump the letter
   (C to D, and so on) when the site gets a real update.
 - **If the page goes blank after an edit,** look for a missing quote or comma.
@@ -96,17 +100,17 @@ about a minute.
 
 ## Still needed
 
-All of his info is filled in from his October 2026 resume. Here's what's left:
+All of his info is filled in from his October 2026 resume and his answers to my
+questions. Here's what's left:
 
-- [ ] Senior design project: it's hidden as a draft. Fill in the name, hook, bullets,
-      and tools, then delete `draft: true`
+- [ ] Get his answers to the open questions at the top of `content.js` (things
+      like the BlueROV2 Heavy, the competition name, and the radio system)
+- [ ] Integer's OK before any BlueROV2 photos go on the site. The photos are ready
+      in my private folder, not in this repo
+- [ ] Photos of his iCORE Lab work (he said it's all public and he'll send some),
+      plus any of the welding arm, maze robot, WildStang robots, and senior design boat
+- [ ] Drone photos for "Off the clock" (3 to 6 is plenty)
 - [ ] Have him read the tagline and the About paragraphs (I drafted them in his voice)
-- [ ] Get his answers to the "Questions for Nicholas" at the top of `content.js`
-      (results, photos, awards), then fill in the `result` lines
-- [ ] Photos or short videos of his projects (BlueROV2 housing, welding arm, maze
-      robot, WildStang robots)
-- [ ] Hobbies ("Off the clock"): this section is already live. Add a line on what he
-      plays, where he flies, and 3 to 6 drone photos
 - [ ] Optional: link his GitHub (github.com/nmdomke) once he has projects on it
 - [ ] Optional: add the site to Google Search Console and submit `sitemap.xml`, so
       Google finds it sooner
