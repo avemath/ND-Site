@@ -32,7 +32,6 @@
    11. Open to relocating?
    Also new from this round:
    12. Wind turbine mount: when did he work on it? (no dates yet, so it's not on the timeline)
-   13. Senior design: which months? "2026 to 2027" draws as Jan 2026 to Dec 2027.
    14. UR5e mount: his resume says "a laser camera and an RGB camera"; his answers say
        "a laser and a depth sensor". The site uses his answers. Which is right?
    ========================================================================== */
@@ -166,8 +165,7 @@ window.SITE = {
       title: "Senior Design: Electric Boat",
       timelineLabel: "Senior design",
       role: "Team lead, team of 8 (4 mechanical, 3 electrical, 1 computer engineer)",
-      // QUESTION: which months? With no months, the timeline draws "2026 to 2027" as Jan 2026 to Dec 2027.
-      dates: "2026 to 2027",
+      dates: "Aug 2026 to May 2027",       // a two-semester course
       // QUESTION: confirm the competition name (he said "Mike Briscoe ASNE ONR national competition")
       hook: "An electric boat with a custom hull inspired by a jet ski, for ASNE's Promoting Electric Propulsion (PEP) competition, a national student competition sponsored by ONR.",
       points: [
