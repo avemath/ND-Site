@@ -1072,6 +1072,7 @@
         it.text ? el("p", "hob-text", [it.text]) : null,
       ]);
       if (it.keys) card.appendChild(keyboard(it.keysHint));
+      if (it.strings) card.appendChild(guitar(it));
       if (hasPhotos) {
         card.appendChild(el("div", "hob-photos", it.photos.map(function (ph) {
           var f = el("figure", "hob-photo" + (ph.image ? "" : " empty"));
@@ -1095,6 +1096,21 @@
     menuList.insertBefore(li, menuList.lastElementChild);
   }
 
+  // One shared Web Audio output for the piano and the guitar: a little headroom plus
+  // a gentle limiter, so chords and full strums never clip.
+  var sound = { ctx: null, out: null };
+  function audio() {
+    if (!sound.ctx) {
+      var ctx = sound.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      sound.out = ctx.createGain(); sound.out.gain.value = 0.7;
+      var lim = ctx.createDynamicsCompressor();
+      lim.threshold.value = -10; lim.knee.value = 6; lim.ratio.value = 12; lim.attack.value = 0.003; lim.release.value = 0.2;
+      sound.out.connect(lim); lim.connect(ctx.destination);
+    }
+    if (sound.ctx.state === "suspended") sound.ctx.resume();
+    return sound.ctx;
+  }
+
   // A keyboard from middle C (C4) up to D5 that plays real notes (Web Audio).
   // Equal temperament with A4 = 440 Hz: each key is 440 * 2^((n - 69) / 12),
   // where n is its MIDI note number. The computer keys A to L play it too
@@ -1108,19 +1124,6 @@
     }
     var keysMap = "awsedftgyhujkol";
     var whites = notes.filter(function (x) { return !x.black; }).length;
-    var ctx = null, out = null;
-    function audio() {
-      if (!ctx) {
-        ctx = new (window.AudioContext || window.webkitAudioContext)();
-        // a little headroom plus a gentle limiter, so chords never clip
-        out = ctx.createGain(); out.gain.value = 0.7;
-        var lim = ctx.createDynamicsCompressor();
-        lim.threshold.value = -10; lim.knee.value = 6; lim.ratio.value = 12; lim.attack.value = 0.003; lim.release.value = 0.2;
-        out.connect(lim); lim.connect(ctx.destination);
-      }
-      if (ctx.state === "suspended") ctx.resume();
-      return ctx;
-    }
     function play(f) {
       try {
         var c = audio(), o = c.createOscillator(), g = c.createGain(), t = c.currentTime;
@@ -1128,7 +1131,7 @@
         g.gain.setValueAtTime(0.0001, t);
         g.gain.exponentialRampToValueAtTime(0.3, t + 0.012);   // soft attack, no click
         g.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
-        o.connect(g); g.connect(out); o.start(t); o.stop(t + 1.25);
+        o.connect(g); g.connect(sound.out); o.start(t); o.stop(t + 1.25);
       } catch (e) {}
     }
     var kb = el("div", "kb");
@@ -1184,6 +1187,152 @@
       if (i > -1) buttons[i].hit();
     });
     return el("div", "kb-wrap", [kb, hint ? el("p", "kb-hint mono", [hint]) : null]);
+  }
+
+  /* Six guitar strings in standard tuning (E2 A2 D3 G3 B3 E4), lowest at the bottom.
+     Each is a plucked-string sound made with the Karplus-Strong method: a burst of noise
+     fed around a short delay line that softens on every pass, like a real string's
+     decay. Its pitch is set exactly by correcting the delay line's length, so each
+     string is in tune. Sweep the mouse across them, tap or swipe sideways on a phone,
+     or press 1 (high E) to 6 (low E) while the guitar is on screen. */
+  function guitar(it) {
+    var STR = [[64, "E", 4], [59, "B", 3], [55, "G", 3], [50, "D", 3], [45, "A", 2], [40, "E", 2]].map(function (s, i) {
+      return { midi: s[0], name: s[1], oct: s[2], num: i + 1, f: 440 * Math.pow(2, (s[0] - 69) / 12) };
+    });
+    var bufs = {};
+    function ks(s) {
+      var c = audio(), sr = c.sampleRate;
+      if (bufs[s.num]) return bufs[s.num];
+      var N = Math.max(3, Math.round(sr / s.f + 0.5)), len = Math.floor(sr * 2.4);
+      var buf = c.createBuffer(1, len, sr), d = buf.getChannelData(0), line = new Float32Array(N), prev = 0, peak = 0;
+      for (var i = 0; i < N; i++) { var r = Math.random() * 2 - 1; line[i] = prev = (r + prev) / 2; }   // a softened pluck
+      var decay = 0.9965 + 0.002 * (1 - s.num / 6);   // a touch more sustain on the low strings
+      for (var j = 0, k = 0; j < len; j++) {
+        var nx = k + 1 === N ? 0 : k + 1;
+        d[j] = line[k];
+        line[k] = decay * 0.5 * (line[k] + line[nx]);
+        k = nx;
+      }
+      for (j = 0; j < len; j++) peak = Math.max(peak, Math.abs(d[j]));
+      for (j = 0; j < len; j++) d[j] /= peak || 1;
+      // each pass averages a sample with the one after it, so the loop rings at
+      // sr / (N - 0.5); the playback rate corrects that to the exact note
+      return (bufs[s.num] = { buf: buf, rate: s.f / (sr / (N - 0.5)) });
+    }
+    function sound1(s) {
+      try {
+        var c = audio(), b = ks(s), src = c.createBufferSource(), g = c.createGain();
+        src.buffer = b.buf; src.playbackRate.value = b.rate;
+        g.gain.value = 0.32;
+        src.connect(g); g.connect(sound.out); src.start();
+      } catch (e) {}
+    }
+
+    // drawing: a nut on the left, a bridge on the right, six strings (thicker toward the bass)
+    var W = 300, H = 150, X0 = 26, X1 = 292;
+    var wrap = el("div", "gtr", []);
+    wrap.innerHTML = '<svg class="gtr-svg" viewBox="0 0 ' + W + " " + H + '" preserveAspectRatio="none" aria-hidden="true">' +
+      '<path class="gtr-nut" d="M' + X0 + ' 6 V' + (H - 6) + '"/><path class="gtr-bridge" d="M' + X1 + ' 10 V' + (H - 10) + '"/>' +
+      STR.map(function (s, i) {
+        var y = (i + 0.5) * H / 6;
+        return '<path class="gtr-str" style="stroke-width:' + (1 + i * 0.32) + 'px" d="M' + X0 + " " + y + " Q" + (X0 + X1) / 2 + " " + y + " " + X1 + " " + y + '"/>';
+      }).join("") + "</svg>";
+    var paths = [].slice.call(wrap.querySelectorAll(".gtr-str"));
+    var readout = el("p", "gtr-read mono", [it.stringsIdle || ""]);
+    readout.setAttribute("aria-live", "polite");
+    var group = el("div", "gtr-bands", []);
+    group.setAttribute("role", "group");
+    group.setAttribute("aria-label", it.stringsLabel || "Playable guitar strings");
+    var buttons = STR.map(function (s, i) {
+      var b = el("button", "gtr-band", [el("span", "gtr-note mono", [s.name])]);
+      b.type = "button";
+      b.setAttribute("aria-label", "Play string " + s.num + ", " + s.name + s.oct);
+      b.tabIndex = i ? -1 : 0;
+      b.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pluck(i); }
+        var to = { ArrowDown: i + 1, ArrowRight: i + 1, ArrowUp: i - 1, ArrowLeft: i - 1 }[e.key];
+        if (to == null || to < 0 || to > 5) return;
+        e.preventDefault();
+        buttons[i].tabIndex = -1; buttons[to].tabIndex = 0; buttons[to].focus();
+      });
+      group.appendChild(b);
+      return b;
+    });
+
+    // the string shakes in a quick decaying wave (skipped with reduced motion)
+    var vib = [0, 0, 0, 0, 0, 0], raf = 0, last = [];
+    function wave(now) {
+      raf = 0;
+      var live = false;
+      paths.forEach(function (p, i) {
+        var y = (i + 0.5) * H / 6, t = (now - vib[i]) / 1000, a = 0;
+        if (vib[i] && t < 1.1) { a = 7 * Math.exp(-t / 0.3) * Math.sin(2 * Math.PI * (11 + (5 - i) * 1.5) * t); live = true; } else vib[i] = 0;
+        p.setAttribute("d", "M" + X0 + " " + y + " Q" + (X0 + X1) / 2 + " " + (y + a * 2) + " " + X1 + " " + y);
+        p.classList.toggle("on", !!vib[i]);
+      });
+      if (live) raf = requestAnimationFrame(wave);
+    }
+    function pluck(i) {
+      var now = performance.now();
+      if (last[i] && now - last[i] < 60) return;   // one pluck per crossing
+      last[i] = now;
+      var s = STR[i];
+      sound1(s);
+      readout.textContent = s.name + s.oct + " \u00B7 " + s.f.toFixed(2) + " Hz";
+      if (reduceMotion) { paths[i].classList.add("on"); setTimeout(function () { paths[i].classList.remove("on"); }, 400); return; }
+      vib[i] = now;
+      if (!raf) raf = requestAnimationFrame(wave);
+    }
+    function lineY(i) { var r = group.getBoundingClientRect(); return r.top + (i + 0.5) * r.height / 6; }
+    function bandAt(y) { var r = group.getBoundingClientRect(); return Math.max(0, Math.min(5, Math.floor((y - r.top) / r.height * 6))); }
+
+    // mouse: every string the pointer crosses plays; a click plays the string under it
+    var lastY = null;
+    group.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") lastY = e.clientY; });
+    group.addEventListener("pointerleave", function () { lastY = null; });
+    group.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      if (lastY != null) for (var i = 0; i < 6; i++) {
+        var y = lineY(i);
+        if ((lastY < y && e.clientY >= y) || (lastY > y && e.clientY <= y)) pluck(i);
+      }
+      lastY = e.clientY;
+    });
+    // touch: a tap or a sideways swipe plays the string under the finger; an up-and-down
+    // swipe is left to the page, so it scrolls
+    var touch = null;
+    group.addEventListener("pointerdown", function (e) {
+      if (e.pointerType === "mouse") { pluck(bandAt(e.clientY)); return; }
+      touch = { x: e.clientX, y: e.clientY, i: bandAt(e.clientY), played: false };
+    });
+    group.addEventListener("pointermove", function (e) {
+      if (!touch || e.pointerType === "mouse") return;
+      var dx = e.clientX - touch.x, dy = e.clientY - touch.y;
+      if (!touch.played && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { touch.played = true; pluck(touch.i); }
+    });
+    group.addEventListener("pointerup", function (e) {
+      if (touch && !touch.played && e.pointerType !== "mouse") pluck(touch.i);
+      touch = null;
+    });
+    group.addEventListener("pointercancel", function () { touch = null; });
+    group.addEventListener("click", function (e) { e.preventDefault(); });   // the pointer handlers already played it
+
+    // number keys 1 to 6 while the guitar is mostly on screen (the piano uses letters)
+    var inView = false;
+    new IntersectionObserver(function (es) { inView = es[0].isIntersecting; }, { threshold: 0.6 }).observe(wrap);
+    document.addEventListener("keydown", function (e) {
+      if (e.repeat || e.ctrlKey || e.metaKey || e.altKey || !/^[1-6]$/.test(e.key)) return;
+      if (!inView && !wrap.contains(document.activeElement)) return;
+      var t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      if (document.body.classList.contains("menu-open")) return;
+      pluck(+e.key - 1);
+    });
+    wrap.appendChild(group);
+    return el("div", "gtr-wrap", [wrap, el("div", "gtr-foot", [
+      readout,
+      it.stringsHint ? el("p", "kb-hint mono gtr-hint", [el("span", "hint-mouse", [it.stringsHint]), el("span", "hint-touch", [it.stringsHintTouch || it.stringsHint])]) : null,
+    ])]);
   }
 
   /* ======================= contact + footer ======================= */

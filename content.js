@@ -563,6 +563,11 @@ window.SITE = {
       {
         name: "Guitar",
         text: "I've taught myself since 2020, and I have three electrics, an acoustic, and a ukulele. I also played clarinet in my high school band.",
+        strings: true,                     // shows six playable strings in standard tuning
+        stringsHint: "Strum or tap the strings, or press 1 to 6",   // with a mouse
+        stringsHintTouch: "Tap a string, or swipe sideways on it",   // on touch screens
+        stringsIdle: "Standard tuning: E A D G B E",   // the tuner readout before a string is played
+        stringsLabel: "Playable guitar strings, standard tuning",
       },
       {
         name: "Drone photography",
