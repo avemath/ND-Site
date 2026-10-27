@@ -307,9 +307,11 @@
       if (reduceMotion) rb.setAttribute("transform", "translate(" + built.robotStart[0] + " " + built.robotStart[1] + ")");
     }
     // every line draws itself in, staggered
-    [].forEach.call(svg.querySelectorAll(".ln"), function (n, i) {
+    var lines = svg.querySelectorAll(".ln");
+    [].forEach.call(lines, function (n, i) {
       n.setAttribute("pathLength", "1");
-      n.style.setProperty("--i", i);
+      // every drawing finishes in about the same time, however many lines it has
+      n.style.setProperty("--i", (i * 20 / Math.max(20, lines.length)).toFixed(2));
     });
     // "Illustration" stays so nobody mistakes the drawing for his actual CAD
     var tag = el("span", "art-tag mono", ["Fig. " + (figCount < 10 ? "0" : "") + figCount + " / Illustration"]);
@@ -489,25 +491,34 @@
     // then controller to servos, then a pause
     var groups = [0, 1, 2].map(function (n) { return wires.filter(function (w) { return w.getAttribute("data-step") === String(n); }); });
     var LEG = 650, REST = 2600, CYCLE = LEG * 3 + REST;
+    // one dot per wire, made once and moved each frame; between pulses nothing runs
+    var dots = wires.map(function () {
+      var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      c.setAttribute("class", "sch-pulse"); c.setAttribute("r", "3.2"); c.style.display = "none";
+      pulses.appendChild(c);
+      return c;
+    });
+    var nap = 0;
+    function hideDots() { dots.forEach(function (d) { d.style.display = "none"; }); }
     function frame(now) {
       raf = 0;
       if (!t0) t0 = now;
       var t = (now - t0) % CYCLE, g = Math.floor(t / LEG), f = (t % LEG) / LEG;
-      pulses.textContent = "";
-      if (g < 3) groups[g].forEach(function (w) {
-        var p = w.getPointAtLength(w.getTotalLength() * f);
-        var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        c.setAttribute("class", "sch-pulse"); c.setAttribute("r", "3.2");
-        c.setAttribute("cx", p.x); c.setAttribute("cy", p.y);
-        pulses.appendChild(c);
+      if (g >= 3) { hideDots(); nap = setTimeout(function () { nap = 0; loop(); }, CYCLE - t); return; }
+      wires.forEach(function (w, k) {
+        var on = groups[g].indexOf(w) > -1;
+        dots[k].style.display = on ? "" : "none";
+        if (!on) return;
+        var p = w.getPointAtLength(lens[k] * f);
+        dots[k].setAttribute("cx", p.x); dots[k].setAttribute("cy", p.y);
       });
       loop();
     }
     function loop() {
-      if (raf || !drawn || reduceMotion || !shown || !onScreen) { if (reduceMotion) pulses.textContent = ""; return; }
+      if (raf || nap || !drawn || reduceMotion || !shown || !onScreen) { if (reduceMotion) hideDots(); return; }
       raf = requestAnimationFrame(frame);
     }
-    function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; }
+    function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; if (nap) clearTimeout(nap); nap = 0; }
     function update() {
       if (shown && onScreen) { start(); loop(); } else stop();
     }
@@ -516,7 +527,7 @@
     var panel = el("div", "tab-media art-box has-schematic", [wrap, el("div", "gal-bar", [cap])]);
     panel.addEventListener("tabvisibility", function (e) { shown = e.detail; update(); });
     new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; update(); }, { threshold: 0.3 }).observe(panel);
-    onMotionChange.push(function () { if (reduceMotion) { stop(); finish(); pulses.textContent = ""; } else loop(); });
+    onMotionChange.push(function () { if (reduceMotion) { stop(); finish(); hideDots(); } else loop(); });
     return panel;
   }
 
@@ -1683,6 +1694,8 @@
     function loop(now) {
       raf = 0;
       if (!visible || document.hidden || reduceMotion) return;
+      // the full-screen menu hides the dots: check back a few times a second instead of drawing
+      if (document.body.classList.contains("menu-open")) { setTimeout(kick, 400); return; }
       if (now - lastSpawn > 140) {
         lastSpawn = now;
         blinks.push({ i: (Math.random() * cols * rows) | 0, t: now, life: 900 + Math.random() * 900, accent: Math.random() < 0.06 });
