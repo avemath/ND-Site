@@ -747,10 +747,8 @@
      in its column, 16px apart, with no gaps. The grid's rows are 1px tall and each card
      spans its own height in rows plus the gap. Cards go, in order, into the column that
      ends highest (the leftmost on a tie), so the first row reads left to right.
-     Columns are chosen from each card's height with its "+ more" closed, so opening one
-     only pushes down the cards under it in the same column. A ResizeObserver re-packs
-     on any size change: window, fonts, photos, video, tabs, "+ more". Without
-     JavaScript (or with one column) it's a plain grid. */
+     A ResizeObserver re-packs on any size change: window, fonts, photos, video, tabs.
+     Without JavaScript (or with one column) it's a plain grid. */
   function masonry(grid) {
     var items = [].slice.call(grid.children), queued = 0;
     function pack() {
@@ -760,13 +758,11 @@
       var gap = parseFloat(cs.columnGap) || 16;
       grid.classList.toggle("is-packed", cols > 1);
       if (cols < 2) { items.forEach(function (c) { c.style.gridColumn = c.style.gridRow = ""; }); return; }
-      var tops = [], bases = [];
-      for (var i = 0; i < cols; i++) { tops.push(0); bases.push(0); }
+      var tops = [];
+      for (var i = 0; i < cols; i++) tops.push(0);
       items.forEach(function (c) {
-        var h = Math.ceil(c.offsetHeight), extra = 0;
-        [].forEach.call(c.querySelectorAll(".more"), function (m) { extra += m.offsetHeight; });
-        var col = bases.indexOf(Math.min.apply(null, bases));
-        bases[col] += h - extra + gap;
+        var h = Math.ceil(c.offsetHeight);
+        var col = tops.indexOf(Math.min.apply(null, tops));
         c.style.gridColumn = String(col + 1);
         c.style.gridRow = (tops[col] + 1) + " / span " + Math.max(1, h);
         tops[col] += h + gap;
@@ -798,25 +794,6 @@
     if (lb.showModal) lb.showModal(); else window.open(src);
   }
 
-  // Cards show 3 bullets; any extras open under a "+ N more" button.
-  function cardBullets(items, id) {
-    if (items.length <= 3) return bullets(items);
-    var extra = items.length - 3;
-    var rest = el("div", "more", [bullets(items.slice(3))]);
-    rest.id = id;
-    rest.inert = true;
-    var btn = el("button", "more-btn mono", ["+ " + extra + " more"]);
-    btn.type = "button";
-    btn.setAttribute("aria-expanded", "false");
-    btn.setAttribute("aria-controls", id);
-    btn.addEventListener("click", function () {
-      var open = rest.classList.toggle("open");
-      rest.inert = !open;
-      btn.setAttribute("aria-expanded", String(open));
-      btn.textContent = open ? "\u2212 Show less" : "+ " + extra + " more";   // + opens, minus closes, like "Details"
-    });
-    return el("div", "pts", [bullets(items.slice(0, 3)), rest, btn]);
-  }
 
   /* Three tiers: the featured card above, then the spotlights (full-width cards with
      the picture and text side by side, sides alternating), then a grid of smaller
@@ -835,7 +812,7 @@
           el("p", "card-meta mono", [p.dates ? el("span", null, [p.dates]) : null, el("span", null, [p.role])]),
           el("h3", "card-title", [p.title]),
           p.hook ? el("p", "card-hook", [p.hook]) : null,
-          p.points && p.points.length ? cardBullets(p.points, "more-" + p._id) : null,
+          p.points && p.points.length ? bullets(p.points) : null,
           p.image2 ? secondPhoto(p, "card-photo") : null,
           p.result ? el("p", "card-result", [p.result]) : null,
           p.tools && p.tools.length ? pills(p.tools) : null,

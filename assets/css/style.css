@@ -345,8 +345,8 @@ body.menu-open .bar::before { opacity: 0; }
 .art-box.is-empty { background-image: radial-gradient(circle, rgba(var(--dot-rgb), .1) 1.1px, transparent 1.5px); background-size: 12px 12px; }
 
 /* ---------- project cards ---------- */
-/* align-items: start, so each card keeps its own height: opening "+ more" on one card
-   doesn't stretch the others in its row into tall empty boxes */
+/* align-items: start, so each card keeps its own height instead of stretching to the
+   tallest card in its row */
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; align-items: start; }
 .card {
   display: flex; flex-direction: column;
@@ -858,20 +858,6 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
 @keyframes flash { 0%, 35% { box-shadow: 0 0 0 2px var(--accent); } 100% { box-shadow: 0 0 0 2px transparent; } }
 @keyframes flash-row { 0%, 35% { background: rgba(20, 80, 168, .08); } 100% { background: transparent; } }
 
-/* ---------- project cards: extra bullets behind "+ N more" ---------- */
-.pts { margin-bottom: 20px; }
-.pts .points { margin-bottom: 0; }
-.more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s var(--ease); }
-.more > * { overflow: hidden; min-height: 0; }
-.more.open { grid-template-rows: 1fr; }
-.more-btn {
-  min-height: 44px; margin-top: -4px; padding: 0 0 0 20px; background: none; border: 0; cursor: pointer;
-  color: var(--fg); font-size: 0.75rem;
-  text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px;
-}
-.more-btn:hover { color: var(--accent); }
-@media (prefers-reduced-motion: reduce) { .more { transition: none; } }
-@media print { .more { grid-template-rows: 1fr !important; } .more-btn { display: none !important; } }
 
 /* ---------- timeline bars draw in left to right when the chart rises in ----------
    .rise is only added when motion is allowed, so with reduced motion the bars are
@@ -1218,7 +1204,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 
 /* mono labels: one letter-spacing for labels and buttons, a wider one for table and
    title-block headers (set here so a parent's tracking doesn't carry over in px) */
-.media-tab, .more-btn, .card-more, .rev-more, .gal-cap, .gal-count, .facts dt, .bom-k, .bom-v, .bom-note, .bom-link, .rev-tag, .rev-year, .tag { letter-spacing: .06em; }
+.media-tab, .card-more, .rev-more, .gal-cap, .gal-count, .facts dt, .bom-k, .bom-v, .bom-note, .bom-link, .rev-tag, .rev-year, .tag { letter-spacing: .06em; }
 .bom-table thead th, .bom-group th, .bom-also-k, .num::before { letter-spacing: .08em; }
 
 /* one line weight across the drawings: the big featured drawing and the schematic
