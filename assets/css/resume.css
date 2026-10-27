@@ -4,9 +4,9 @@
   --ink: #000000;
   --ink-2: #333333;
   --ink-3: #5E5E5E;
-  --rule: #CFCFCF;
+  --rule: #D0D3D8;
   --accent: #1450A8;
-  --desk: #E6E6E6;
+  --desk: #E4E6E9;   /* the site's drafting-table grey */
   --sans: "Space Grotesk", system-ui, sans-serif;
   --mono: "Space Mono", ui-monospace, monospace;
 }
@@ -17,7 +17,7 @@ a { color: inherit; text-decoration-color: var(--accent); text-underline-offset:
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
 .tools { max-width: 8.5in; margin: 0 auto 16px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.pill { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; font-family: var(--mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: .06em; text-decoration: none; cursor: pointer; }
+.pill { display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; font-family: var(--mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .06em; text-decoration: none; cursor: pointer; }
 .pill.ghost { border: 1px solid #8C8C8C; background: transparent; color: var(--ink); }
 .pill.ghost:hover { border-color: var(--ink); }
 .pill.solid { border: 1px solid var(--ink); background: var(--ink); color: #fff; }
@@ -92,3 +92,6 @@ a { color: inherit; text-decoration-color: var(--accent); text-underline-offset:
   .sec-h { break-after: avoid; }
   a { text-decoration: none; }
 }
+
+/* phones (on screen only): resume text at a comfortable reading size */
+@media screen and (max-width: 560px) { .sub, .line, .pts, .skills div, .contact { font-size: 1rem; } }
