@@ -263,6 +263,20 @@
         '<text class="sch-small" x="136" y="522">MG995 servos</text><text class="sch-small" x="246" y="522">SG90 servos</text>',
     },
 
+    /* Drone, top down, for the "Off the clock" card until his photos come. The
+       propellers (dr-prop) spin when the card is hovered or tapped (render.js). */
+    drone: {
+      box: "18 0 264 190",
+      svg:
+        // arms from the body out to the four motors
+        '<path class="dr-arm" d="M150 95 L62 40"/><path class="dr-arm" d="M150 95 L238 40"/><path class="dr-arm" d="M150 95 L62 150"/><path class="dr-arm" d="M150 95 L238 150"/>' +
+        // the prop disks (dashed), motors, and two-blade propellers that spin
+        '<circle class="dr-disk" cx="62" cy="40" r="36"/><circle class="dr-motor" cx="62" cy="40" r="10"/><g class="dr-prop"><path d="M29 40 H95"/><circle cx="62" cy="40" r="3"/></g><circle class="dr-disk" cx="238" cy="40" r="36"/><circle class="dr-motor" cx="238" cy="40" r="10"/><g class="dr-prop"><path d="M205 40 H271"/><circle cx="238" cy="40" r="3"/></g><circle class="dr-disk" cx="62" cy="150" r="36"/><circle class="dr-motor" cx="62" cy="150" r="10"/><g class="dr-prop"><path d="M29 150 H95"/><circle cx="62" cy="150" r="3"/></g><circle class="dr-disk" cx="238" cy="150" r="36"/><circle class="dr-motor" cx="238" cy="150" r="10"/><g class="dr-prop"><path d="M205 150 H271"/><circle cx="238" cy="150" r="3"/></g>' +
+        // body, battery, and the camera on the front edge
+        '<rect class="dr-body" x="120" y="68" width="60" height="54" rx="12"/><rect class="dr-batt" x="132" y="80" width="36" height="30" rx="4"/>' +
+        '<rect class="dr-body" x="139" y="56" width="22" height="12" rx="4"/><circle class="dr-lens" cx="150" cy="62" r="3.5"/>',
+    },
+
     /* FIRST competition robot: drivetrain, bumpers, elevator, claw holding a game piece */
     frc: {
       box: "40 16 300 194",

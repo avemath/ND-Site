@@ -1067,23 +1067,40 @@
     var hgrid = el("div", "hob-grid");
     live(H.items).forEach(function (it) {
       var hasPhotos = it.photos && it.photos.length;
-      var card = el("article", "hob-card" + (hasPhotos || it.wide ? " wide" : ""), [
+      var card = el("article", "hob-card" + (it.wide ? " wide" : ""), [
         el("h3", "hob-name dot", [it.name]),
         it.text ? el("p", "hob-text", [it.text]) : null,
       ]);
       if (it.keys) card.appendChild(keyboard(it.keysHint));
       if (it.strings) card.appendChild(guitar(it));
       if (hasPhotos) {
+        // photos look through a drone camera's viewfinder (corner marks and a faint
+        // crosshair); selecting one opens it larger
         card.appendChild(el("div", "hob-photos", it.photos.map(function (ph) {
           var f = el("figure", "hob-photo" + (ph.image ? "" : " empty"));
           if (ph.image) {
             var im = document.createElement("img");
             im.src = ph.image; im.alt = ph.alt || ""; im.loading = "lazy";
-            f.appendChild(im);
+            var open = el("button", "hob-view", [im, el("span", "sr-only", [" (opens a larger photo)"])]);
+            open.type = "button";
+            open.addEventListener("click", function () { lightbox(ph.image, ph.alt, ph.caption); });
+            f.appendChild(open);
           } else f.appendChild(el("span", "mono", ["Photo"]));
           if (ph.caption) f.appendChild(el("figcaption", "mono", [ph.caption]));
           return f;
         })));
+      } else if (it.art && DRAW[it.art]) {
+        // a line drawing until photos come; its propellers spin on hover or tap
+        var art = el("div", "hob-art", []);
+        art.innerHTML = '<svg viewBox="' + DRAW[it.art].box + '" aria-hidden="true" focusable="false">' + DRAW[it.art].svg + "</svg>";
+        card.appendChild(art);
+        var spin = function () {
+          if (reduceMotion || card.classList.contains("spin")) return;
+          card.classList.add("spin");
+          setTimeout(function () { card.classList.remove("spin"); }, 1700);
+        };
+        card.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") spin(); });
+        card.addEventListener("click", spin);
       }
       hgrid.appendChild(card);
     });

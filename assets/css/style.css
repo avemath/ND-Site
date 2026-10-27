@@ -1130,3 +1130,47 @@ body.menu-open .bar-sec { visibility: hidden; }
 .gtr-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; margin-top: 10px; }
 .gtr-read { margin: 0; font-size: 0.75rem; color: #FFFFFF; text-transform: none; }   /* "Hz", not "HZ" */
 .gtr-hint { margin: 0; }
+
+/* ---------- drone card: a line drawing whose propellers spin on hover or tap ---------- */
+.hob-art { margin-top: 4px; padding: 6px 0; }
+.hob-art svg { display: block; width: 100%; max-width: 300px; height: auto; margin: 0 auto; overflow: visible; }
+.dr-arm { stroke: #DCE7F8; stroke-width: 7; stroke-linecap: round; }
+.dr-disk { fill: none; stroke: rgba(220,231,248,.35); stroke-width: 1; stroke-dasharray: 3 4; }
+.dr-motor, .dr-body { fill: #0D3B80; stroke: #DCE7F8; stroke-width: 1.6; }
+.dr-batt { fill: none; stroke: rgba(220,231,248,.6); stroke-width: 1.2; }
+.dr-lens { fill: #7AA7FF; }
+.dr-prop path { stroke: #7AA7FF; stroke-width: 5; stroke-linecap: round; }
+.dr-prop circle { fill: #DCE7F8; }
+.dr-prop { transform-box: fill-box; transform-origin: center; }
+@keyframes dr-spin { from { rotate: 0deg; } to { rotate: 1440deg; } }
+.hob-card.spin .dr-prop { animation: dr-spin 1.6s cubic-bezier(.15, .55, .3, 1); }   /* spins up, then eases down */
+.hob-card.spin .dr-prop:nth-of-type(odd) { animation-direction: reverse; }
+@media (prefers-reduced-motion: reduce) { .hob-card.spin .dr-prop { animation: none; } }
+
+/* drone photos: a 2-column grid inside the card (an odd count puts the first photo full
+   width), each framed like a drone camera view: corner marks and a faint crosshair */
+.hob-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.hob-photo:first-child:nth-last-child(odd) { grid-column: 1 / -1; }
+.hob-view { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 14px; overflow: hidden; }
+.hob-view img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.hob-view::before, .hob-view::after { content: ""; position: absolute; pointer-events: none; }
+.hob-view::before {
+  inset: 10px; --c: linear-gradient(rgba(255,255,255,.9), rgba(255,255,255,.9));
+  background: var(--c) top left / 14px 1.5px, var(--c) top left / 1.5px 14px, var(--c) top right / 14px 1.5px, var(--c) top right / 1.5px 14px,
+    var(--c) bottom left / 14px 1.5px, var(--c) bottom left / 1.5px 14px, var(--c) bottom right / 14px 1.5px, var(--c) bottom right / 1.5px 14px;
+  background-repeat: no-repeat;
+}
+.hob-view::after {
+  left: 50%; top: 50%; width: 18px; height: 18px; translate: -50% -50%;
+  background: linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) center / 18px 1px no-repeat,
+    linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) center / 1px 18px no-repeat;
+}
+.hob-view:focus-visible { outline: 3px solid #7AA7FF; outline-offset: 2px; }
+
+/* the piano card spans both rows on the left: its keyboard grows to fill the card
+   (up to realistic key proportions) so the left and right columns stay balanced */
+@media (min-width: 761px) {
+  .hob-card:has(.kb) { display: flex; flex-direction: column; }
+  .hob-card:has(.kb) .kb-wrap { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; max-width: none; }
+  .hob-card:has(.kb) .kb { flex: 1; height: auto; min-height: 170px; max-height: 380px; }
+}

@@ -573,8 +573,11 @@ window.SITE = {
         name: "Drone photography",
         text: "I bought my first drone in 2020 and taught myself to fly. I like flying near water in quiet, low-population areas, " +
           "and taking pictures of the sky, nature, and friends around a fire.",
-        // Add his photos here and a grid appears. Put files in assets/img/, e.g.
-        // { image: "assets/img/drone-1.jpg", alt: "Aerial view of ...", caption: "Baton Rouge, LA" },
+        art: "drone",                      // a drone line drawing (drawings.js) until photos are added
+        // Add his photos here and they replace the drawing with a grid styled like a drone
+        // camera view (3 to 6 look best). Put files in assets/img/, with their location and
+        // camera data stripped first (see the README). Example:
+        // { image: "assets/img/drone-1.jpg", alt: "Aerial view of ...", caption: "" },
         photos: [],
       },
     ],
