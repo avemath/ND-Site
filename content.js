@@ -157,6 +157,7 @@ window.SITE = {
       title: "Senior Design: Electric Boat",
       timelineLabel: "Senior design",
       role: "Team lead, team of 8 (4 mechanical, 3 electrical, 1 computer engineer)",
+      // QUESTION: which months? With no months, the timeline draws "2026 to 2027" as Jan 2026 to Dec 2027.
       dates: "2026 to 2027",
       // QUESTION: confirm the competition name (he said "Mike Briscoe ASNE ONR national competition")
       hook: "An electric boat with a custom hull inspired by a jet ski, for ASNE's Promoting Electric Propulsion (PEP) competition, a national student competition sponsored by ONR.",
@@ -383,13 +384,22 @@ window.SITE = {
       dates: "May 2023 to Jan 2026",
       compact: true,
     },
+    {
+      role: "Volunteer",
+      org: "FIRST LEGO League",
+      timelineLabel: "FIRST LEGO League",
+      dates: "2017 to 2022",
+      compact: true,
+      // A compact entry can have one short "note" line under it.
+      note: "Refereed competitions and gave teams tips on improving before their next run.",
+    },
   ],
 
   /* ---------- Timeline ----------
      Drawn automatically from the dates on projects and jobs. "next" adds a
      dashed bar after graduation. */
   timeline: {
-    from: 2018,
+    from: 2017,
     to: 2028,
     cut: 2023,          // years before this are squeezed into a narrow strip
     share: 0.2,         // how much of the width that strip gets

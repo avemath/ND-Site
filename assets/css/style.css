@@ -352,6 +352,8 @@ button.xp-head { cursor: pointer; }
 .xp-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
 .xp-role { font-size: clamp(1.15rem, 2vw, 1.45rem); font-weight: 500; }
 .compact .xp-role { font-size: 1.05rem; color: var(--fg-2); }
+/* one short line under a compact entry, lined up with its title */
+.xp-note { flex-basis: 100%; margin-top: 4px; color: var(--fg-3); font-size: 0.95rem; }
 .xp-org { color: var(--fg-3); }
 button.xp-head:hover .xp-role { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }
 

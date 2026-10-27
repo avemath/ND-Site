@@ -631,6 +631,7 @@
       var item = el("li", "xp-item" + (job.compact ? " compact" : ""));
       item.id = job._id = uniqueId("job-" + slug(job.org || job.role));
       if (job.compact || !(job.points && job.points.length)) {
+        if (job.note) head[1].appendChild(el("span", "xp-note", [job.note]));   // under the title, same left edge
         item.appendChild(el("div", "xp-head", head));
       } else {
         var id = "xp-" + i, open = i < 2;

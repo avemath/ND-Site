@@ -73,7 +73,7 @@
     root.appendChild(section("Experience", jobs.map(function (j) {
       return el("article", "item", [
         row(el("h3", null, [j.role]), when(j.dates), el("p", "sub", [[j.org, j.place].filter(Boolean).join(", ")])),
-        j.compact ? null : bullets(j.resumePoints || j.points),
+        j.compact ? (j.note ? el("p", "line", [j.note]) : null) : bullets(j.resumePoints || j.points),
       ]);
     })));
   }
