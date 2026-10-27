@@ -1288,3 +1288,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 .facts dd { color: #000; }
 .tl-row.has-note .tl-label { white-space: normal; overflow: visible; }   /* "B.S. Mechanical Engineering" wraps instead of being cut off */
 #coursework { scroll-margin-top: 72px; }   /* Skills links (MATLAB, ROS 2) land on the coursework band below the top bar */
+
+/* About: on wide screens the facts panel stays in view below the top bar while the text
+   beside it scrolls past, like the featured card's left column (stacked as before on narrow) */
+@media (min-width: 900px) { .about .facts { position: sticky; top: 96px; align-self: start; } }
