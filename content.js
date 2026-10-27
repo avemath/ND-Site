@@ -19,17 +19,19 @@
    comments. His phone number is intentionally NOT on the site.
 
    QUESTIONS FOR NICHOLAS (still open; each one is also marked // QUESTION below)
-   2. Integer: are they okay with photos of the BlueROV2 and the mount being public?
-   6. ROS 2: what did he use it for?
-   7. Senior design: is the competition ASNE's Promoting Electric Propulsion (PEP)?
-   8. Senior design: what does the radio frequency controller do?
-   9. WildStang: were the 40 to 50 hours a week during build season?
-   10. Welding arm: does a Sharpie stand in for the welding torch?
-   11. Open to relocating?
-   Also new from this round:
-   12. Wind turbine mount: when did he work on it? (no dates yet, so it's not on the timeline)
-   14. UR5e mount: his resume says "a laser camera and an RGB camera"; his answers say
+   1. BlueROV2: is the BlueLink SARbot BlueROV2 Heavy based?
+   2. ROS 2: what did he use it for?
+   3. Senior design: is the competition ASNE's Promoting Electric Propulsion (PEP)?
+   4. Senior design: what does the radio frequency controller do?
+   5. WildStang: were the 40 to 50 hours a week during build season?
+   6. Welding arm: does a Sharpie stand in for the welding torch?
+   7. Welding arm: Arduino Uno R3 or R4? (His wiring schematic says R3; the site says R4.)
+   8. Welding arm: what does the Raspberry Pi do?
+   9. Welding arm: which motor controller board is it?
+   10. Wind turbine mount: when did he work on it? (no dates yet, so it's not on the timeline)
+   11. UR5e mount: his resume says "a laser camera and an RGB camera"; his answers say
        "a laser and a depth sensor". The site uses his answers. Which is right?
+   12. Open to relocating?
    ========================================================================== */
 
 window.SITE = {
@@ -229,6 +231,8 @@ window.SITE = {
         "Designed the end effector",
         "3D printed the arm and end effector",
         "Soldered wires to the servos' potentiometers to read joint positions",
+        // QUESTION: Uno R3 or R4? His wiring schematic says R3. Also: what does the Raspberry Pi
+        // in the schematic do, and which motor controller board is it?
         "Wired the electronics around an Arduino Uno R4",
         "Put the CAD model into simulation software to check it, then measured the real arm against it",
       ],
