@@ -544,6 +544,8 @@ window.SITE = {
       org: "Enterrium and Texas Roadhouse",
       place: "Chicago area",
       dates: "May 2023 to Jan 2026",
+      // two jobs with a gap between them, drawn as two pieces on the timeline (from his resume)
+      segments: ["May 2023 to Aug 2024", "May 2025 to Jan 2026"],
       compact: true,
     },
     {

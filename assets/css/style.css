@@ -1268,3 +1268,34 @@ body.menu-open .bar-sec { visibility: hidden; }
 .pill-pdf::after { content: "\2193"; margin-left: 6px; color: var(--accent); }
 .pill-split > .pill:hover { position: relative; z-index: 1; }   /* the hovered half's border shows whole */
 @media print { .pill-pdf { display: none; } }
+
+/* ---------- timeline: his degree as a hatched bar, with his minors written above it ---------- */
+.tl-key .school::before { background: repeating-linear-gradient(135deg, var(--fg) 0 1.5px, transparent 1.5px 4px); border: 1.5px solid var(--fg); }
+.tl-bar.school { background: repeating-linear-gradient(135deg, var(--fg) 0 1.5px, transparent 1.5px 4px); border: 1.5px solid var(--fg); }
+.tl-row.has-note .tl-track { height: 56px; }
+.tl-row.has-note .tl-bar { top: auto; bottom: 12px; translate: none; }
+.tl-note { position: absolute; top: 9px; white-space: nowrap; font-size: .7rem; color: var(--fg-2); }
+@media (max-width: 640px) {
+  .tl-row.has-note .tl-track { height: 40px; }
+  .tl-row.has-note .tl-bar { bottom: 6px; }
+  .tl-note { top: 4px; font-size: .65rem; left: 0 !important; white-space: normal; }
+}
+
+/* ---------- About facts on pale blueprint paper: a hint of color without blue text
+   (blue stays for things you can select). Light blue paper with the faint grid of the
+   blue sections, navy labels and lines, black values. ---------- */
+.facts {
+  background-color: #E8EFFA;
+  background-image:
+    linear-gradient(rgba(20,80,168,.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20,80,168,.16) 1px, transparent 1px),
+    linear-gradient(rgba(20,80,168,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20,80,168,.07) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px;
+  border-color: #0D3B80;
+}
+.facts div { border-color: #0D3B80 !important; }
+.facts dt { color: #0D3B80; }
+.facts dd { color: #000; }
+.tl-row.has-note .tl-label { white-space: normal; overflow: visible; }   /* "B.S. Mechanical Engineering" wraps instead of being cut off */

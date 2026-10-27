@@ -956,13 +956,20 @@
     var rowsData = [];
     jobs.forEach(function (j) {
       var r = range(j.dates);
-      if (r) rowsData.push({ label: j.timelineLabel || (j.compact ? j.role : j.org), kind: "work", r: r, faint: !!j.compact, dates: j.dates, target: j._id });
+      // "segments" splits a row into separate bars (two jobs with a gap, like the server jobs)
+      var segs = (j.segments || []).map(function (x) { return range(x); }).filter(Boolean);
+      if (r) rowsData.push({ label: j.timelineLabel || (j.compact ? j.role : j.org), kind: "work", r: r, segs: segs, faint: !!j.compact,
+        dates: segs.length ? j.segments.join(" and ") : j.dates, target: j._id });
     });
     // (the featured project overlaps the Integer job, so it isn't a row of its own)
     projects.forEach(function (p) {
       var r = range(p.dates);
       if (r) rowsData.push({ label: p.timelineLabel || p.title, kind: "project", r: r, dates: p.dates, target: p._id });
     });
+    // his degree, with his minors written over its bar; the row links to the About facts
+    var deg = T.degree && range(T.degree.dates);
+    if (deg) rowsData.push({ label: T.degree.label, kind: "school", r: deg, dates: T.degree.dates, target: "about-facts",
+      note: S.minor ? (/,/.test(S.minor) ? "Minors: " : "Minor: ") + S.minor : "" });
     rowsData.sort(function (a, b) { return a.r[0] - b.r[0]; });
     if (!rowsData.length) return null;
     var from = T.from || Math.floor(rowsData[0].r[0]);
@@ -1000,13 +1007,18 @@
     var grid = el("div", "tl-rows");
     var gradAt = when(S.graduation, true);   // the end of the graduation month, where a "to May 2027" bar ends
     rowsData.forEach(function (d, i) {
-      var bar = el("span", "tl-bar " + d.kind + (d.r[2] ? " current" : "") + (d.faint ? " faint" : ""));
-      bar.style.setProperty("--i", i);   // stagger for the draw-in
-      bar.style.left = pct(d.r[0]);
-      bar.style.width = "calc(" + pct(d.r[1]) + " - " + pct(d.r[0]) + ")";
-      var kids = [el("span", "tl-label", [d.label, el("span", "sr-only", [" (" + d.dates + ")"])]), el("span", "tl-track", [bar])];
+      var bars = (d.segs && d.segs.length ? d.segs : [d.r]).map(function (r) {
+        var bar = el("span", "tl-bar " + d.kind + (r[2] ? " current" : "") + (d.faint ? " faint" : ""));
+        bar.style.setProperty("--i", i);   // stagger for the draw-in
+        bar.style.left = pct(r[0]);
+        bar.style.width = "calc(" + pct(r[1]) + " - " + pct(r[0]) + ")";
+        return bar;
+      });
+      var note = d.note ? el("span", "tl-note mono", [d.note]) : null;
+      if (note) note.style.left = pct(d.r[0]);
+      var kids = [el("span", "tl-label", [d.label, el("span", "sr-only", [" (" + d.dates + ")" + (d.note ? ". " + d.note : "")])]), el("span", "tl-track", bars.concat([note]))];
       // each row is a link to its project card or job (looked up on click: jobs aren't on the page yet)
-      var row = el("a", "tl-row tl-link", kids);
+      var row = el("a", "tl-row tl-link" + (d.note ? " has-note" : ""), kids);
       row.href = "#" + d.target;
       row.addEventListener("click", function () {
         var t = document.getElementById(d.target);
@@ -1046,7 +1058,8 @@
     nowMark.style.left = across(when("now"));
     grid.appendChild(nowMark);
     wrap.appendChild(el("figcaption", "tl-key mono", [
-      el("span", "k work", ["Work and research"]), el("span", "k project", ["Projects"]), el("span", "k current", ["Ongoing"]),
+      el("span", "k work", ["Work and research"]), el("span", "k project", ["Projects"]),
+      T.degree ? el("span", "k school", ["Degree"]) : null, el("span", "k current", ["Ongoing"]),
       el("span", "tl-hint", ["Select a row to jump to it"]),
     ]));
     wrap.appendChild(axis);
