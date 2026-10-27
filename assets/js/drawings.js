@@ -239,6 +239,30 @@
       anchors: [[218, 162], [245, 84], [250, 162]],
     },
 
+    /* Wiring schematic for the welding arm, redrawn from Nicholas's drawing
+       (his original is in the private folder, not this repo). Stacked top to bottom
+       in the order the signal flows, with only the parts, pins, and wires he drew.
+       data-part names a component (data-id tells the servos apart); data-ends on a wire
+       lists the two parts it joins;
+       data-step orders the wires for the draw-in (render.js runs the animation). */
+    wiring: {
+      box: "40 4 280 528",
+      svg:
+        // Raspberry Pi (top), wired to the top edge of the Arduino, as in his drawing
+        '<g class="sch-part" data-part="pi"><rect class="sch-box" x="120" y="16" width="120" height="52" rx="6"/><text class="sch-title" x="180" y="47">Raspberry Pi</text></g>' +
+        '<path class="sch-wire" data-step="0" data-ends="pi arduino" d="M180 68 V116"/>' +
+        // Arduino Uno with the five pins his drawing uses, along its bottom edge
+        '<g class="sch-part" data-part="arduino"><rect class="sch-box" x="60" y="116" width="240" height="118" rx="6"/><text class="sch-title" x="180" y="164">Arduino Uno</text><text class="sch-pin" x="92" y="224">SDA</text><path class="sch-stub" d="M92 234 V244"/><text class="sch-pin" x="136" y="224">SCL</text><path class="sch-stub" d="M136 234 V244"/><text class="sch-pin" x="180" y="224">5V</text><path class="sch-stub" d="M180 234 V244"/><text class="sch-pin" x="224" y="224">D2</text><path class="sch-stub" d="M224 234 V244"/><text class="sch-pin" x="268" y="224">GND</text><path class="sch-stub" d="M268 234 V244"/></g>' +
+        // controller inputs, left to right: SDA, SCL, 5V, D2, GND (as in his drawing)
+        '<path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="SDA" d="M92 244 V300"/><path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="SCL" d="M136 244 V300"/><path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="5V" d="M180 244 V300"/><path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="D2" d="M224 244 V300"/><path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="GND" d="M268 244 V300"/>' +
+        '<g class="sch-part" data-part="controller"><rect class="sch-box" x="60" y="300" width="240" height="86" rx="6"/><text class="sch-small" x="180" y="318">Inputs</text><text class="sch-title" x="180" y="348">Motor Controller</text><text class="sch-small" x="180" y="378">Outputs</text><circle class="sch-dot" cx="92" cy="300" r="3.5"/><circle class="sch-dot" cx="92" cy="386" r="3.5"/><circle class="sch-dot" cx="136" cy="300" r="3.5"/><circle class="sch-dot" cx="136" cy="386" r="3.5"/><circle class="sch-dot" cx="180" cy="300" r="3.5"/><circle class="sch-dot" cx="180" cy="386" r="3.5"/><circle class="sch-dot" cx="224" cy="300" r="3.5"/><circle class="sch-dot" cx="224" cy="386" r="3.5"/><circle class="sch-dot" cx="268" cy="300" r="3.5"/><circle class="sch-dot" cx="268" cy="386" r="3.5"/></g>' +
+        // outputs to the servos: 3 MG995, then 2 SG90
+        '<path class="sch-wire" data-step="2" data-ends="controller s1" d="M92 386 V446"/><path class="sch-wire" data-step="2" data-ends="controller s2" d="M136 386 V446"/><path class="sch-wire" data-step="2" data-ends="controller s3" d="M180 386 V446"/><path class="sch-wire" data-step="2" data-ends="controller s4" d="M224 386 V446"/><path class="sch-wire" data-step="2" data-ends="controller s5" d="M268 386 V446"/>' +
+        '<g class="sch-part" data-part="mg995" data-id="s1"><circle class="sch-box" cx="92" cy="462" r="16"/><text class="sch-s" x="92" y="467">S</text><path class="sch-stub" d="M92 478 V486"/></g><g class="sch-part" data-part="mg995" data-id="s2"><circle class="sch-box" cx="136" cy="462" r="16"/><text class="sch-s" x="136" y="467">S</text><path class="sch-stub" d="M136 478 V486"/></g><g class="sch-part" data-part="mg995" data-id="s3"><circle class="sch-box" cx="180" cy="462" r="16"/><text class="sch-s" x="180" y="467">S</text><path class="sch-stub" d="M180 478 V486"/></g><g class="sch-part" data-part="sg90" data-id="s4"><circle class="sch-box" cx="224" cy="462" r="16"/><text class="sch-s" x="224" y="467">S</text><path class="sch-stub" d="M224 478 V486"/></g><g class="sch-part" data-part="sg90" data-id="s5"><circle class="sch-box" cx="268" cy="462" r="16"/><text class="sch-s" x="268" y="467">S</text><path class="sch-stub" d="M268 478 V486"/></g>' +
+        '<path class="sch-brace" d="M78 500 V505 H194 V500 M210 500 V505 H282 V500"/>' +
+        '<text class="sch-small" x="136" y="522">MG995 servos</text><text class="sch-small" x="246" y="522">SG90 servos</text>',
+    },
+
     /* FIRST competition robot: drivetrain, bumpers, elevator, claw holding a game piece */
     frc: {
       box: "40 16 300 194",
