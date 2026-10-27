@@ -79,7 +79,7 @@ a { color: inherit; text-decoration-color: var(--accent); text-underline-offset:
   .item + .item { margin-top: 4px; }
   /* the org or course sits on the title line instead of its own line */
   .row-main { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; }
-  .row-main .sub { margin: 0; }
+  .row-main .sub { margin: 0; flex: 1 1 0; min-width: 0; }   /* stays on the title line and wraps there if long */
   .row-main .sub::before { content: "/ "; color: var(--ink-3); }
   .pts { margin-top: 1px; }
   .pts li { margin: 0; }

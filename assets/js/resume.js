@@ -67,16 +67,19 @@
   if (S.gradIntent) edu.push(el("p", "line", [el("strong", null, ["Graduate study: "]), S.gradIntent]));
   root.appendChild(section("Education", edu));
 
-  /* experience */
+  /* experience: the main jobs here; the short (compact) ones go after Projects */
   var jobs = live(S.experience);
-  if (jobs.length) {
-    root.appendChild(section("Experience", jobs.map(function (j) {
-      return el("article", "item", [
-        row(el("h3", null, [j.role]), when(j.dates), el("p", "sub", [[j.org, j.place].filter(Boolean).join(", ")])),
-        j.compact ? (j.note ? el("p", "line", [j.note]) : null) : bullets(j.resumePoints || j.points),
-      ]);
-    })));
+  function job(j) {
+    var where = [j.org, j.place].filter(Boolean).join(", ");
+    // a short entry's note sits on its title line ("FIRST LEGO League. Refereed ...")
+    var sub = j.compact && j.note ? where + ". " + j.note : where;
+    return el("article", "item", [
+      row(el("h3", null, [j.role]), when(j.dates), el("p", "sub", [sub])),
+      j.compact ? null : bullets(j.resumePoints || j.points),
+    ]);
   }
+  var mainJobs = jobs.filter(function (j) { return !j.compact; }), otherJobs = jobs.filter(function (j) { return j.compact; });
+  if (mainJobs.length) root.appendChild(section("Experience", mainJobs.map(job)));
 
   /* projects. The featured project is left out here: it's already covered under Experience (Integer). */
   var projects = live(S.projects).filter(function (p) { return p.resume !== false; });   // resume: false leaves a card off
@@ -91,6 +94,8 @@
       ]);
     })));
   }
+
+  if (otherJobs.length) root.appendChild(section("Other experience", otherJobs.map(job)));
 
   /* skills */
   var skills = (S.skills || []).filter(function (g) { return g && !g.draft; });
