@@ -7,7 +7,6 @@
   --rule: #CFCFCF;
   --accent: #1450A8;
   --desk: #E6E6E6;
-  --dot: "Doto", "Space Mono", monospace;
   --sans: "Space Grotesk", system-ui, sans-serif;
   --mono: "Space Mono", ui-monospace, monospace;
 }
@@ -27,7 +26,7 @@ a { color: inherit; text-decoration-color: var(--accent); text-underline-offset:
 .sheet { max-width: 8.5in; margin: 0 auto; background: #fff; padding: clamp(24px, 6vw, 0.6in); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 12px 40px rgba(0,0,0,.08); }
 
 .head { padding-bottom: 14px; border-bottom: 2px solid var(--ink); overflow: hidden; }
-.name { margin: 0; font-family: var(--dot); font-weight: 800; font-variation-settings: "ROND" 100; text-transform: uppercase; font-size: clamp(2rem, 6vw, 2.6rem); line-height: 1; letter-spacing: .02em; }
+.name { margin: 0; font-family: var(--sans); font-weight: 700; font-size: clamp(2rem, 6vw, 2.6rem); line-height: 1; letter-spacing: -.015em; }
 .role { margin: 10px 0 6px; font-family: var(--mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); }
 .role-part { white-space: nowrap; }
 /* every item starts with a dot; the list is shifted left by one dot's width (4 + 2 x 10px)
