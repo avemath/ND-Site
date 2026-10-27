@@ -745,41 +745,68 @@
     menuList.insertBefore(li, menuList.lastElementChild);
   }
 
-  // A one-octave keyboard that plays real notes (Web Audio). Keys A to K work too.
+  // A keyboard from middle C (C4) up to D5 that plays real notes (Web Audio).
+  // Equal temperament with A4 = 440 Hz: each key is 440 * 2^((n - 69) / 12),
+  // where n is its MIDI note number. The computer keys A to L play it too
+  // (with W, E, T, Y, U, O for the black keys), like a music app.
   function keyboard(hint) {
-    var notes = [["C", 261.63, 0], ["C#", 277.18, 1], ["D", 293.66, 0], ["D#", 311.13, 1], ["E", 329.63, 0],
-      ["F", 349.23, 0], ["F#", 369.99, 1], ["G", 392.0, 0], ["G#", 415.3, 1], ["A", 440.0, 0], ["A#", 466.16, 1],
-      ["B", 493.88, 0], ["C", 523.25, 0]];
-    var keysMap = "awsedftgyhujk";
-    var ctx = null;
+    var NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    var notes = [];
+    for (var n = 60; n <= 74; n++) {
+      var name = NAMES[n % 12];
+      notes.push({ name: name, octave: Math.floor(n / 12) - 1, black: name.length > 1, f: 440 * Math.pow(2, (n - 69) / 12) });
+    }
+    var keysMap = "awsedftgyhujkol";
+    var whites = notes.filter(function (x) { return !x.black; }).length;
+    var ctx = null, out = null;
+    function audio() {
+      if (!ctx) {
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        // a little headroom plus a gentle limiter, so chords never clip
+        out = ctx.createGain(); out.gain.value = 0.7;
+        var lim = ctx.createDynamicsCompressor();
+        lim.threshold.value = -10; lim.knee.value = 6; lim.ratio.value = 12; lim.attack.value = 0.003; lim.release.value = 0.2;
+        out.connect(lim); lim.connect(ctx.destination);
+      }
+      if (ctx.state === "suspended") ctx.resume();
+      return ctx;
+    }
     function play(f) {
       try {
-        ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-        var o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime;
+        var c = audio(), o = c.createOscillator(), g = c.createGain(), t = c.currentTime;
         o.type = "triangle"; o.frequency.value = f;
         g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.25, t + 0.01);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
-        o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 1.2);
+        g.gain.exponentialRampToValueAtTime(0.3, t + 0.012);   // soft attack, no click
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
+        o.connect(g); g.connect(out); o.start(t); o.stop(t + 1.25);
       } catch (e) {}
     }
     var kb = el("div", "kb");
     kb.setAttribute("role", "group");
-    kb.setAttribute("aria-label", "Playable keyboard, one octave");
+    kb.setAttribute("aria-label", "Playable keyboard, C4 to D5");
     var whiteIndex = 0, buttons = [];
     notes.forEach(function (n, i) {
-      var b = el("button", "kb-key " + (n[2] ? "black" : "white"), []);
+      var b = el("button", "kb-key " + (n.black ? "black" : "white"), []);
       b.type = "button";
-      b.setAttribute("aria-label", "Play " + n[0].replace("#", " sharp") + (i === 12 ? " (high)" : ""));
-      if (n[2]) b.style.left = "calc(" + (whiteIndex / 8 * 100) + "% - var(--bk) / 2)";
+      b.setAttribute("aria-label", "Play " + n.name.replace("#", " sharp") + " " + n.octave);
+      // a black key sits over the line between the two white keys around it
+      if (n.black) b.style.left = "calc(" + (whiteIndex / whites * 100) + "% - var(--bk) / 2)";
       else whiteIndex++;
-      function hit() { play(n[1]); b.classList.add("down"); setTimeout(function () { b.classList.remove("down"); }, 160); }
-      b.addEventListener("pointerdown", function (e) { e.preventDefault(); hit(); });
+      function hit() { play(n.f); b.classList.add("down"); setTimeout(function () { b.classList.remove("down"); }, 160); }
+      b.addEventListener("pointerdown", function (e) {
+        e.preventDefault();
+        b.focus({ preventScroll: true });   // so the letter keys keep working after a tap
+        rove(i);
+        hit();
+      });
       b.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); hit(); } });
       b.tabIndex = i ? -1 : 0;   // one tab stop for the whole keyboard; arrow keys move between keys
       buttons.push({ b: b, hit: hit });
       kb.appendChild(b);
     });
+    function rove(to) {
+      buttons.forEach(function (x, k) { x.b.tabIndex = k === to ? 0 : -1; });
+    }
     kb.addEventListener("keydown", function (e) {
       var now = buttons.findIndex(function (x) { return x.b === document.activeElement; });
       if (now < 0) return;
@@ -787,13 +814,21 @@
       if (to == null) return;
       e.preventDefault();
       to = Math.max(0, Math.min(buttons.length - 1, to));
-      buttons[now].b.tabIndex = -1;
-      buttons[to].b.tabIndex = 0;
+      rove(to);
       buttons[to].b.focus();
     });
-    kb.addEventListener("keydown", function (e) {
-      var i = keysMap.indexOf(e.key.toLowerCase());
-      if (i > -1 && !e.repeat) buttons[i].hit();
+    // The letter keys work whenever the keyboard is focused, or mostly on screen
+    // (but not while typing somewhere, with the menu open, or with Ctrl/Cmd/Alt held).
+    var inView = false;
+    new IntersectionObserver(function (es) { inView = es[0].isIntersecting; }, { threshold: 0.6 }).observe(kb);
+    document.addEventListener("keydown", function (e) {
+      if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (!inView && !kb.contains(document.activeElement)) return;
+      var t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      if (document.body.classList.contains("menu-open")) return;
+      var i = keysMap.indexOf(String(e.key).toLowerCase());
+      if (i > -1) buttons[i].hit();
     });
     return el("div", "kb-wrap", [kb, hint ? el("p", "kb-hint mono", [hint]) : null]);
   }

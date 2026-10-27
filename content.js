@@ -474,7 +474,7 @@ window.SITE = {
         name: "Piano",
         text: "My favorite instrument right now. I've taught myself since 2020, with no lessons, and Bach is my favorite composer.",
         keys: true,                        // shows the playable keyboard
-        keysHint: "Tap a key, or use A to K",   // small line under the keyboard
+        keysHint: "Tap a key, or use A to L",   // small line under the keyboard
       },
       {
         name: "Guitar",

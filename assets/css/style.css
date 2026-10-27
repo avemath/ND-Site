@@ -647,17 +647,19 @@ body.menu-open .gear { visibility: hidden; }
 .hob-photo figcaption { margin-top: 8px; }
 @media (max-width: 760px) { .hob-grid { grid-template-columns: 1fr; } .hob-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-.kb-wrap { max-width: 520px; }
-.kb { position: relative; display: flex; height: 170px; }
+.kb-wrap { max-width: 560px; }
+/* a real keyboard: white keys butt together under a black key bed, and the
+   black keys sit on top, over the line between their two white keys */
+.kb { position: relative; display: flex; height: 170px; border-top: 10px solid #000; border-radius: 6px 6px 0 0; }
 .kb-key { padding: 0; cursor: pointer; font: inherit; }
-.kb-key.white { flex: 1; background: #fff; border: 1.5px solid #000; border-left-width: 0; border-radius: 0 0 8px 8px; }
+.kb-key.white { flex: 1; min-width: 0; background: linear-gradient(#fff 82%, #EDF0F5); border: 1.5px solid #000; border-top: 0; border-left-width: 0; border-radius: 0 0 6px 6px; }
 .kb-key.white:first-child { border-left-width: 1.5px; }
-.kb { --bk: 7.4%; }
-@media (max-width: 400px) { .kb { --bk: 10%; } }
+.kb { --bk: 6.6%; }   /* a black key is about 60% as wide as a white one (9 white keys) */
+@media (max-width: 400px) { .kb { --bk: 8.4%; } }
 /* wider black keys whenever the keyboard itself is narrow (phones and the 2-column tablet layout) */
 .kb-wrap { container-type: inline-size; }
-@container (max-width: 380px) { .kb { --bk: 10%; } }
-.kb-key.black { position: absolute; top: 0; z-index: 1; width: var(--bk); height: 60%; background: #000; border: 0; border-radius: 0 0 6px 6px; }
+@container (max-width: 380px) { .kb { --bk: 8.4%; } }
+.kb-key.black { position: absolute; top: 0; z-index: 1; width: var(--bk); height: 62%; background: linear-gradient(#000 70%, #2B2B2B 92%, #111); border: 0; border-radius: 0 0 5px 5px; box-shadow: 0 2px 0 rgba(0,0,0,.25); }
 .kb-key.white.down { background: #D3E1F7; }
 .kb-key.black.down { background: #444; }
 /* focus ring drawn inside the key, so it shows against the white neighbors and the navy card */
