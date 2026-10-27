@@ -20,20 +20,17 @@
 
    QUESTIONS FOR NICHOLAS (still open; each one is also marked // QUESTION below)
    1. BlueROV2: is the BlueLink SARbot BlueROV2 Heavy based?
-   2. ROS 2: what did he use it for?
-   3. Senior design: is the competition ASNE's Promoting Electric Propulsion (PEP)?
-   4. Senior design: what does the radio frequency controller do?
-   5. WildStang: were the 40 to 50 hours a week during build season?
-   6. Welding arm: does a Sharpie stand in for the welding torch?
-   7. Welding arm: Arduino Uno R3 or R4? (His wiring schematic says R3; the site says R4.)
-   8. Welding arm: what does the Raspberry Pi do?
-   9. Welding arm: which motor controller board is it?
-   10. Wind turbine mount: when did he work on it? (no dates yet, so it's not on the timeline)
-   11. Open to relocating?
-   12. Senior design: does "first-year team" mean the team's first year competing?
-   13. Where did he use Inventor, MATLAB, and ROS 2? (so those Skills rows can link to projects)
-   14. Is there a public repo for the USV path planner he could link?
-   15. Who is his iCORE Lab advisor (to name on the site, if he wants)?
+   2. Senior design: is the competition ASNE's Promoting Electric Propulsion (PEP)?
+   3. Senior design: what does the radio frequency controller do?
+   4. WildStang: were the 40 to 50 hours a week during build season?
+   5. Welding arm: does a Sharpie stand in for the welding torch?
+   6. Welding arm: Arduino Uno R3 or R4? (His wiring schematic says R3; the site says R4.)
+   7. Welding arm: what does the Raspberry Pi do?
+   8. Welding arm: which motor controller board is it?
+   9. Wind turbine mount: when did he work on it? (no dates yet, so it's not on the timeline)
+   10. Open to relocating?
+   11. Is there a public repo for the USV path planner he could link?
+   12. Who is his iCORE Lab advisor (to name on the site, if he wants)?
    ========================================================================== */
 
 window.SITE = {
@@ -126,14 +123,14 @@ window.SITE = {
       ] },
     ],
     skills: [
-      { label: "Software", text: "SolidWorks (8 years), Onshape, Fusion 360, Inventor, MATLAB, Python, Robotic Operating System 2 (ROS 2), Arduino IDE, VCarve" },
+      { label: "Software", text: "SolidWorks (8 years), Onshape, Fusion 360, MATLAB, Python, Robotic Operating System 2 (ROS 2), Arduino IDE, VCarve" },
       { label: "Hardware", text: "Manual Lathe, Haas CNC Router, CNC Router, MIG Welding, 3D Printing (PLA, PETG, Markforged Onyx), Soldering, Drill Press, Miter Saw, Band Saw" },
     ],
     projects: [
       { title: "Senior Design: Electric Boat", dates: "Aug 2026 to May 2027", points: [
         "Team lead for a team of 8 (4 mechanical, 3 electrical, 1 computer engineer) building an electric boat for ASNE's Promoting Electric Propulsion (PEP) national student competition, sponsored by ONR",
         "Designing the custom, jet-ski-inspired hull in SolidWorks",
-        "Leading a new team in its first year of competition on a $7,000 budget",
+        "Leading the first LSU senior design team to take on this project, designing a new boat on a $7,000 first-year budget",
       ] },
       { title: "Mock Welding Robotic Arm", dates: "Mar 2026 to May 2026", points: [
         "Designed the end effector in SolidWorks for a 5-DOF DIY robot arm, on a team of 3 (two mechanical engineers, one computer science student)",
@@ -335,8 +332,9 @@ window.SITE = {
       hook: "I'm leading a team of 8 building an electric boat with a custom, jet-ski-inspired hull for ASNE's Promoting Electric Propulsion (PEP) competition, a national student competition sponsored by ONR.",
       points: [
         "Designing the custom hull in SolidWorks",
-        // QUESTION: confirm "first year" means the team's first year competing (not first-year students)
-        "Leading a new team in its first year of competition, on a $7,000 budget",
+        // his team is the first to take on this project, so it gets the larger first-year
+        // budget (returning teams get a smaller one to revise their previous boat)
+        "Leading the first LSU senior design team to take on this project, designing a new boat on a $7,000 first-year budget",
         "Our design uses a radio frequency controller for communications",   // QUESTION: what does the radio system do?
       ],
       tools: ["SolidWorks"],
