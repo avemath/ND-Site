@@ -1759,13 +1759,8 @@
       if (!visible || document.hidden || reduceMotion) return;
       // the full-screen menu hides the dots: check back a few times a second instead of drawing
       if (document.body.classList.contains("menu-open")) { setTimeout(kick, 400); return; }
-      if (now - lastSpawn > 140) {
-        lastSpawn = now;
-        blinks.push({ i: (Math.random() * cols * rows) | 0, t: now, life: 900 + Math.random() * 900, accent: Math.random() < 0.06 });
-      }
-      // blinks alone are slow, so about 30 frames a second is plenty; pointer moves draw right away
-      if (moved || now - lastDraw > 30) draw(now);
-      raf = requestAnimationFrame(loop);
+      // a steady drafting grid: it only redraws when the pointer moves (no random blinking dots)
+      if (moved) draw(now);
     }
     function kick() { if (!raf && !reduceMotion) raf = requestAnimationFrame(loop); }
 
@@ -1777,7 +1772,8 @@
     });
     host.addEventListener("pointerleave", function () {
       px = py = -9999;
-      if (reduceMotion) draw(performance.now());
+      moved = true;
+      if (reduceMotion) draw(performance.now()); else kick();
     });
     new IntersectionObserver(function (es) {
       visible = es[0].isIntersecting;

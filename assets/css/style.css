@@ -504,7 +504,7 @@ body.menu-open .gear { visibility: hidden; }
 .cad-h { left: 0; right: 0; top: 0; height: 0; border-top: 1px solid rgba(255,255,255,.28); }
 .cad-v { top: 0; bottom: 0; left: 0; width: 0; border-left: 1px solid rgba(255,255,255,.28); }
 .cad-box { left: -6px; top: -6px; width: 12px; height: 12px; border: 1.5px solid var(--accent); }
-.cad-read { left: var(--gutter); bottom: 22px; margin: 0; font-size: 0.75rem; color: #9A9A9A; white-space: pre; z-index: 1; }
+.cad-read { left: var(--gutter); bottom: calc(var(--lift) + 22px);   /* above the numbers card */ margin: 0; font-size: 0.75rem; color: #9A9A9A; white-space: pre; z-index: 1; }
 @media (max-width: 760px) { .cad-read { display: none; } }
 @media print { .gear, .cad-h, .cad-v, .cad-box, .cad-read { display: none !important; } }
 
