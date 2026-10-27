@@ -457,12 +457,6 @@
     tag.setAttribute("aria-hidden", "true");
     var notes = tab.notes || {};
     var wrap = el("div", "sch-wrap", []);
-    wrap.innerHTML = '<svg class="sch" viewBox="' + spec.box + '" preserveAspectRatio="xMidYMid meet" role="group" aria-label="' +
-      tab.label + ' diagram">' + spec.svg + '<g class="sch-pulses" aria-hidden="true"></g></svg>';
-    var svg = wrap.firstChild;
-    var wires = [].slice.call(svg.querySelectorAll(".sch-wire"));
-    var parts = [].slice.call(svg.querySelectorAll(".sch-part"));
-    var pulses = svg.querySelector(".sch-pulses");
     var cap = el("p", "gal-cap mono sch-cap", []);
     function hint() {
       cap.textContent = "";
@@ -471,8 +465,10 @@
     }
     hint();
 
+    var svg, wires = [], parts = [], dots = [], groups = [], lens = [], pinned = null;
+    var drawn = false, started = false, shown = true, onScreen = false, raf = 0, t0 = 0, nap = 0, sized = "";
+
     /* highlight a part and its wires */
-    var pinned = null;
     function key(g) { return g.getAttribute("data-id") || g.getAttribute("data-part"); }
     function light(g) {
       var k = g ? key(g) : null;
@@ -480,21 +476,74 @@
       wires.forEach(function (w) { w.classList.toggle("hot", !!k && w.getAttribute("data-ends").split(" ").indexOf(k) > -1); });
       if (g) cap.textContent = notes[g.getAttribute("data-part")] || ""; else hint();
     }
-    parts.forEach(function (g) {
-      var note = notes[g.getAttribute("data-part")] || "";
-      g.setAttribute("tabindex", "0");
-      g.setAttribute("role", "button");
-      g.setAttribute("aria-label", note);
-      g.addEventListener("mouseenter", function () { if (!pinned) light(g); });
-      g.addEventListener("mouseleave", function () { if (!pinned) light(null); });
-      g.addEventListener("focus", function () { light(g); });
-      g.addEventListener("blur", function () { light(pinned); });
-      g.addEventListener("click", function () { pinned = pinned === g ? null : g; light(pinned || g); });
-    });
 
-    /* draw-in and pulses */
-    var lens = wires.map(function (w) { return w.getTotalLength ? w.getTotalLength() : 60; });
-    var drawn = false, started = false, shown = true, onScreen = false, raf = 0, t0 = 0;
+    /* Draw the schematic to fit the picture area. A tall area gets the top-to-bottom
+       version with its three runs of wire lengthened (or shortened) in a 36 : 50 : 50
+       proportion; a wide one gets the left-to-right version, with longer wires or more
+       room between the pins. The parts never change size. It redraws when the area
+       changes shape (the card switching between stacked and side by side). */
+    function build(w, h) {
+      var wide = spec.wide && w > h * 1.2, built;
+      if (!w || !h) built = spec;
+      else if (wide) {
+        var base = spec.wide(0, 0, 40), bv = base.box.split(" ").map(Number);
+        if (w / h > bv[2] / bv[3]) {   // short and wide: longer wires
+          var ex = Math.max(0, Math.min(300, w / (h / bv[3]) - bv[2]));
+          built = spec.wide(ex / 2, ex / 2, 40);
+        } else {                         // taller: more room between the pins
+          var free = h / (w / bv[2]) - bv[3];
+          built = spec.wide(0, 0, 40 + Math.max(0, Math.min(24, free / 4)));
+        }
+      } else {
+        var vb = spec.box.split(" ").map(Number);
+        // positive stretches the wires; negative shortens them (to about half) in a short, wide area
+        var extra = Math.max(-90, Math.min(240, h / (w / vb[2]) - vb[3]));
+        built = spec.make ? spec.make(extra * 36 / 136, extra * 50 / 136, extra * 50 / 136) : spec;
+      }
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      wrap.innerHTML = '<svg class="sch' + (drawn ? " sch-in" : "") + '" viewBox="' + built.box + '" preserveAspectRatio="xMidYMid meet" role="group" aria-label="' +
+        tab.label + ' diagram">' + built.svg + '<g class="sch-pulses" aria-hidden="true"></g></svg>';
+      svg = wrap.firstChild;
+      wires = [].slice.call(svg.querySelectorAll(".sch-wire"));
+      parts = [].slice.call(svg.querySelectorAll(".sch-part"));
+      pinned = null;
+      parts.forEach(function (g) {
+        var note = notes[g.getAttribute("data-part")] || "";
+        g.setAttribute("tabindex", "0");
+        g.setAttribute("role", "button");
+        g.setAttribute("aria-label", note);
+        g.addEventListener("mouseenter", function () { if (!pinned) light(g); });
+        g.addEventListener("mouseleave", function () { if (!pinned) light(null); });
+        g.addEventListener("focus", function () { light(g); });
+        g.addEventListener("blur", function () { light(pinned); });
+        g.addEventListener("click", function () { pinned = pinned === g ? null : g; light(pinned || g); });
+      });
+      hint();
+      lens = wires.map(function (w) { return w.getTotalLength ? w.getTotalLength() : 60; });
+      // the dots run one group at a time: Pi to Arduino, then Arduino to controller,
+      // then controller to servos, then a pause. One dot per wire, made once and moved each frame.
+      groups = [0, 1, 2].map(function (n) { return wires.filter(function (w) { return w.getAttribute("data-step") === String(n); }); });
+      var pulses = svg.querySelector(".sch-pulses");
+      dots = wires.map(function () {
+        var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        c.setAttribute("class", "sch-pulse"); c.setAttribute("r", "3.2"); c.style.display = "none";
+        pulses.appendChild(c);
+        return c;
+      });
+      if (!drawn && !reduceMotion) setDash(true);
+      loop();
+    }
+    function fit() {
+      var r = wrap.getBoundingClientRect();
+      var now = Math.round(r.width / 8) + "x" + Math.round(r.height / 8);
+      if (now === sized) return;
+      sized = now;
+      build(r.width, r.height);
+    }
+
+    /* draw-in and pulses. When the tab first shows on screen, the parts fade in and
+       each wire traces itself in turn; then dots run along the wires. */
     function setDash(on) {
       wires.forEach(function (w, i) {
         w.style.transition = "none";
@@ -503,30 +552,6 @@
       });
     }
     function finish() { drawn = true; svg.classList.add("sch-in"); setDash(false); loop(); }
-    // fit the picture area: lengthen (or shorten) the three runs of wire, in a 36 : 50 : 50
-    // proportion, so the diagram fills it; the parts only move, so nothing changes size
-    var vb = spec.box.split(" ").map(Number);
-    function fit() {
-      var r = wrap.getBoundingClientRect();
-      if (!r.width || !r.height) return;
-      // positive stretches the wires; negative shortens them (to about half) in a short, wide area
-      var extra = Math.max(-90, Math.min(240, r.height / (r.width / vb[2]) - vb[3]));
-      if (Math.abs(extra) < 12) return;
-      var A = extra * 36 / 136, C = A + extra * 50 / 136, Sx = extra;
-      var shift = function (sel, dy) { [].forEach.call(svg.querySelectorAll(sel), function (n) { n.setAttribute("transform", "translate(0 " + dy.toFixed(1) + ")"); }); };
-      shift('[data-part="arduino"]', A); shift('[data-part="controller"]', C);
-      shift('[data-part="mg995"], [data-part="sg90"], .sch-foot', Sx);
-      wires.forEach(function (w) {
-        var m = /^M(\d+) (\d+) V(\d+)$/.exec(w.getAttribute("data-d") || w.getAttribute("d"));
-        if (!m) return;
-        w.setAttribute("data-d", m[0]);
-        var step = w.getAttribute("data-step"), y0 = +m[2], y1 = +m[3];
-        var dy0 = step === "0" ? 0 : step === "1" ? A : C, dy1 = step === "0" ? A : step === "1" ? C : Sx;
-        w.setAttribute("d", "M" + m[1] + " " + (y0 + dy0).toFixed(1) + " V" + (y1 + dy1).toFixed(1));
-      });
-      svg.setAttribute("viewBox", vb[0] + " " + vb[1] + " " + vb[2] + " " + (vb[3] + extra).toFixed(1));
-      lens = wires.map(function (w) { return w.getTotalLength(); });
-    }
     function start() {
       if (started) return;
       started = true;
@@ -542,18 +567,7 @@
       });
       setTimeout(function () { if (!drawn) finish(); }, lead + wires.length * step + 360);
     }
-    // the dots run one group at a time: Pi to Arduino, then Arduino to controller,
-    // then controller to servos, then a pause
-    var groups = [0, 1, 2].map(function (n) { return wires.filter(function (w) { return w.getAttribute("data-step") === String(n); }); });
     var LEG = 650, REST = 2600, CYCLE = LEG * 3 + REST;
-    // one dot per wire, made once and moved each frame; between pulses nothing runs
-    var dots = wires.map(function () {
-      var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      c.setAttribute("class", "sch-pulse"); c.setAttribute("r", "3.2"); c.style.display = "none";
-      pulses.appendChild(c);
-      return c;
-    });
-    var nap = 0;
     function hideDots() { dots.forEach(function (d) { d.style.display = "none"; }); }
     function frame(now) {
       raf = 0;
@@ -577,11 +591,18 @@
     function update() {
       if (shown && onScreen) { start(); loop(); } else stop();
     }
-    if (!reduceMotion) setDash(true); else finish();
+    build(0, 0);
+    if (reduceMotion) finish();
 
     var panel = el("div", "tab-media art-box has-schematic", [tag, wrap, el("div", "gal-bar", [cap])]);
     panel.addEventListener("tabvisibility", function (e) { shown = e.detail; update(); });
     new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; update(); }, { threshold: 0.3 }).observe(panel);
+    // once it has been shown, it follows the area's shape
+    var refit = 0;
+    new ResizeObserver(function () {
+      if (!started || refit) return;
+      refit = requestAnimationFrame(function () { refit = 0; fit(); });
+    }).observe(wrap);
     onMotionChange.push(function () { if (reduceMotion) { stop(); finish(); hideDots(); } else loop(); });
     return panel;
   }

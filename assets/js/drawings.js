@@ -49,6 +49,35 @@
     return { box: "52 4 256 " + (528 + S), svg: svg };
   }
 
+  /* The same schematic laid out left to right, for a wide picture area: the Pi sits
+     on top of the Arduino, and the signal runs right through the motor controller to
+     the servos. d2 and d3 lengthen the two runs of wire to the right; p is the spacing
+     between the five pins (40 or more), so render.js can fill a taller area too. */
+  function wiringWide(d2, d3, p) {
+    p = p || 40;
+    var C = d2, S = d2 + d3, T = 96, H = 80 + 4 * p, M = T + H / 2;
+    var Y = [0, 1, 2, 3, 4].map(function (i) { return T + 40 + i * p; }), PINS = ["SDA", "SCL", "5V", "D2", "GND"];
+    var KIND = ["mg995", "mg995", "mg995", "sg90", "sg90"];
+    var x1 = 204 + C, xs = 446 + S;
+    function h(x, y, x2) { return "M" + x + " " + y + " H" + x2; }
+    function rot(x, y, deg, txt) { return '<text class="sch-small" x="' + x + '" y="' + y + '" transform="rotate(' + deg + " " + x + " " + y + ')">' + txt + "</text>"; }
+    var svg =
+      '<g class="sch-part" data-part="pi"><rect class="sch-box" x="17" y="8" width="112" height="52" rx="2"/><text class="sch-title" x="73" y="39">Raspberry Pi</text></g>' +
+      '<path class="sch-wire" data-step="0" data-ends="pi arduino" d="M73 60 V' + T + '"/>' +
+      '<g class="sch-part" data-part="arduino"><rect class="sch-box" x="8" y="' + T + '" width="130" height="' + H + '" rx="2"/><text class="sch-title" x="54" y="' + (M + 4) + '">Arduino Uno</text>' +
+      Y.map(function (y, i) { return '<text class="sch-pin" x="118" y="' + (y + 3.5) + '">' + PINS[i] + '</text><path class="sch-stub" d="' + h(138, y, 148) + '"/>'; }).join("") + "</g>" +
+      Y.map(function (y, i) { return '<path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="' + PINS[i] + '" d="' + h(148, y, x1) + '"/>'; }).join("") +
+      '<g class="sch-part" data-part="controller"><rect class="sch-box" x="' + x1 + '" y="' + T + '" width="170" height="' + H + '" rx="2"/>' +
+      rot(x1 + 18, M, -90, "Inputs") + '<text class="sch-title" x="' + (x1 + 85) + '" y="' + (M + 4) + '">Motor Controller</text>' + rot(x1 + 152, M, 90, "Outputs") +
+      Y.map(function (y) { return '<circle class="sch-dot" cx="' + x1 + '" cy="' + y + '" r="3.5"/><circle class="sch-dot" cx="' + (x1 + 170) + '" cy="' + y + '" r="3.5"/>'; }).join("") + "</g>" +
+      Y.map(function (y, i) { return '<path class="sch-wire" data-step="2" data-ends="controller s' + (i + 1) + '" d="' + h(x1 + 170, y, xs - 16) + '"/>'; }).join("") +
+      Y.map(function (y, i) { return '<g class="sch-part" data-part="' + KIND[i] + '" data-id="s' + (i + 1) + '"><circle class="sch-box" cx="' + xs + '" cy="' + y + '" r="16"/><text class="sch-s" x="' + xs + '" y="' + (y + 5) + '">S</text><path class="sch-stub" d="' + h(xs + 16, y, xs + 24) + '"/></g>'; }).join("") +
+      '<g class="sch-foot"><path class="sch-brace" d="M' + (xs + 32) + " " + (Y[0] - 14) + " H" + (xs + 37) + " V" + (Y[2] + 14) + " H" + (xs + 32) +
+      " M" + (xs + 32) + " " + (Y[3] - 14) + " H" + (xs + 37) + " V" + (Y[4] + 14) + " H" + (xs + 32) + '"/>' +
+      rot(xs + 50, Y[1], 90, "MG995 servos") + rot(xs + 50, (Y[3] + Y[4]) / 2, 90, "SG90 servos") + "</g>";
+    return { box: "0 0 " + (xs + 60) + " " + (T + H + 8), svg: svg };
+  }
+
   window.DRAWINGS = {
 
     /* BlueROV2 side view (front is on the right, at the camera dome), with
@@ -271,7 +300,7 @@
     },
 
     /* the welding arm's wiring schematic (built by wiring() above) */
-    wiring: wiring(0, 0, 0),
+    wiring: Object.assign(wiring(0, 0, 0), { make: wiring, wide: wiringWide }),
 
     /* Drone, top down, for the "Off the clock" card until his photos come. The
        propellers (dr-prop) spin when the card is hovered or tapped (render.js). */
