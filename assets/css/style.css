@@ -255,8 +255,21 @@ body.menu-open .bar::before { opacity: 0; }
    card rises into the hero; the hero keeps that much (plus breathing room) free at
    its bottom, so the card never covers the hero's text or buttons. */
 :root { --lift: 96px; --card-ln: #D6D9DE; --tint: #EEF3FB; }   /* --tint: the light blue fill on a selected row or panel */   /* --card-ln: the thin border on white cards and panels */
-.hero { padding-bottom: calc(var(--lift) + 64px); }
-.hero .scroll-cue { display: none; }   /* the card itself leads the eye down */
+/* The black hero fills the first screen, with its text centered there. The card's top
+   edge only peeks up from the bottom of that screen by --peek (0 hides it until you
+   scroll), so his name gets the first screen to itself; the rest of the hero sits just
+   below the fold, behind the card. If the text needs more room (short screens), the
+   hero grows and the card simply starts further down. */
+:root { --peek: 32px; }
+.hero {
+  min-height: calc(100vh + var(--lift) - var(--peek));
+  min-height: calc(100svh + var(--lift) - var(--peek));
+  padding-top: 96px;
+  padding-bottom: calc(var(--lift) - var(--peek) + 72px);
+}
+/* "Scroll", just above the card's top edge at the bottom of the first screen */
+.hero .scroll-cue { bottom: calc(var(--lift) + 22px); gap: 8px; padding: 6px 12px; }
+@media (max-height: 760px) { .hero .scroll-cue { display: none; } }   /* short screens: no room under the buttons */
 #intro { overflow: visible; }
 .numbers { position: relative; z-index: 3; top: calc(var(--lift) * -1); margin: 0 auto calc(var(--lift) * -1); max-width: var(--max); padding: 0 var(--gutter); }
 .num-list {
@@ -506,7 +519,7 @@ body.menu-open .gear { visibility: hidden; }
 .cad-h { left: 0; right: 0; top: 0; height: 0; border-top: 1px solid rgba(255,255,255,.28); }
 .cad-v { top: 0; bottom: 0; left: 0; width: 0; border-left: 1px solid rgba(255,255,255,.28); }
 .cad-box { left: -6px; top: -6px; width: 12px; height: 12px; border: 1.5px solid var(--accent); }
-.cad-read { left: var(--gutter); bottom: calc(var(--lift) + 22px);   /* above the numbers card */ margin: 0; font-size: 0.75rem; color: #9A9A9A; white-space: pre; z-index: 1; }
+.cad-read { left: var(--gutter); bottom: calc(var(--lift) + 18px);   /* bottom left of the first screen, above the card */ margin: 0; font-size: 0.75rem; color: #9A9A9A; white-space: pre; z-index: 1; }
 @media (max-width: 760px) { .cad-read { display: none; } }
 @media print { .gear, .cad-h, .cad-v, .cad-box, .cad-read { display: none !important; } }
 

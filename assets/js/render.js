@@ -1946,7 +1946,8 @@
   // Blocks entering together are staggered slightly. Skipped for reduced motion.
   (function () {
     if (reduceMotion || !("IntersectionObserver" in window)) return;
-    var targets = document.querySelectorAll(".num-list, .about-copy, .facts, .feature, .card, .tl, .xp-item, " +
+    // (not the numbers card: its top edge peeks up at the bottom of the first screen, so it's there from the start)
+    var targets = document.querySelectorAll(".about-copy, .facts, .feature, .card, .tl, .xp-item, " +
       ".bom, .hob-intro, .hob-card, .contact-text");
     function show(n, delay) {
       n.style.transitionDelay = delay + "ms";
