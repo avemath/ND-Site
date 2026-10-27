@@ -1029,3 +1029,6 @@ body.menu-open .bar-sec { visibility: hidden; }
 }
 @media (prefers-reduced-motion: reduce) { .bom-row, .bom-link { transition: none; } }
 @media print { .bom { box-shadow: none; } .bom-hint { display: none; } }
+/* hints that differ by device: the mouse wording by default, the touch wording on touch screens */
+.hint-touch { display: none; }
+@media (hover: none) { .hint-mouse { display: none; } .hint-touch { display: inline; } }

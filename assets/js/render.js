@@ -848,7 +848,10 @@
       el("div", "bom-head mono", [cell("Title", S.skillsTitle || "Tools and skills"), cell("Sheet", "Parts list"), cell("Items", String(rowsN))]),
       table,
       also.length ? el("p", "bom-also", [el("span", "bom-also-k mono", [(S.skillsAlsoLabel || "Also used") + ":"]), " " + also.join(", ")]) : null,
-      S.skillsHint ? el("p", "bom-hint mono", [S.skillsHint]) : null,
+      S.skillsHint ? el("p", "bom-hint mono", [
+        el("span", "hint-mouse", [S.skillsHint]),
+        el("span", "hint-touch", [S.skillsHintTouch || S.skillsHint]),
+      ]) : null,
     ]));
   } else hide(document.getElementById("skills").parentNode, "#skills");
 

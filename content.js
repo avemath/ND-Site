@@ -516,7 +516,8 @@ window.SITE = {
     ] },
   ],
   skillsAlsoLabel: "Also used",
-  skillsHint: "Hover a row to highlight those projects. Select a project to jump to it.",
+  skillsHint: "Hover a row to highlight those projects. Select a project to jump to it.",   // with a mouse
+  skillsHintTouch: "Select a project to jump to it.",                                        // on touch screens
 
   /* ---------- Off the clock (hobbies) ----------
      Nicholas said yes to this being public (Oct 2026). Shows on a blue panel
