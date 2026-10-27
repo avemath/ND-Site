@@ -25,6 +25,9 @@ I based the design on nothing.tech:
     like blueprint paper with a grid.
 - The featured project gets a big white card at the top of the Projects section,
   with a blue stripe along its top edge.
+- Four big numbers (SolidWorks years, robots built, regionals won, years as a
+  driver) sit in a white title-block card on the bottom edge of the black top
+  section, half on it and half on About. They count up the first time you see them.
 - The menu opens full screen.
 - The top section has a grid of dots that reacts to the mouse.
 - Each project has a line drawing that sketches itself in as you scroll to it.
