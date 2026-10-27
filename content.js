@@ -277,7 +277,7 @@ window.SITE = {
       callouts: ["Printed base and camera system", "Autonomous route"],
       // the line drawing ("art") shows if the photo can't load
       image: "assets/img/maze-robot.jpg",
-      imagePosition: "center 58%",         // keeps the whole robot in view when the photo is cropped
+      imagePosition: "center 44%",         // keeps the whole robot in view when the photo is cropped
       imageAlt: "The maze robot: a blue 3D-printed base with a camera on a raised mount, ultrasonic sensors on the front and side, and wires running to the boards on top",
       // a smaller second picture under the bullets, with a caption (any project card can have one)
       image2: "assets/img/maze-robot-cad.jpg",
