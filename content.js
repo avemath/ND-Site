@@ -467,24 +467,23 @@ window.SITE = {
     title: "Off the clock",
     menuLabel: "Off the clock",
     intro:
-      "Outside the lab and the shop, I'm usually at a keyboard of a different kind " +
-      "or flying a drone somewhere with a good view.",
+      "I like learning new things. During COVID in 2020, I taught myself piano, guitar, " +
+      "and how to fly a drone.",
     items: [
       {
         name: "Piano",
-        // TODO: add a line on what he likes to play or is learning
-        text: "My favorite instrument right now.",
+        text: "My favorite instrument right now. I've taught myself since 2020, with no lessons, and Bach is my favorite composer.",
         keys: true,                        // shows the playable keyboard
         keysHint: "Tap a key, or use A to K",   // small line under the keyboard
       },
       {
         name: "Guitar",
-        text: "I own three electrics, an acoustic, and a ukulele. I also played clarinet in my high school band.",
+        text: "I own three electrics, an acoustic, and a ukulele, and I've taught myself since 2020. I also played clarinet in my high school band.",
       },
       {
         name: "Drone photography",
-        // TODO: add where he likes to fly and what he likes to shoot
-        text: "I fly a drone for aerial photography.",
+        text: "I bought my first drone in 2020 and taught myself to fly. I like flying near water in quiet, low-population areas, " +
+          "and taking pictures of the sky, nature, and friends around a fire.",
         // Add his photos here and a grid appears. Put files in assets/img/, e.g.
         // { image: "assets/img/drone-1.jpg", alt: "Aerial view of ...", caption: "Baton Rouge, LA" },
         photos: [],
