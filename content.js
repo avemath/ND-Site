@@ -42,7 +42,9 @@ window.SITE = {
   firstName: "Nicholas",                   // He prefers "Nicholas", not "Nick"
   lastName: "Domke",
   discipline: "Mechanical Engineering",
-  minor: "Robotics",
+  // His minors, as one line. The About facts, the resume page, and the search engine
+  // info all read this. (Computer Science finishes by May 2027.)
+  minor: "Robotics, Computer Science (in progress)",
   school: "Louisiana State University",
   schoolShort: "LSU",
   graduation: "May 2027",
@@ -93,7 +95,6 @@ window.SITE = {
       school: "Louisiana State University (LSU), Baton Rouge, LA",
       dates: "May 2027",
       degree: "Bachelor of Science in Mechanical Engineering",
-      minors: "Robotics, Computer Science (in progress)",
       coursework: "Thermodynamics, Heat Transfer, Fluid Dynamics, Manufacturing Processes, System Dynamics, Simulation Methods, Statics, Strength of Materials, Circuits, Electronics, Kinematics, Introduction to Robotics, Welding Engineering 1, Industrial Robotics, Instrumentation and Measurements, Machine Design",
       gradTitle: "Graduate Study Intent",
       gradPlan: "Applying to Master of Science programs in Controls and Mechanical Systems",
@@ -183,7 +184,7 @@ window.SITE = {
     "I started using SolidWorks in 2018 on my high school FIRST Robotics Competition team, WildStang. " +
       "Over four years I built five robots with the team, drove every season, and was the team's primary lead my junior and senior years. " +
       "What I like best is taking a design off the screen and into something I can wire up and test.",
-    "Now I'm a mechanical engineering senior at LSU with a minor in robotics, graduating in May 2027. " +
+    "Now I'm a mechanical engineering senior at LSU with a robotics minor and a computer science minor in progress, graduating in May 2027. " +
       "In the iCORE Lab I'm building a path planner for unmanned surface vessels, focused on avoiding hazards. " +
       "In summer 2026 at Integer Technologies, I designed the 3D-printed mounts that hold an acoustic modem on a BlueROV2-based vehicle, and they worked well in pool and lake tests. " +
       "I'm applying to M.S. programs in controls and mechanical systems for Fall 2027.",
@@ -565,6 +566,8 @@ window.SITE = {
     cut: 2023,          // years before this are squeezed into a narrow strip
     share: 0.2,         // how much of the width that strip gets
     next: "M.S. (planned)",
+    // his degree as its own row, labeled with his minors ("minor" above). He started at LSU in Aug 2022.
+    degree: { label: "B.S. Mechanical Engineering", dates: "Aug 2022 to May 2027" },
   },
 
   /* ---------- Coursework (scrolls across a blue band) ---------- */

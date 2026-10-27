@@ -59,7 +59,8 @@
       el("div", "item", [
         row(E.school, E.dates),
         E.degree ? el("p", "line", [i(E.degree)]) : null,
-        E.minors ? el("p", "line", [b("Minors"), ": " + E.minors]) : null,
+        // from "minor" at the top of content.js, so it matches the rest of the site
+        S.minor ? el("p", "line", [b(/,/.test(S.minor) ? "Minors" : "Minor"), ": " + S.minor]) : null,
         E.coursework ? el("p", "line", [b("Related Coursework"), ": " + E.coursework]) : null,
       ]),
       E.gradTitle ? el("div", "item grad", [

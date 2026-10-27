@@ -132,9 +132,10 @@
       "@context": "https://schema.org", "@type": "Person", name: fullName,
       url: S.siteUrl || undefined, email: L.email ? "mailto:" + L.email : undefined,
       jobTitle: S.discipline ? S.discipline + " student" : undefined,
+      description: S.discipline && S.school ? S.discipline + " student at " + S.school + (S.minor ? "; minors: " + S.minor : "") : undefined,
       affiliation: S.school ? { "@type": "CollegeOrUniversity", name: S.school } : undefined,
       knowsAbout: (S.skills || []).reduce(function (all, g) { return all.concat(g.items || []); }, [])
-        .map(function (t) { return String(t).replace(/\s*\(.*?\)/g, ""); }),
+        .map(function (t) { return String(t.tool || t).replace(/\s*\(.*?\)/g, ""); }),   // skills are objects with a "tool" name
       sameAs: [L.linkedin, L.github].filter(Boolean),
     };
     var tag = document.createElement("script");
@@ -226,12 +227,13 @@
     if (m) paras.splice(0, 1, m[1], m[2]);
     paras.forEach(function (p, i) { copy.appendChild(el("p", i === 0 ? "lead" : "body", [p])); });
     ab.appendChild(copy);
-    ab.appendChild(el("dl", "facts mono", [
-      ["School", S.school], ["Degree", "B.S. " + S.discipline], ["Minor", S.minor],
+    var facts = ab.appendChild(el("dl", "facts mono", [
+      ["School", S.school], ["Degree", "B.S. " + S.discipline], [/,/.test(S.minor || "") ? "Minors" : "Minor", S.minor],
       ["Graduating", S.graduation], [S.locationLabel || "Hometown", S.location], ["Currently in", S.currentLocation],
     ].filter(function (f) { return f[1]; }).map(function (f) {
       return el("div", null, [el("dt", null, [f[0]]), el("dd", null, [f[1]])]);
     })));
+    facts.id = "about-facts";   // the degree row on the timeline links here
   } else hide(document.getElementById("about"), "#about");
 
   /* ======================= project media: video, photo, or line drawing ======================= */
