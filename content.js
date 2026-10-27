@@ -93,8 +93,8 @@ window.SITE = {
   /* ---------- About ----------
      Each string is one paragraph. DRAFT: have him rewrite in his own voice. */
   about: [
-    "I started using SolidWorks in 2018 on my high school FIRST team, WildStang. " +
-      "Over four years I led design and CAD on five competition robots, each one built in eight weeks. " +
+    "I started using SolidWorks in 2018 on my high school FIRST Robotics Competition team, WildStang. " +
+      "Over four years I helped build five robots, drove every season, and was the team's primary lead my junior and senior years. " +
       "What I still like best is taking a design off the screen and into something I can wire up and test.",
     "Now I'm a mechanical engineering senior at LSU with a minor in robotics, graduating in May 2027. " +
       "In the iCORE Lab I work on hazard avoidance and path planning for unmanned surface vessels. " +
@@ -246,17 +246,34 @@ window.SITE = {
     {
       title: "WildStang Robotics",
       timelineLabel: "WildStang",
-      role: "Design lead, FIRST Robotics Competition",
+      role: "Team lead and driver, FIRST Robotics Competition",
       dates: "Aug 2018 to May 2022",
       hook: "Where I learned to design and build a robot on an 8-week deadline, starting in 2018.",
       points: [
-        "Led design, manufacturing, and assembly of 5 competition robots in 4 years",
+        "Built 5 competition robots in 4 years on a team of about 80",
+        "One of the team's two drivers all four years",
+        "Co-lead sophomore year, then primary team lead junior and senior years",
+        "Spent 40 to 50 hours a week in the shop during build season",   // QUESTION: confirm "during build season"
         "Led CAD in SolidWorks and Onshape and trained younger members on CAD and power tools",
         "Kept sub-teams on schedule so each robot was working within the 8-week build season",
         "Ran the team's CNC router using VCarve and printed Onyx parts on Markforged printers",
         "Designed a movable workshop storage system for use at competitions",
       ],
-      result: "",                          // QUESTION: any awards or event results 2018 to 2022?
+      // "Robot by robot": a small table inside the card's "+ more" section.
+      robots: [
+        { season: "2019", year: "Freshman", text: "Manufacturing and assembly. Learned to run the CNC router, and was one of the drivers as a freshman." },
+        { season: "2020", year: "Sophomore", text: "Designed the drive base and gearbox and led their manufacturing and assembly. 95% of the robot was made in house; only the flywheel was machined outside. Driver." },
+        { season: "2021", year: "Junior, COVID season", text: "Team lead and driver. Designed the drive base and led manufacturing and assembly for the whole robot." },
+        { season: "2021", year: "Junior, second robot", text: "Team lead and driver on a team of 20. Designed the drive base, led design, machining, and assembly, and took on more project management to teach the team before I left." },
+        { season: "2022", year: "Senior", text: "Driver. Led design decisions and mentored younger members, stepping in on the hard parts. Ran practices when the mentors were away." },
+      ],
+      result: "Won 4 of the 5 regional competitions we attended, plus an at-home challenge during COVID.",
+      // Used on the printable resume page instead of "points" and "result".
+      resumePoints: [
+        "Primary team lead junior and senior years and one of two drivers all four years, on a team of about 80",
+        "Designed the drive base for 3 robots and led their manufacturing and assembly",
+        "Won 4 of the 5 regional competitions attended, plus an at-home challenge during COVID",
+      ],
       tools: ["SolidWorks", "Onshape", "VCarve", "Markforged"],
       art: "frc",                          // NOTE: generic robot drawing; a photo of one of his robots would be much better
       callouts: ["CAD in SolidWorks and Onshape", "Onyx parts on Markforged printers", "Built in 8-week seasons"],
@@ -368,7 +385,7 @@ window.SITE = {
     {
       title: "Lead and teach",
       proof: [
-        "Coordinated sub-teams through 8-week robot builds",
+        "Primary team lead of WildStang, a team of about 80, junior and senior years",
         "Trained younger WildStang members on CAD and power tools",
         "Tutored up to 100 students in the LSU Math Lab",
       ],

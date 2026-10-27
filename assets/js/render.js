@@ -385,14 +385,37 @@
 
   /* ======================= projects ======================= */
 
-  // Cards show 3 bullets; any extras open under a "+ N more" button so the cards line up.
-  function cardBullets(items, id) {
-    if (items.length <= 3) return bullets(items);
-    var extra = items.length - 3;
-    var rest = el("div", "more", [bullets(items.slice(3))]);
+  // "Robot by robot": a small table laid out like the revision block on a drawing.
+  function robotTable(rows) {
+    var t = el("table", "revs");
+    t.appendChild(el("caption", "mono", ["Robot by robot"]));
+    t.appendChild(el("thead", null, [el("tr", "mono", ["No.", "Season", "What I did"].map(function (h) {
+      var th = el("th", null, [h]); th.scope = "col"; return th;
+    }))]));
+    t.appendChild(el("tbody", null, rows.map(function (r, i) {
+      return el("tr", null, [
+        el("td", "rv-n mono", [(i < 9 ? "0" : "") + (i + 1)]),
+        el("td", "rv-s mono", [el("span", null, [r.season]), r.year ? el("span", "rv-y", [r.year]) : null]),
+        el("td", "rv-t", [r.text]),
+      ]);
+    })));
+    return t;
+  }
+
+  // Cards show 3 bullets; any extras (and the robot table, if there is one) open
+  // under a "+ more" button so the cards line up.
+  function cardBullets(items, id, robots) {
+    var hasTable = robots && robots.length;
+    if (items.length <= 3 && !hasTable) return bullets(items);
+    var extra = Math.max(0, items.length - 3);
+    var label = (extra ? "+ " + extra + " more" : "+") + (hasTable ? (extra ? ", robot by robot" : " Robot by robot") : "");
+    var rest = el("div", "more", [el("div", null, [
+      extra ? bullets(items.slice(3)) : null,
+      hasTable ? robotTable(robots) : null,
+    ])]);
     rest.id = id;
     rest.inert = true;
-    var btn = el("button", "more-btn mono", ["+ " + extra + " more"]);
+    var btn = el("button", "more-btn mono", [label]);
     btn.type = "button";
     btn.setAttribute("aria-expanded", "false");
     btn.setAttribute("aria-controls", id);
@@ -400,7 +423,7 @@
       var open = rest.classList.toggle("open");
       rest.inert = !open;
       btn.setAttribute("aria-expanded", String(open));
-      btn.textContent = open ? "Show less" : "+ " + extra + " more";
+      btn.textContent = open ? "Show less" : label;
     });
     return el("div", "pts", [bullets(items.slice(0, 3)), rest, btn]);
   }
@@ -416,7 +439,7 @@
           el("p", "card-meta mono", [el("span", null, [p.dates]), el("span", null, [p.role])]),
           el("h3", "card-title", [p.title]),
           p.hook ? el("p", "card-hook", [p.hook]) : null,
-          p.points && p.points.length ? cardBullets(p.points, "more-" + p._id) : null,
+          p.points && p.points.length ? cardBullets(p.points, "more-" + p._id, p.robots) : null,
           p.result ? el("p", "card-result", [p.result]) : null,
           p.tools && p.tools.length ? pills(p.tools) : null,
           p.link ? link(p.link, "View project", "pill pill-ghost card-link") : null,

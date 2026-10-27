@@ -201,7 +201,7 @@
         '<circle class="ln" cx="104" cy="184" r="13"/><circle class="ln" cx="180" cy="184" r="13"/><circle class="ln" cx="256" cy="184" r="13"/>' +
         // bumpers with the team name
         '<rect class="ln acc bumper" x="68" y="148" width="224" height="26" rx="11"/>' +
-        '<text class="lbl bump-t" x="180" y="165" text-anchor="middle">WILDSTANG</text>',
+        '<text class="lbl bump-t" x="180" y="165" text-anchor="middle">WildStang</text>',
       anchors: [[161, 38], [161, 60], [86, 139]],
     },
   };

@@ -784,6 +784,23 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
 @media (prefers-reduced-motion: reduce) { .more { transition: none; } }
 @media print { .more { grid-template-rows: 1fr !important; } .more-btn { display: none !important; } }
 
+/* "Robot by robot" on the WildStang card: a revision block, like the one in the
+   corner of a drawing. Thin rules, mono labels, blue row numbers. */
+.revs { width: 100%; margin: 16px 0 8px; border-collapse: collapse; border: 1px solid var(--ln); font-size: 0.88rem; line-height: 1.45; }
+.revs caption { caption-side: top; text-align: left; padding: 0 0 8px; font-size: 0.75rem; color: var(--fg-3); }
+.revs th { padding: 7px 10px; border-bottom: 1px solid var(--ln); text-align: left; font-size: 0.7rem; font-weight: 400; color: var(--fg-3); }
+.revs td { padding: 9px 10px; border-top: 1px solid var(--ln); vertical-align: top; color: var(--fg-2); }
+.revs th + th, .revs td + td { border-left: 1px solid var(--ln); }
+.revs .rv-n { width: 1%; color: var(--accent); font-weight: 700; }
+.revs .rv-s { width: 1%; white-space: nowrap; color: var(--fg); }
+.revs .rv-y { display: block; margin-top: 2px; font-size: 0.68rem; color: var(--fg-3); white-space: normal; max-width: 9em; }
+@media (max-width: 420px) {
+  .revs { font-size: 0.84rem; }
+  .revs th, .revs td { padding-left: 7px; padding-right: 7px; }
+  .revs .rv-n, .revs th:first-child { display: none; }
+  .revs th:nth-child(2), .revs .rv-s { border-left: 0; }
+}
+
 /* ---------- timeline bars draw in left to right when the chart rises in ----------
    .rise is only added when motion is allowed, so with reduced motion the bars are
    simply there. The inset is negative so the "ongoing" dot past the bar's end shows. */

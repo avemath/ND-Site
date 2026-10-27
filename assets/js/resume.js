@@ -82,8 +82,9 @@
   var projects = live(S.projects);
   if (projects.length) {
     root.appendChild(section("Projects", projects.map(function (p) {
-      var pts = (p.points || []).slice();
-      if (p.result && !unfinished(p.result)) pts.push(p.result);
+      // "resumePoints" (when set) replaces the card's bullets and result on the resume
+      var pts = p.resumePoints ? p.resumePoints.slice() : (p.points || []).slice();
+      if (!p.resumePoints && p.result && !unfinished(p.result)) pts.push(p.result);
       return el("article", "item", [
         row(el("h3", null, [p.title]), when(p.dates), p.role ? el("p", "sub", [p.role]) : null),
         bullets(pts),
