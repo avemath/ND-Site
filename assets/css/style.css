@@ -1243,3 +1243,11 @@ body.menu-open .bar-sec { visibility: hidden; }
   .feat-side > .feat-spec { margin: 8px 0 24px 16px; }
   .feature:has(.feat-side > .feat-spec) .feat-info { padding-bottom: clamp(24px, 4vw, 48px); }
 }
+
+/* ---------- the Resume pill in two parts: "Resume" (the page) and "PDF" (a download) ---------- */
+.pill-split { display: inline-flex; }
+.pill-split > .pill:first-child { border-radius: 999px 0 0 999px; padding-right: 18px; }
+.pill-split > .pill-pdf { margin-left: -1px; border-radius: 0 999px 999px 0; padding: 0 18px 0 16px; }
+.pill-pdf::after { content: "\2193"; margin-left: 6px; color: var(--accent); }
+.pill-split > .pill:hover { position: relative; z-index: 1; }   /* the hovered half's border shows whole */
+@media print { .pill-pdf { display: none; } }

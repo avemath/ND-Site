@@ -172,6 +172,14 @@
       var isPdf = /\.pdf$/i.test(L.resume);
       var r = link(L.resume, isPdf ? "Resume (PDF)" : "Resume", "pill pill-ghost");
       if (isPdf) r.setAttribute("download", "");
+      // one pill in two parts: "Resume" opens the resume page, "PDF" downloads his PDF
+      if (L.resumePdf && !isPdf) {
+        var pdf = link(L.resumePdf, "PDF", "pill pill-ghost pill-pdf");
+        pdf.setAttribute("download", "Nicholas_Domke_Resume.pdf");
+        pdf.setAttribute("aria-label", "Download resume as PDF");
+        pdf.removeAttribute("target");
+        r = el("span", "pill-split", [r, pdf]);
+      }
       row.appendChild(r);
     }
     return row;
