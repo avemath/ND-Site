@@ -1167,10 +1167,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 .dr-prop path { stroke: #7AA7FF; stroke-width: 2.4; stroke-linecap: round; }
 .dr-prop circle { fill: #DCE7F8; }
 .dr-prop { transform-box: fill-box; transform-origin: center; }
-@keyframes dr-spin { from { rotate: 0deg; } to { rotate: 1440deg; } }
-.hob-card.spin .dr-prop { animation: dr-spin 1.6s cubic-bezier(.15, .55, .3, 1); }   /* spins up, then eases down */
-.hob-card.spin .dr-prop:nth-of-type(odd) { animation-direction: reverse; }
-@media (prefers-reduced-motion: reduce) { .hob-card.spin .dr-prop { animation: none; } }
+/* the propellers turn from render.js: they spin up and coast down like real props */
 
 /* drone photos: a 2-column grid inside the card (an odd count puts the first photo full
    width), each framed like a drone camera view: corner marks and a faint crosshair */

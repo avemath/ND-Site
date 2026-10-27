@@ -1253,13 +1253,45 @@
         var art = el("div", "hob-art", []);
         art.innerHTML = '<svg viewBox="' + DRAW[it.art].box + '" aria-hidden="true" focusable="false">' + DRAW[it.art].svg + "</svg>";
         card.appendChild(art);
-        var spin = function () {
-          if (reduceMotion || card.classList.contains("spin")) return;
-          card.classList.add("spin");
-          setTimeout(function () { card.classList.remove("spin"); }, 1700);
+        // Like real props: they spin up over about half a second while the card is
+        // hovered (or for a moment after a tap), then coast down over about 1.5 s.
+        // Reduced motion: no spin.
+        var props = [].slice.call(art.querySelectorAll(".dr-prop"));
+        var TOP = 1080, UP = 0.5, DOWN = 1.5;   // degrees per second at full speed; spin-up and coast times
+        var prop = { on: false, v: 0, a: 0, t: 0, v0: 0, raf: 0, last: 0, tap: 0 };
+        var propFrame = function (now) {
+          prop.raf = 0;
+          var dt = prop.last ? Math.min(0.05, (now - prop.last) / 1000) : 0;
+          prop.last = now;
+          prop.t += dt;
+          if (prop.on) {   // ease in: speed grows slowly at first, then reaches full
+            var k = Math.min(1, prop.t / UP);
+            prop.v = prop.v0 + (TOP - prop.v0) * k * k;
+          } else {         // ease out: speed falls quickly at first, then trails off
+            var r = Math.max(0, 1 - prop.t / DOWN);
+            prop.v = prop.v0 * r * r;
+          }
+          prop.a = (prop.a + prop.v * dt) % 360;
+          props.forEach(function (p, i) { p.style.rotate = (i % 2 ? -prop.a : prop.a).toFixed(1) + "deg"; });
+          if (prop.v > 0.5 || prop.on) prop.raf = requestAnimationFrame(propFrame);
+          else prop.last = 0;
         };
-        card.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") spin(); });
-        card.addEventListener("click", spin);
+        var propSet = function (on) {
+          if (reduceMotion && on) return;
+          if (on === prop.on) return;
+          prop.on = on; prop.t = 0; prop.v0 = prop.v;
+          if (!prop.raf) prop.raf = requestAnimationFrame(propFrame);
+        };
+        card.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") propSet(true); });
+        card.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") propSet(false); });
+        // a tap spins them up, holds a moment, then lets them coast
+        card.addEventListener("pointerup", function (e) {
+          if (e.pointerType === "mouse") return;
+          propSet(true);
+          clearTimeout(prop.tap);
+          prop.tap = setTimeout(function () { propSet(false); }, 900);
+        });
+        onMotionChange.push(function () { if (reduceMotion) { propSet(false); prop.v = 0; } });
       }
       hgrid.appendChild(card);
     });
@@ -1321,7 +1353,14 @@
       // a black key sits over the line between the two white keys around it
       if (n.black) b.style.left = "calc(" + (whiteIndex / whites * 100) + "% - var(--bk) / 2)";
       else whiteIndex++;
-      function hit() { play(n.f); b.classList.add("down"); setTimeout(function () { b.classList.remove("down"); }, 160); }
+      // every way of playing a key (mouse, tap, Enter, or its letter) lights that exact key for a moment
+      var downT = 0;
+      function hit() {
+        play(n.f);
+        b.classList.add("down");
+        clearTimeout(downT);
+        downT = setTimeout(function () { b.classList.remove("down"); }, 180);
+      }
       b.addEventListener("pointerdown", function (e) {
         e.preventDefault();
         kb.classList.add("by-pointer");   // no focus marker after a click or tap
@@ -1360,7 +1399,15 @@
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
       if (document.body.classList.contains("menu-open")) return;
       var i = keysMap.indexOf(String(e.key).toLowerCase());
-      if (i > -1) buttons[i].hit();
+      if (i < 0) return;
+      buttons[i].hit();
+      // the focus marker follows the key last played from the keyboard (only when the
+      // focus is already on the keyboard, so the page's focus isn't pulled here otherwise)
+      if (kb.contains(document.activeElement)) {
+        kb.classList.remove("by-pointer");
+        rove(i);
+        buttons[i].b.focus({ preventScroll: true });
+      }
     });
     return el("div", "kb-wrap", [kb, hint ? el("p", "kb-hint mono", [hint]) : null]);
   }
