@@ -327,12 +327,13 @@ body.menu-open .bar::before { opacity: 0; }
 /* desktop: the featured photo or drawing keeps a landscape shape at the top of its
    column and stays in view while the text beside it scrolls, instead of stretching
    to the card's full height. The drawing sits on its own inset panel. */
-@media (min-width: 861px) {
-  .feat-media.has-photo, .feat-media.has-drawing, .feat-media.has-tabs { align-self: start; aspect-ratio: 6 / 5; min-height: 0; position: sticky; top: 88px; }
+[data-slot="featured"] { container: feat / inline-size; }
+@container feat (min-width: 800px) {
+  .feat-media.has-photo, .feat-media.has-drawing, .feat-media.has-tabs { aspect-ratio: 6 / 5; min-height: 0; }
   .feat-media.has-drawing, .feat-media.has-tabs { margin: 16px 0 16px 16px; border-radius: 20px; }
 }
 .feature .pills { margin-top: auto; padding-top: 6px; }
-@media (max-width: 860px) {
+@container feat (max-width: 799px) {
   .feature { grid-template-columns: 1fr; }
   .feat-media { min-height: 0; aspect-ratio: 16 / 10; }
 }
@@ -717,40 +718,35 @@ body.menu-open .gear { visibility: hidden; }
 .feat-media .art-tag { top: 24px; left: clamp(24px, 4vw, 48px); }
 .card-media { box-shadow: inset 0 -1px 0 var(--ln); }
 
-/* 5. card grid: last row of two splits the width instead of one stretched card.
-   3 across only from 1240px; narrower than that the drawings get too small.
-   A card with a 3D model (.card-wide) takes two slots, model on the left, so the
-   tall arm gets room; "dense" lets the next card fill in beside it. The
-   last-row rules count cards, so they only apply when there's no wide card. */
-@media (min-width: 1240px) {
-  .cards { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-flow: dense; }
-  .card { grid-column: span 2; }
-  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+2), .cards:not(:has(> .card-wide)) .card:nth-last-child(2):nth-child(3n+1) { grid-column: span 3; flex-direction: column; }
-  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+2) .card-media, .cards:not(:has(> .card-wide)) .card:nth-last-child(2):nth-child(3n+1) .card-media { aspect-ratio: 16 / 9; flex: none; }
-  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+2) .card-body, .cards:not(:has(> .card-wide)) .card:nth-last-child(2):nth-child(3n+1) .card-body { flex: 1; }
-  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+1) { grid-column: 1 / -1; flex-direction: row; }
-  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+1) .card-media { aspect-ratio: auto; flex: 1 1 50%; }
-  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(3n+1) .card-body { flex: 1 1 50%; }
-  .card.card-wide { grid-column: span 4; flex-direction: row; align-self: stretch; }   /* fills its row, no hole underneath */
+/* 5. Projects layout: the spotlights (full-width cards), then a grid of smaller cards
+   that render.js packs like masonry (1px rows, each card spans its own height).
+   Every card is a size container: .card-in stacks the picture over the text, and puts
+   them side by side once the card itself is 880px wide, whatever the screen size.
+   Picture areas: 16:10 at least on spotlights; on the smaller cards a 16:11 box, or for a
+   drawing a 16:10 drawing with its numbered list underneath. */
+.spots { display: grid; gap: 16px; margin: 0 0 16px; }
+.cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+.cards.is-packed { grid-auto-rows: 1px; row-gap: 0; }
+.card { container: card / inline-size; }
+.card-in { display: flex; flex-direction: column; }
+.card .pills { margin-top: 0; }   /* tags sit right after the content, no empty space above them */
+.cards .card-media.has-drawing { aspect-ratio: auto; }
+.cards .card-media.has-drawing .drawing-wrap { flex: none; aspect-ratio: 16 / 10; }
+.card-spot .card-title { font-size: clamp(1.45rem, 2.4vw, 2rem); }
+@container card (min-width: 880px) {
+  .card-in { display: grid; grid-template-columns: minmax(0, 58fr) minmax(0, 42fr); }
+  /* the picture takes the text's height (16:10 at least); contain: size keeps a video or
+     model inside it from making the card taller */
+  .card-in > .card-media { aspect-ratio: auto; min-height: calc(58cqw * .625); contain: size; box-shadow: inset -1px 0 0 var(--ln); }
+  .card-flip .card-in { grid-template-columns: minmax(0, 42fr) minmax(0, 58fr); }
+  .card-flip .card-in > .card-media { order: 2; box-shadow: inset 1px 0 0 var(--ln); }
+  .card-in > .card-media .vid-btn { top: 14px; right: clamp(16px, 2.6vw, 28px); }   /* clear of the card's rounded corner */
+  .card-in > .card-body { padding: clamp(28px, 3.4vw, 44px); }
 }
-@media (min-width: 700px) and (max-width: 1239px) {
-  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: dense; }
-  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(odd),
-  .cards:has(> .card-wide) .card:last-child:nth-child(even) { grid-column: 1 / -1; flex-direction: row; }
-  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(odd) .card-media,
-  .cards:has(> .card-wide) .card:last-child:nth-child(even) .card-media { aspect-ratio: auto; flex: 1 1 50%; }
-  .cards:not(:has(> .card-wide)) .card:last-child:nth-child(odd) .card-body,
-  .cards:has(> .card-wide) .card:last-child:nth-child(even) .card-body { flex: 1 1 50%; }
-  .card.card-wide { grid-column: 1 / -1; flex-direction: row; align-self: stretch; }
-}
-@media (min-width: 700px) {
-  .card-wide .card-media { aspect-ratio: auto; flex: 1 1 50%; min-width: 0; min-height: 440px; }
-  .card-wide .card-body { flex: 1 1 50%; min-width: 0; }
-}
-@media (max-width: 699px) {
-  .card-wide .card-media.has-drawing { aspect-ratio: auto; }
-  /* tall enough for the arm with its end effector exploded, so the model fills the width */
-  .card-wide .art-box.has-drawing .drawing-wrap { flex: none; aspect-ratio: 2 / 3; padding-bottom: 0; }
+/* stacked spotlight with the 3D model: tall enough for the arm with its end effector exploded */
+@container card (max-width: 879px) {
+  .card-spot .card-media.has-tabs { aspect-ratio: auto; }
+  .card-spot .tab-media.has-drawing .drawing-wrap { flex: none; height: min(140cqw, 620px); padding-bottom: 0; }
 }
 
 /* 6. section index labels: 01 / About, 02 / Projects ... */
@@ -791,10 +787,10 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
   .tl-track { height: 22px; }
 }
 
-/* phone: drawings get their own box, callouts sit under them */
-@media (max-width: 640px) {
-  .art-box.has-drawing.card-media, .feat-media.has-drawing { aspect-ratio: auto; }
-  .art-box.has-drawing .drawing-wrap { flex: none; aspect-ratio: 16 / 10; padding: 44px 12px 8px; }
+/* a narrow featured card: the drawing gets its own box, callouts sit under it */
+@container feat (max-width: 590px) {
+  .feat-media.has-drawing, .feat-media.has-tabs { aspect-ratio: auto; }
+  .feat-media .drawing-wrap { flex: none; aspect-ratio: 16 / 10; padding: 44px 12px 8px; }
 }
 
 .tl-year:first-child { transform: none; }
@@ -1111,9 +1107,6 @@ body.menu-open .bar-sec { visibility: hidden; }
 .gal-arrow { width: 44px; height: 44px; padding: 0; border: 1px solid var(--ghost); border-radius: 50%; background: var(--card, #fff); color: var(--fg); font-family: var(--mono); font-size: 1rem; cursor: pointer; transition: border-color .2s var(--ease); }
 .gal-arrow:hover { border-color: var(--fg); }   /* like the other outlined buttons */
 @media (prefers-reduced-motion: reduce) { .tab-stack > .tab-media, .media-tab { transition: none; } }
-/* phones: the box takes its height from the drawing or model panel */
-@media (max-width: 640px) { .feat-media.has-tabs { aspect-ratio: auto; } }
-@media (max-width: 699px) { .card-wide .card-media.has-tabs { aspect-ratio: auto; } }
 
 /* ---------- wiring schematic tab (drawings.js "wiring"; render.js animates it) ---------- */
 .has-schematic { position: relative; }
@@ -1232,3 +1225,17 @@ body.menu-open .bar-sec { visibility: hidden; }
 .bom-row::after { inset: 4px 6px; }
 @media (hover: hover) { .rev-panel:hover::after, .bom-row:hover::after { opacity: 1; } }
 .rev-panel[aria-expanded="true"]::after, .rev-panel:focus-visible::after, .bom-row:focus-within::after { opacity: 1; }
+
+/* ---------- featured card: the picture and the spec table share the left column ----------
+   On a wide card they stay in view together under the top bar while the text scrolls
+   past (overflow: clip, unlike hidden, lets them stick). On a narrow card the left
+   column dissolves: picture, then text, then the spec table, as before. */
+.feature { overflow: clip; }
+.feat-side { display: contents; }
+.feat-side > .feat-spec { order: 2; margin: 0 clamp(24px, 4vw, 48px) clamp(24px, 4vw, 48px); }
+.feature:has(.feat-side > .feat-spec) .feat-info { padding-bottom: 0; }
+@container feat (min-width: 800px) {
+  .feat-side { display: block; align-self: start; position: sticky; top: 88px; }
+  .feat-side > .feat-spec { margin: 8px 0 24px 16px; }
+  .feature:has(.feat-side > .feat-spec) .feat-info { padding-bottom: clamp(24px, 4vw, 48px); }
+}

@@ -723,14 +723,53 @@
       F.points && F.points.length ? bullets(F.points) : null,
       F.image2 ? secondPhoto(F) : null,
       F.result ? el("p", "feat-result", [F.result]) : null,
-      F.specs && F.specs.length ? specTable(F.specs) : F.tools && F.tools.length ? pills(F.tools) : null,
+      F.specs && F.specs.length ? null : F.tools && F.tools.length ? pills(F.tools) : null,
     ]);
-    var feat = el("article", "feature", [media(F, "feat-media art-box"), info]);
+    // the spec table sits under the picture on a wide card (the two stay in view
+    // together while the text scrolls past) and after the text on a narrow one
+    var side = el("div", "feat-side", [media(F, "feat-media art-box"), F.specs && F.specs.length ? specTable(F.specs) : null]);
+    var feat = el("article", "feature", [side, info]);
     feat.id = "featured-project";   // Skills links point here
     fslot.appendChild(feat);
   }
 
   /* ======================= projects ======================= */
+
+  /* Masonry for the grid of smaller cards: each card sits right under the one above it
+     in its column, 16px apart, with no gaps. The grid's rows are 1px tall and each card
+     spans its own height in rows plus the gap. Cards go, in order, into the column that
+     ends highest (the leftmost on a tie), so the first row reads left to right.
+     Columns are chosen from each card's height with its "+ more" closed, so opening one
+     only pushes down the cards under it in the same column. A ResizeObserver re-packs
+     on any size change: window, fonts, photos, video, tabs, "+ more". Without
+     JavaScript (or with one column) it's a plain grid. */
+  function masonry(grid) {
+    var items = [].slice.call(grid.children), queued = 0;
+    function pack() {
+      queued = 0;
+      var cs = getComputedStyle(grid);
+      var cols = cs.gridTemplateColumns.split(" ").filter(Boolean).length;
+      var gap = parseFloat(cs.columnGap) || 16;
+      grid.classList.toggle("is-packed", cols > 1);
+      if (cols < 2) { items.forEach(function (c) { c.style.gridColumn = c.style.gridRow = ""; }); return; }
+      var tops = [], bases = [];
+      for (var i = 0; i < cols; i++) { tops.push(0); bases.push(0); }
+      items.forEach(function (c) {
+        var h = Math.ceil(c.offsetHeight), extra = 0;
+        [].forEach.call(c.querySelectorAll(".more"), function (m) { extra += m.offsetHeight; });
+        var col = bases.indexOf(Math.min.apply(null, bases));
+        bases[col] += h - extra + gap;
+        c.style.gridColumn = String(col + 1);
+        c.style.gridRow = (tops[col] + 1) + " / span " + Math.max(1, h);
+        tops[col] += h + gap;
+      });
+    }
+    function queue() { if (!queued) queued = requestAnimationFrame(pack); }
+    var ro = new ResizeObserver(queue);
+    items.forEach(function (c) { ro.observe(c); });
+    ro.observe(grid);
+    pack();
+  }
 
   // A photo opened larger, in a dialog (Escape, the Close button, or a click outside closes it).
   var lb = null;
@@ -771,12 +810,18 @@
     return el("div", "pts", [bullets(items.slice(0, 3)), rest, btn]);
   }
 
+  /* Three tiers: the featured card above, then the spotlights (full-width cards with
+     the picture and text side by side, sides alternating), then a grid of smaller
+     cards. Each card switches between side by side and stacked by its own width
+     (container queries in style.css), not the screen's. */
   var projects = live(S.projects);
   if (projects.length) {
-    var cards = slot("projects");
-    projects.forEach(function (p) {
+    var cards = slot("projects"), spots = slot("spotlights");
+    var spotList = projects.filter(function (p) { return p.spotlight; }).sort(function (a, b) { return a.spotlight - b.spotlight; });
+    spotList.concat(projects.filter(function (p) { return !p.spotlight; })).forEach(function (p) {
       p._id = uniqueId("project-" + slug(p.title));
-      var card = el("article", "card" + (p.model ? " card-wide" : ""), [
+      var k = spotList.indexOf(p);
+      var card = el("article", "card" + (k > -1 ? " card-spot" + (k % 2 ? " card-flip" : "") : ""), [el("div", "card-in", [
         media(p, "card-media art-box"),
         el("div", "card-body", [
           el("p", "card-meta mono", [p.dates ? el("span", null, [p.dates]) : null, el("span", null, [p.role])]),
@@ -789,10 +834,12 @@
           p.moreLink ? link(p.moreLink.href, p.moreLink.label, "card-more mono") : null,
           p.link ? link(p.link, "View project", "pill pill-ghost card-link") : null,
         ]),
-      ]);
+      ])]);
       card.id = p._id;
-      cards.appendChild(card);
+      (k > -1 ? spots : cards).appendChild(card);
     });
+    if (!spotList.length) spots.remove();
+    masonry(cards);
   } else hide(document.getElementById("projects"));
   renumberFigs();   // figures read 01, 02, ... in page order, tabs included
 

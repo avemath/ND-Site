@@ -24,7 +24,12 @@ I based the design on nothing.tech:
   - The coursework strip and "Off the clock" are blueprint blue (#1450A8), drawn
     like blueprint paper with a grid.
 - The featured project gets a big white card at the top of the Projects section,
-  with a blue stripe along its top edge.
+  with a blue stripe along its top edge. On a wide screen its picture and spec table
+  stay in view on the left while the text scrolls past.
+- Under it, the welding arm and USV path planning get full-width cards with the
+  picture and text side by side. The rest of the projects sit in a grid of smaller
+  cards packed like bricks, so there are no empty gaps between them. Each card
+  decides on its own width whether its picture sits beside the text or above it.
 - Four big numbers (SolidWorks years, robots built, regionals won, years as a
   driver) sit in a white title-block card on the bottom edge of the black top
   section, half on it and half on About. They count up the first time you see them.
@@ -102,9 +107,13 @@ Open `content.js` and follow the notes at the top. The short version:
   are in `content.js`. The first tab is the card's
   usual picture; each other tab is a list of photos with captions, shown one at a
   time with arrows. To add a tab, copy one of the entries under `tabs`.
+- **Spotlights:** `spotlight: 1` and `spotlight: 2` on a project make it one of the
+  full-width cards under the featured one (now the welding arm, then USV path
+  planning). Leave it off to put a project in the grid of smaller cards.
 - **Second photo:** a project card can also show a smaller second photo under its
-  bullets, with a small caption (the maze robot does). Fill in `image2`,
-  `image2Alt`, and `image2Caption`. Leave `image2` as `""` to hide it.
+  bullets, with a small caption. Fill in `image2`, `image2Alt`, and
+  `image2Caption`. Leave `image2` as `""` to hide it. (The maze robot's SolidWorks
+  render is now a "CAD model" tab instead.)
 - **Results:** `result` on a project adds a highlighted line about how it turned out.
   Leave it `""` until there's a real one.
 - **Spec table:** `specs` on the featured project is the small table (Role, CAD,

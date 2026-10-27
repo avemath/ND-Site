@@ -167,7 +167,10 @@ window.SITE = {
 
   /* ---------- Projects ----------
      Strongest first for a controls reader (path planning, the welding arm, senior
-     design), then the rest. "hook" is the one-line intro under the title. */
+     design), then the rest. "hook" is the one-line intro under the title.
+     LAYOUT: "spotlight: 1" and "spotlight: 2" make a full-width card under the featured
+     one, in that order, with the picture and text side by side (the sides alternate).
+     Every other project goes in the grid of smaller cards, in the order listed here. */
   projects: [
     {
       title: "USV Path Planning",
@@ -187,12 +190,14 @@ window.SITE = {
       image: "assets/video/usv-apf-poster.jpg",
       imageAlt: "Simulation of the artificial potential field model: the agent, a blue dot, moves across an X/Y grid toward the goal, a red star.",
       mediaTag: "Simulation",
+      spotlight: 2,                        // second full-width card, after the welding arm
       resume: false,                       // already covered under the iCORE Lab job on the resume
       link: "",
     },
     {
       title: "Mock Welding Robotic Arm",
       timelineLabel: "Welding arm",        // shorter name used on the timeline
+      spotlight: 1,                        // first full-width card, right under the featured one
       role: "iCORE Lab",
       dates: "Mar 2026 to May 2026",
       hook: "A 3D-printed 5-DOF arm built for mock welding. I designed the end effector and helped build and wire the arm.",
@@ -310,10 +315,14 @@ window.SITE = {
       image: "assets/img/maze-robot.jpg",
       imagePosition: "center 44%",         // keeps the whole robot in view when the photo is cropped
       imageAlt: "The maze robot: a blue 3D-printed base with a camera on a raised mount, ultrasonic sensors on the front and side, and wires running to the boards on top",
-      // a smaller second picture under the bullets, with a caption (any project card can have one)
-      image2: "assets/img/maze-robot-cad.jpg",
-      image2Alt: "SolidWorks render of the maze robot: a four-wheeled base with the camera system on a raised deck at the front",
-      image2Caption: "SolidWorks model of the robot.",
+      // the photo is the first tab; his SolidWorks render is the second
+      tabs: [
+        { label: "Photo" },
+        { label: "CAD model", photos: [
+          { image: "assets/img/maze-robot-cad.jpg", caption: "SolidWorks model of the robot.",
+            alt: "SolidWorks render of the maze robot: a four-wheeled base with the camera system on a raised deck at the front" },
+        ] },
+      ],
       link: "",
     },
     {
