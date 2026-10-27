@@ -59,7 +59,7 @@ window.SITE = {
   // whenever the site gets a real update, like a revision on an engineering drawing.
   revision: "D",
   // The live address. Update this if the site moves to his own GitHub account.
-  siteUrl: "https://avemath.github.io/ND-Site/",
+  siteUrl: "https://avemath.github.io/nmdomke/",
 
   // Under his name at the top. DRAFT: have him approve the wording.
   tagline:

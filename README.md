@@ -7,7 +7,7 @@ service that turns a repo into a website).
 It's just plain HTML, CSS, and JavaScript files. There's no build step (nothing to
 compile or convert first) and nothing to install.
 
-Live site: https://avemath.github.io/ND-Site/
+Live site: https://avemath.github.io/nmdomke/
 Printable resume: `resume.html` (the same address with `resume.html` on the end)
 
 ## What the site looks like
@@ -157,7 +157,7 @@ questions. Here's what's left:
 3. Set the branch to `main` and the folder to `/ (root)`. Click **Save**.
 4. After a minute or two, the site is live at
    `https://<username>.github.io/<repo-name>/`
-   (right now that's `https://avemath.github.io/ND-Site/`).
+   (right now that's `https://avemath.github.io/nmdomke/`).
 
 ## Handing it off to Nicholas
 
@@ -166,7 +166,7 @@ When I hand this off to Nicholas, I'll do one of these:
 - **Transfer the repo** (this keeps the full history of changes): go to
   Settings > General > Danger Zone > Transfer ownership, and enter his GitHub
   username. Then he turns on Pages in his copy (steps above). The address becomes
-  `https://<his-username>.github.io/ND-Site/`.
+  `https://<his-username>.github.io/nmdomke/`.
   - After the transfer, he adds me (avemath) as a collaborator with write access, so
     I can keep updating it. That's under Settings > Collaborators.
   - He can also rename the repo to `<his-username>.github.io` (Settings > General >
@@ -179,7 +179,11 @@ When I hand this off to Nicholas, I'll do one of these:
 ### After the move, update the address
 
 Link previews and search engines need the full address, so the old one has to be
-replaced everywhere it appears. There are ten spots in five files:
+replaced everywhere it appears. I did this once already, when I renamed the repo
+from ND-Site to nmdomke in October 2026 (the address went from
+`avemath.github.io/ND-Site/` to `avemath.github.io/nmdomke/`). If the address
+changes again, these are the ten spots in five files, plus the live site line at
+the top of this README:
 
 `content.js`
 - [ ] `siteUrl`: the site's address, used on the resume page and in the info for
@@ -199,7 +203,7 @@ replaced everywhere it appears. There are ten spots in five files:
 - [ ] Both addresses: the main page and `resume.html`
 
 `404.html` (near the top)
-- [ ] `<base href="/ND-Site/">`: change `/ND-Site/` to the new repo name, like
+- [ ] `<base href="/nmdomke/">`: change `/nmdomke/` to the new repo name, like
       `/<new-repo-name>/`. If he renames the repo to `<his-username>.github.io`,
       it's just `/`
 
