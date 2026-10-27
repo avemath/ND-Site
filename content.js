@@ -252,6 +252,10 @@ window.SITE = {
       modelHintTouch: "Tap to explode",
       image: "",
       imageAlt: "",
+      // a smaller photo under the bullets (the 3D model stays the main picture)
+      image2: "assets/img/welding-arm-build.jpg",
+      image2Alt: "The 3D-printed arm in pink on a lab bench, wired to a control board, with its end effector reaching over a checkerboard mat",
+      image2Caption: "The built arm on the lab bench.",
       link: "",
     },
     {
