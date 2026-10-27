@@ -210,8 +210,9 @@ body.menu-open .bar::before { opacity: 0; }
 /* block + inline dot, so a wrapped status stays centered with the dot on its first line */
 .status { margin: 26px auto 0; font-size: 0.8rem; color: var(--fg-3); text-wrap: balance; }
 .seeking { margin-top: 10px; }
-.rec { display: inline-block; margin-right: 10px; vertical-align: 0.05em; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: rec 1.6s steps(1) infinite; }
-@keyframes rec { 50% { opacity: .15; } }
+/* the "Now" dot: the light accent blue, with a gentle pulse (it never fades out) */
+.rec { display: inline-block; margin-right: 10px; vertical-align: 0.05em; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-lt); box-shadow: 0 0 0 3px rgba(122,167,255,.25), 0 0 12px rgba(122,167,255,.8); animation: rec 2.2s ease-in-out infinite; }
+@keyframes rec { 50% { opacity: .6; box-shadow: 0 0 0 6px rgba(122,167,255,.08), 0 0 6px rgba(122,167,255,.5); } }
 @media (prefers-reduced-motion: reduce) { .rec { animation: none; } }
 
 .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 34px; }
@@ -453,7 +454,7 @@ button.xp-head:hover .xp-role { text-decoration: underline; text-decoration-colo
   text-align: center; overflow: hidden;
 }
 .contact-inner { position: relative; z-index: 1; }
-.contact-h { margin: 14px 0 0; font-size: clamp(3rem, 11vw, 8.5rem); line-height: .95; font-weight: 800; text-shadow: 0 0 28px rgba(255,255,255,.18), 0 0 8px #000; }
+.contact-h { margin: 14px 0 0; font-size: clamp(2.4rem, 7vw, 5rem); line-height: 1; font-weight: 900; text-shadow: 0 0 8px #000; }   /* the same size as the section headings, heavy enough that the dots read as letters on black */
 .contact-text { max-width: 30em; margin: 24px auto 0; color: var(--fg-2); font-size: 1.1rem; text-wrap: balance; }
 .contact .pill-solid { text-transform: none; letter-spacing: 0.02em; }
 
