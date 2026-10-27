@@ -253,6 +253,7 @@ window.SITE = {
       model: "assets/models/welding-arm.glb",
       modelTag: "CAD model",               // replaces "Illustration" in the figure label
       modelLabel: "3D CAD model of the welding arm. Press Enter to explode the end effector.",
+      modelKey: "End effector (my design)",   // the one key under the model, next to a blue square
       modelHint: "Hover to explode",
       modelHintTouch: "Tap to explode",
       image: "",

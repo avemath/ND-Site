@@ -713,7 +713,8 @@ body.menu-open .gear { visibility: hidden; }
 }
 @media (max-width: 699px) {
   .card-wide .card-media.has-drawing { aspect-ratio: auto; }
-  .card-wide .art-box.has-drawing .drawing-wrap { flex: none; aspect-ratio: 1 / 1; }
+  /* tall enough for the arm with its end effector exploded, so the model fills the width */
+  .card-wide .art-box.has-drawing .drawing-wrap { flex: none; aspect-ratio: 2 / 3; padding-bottom: 0; }
 }
 
 /* 6. section index labels: 01 / About, 02 / Projects ... */
@@ -918,6 +919,10 @@ body.menu-open .bar-sec { visibility: hidden; }
 .model3d.dragging { cursor: grabbing; }
 .model3d canvas { display: block; width: 100%; height: 100%; }
 .model3d:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 10px; }
-.model-hint { position: absolute; right: 12px; bottom: 6px; z-index: 1; pointer-events: none; color: var(--fg-3); font-size: 0.72rem; }
-/* the model has no numbered markers, so the list uses small blue squares instead of numbers */
-.has-model .callout-n { width: 8px; height: 8px; border-radius: 2px; font-size: 0; }
+/* under the model: one key and the hint, on one line. The drawing's numbered
+   callouts are for the drawing only (some of those parts aren't in the model). */
+.has-model .callouts { display: none; }
+.model-foot { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 16px; padding: 0 clamp(20px, 2.6vw, 28px) clamp(16px, 2vw, 22px); font-size: 0.75rem; color: var(--fg-2); }
+.model-key { display: flex; align-items: center; gap: 8px; }
+.model-key::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 2px; background: #E6EEFA; box-shadow: inset 0 0 0 1.5px var(--accent); }
+.model-hint { color: var(--fg-3); }

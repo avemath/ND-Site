@@ -116,10 +116,10 @@
       }); }); });
       return [lo, hi];
     }
-    var capDrop = 40;
+    var capDrop = 28;
     if (cap) cap.off.copy(axis).multiplyScalar(capDrop);
     if (sharpie) {
-      var clear = cap ? capDrop + span(cap)[1] - span(sharpie)[0] + 14 : 90;
+      var clear = cap ? capDrop + span(cap)[1] - span(sharpie)[0] + 10 : 90;
       sharpie.off.copy(axis).multiplyScalar(clear);
     }
 
@@ -151,7 +151,8 @@
       var all = new THREE.Box3();
       parts.forEach(function (p) { all.union(bbox(p)); });
       target.copy(all.getCenter(new THREE.Vector3()));
-      [[0, 0], [TURN.az, 0], [-TURN.az, 0], [0, TURN.el], [0, -TURN.el]].forEach(function (d) {
+      // fitted to the resting view (a drag may run a little past the edges, then eases back)
+      [[0, 0]].forEach(function (d) {
         place(VIEW.az + d[0], VIEW.el + d[1]);
         var inv = cam.matrixWorldInverse;
         [0, 1].forEach(function (s) {
@@ -169,7 +170,7 @@
       place(VIEW.az, VIEW.el);
       var right = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 0), up = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 1);
       target.add(right.multiplyScalar((lo.x + hi.x) / 2)).add(up.multiplyScalar((lo.y + hi.y) / 2));
-      frame.w = (hi.x - lo.x) * 1.06; frame.h = (hi.y - lo.y) * 1.06;
+      frame.w = (hi.x - lo.x) * 1.04; frame.h = (hi.y - lo.y) * 1.04;
     }
     fit();
 
@@ -252,34 +253,49 @@
       if (!drag || e.pointerId !== drag.id) return;
       var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
       if (!drag.moved && Math.hypot(dx, dy) < 6) return;
+      // on a touch screen, a mostly-up-and-down swipe is the page scrolling, not a turn
+      if (!drag.moved && drag.type !== "mouse" && Math.abs(dy) > Math.abs(dx)) { drag = null; return; }
       if (!drag.moved) { drag.moved = true; st.dragging = true; holder.classList.add("dragging"); try { holder.setPointerCapture(e.pointerId); } catch (x) {} }
       var w = holder.clientWidth || 300;
       st.az = Math.max(-TURN.az, Math.min(TURN.az, drag.az - dx / w * 90));
-      st.el = Math.max(-TURN.el, Math.min(TURN.el, drag.el + dy / w * 60));
+      if (drag.type === "mouse") st.el = Math.max(-TURN.el, Math.min(TURN.el, drag.el + dy / w * 60));
       kick();
     });
-    function end(e) {
+    function end(e, cancelled) {
+      if (st.dragging) { st.dragging = false; holder.classList.remove("dragging"); kick(); }
       if (!drag || e.pointerId !== drag.id) return;
-      // a tap (no drag) toggles the explode on touch screens and pens
-      if (!drag.moved && drag.type !== "mouse") { st.sticky = !st.sticky; update(); }
-      drag = null; st.dragging = false; holder.classList.remove("dragging");
-      kick();
+      // a tap (no drag) toggles the explode on touch screens and pens; a cancel
+      // (the browser took the swipe to scroll the page) doesn't
+      if (!cancelled && !drag.moved && drag.type !== "mouse") { st.sticky = !st.sticky; update(); }
+      drag = null;
     }
-    holder.addEventListener("pointerup", end);
-    holder.addEventListener("pointercancel", end);
+    holder.addEventListener("pointerup", function (e) { end(e, false); });
+    holder.addEventListener("pointercancel", function (e) { end(e, true); });
 
     /* ---------- swap the drawing for the model ---------- */
     wrap.appendChild(holder);
     box.classList.add("has-model");
     var tag = box.querySelector(".art-tag");
     if (tag && item.modelTag) tag.textContent = tag.textContent.replace(/\/.*$/, "/ " + item.modelTag);
+    // under the model: one key (his parts are the blue ones) and the hint. The
+    // drawing's numbered callouts name things that aren't in the model, so they hide.
+    var foot = document.createElement("div");
+    foot.className = "model-foot mono";
+    if (item.modelKey) {
+      var key = document.createElement("span");
+      key.className = "model-key";
+      key.textContent = item.modelKey;
+      foot.appendChild(key);
+    }
     if (item.modelHint) {
       var hint = document.createElement("span");
-      hint.className = "model-hint mono";
+      hint.className = "model-hint";
       hint.setAttribute("aria-hidden", "true");
       hint.textContent = fine.matches ? item.modelHint : (item.modelHintTouch || item.modelHint);
-      wrap.appendChild(hint);
+      foot.appendChild(hint);
     }
+    var legend = box.querySelector(".callouts");
+    box.insertBefore(foot, legend || null);
     size();
     draw();
   }
