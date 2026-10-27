@@ -981,8 +981,8 @@
     axis.setAttribute("aria-hidden", "true");
     for (var y = from; y <= to; y++) {
       var early = cut && y < cut;
-      if (early && ((y - from) % 2 || y >= cut - 1)) continue;   // sparse labels in the squeezed part
-      var t = el("span", "tl-year" + (y % 2 ? " odd" : "") + (early && y !== from ? " early" : "") + (y === to ? " end" : ""), [String(y)]);
+      if (early && y !== from) continue;   // the squeezed part is too narrow for more than its first year
+      var t = el("span", "tl-year" + (y % 2 ? " odd" : "") + (y === to ? " end" : ""), [String(y)]);
       t.style.left = pct(y);
       axis.appendChild(t);
     }
@@ -1022,16 +1022,19 @@
       grid.appendChild(el("div", "tl-row", [el("span", "tl-label", [T.next]), el("span", "tl-track", [nb])]));
     }
     if (gradAt) {
-      var g = el("span", "tl-grad mono", [el("span", null, ["B.S. " + S.graduation])]);
+      var g = el("span", "tl-grad mono", [el("span", null, ["B.S. ", el("span", "nowrap", [S.graduation])])]);
       g.setAttribute("aria-hidden", "true");
       g.style.left = across(gradAt);
       grid.appendChild(g);
-      // the label reads right from the blue line; where the chart has no room for it
-      // (narrow screens), it runs down along the line instead of off the page
+      // the label reads right from the line. Where that would run past the chart's right
+      // edge it wraps onto two lines ("B.S." over "May 2027"); where even that doesn't fit
+      // (phones), it runs down along the line
       var fitGrad = function () {
-        g.classList.remove("down");
-        var s = g.firstChild.getBoundingClientRect();
-        if (s.width && s.right > document.documentElement.clientWidth - 12) g.classList.add("down");
+        g.classList.remove("two", "down");
+        var over = function () { var s = g.firstChild.getBoundingClientRect(); return s.width && s.right > grid.getBoundingClientRect().right; };
+        if (!over()) return;
+        g.classList.add("two");
+        if (over()) { g.classList.remove("two"); g.classList.add("down"); }
       };
       requestAnimationFrame(fitGrad);
       window.addEventListener("resize", fitGrad);

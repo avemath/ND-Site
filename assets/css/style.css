@@ -651,8 +651,10 @@ body.menu-open .gear { visibility: hidden; }
 /* each label belongs to its own line: "B.S. May 2027" starts at the blue line and reads
    right, in blue; "Now" sits centered under the dashed line, one row lower, so the two
    can never run into each other */
-.tl-grad span { position: absolute; bottom: -24px; left: 6px; white-space: nowrap; color: var(--fg-2); }
-.tl-grad.down span { top: 6px; bottom: auto; left: 6px; writing-mode: vertical-rl; }
+.tl-grad > span { position: absolute; bottom: -24px; left: 6px; white-space: nowrap; color: var(--fg-2); }
+.tl-grad.two > span { bottom: -40px; line-height: 1.3; }   /* "B.S." over "May 2027" */
+.tl-grad.two .nowrap { display: block; }
+.tl-grad.down > span { top: 6px; bottom: auto; left: 6px; writing-mode: vertical-rl; }
 .tl-grad.down ~ .tl-now span { bottom: -24px; }   /* the row under the chart is free then */
 .tl-now { border-left: 1px dashed var(--fg-3); }
 .tl-now span { position: absolute; bottom: -44px; left: 0; translate: -50% 0; white-space: nowrap; font-size: .75rem; color: var(--fg-3); }
@@ -660,8 +662,6 @@ body.menu-open .gear { visibility: hidden; }
 .tl-break { position: absolute; bottom: -6px; width: 14px; height: 12px; transform: translateX(-50%);
   background: linear-gradient(115deg, transparent 38%, var(--fg-3) 40%, var(--fg-3) 48%, transparent 50%, transparent 58%, var(--fg-3) 60%, var(--fg-3) 68%, transparent 70%), var(--bg); }
 @media (max-width: 640px) { .tl-year.odd { display: none; } }
-/* the squeezed early years only have room for one label below desktop width */
-@media (max-width: 1000px) { .tl-year.early { display: none; } }
 
 /* ---------- what I can do ---------- */
 /* 2-up so bullets don't wrap every 3 words */
@@ -709,7 +709,7 @@ body.menu-open .gear { visibility: hidden; }
 .kb-key.black:focus-visible { background: linear-gradient(#7AA7FF 70%, #A9C6FF 92%, #7AA7FF); }   /* the light blue reads on black */
 .kb.by-pointer .kb-key.white:focus-visible { box-shadow: none; }
 .kb.by-pointer .kb-key.black:focus-visible { background: linear-gradient(#000 70%, #2B2B2B 92%, #111); }
-.kb-hint { margin: 10px 0 0; color: var(--fg-3); }
+.kb-hint { margin: 10px 0 0; color: var(--fg-3); text-wrap: balance; }
 
 
 /* =====================================================================
@@ -1161,7 +1161,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 .gtr-note { font-size: 0.7rem; color: rgba(220,231,248,.75); pointer-events: none; }
 .gtr-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; margin-top: 10px; }
 .gtr-read { margin: 0; font-size: 0.75rem; color: #FFFFFF; text-transform: none; }   /* "Hz", not "HZ" */
-.gtr-hint { margin: 0; }
+.gtr-hint { margin: 0; text-wrap: balance; }
 
 /* ---------- drone card: a line drawing whose propellers spin on hover or tap ---------- */
 .hob-art { margin-top: 4px; padding: 6px 0; }
@@ -1264,9 +1264,9 @@ body.menu-open .bar-sec { visibility: hidden; }
 .tl-row.has-note .tl-bar { top: auto; bottom: 12px; translate: none; }
 .tl-note { position: absolute; top: 9px; white-space: nowrap; font-size: .7rem; color: var(--fg-2); }
 @media (max-width: 640px) {
-  .tl-row.has-note .tl-track { height: 40px; }
   .tl-row.has-note .tl-bar { bottom: 6px; }
-  .tl-note { top: 4px; font-size: .65rem; left: 0 !important; white-space: normal; }
+  .tl-note { top: 4px; font-size: .65rem; left: 0 !important; right: 40px; white-space: normal; }   /* clear of the graduation line */
+  .tl-row.has-note .tl-track { height: 52px; }
 }
 
 /* ---------- About facts on pale blueprint paper: a hint of color without blue text
