@@ -120,16 +120,16 @@ window.SITE = {
     title: "Acoustic Modem Mount for a BlueROV2",
     org: "Integer Technologies",
     dates: "May 2026 to Aug 2026",
-    hook: "A BlueLink SARbot, an underwater vehicle built on the BlueROV2, needed an acoustic modem for in-water testing. The modem sits in a watertight enclosure from Blue Robotics. I designed the two printed parts: the mount that holds the enclosure on the vehicle, and a Raspberry Pi mount that fits inside it.",
+    hook: "A BlueLink SARbot, an underwater vehicle built on the BlueROV2, needed an acoustic modem for in-water testing. The modem sits in a watertight enclosure from Blue Robotics. I designed both 3D-printed parts: the mount that holds the enclosure on the vehicle, and a Raspberry Pi mount that fits inside it.",
     points: [
       "Designed both mounts in Fusion 360",
-      "Started with a rail concept, like a rifle scope mount, so different modems could slide on and off, then changed it for the final design",
-      "Designed 4 versions of the mount and printed 5 to 6 iterations of the final design",
+      "Started with a modular rail concept, like a rifle scope mount, so different modems could slide on and off, then refined it into the final design",
+      "Iterated through 4 design versions, then printed and refined 5 to 6 iterations of the final design",
       "Printed the final mount in PETG at 100% infill",
-      "Designed the Raspberry Pi mount that fits inside the watertight enclosure, through 6 versions, printed in PLA with 3 walls and honeycomb infill",
-      "Selected cables and connectors that connect and disconnect quickly while the vehicle is in the water",
+      "Designed the Raspberry Pi mount that fits inside the watertight enclosure, refining it over 6 versions, each built on the last, and printed it in PLA with 3 walls and honeycomb infill",
+      "Chose quick-connect bulkheads and cables so the modem connects and disconnects while the vehicle is in the water",
     ],
-    result: "Tested in a pool and a lake. The printed mounts worked well in the water, and the quick-connect bulkheads worked in and out of it.",
+    result: "In pool and lake tests, the printed mounts worked well in the water, and the quick-connect bulkheads worked in and out of it.",
     tools: ["Fusion 360", "PLA", "PETG", "BlueROV2"],
     // Spec table on the card, like the parts list on a drawing. When filled in,
     // it shows instead of the tool pills. Delete a row to drop it.
@@ -161,15 +161,15 @@ window.SITE = {
       role: "Team lead, team of 8 (4 mechanical, 3 electrical, 1 computer engineer)",
       dates: "Aug 2026 to May 2027",       // a two-semester course
       // QUESTION: confirm the competition name (he said "Mike Briscoe ASNE ONR national competition")
-      hook: "An electric boat with a custom hull inspired by a jet ski, for ASNE's Promoting Electric Propulsion (PEP) competition, a national student competition sponsored by ONR.",
+      hook: "I'm leading a team of 8 building an electric boat with a custom, jet-ski-inspired hull for ASNE's Promoting Electric Propulsion (PEP) competition, a national student competition sponsored by ONR.",
       points: [
-        "Designing the hull in SolidWorks",
-        "Leading the team on a $7,000 budget as a first-year team",
-        "Includes a radio frequency controller for communications",   // QUESTION: what does the radio system do?
+        "Designing the custom hull in SolidWorks",
+        "Leading a first-year team on a $7,000 budget",
+        "Our design uses a radio frequency controller for communications",   // QUESTION: what does the radio system do?
       ],
       resumePoints: [
         "Leading a first-year team of 8 on a $7,000 budget, building an electric boat for ASNE's PEP competition",
-        "Designing a custom hull inspired by a jet ski in SolidWorks",
+        "Designing the boat's custom, jet-ski-inspired hull in SolidWorks",
       ],
       tools: ["SolidWorks"],
       art: "boat",
@@ -183,10 +183,10 @@ window.SITE = {
       timelineLabel: "USV path planning",
       role: "iCORE Lab",
       dates: "Mar 2026 to now",
-      hook: "I'm building a path planner for unmanned surface vessels, in simulation.",
+      hook: "I'm building a path planner for unmanned surface vessels, developing and testing it in simulation.",
       points: [
-        "Tuning an artificial potential field model and an ant colony optimization model so each one works accurately on its own",
-        "Next, combining them into one planner that uses a perception system to avoid static and dynamic obstacles that weren't in the simulation, while still reaching the goal by the best path",
+        "Tuning an artificial potential field model and an ant colony optimization model until each one plans accurately on its own",
+        "Next: combining them into one planner that uses a perception system to avoid static and moving obstacles it isn't told about ahead of time, and still reaches the goal by the best path",
       ],
       tools: ["Python", "Matplotlib"],
       // His Matplotlib animation of the potential field model. "image" is the still
@@ -208,7 +208,7 @@ window.SITE = {
       points: [
         "Designed the mount in SolidWorks",
         "The laser projects a grid pattern onto the blade, and the depth sensor uses it to find surface imperfections",
-        "Built toward an eventual belt sanding system for the blades",
+        "A step toward a belt sanding system for the blades",
       ],
       tools: ["SolidWorks", "UR5e"],
       art: "turbine",
@@ -223,20 +223,20 @@ window.SITE = {
       timelineLabel: "Welding arm",        // shorter name used on the timeline
       role: "iCORE Lab",
       dates: "Mar 2026 to May 2026",
-      hook: "A 3D-printed 5-DOF arm built for mock welding. I designed the end effector and worked on most of the build except the code.",
+      hook: "A 3D-printed 5-DOF arm built for mock welding. I designed the end effector and helped build and wire the arm.",
       points: [
         "Designed the end effector",
         "3D printed the arm and end effector",
-        "Soldered wires to the servos' potentiometers to read joint positions",
+        "Soldered wires to the servos' potentiometers so the arm could read its joint positions",
         // QUESTION: Uno R3 or R4? His wiring schematic says R3. Also: what does the Raspberry Pi
         // in the schematic do, and which motor controller board is it?
         "Wired the electronics around an Arduino Uno R4",
-        "Put the CAD model into simulation software to check it, then measured the real arm against it",
+        "Verified the CAD model in simulation software, then measured the real arm against it",
       ],
       result: "Measured 0.83% position error over 5 straight-line runs, comparing where the end effector ended up with where it should have been.",
       resumePoints: [
         "Designed the end effector, 3D printed the arm, and soldered wires to the servos' potentiometers to read joint positions",
-        "Wired the electronics around an Arduino Uno R4 and checked the CAD model in simulation software",
+        "Wired the electronics around an Arduino Uno R4 and verified the CAD model in simulation software",
         "Measured 0.83% position error over 5 straight-line runs against where the end effector should have been",
       ],
       tools: ["3D printing", "Arduino Uno R4", "Soldering"],
@@ -259,12 +259,12 @@ window.SITE = {
       timelineLabel: "Maze robot",
       role: "Intro to Robotics",
       dates: "Oct 2025 to Dec 2025",
-      hook: "An autonomous robot built to navigate a maze using a camera.",
+      hook: "An autonomous robot that navigates a maze using a camera. I designed its base and camera system.",
       points: [
         "Designed the base and camera system in SolidWorks, then 3D printed them",
         "Team of 3: two mechanical engineers and one computer science student",
       ],
-      result: "Finished the maze.",
+      result: "The robot finished the maze.",
       resumePoints: [
         "Designed and 3D printed the base and camera system on a team of 3; the robot finished the maze",
       ],
@@ -299,7 +299,7 @@ window.SITE = {
       dates: "Sep 2023 to Dec 2023",
       hook: "A playground designed to ADA guidelines for kids with disabilities.",
       points: [
-        "Studied existing playground designs against ADA guidelines",
+        "Evaluated existing playground designs against ADA guidelines",
         "Built the SolidWorks model and merged the team's parts into one assembly",
         "Selected aluminum and polyethylene to keep the structure light and easy to build",
       ],
@@ -318,9 +318,9 @@ window.SITE = {
       hook: "Where I learned to design and build a robot on an 8-week deadline, starting in 2018.",
       points: [
         "Built 5 competition robots in 4 years on a team of about 80",
-        "One of the team's two drivers all four years",
-        "Co-lead sophomore year, then primary team lead junior and senior years",
-        "Spent 40 to 50 hours a week in the shop during build season",   // QUESTION: confirm "during build season"
+        "Drove in competition all four years as one of the team's two drivers",
+        "Co-led the team sophomore year, then was primary team lead junior and senior years",
+        "Put in 40 to 50 hours a week in the shop during build season",   // QUESTION: confirm "during build season"
         "Led CAD in SolidWorks and Onshape and trained younger members on CAD and power tools",
         "Kept sub-teams on schedule so each robot was working within the 8-week build season",
         "Ran the team's CNC router using VCarve and printed Onyx parts on Markforged printers",
@@ -329,26 +329,26 @@ window.SITE = {
       // "Robot by robot": a small table inside the card's "+ more" section. Each row can
       // have a photo: "thumb" is the small one in the table, "image" opens larger.
       robots: [
-        { season: "2019", year: "Freshman", text: "Manufacturing and assembly. Learned to run the CNC router, and was one of the drivers as a freshman.",
+        { season: "2019", year: "Freshman", text: "Built and assembled parts, learned to run the CNC router, and earned a driver spot as a freshman, which almost never happens.",
           image: "assets/img/wildstang-2019.jpg", thumb: "assets/img/wildstang-2019-thumb.jpg",
           alt: "WildStang's 2019 robot: a tall robot with a metal frame tower and blue 111 bumpers, in front of a brick wall" },
-        { season: "2020", year: "Sophomore", text: "Designed the drive base and gearbox and led their manufacturing and assembly. 95% of the robot was made in house; only the flywheel was machined outside. Driver.",
+        { season: "2020", year: "Sophomore", text: "Designed the drive base and gearbox, led their manufacturing and assembly, and helped manufacture the rest of the robot. We made 95% of it in house, with just the flywheel machined outside. Driver.",
           image: "assets/img/wildstang-2020.jpg", thumb: "assets/img/wildstang-2020-thumb.jpg",
           alt: "WildStang's 2020 robot: a low robot with a long horizontal arm, a colorful WildStang flag, and blue 111 bumpers" },
-        { season: "2021", year: "Junior, COVID season", text: "Team lead and driver. Designed the drive base and led manufacturing and assembly for the whole robot.",
+        { season: "2021", year: "Junior, COVID season", text: "Team lead and the robot's driver. Designed the drive base and led manufacturing and assembly for the whole robot.",
           image: "assets/img/wildstang-2021.jpg", thumb: "assets/img/wildstang-2021-thumb.jpg",
           alt: "WildStang's 2021 robot: a tall net strung between two posts above blue 111 bumpers" },
-        { season: "2021", year: "Junior, second robot", text: "Team lead and driver on a team of 20. Designed the drive base, led design, machining, and assembly, and took on more project management to teach the team before I left.",
+        { season: "2021", year: "Junior, second robot", text: "Team lead and driver on a team of 20. Designed the drive base, led design, machining, and assembly, and took on more project management so I could teach the team what I knew before I left.",
           image: "assets/img/wildstang-2021-second.jpg", thumb: "assets/img/wildstang-2021-second-thumb.jpg",
           alt: "WildStang's second 2021 robot: clear side panels with pink flags on top, no bumpers, on a gray carpet floor" },
-        { season: "2022", year: "Senior", text: "Driver. Led design decisions and mentored younger members, stepping in on the hard parts. Ran practices when the mentors were away.",
+        { season: "2022", year: "Senior", text: "Driver. Led design decisions and mentored younger members, stepping in on the hardest problems. The mentors trusted me to run practices when they were away.",
           image: "assets/img/wildstang-2022.jpg", thumb: "assets/img/wildstang-2022-thumb.jpg",
           alt: "WildStang's 2022 robot: a tall robot with hooks on top, a colorful flag, and blue 111 bumpers" },
       ],
       result: "Won 4 of the 5 regional competitions we attended, plus an at-home challenge during COVID.",
       // Used on the printable resume page instead of "points" and "result".
       resumePoints: [
-        "Primary team lead junior and senior years and one of two drivers all four years, on a team of about 80",
+        "Led a team of about 80 as primary team lead junior and senior years, and drove in competition all four years",
         "Designed the drive base for 3 robots and led their manufacturing and assembly",
         "Won 4 of the 5 regional competitions attended, plus an at-home challenge during COVID",
       ],
