@@ -507,7 +507,14 @@ window.SITE = {
   },
 
   /* ---------- Experience ----------
-     Most recent first. compact: true shows a job as one short line. */
+     Shown as a change log under the timeline (Date | Role | Organization | What I did),
+     newest first, with current roles marked Now. Each entry can have:
+       cards:     project cards it links to, by exact title ("featured" is the featured
+                  project). They show as small links under its bullets.
+       moreLink:  one extra link, like WildStang's "See all 5 robots".
+       segments:  separate date ranges for one row (two jobs with a gap between them).
+       compact:   a side job; its timeline bar is thinner and lighter.
+       timeline:  false keeps an entry off the timeline (WildStang is already there as a project). */
   experience: [
     {
       role: "Student Researcher",
@@ -515,10 +522,11 @@ window.SITE = {
       place: "Baton Rouge, LA",
       dates: "Mar 2026 to now",
       points: [
-        "Building a path planner for unmanned surface vessels, focused on avoiding nearby hazards (see Projects)",
-        "Designed a mount for a laser and a depth sensor on a UR5e robotic arm to find surface imperfections on wind turbine blades (see Projects)",
-        "Designed the end effector for a 3D-printed 5-DOF mock welding arm, and helped build and wire the arm (see Projects)",
+        "Building a path planner for unmanned surface vessels, focused on avoiding nearby hazards",
+        "Designed a mount for a laser and a depth sensor on a UR5e robotic arm to find surface imperfections on wind turbine blades",
+        "Designed the end effector for a 3D-printed 5-DOF mock welding arm, and helped build and wire the arm",
       ],
+      cards: ["USV Path Planning", "Wind Turbine Blade Inspection Mount", "Mock Welding Robotic Arm"],
     },
     {
       role: "Mechanical Engineering Intern",
@@ -527,8 +535,9 @@ window.SITE = {
       place: "Baton Rouge, LA",
       dates: "May 2026 to Aug 2026",
       points: [
-        "Designed and 3D printed the mount that holds an acoustic modem's watertight enclosure on a BlueROV2-based vehicle, plus a Raspberry Pi mount that fits inside the enclosure (see Featured)",
+        "Designed and 3D printed the mount that holds an acoustic modem's watertight enclosure on a BlueROV2-based vehicle, plus a Raspberry Pi mount that fits inside the enclosure",
       ],
+      cards: ["featured"],
     },
     {
       role: "Math Tutor",
@@ -544,9 +553,24 @@ window.SITE = {
       org: "Enterrium and Texas Roadhouse",
       place: "Chicago area",
       dates: "May 2023 to Jan 2026",
-      // two jobs with a gap between them, drawn as two pieces on the timeline (from his resume)
+      // two jobs with a gap between them (from his resume): Texas Roadhouse, then Enterrium
       segments: ["May 2023 to Aug 2024", "May 2025 to Jan 2026"],
       compact: true,
+      points: [
+        "Kept an enthusiastic attitude while managing multiple tasks in fast-paced customer service",
+      ],
+    },
+    {
+      role: "Team lead and driver",
+      org: "WildStang Robotics",
+      place: "FIRST Robotics Competition",
+      dates: "Aug 2018 to May 2022",
+      timeline: false,                     // already on the timeline as a project
+      points: [
+        "Primary team lead junior and senior years and co-lead sophomore year, on a team of about 80; drove in competition all four years; won 4 of the 5 regional competitions attended",
+      ],
+      cards: ["WildStang Robotics"],
+      moreLink: { label: "See all 5 robots", href: "#robots" },
     },
     {
       role: "Volunteer",
@@ -554,8 +578,9 @@ window.SITE = {
       timelineLabel: "FIRST LEGO League",
       dates: "2017 to 2022",
       compact: true,
-      // A compact entry can have one short "note" line under it.
-      note: "Refereed competitions and advised teams on how to improve before their next run.",
+      points: [
+        "Refereed competitions and advised teams on how to improve before their next run",
+      ],
     },
   ],
 

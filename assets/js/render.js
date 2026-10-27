@@ -107,20 +107,6 @@
     return el("ul", "points", (items || []).map(function (x) { return el("li", null, [fmt ? fmt(x) : x]); }));
   }
 
-  // "(see Featured)" or "(see Projects)" in a bullet becomes a link to that section.
-  function seeLinks(str) {
-    var frag = document.createDocumentFragment(), re = /\(see (Featured|Projects)\)/g, last = 0, m;
-    while ((m = re.exec(str))) {
-      frag.appendChild(text(str.slice(last, m.index) + "(see "));
-      var a = el("a", "see-link", [m[1]]);
-      a.href = m[1] === "Featured" ? "#featured" : "#projects";
-      frag.appendChild(a);
-      frag.appendChild(text(")"));
-      last = re.lastIndex;
-    }
-    frag.appendChild(text(str.slice(last)));
-    return frag;
-  }
 
   var L = S.links || {};
   var fullName = [S.firstName, S.lastName].filter(Boolean).join(" ");
@@ -933,17 +919,18 @@
     return a == null || b == null ? null : [a, b, /now/i.test(parts[1] || "")];
   }
 
-  // Opens a closed job before jumping to it, then briefly outlines the target.
+  // Moves focus to a card or a change-log line, then briefly outlines it.
   function jumpTo(target) {
-    var btn = target.querySelector("button.xp-head");
-    if (btn && !target.classList.contains("open")) btn.click();
-    // move keyboard and screen reader focus there too
-    var f = btn || target.querySelector("h3");
+    var f = target.querySelector("h3") || target;
     if (f) {
-      if (!btn) f.tabIndex = -1;
+      if (!f.hasAttribute("tabindex") && !/^(A|BUTTON)$/.test(f.tagName)) f.tabIndex = -1;
       f.focus({ preventScroll: true });
     }
-    if (reduceMotion) return;
+    if (reduceMotion) {   // a steady mark instead of the flash
+      target.classList.add("still");
+      setTimeout(function () { target.classList.remove("still"); }, 1600);
+      return;
+    }
     target.classList.remove("flash");
     void target.offsetWidth;   // restart the animation if clicked twice
     target.classList.add("flash");
@@ -955,6 +942,7 @@
     if (!T) return null;
     var rowsData = [];
     jobs.forEach(function (j) {
+      if (j.timeline === false) return;   // on the timeline already, as a project (WildStang)
       var r = range(j.dates);
       // "segments" splits a row into separate bars (two jobs with a gap, like the server jobs)
       var segs = (j.segments || []).map(function (x) { return range(x); }).filter(Boolean);
@@ -1067,45 +1055,59 @@
     return wrap;
   }
 
-  /* ======================= experience ======================= */
+  /* ======================= experience =======================
+     The timeline, then a change log under it, like the revision table on a drawing:
+     Date | Role | Organization | What I did. Newest first (current roles first, marked
+     Now). Selecting a timeline row scrolls to its line here and highlights it; each
+     line links to its project cards. On phones each line stacks into a small block. */
 
   var jobs = live(S.experience);
   if (jobs.length) {
-    var list = el("ol", "xp");
-    jobs.forEach(function (job, i) {
-      var head = [
-        el("span", "xp-dates mono", [job.dates]),
-        el("span", "xp-title", [el("span", "xp-role", [job.role]),
-          el("span", "xp-org", [[job.org, job.place].filter(Boolean).join(", ")])]),
-      ];
-      var item = el("li", "xp-item" + (job.compact ? " compact" : ""));
-      item.id = job._id = uniqueId("job-" + slug(job.org || job.role));
-      if (job.compact || !(job.points && job.points.length)) {
-        if (job.note) head[1].appendChild(el("span", "xp-note", [job.note]));   // under the title, same left edge
-        item.appendChild(el("div", "xp-head", head));
-      } else {
-        var id = "xp-" + i, open = i < 2;
-        var btn = el("button", "xp-head", head.concat([el("span", "xp-toggle", [])]));
-        btn.type = "button";
-        btn.setAttribute("aria-controls", id);
-        btn.setAttribute("aria-expanded", String(open));
-        var panel = el("div", "xp-panel", [bullets(job.points, seeLinks)]);
-        panel.id = id;
-        panel.inert = !open;           // hidden bullets stay out of screen readers and tab order
-        if (open) item.classList.add("open");
-        btn.addEventListener("click", function () {
-          var isOpen = item.classList.toggle("open");
-          btn.setAttribute("aria-expanded", String(isOpen));
-          panel.inert = !isOpen;
-        });
-        item.appendChild(el("h3", "xp-h", [btn]));   // a heading, so screen readers can jump between jobs
-        item.appendChild(panel);
-      }
-      list.appendChild(item);
+    var cardAt = {};
+    projects.forEach(function (p) { cardAt[p.title] = { id: p._id, label: p.timelineLabel || p.title }; });
+    if (F && !F.draft) cardAt.featured = { id: "featured-project", label: F.shortLabel || F.title };
+    function endOf(j) { var r = range(j.dates); return r ? (r[2] ? Infinity : r[1]) : 0; }
+    function startOf(j) { var r = range(j.dates); return r ? r[0] : 0; }
+    var logJobs = jobs.slice().sort(function (a, b) { return endOf(b) - endOf(a) || startOf(b) - startOf(a); });
+    var tbody = el("tbody", null, []);
+    logJobs.forEach(function (job) {
+      var now = /\bnow$/i.test(job.dates || "");
+      var dates = (job.segments && job.segments.length ? job.segments.slice().reverse() : [job.dates]).map(function (d) {
+        return el("span", "log-range", [d.replace(/ to now$/i, "")]);
+      });
+      var links = (job.cards || []).map(function (k) { return cardAt[k]; }).filter(Boolean).map(function (w) {
+        var a = el("a", "bom-link mono", [w.label]);
+        a.href = "#" + w.id;
+        a.addEventListener("click", function () { setTimeout(function () { var c = document.getElementById(w.id); if (c) jumpTo(c); }, 0); });
+        return a;
+      });
+      if (job.moreLink) links.push(link(job.moreLink.href, job.moreLink.label, "card-more mono"));
+      var role = el("th", "log-role", [job.role]);
+      role.scope = "row";
+      var tr = el("tr", "log-row" + (now ? " now" : ""), [
+        el("td", "log-date mono", [now ? el("span", "log-now", ["Now"]) : null].concat(dates)),
+        role,
+        el("td", "log-org", [[job.org, job.place].filter(Boolean).join(", ")]),
+        el("td", "log-what", [
+          job.points && job.points.length ? bullets(job.points) : null,
+          links.length ? el("div", "log-links", links) : null,
+        ]),
+      ]);
+      tr.id = job._id = uniqueId("job-" + slug(job.org || job.role));
+      tbody.appendChild(tr);
     });
+    var table = el("table", "log", [
+      el("thead", "mono", [el("tr", null, ["Date", "Role", "Organization", "What I did"].map(function (t) { var th = el("th", null, [t]); th.scope = "col"; return th; }))]),
+      tbody,
+    ]);
+    var n = logJobs.length;
+    var log = el("div", "log-frame", [
+      el("div", "log-head mono", [el("span", null, ["Change log"]), el("span", null, [n + (n === 1 ? " entry" : " entries")])]),
+      el("div", "log-scroll", [table]),
+    ]);
     var tl = buildTimeline();
     if (tl) slot("experience").appendChild(tl);
-    slot("experience").appendChild(list);
+    slot("experience").appendChild(log);
   } else hide(document.getElementById("experience").parentNode, "#experience");
 
   /* ======================= coursework band ======================= */
@@ -1962,7 +1964,7 @@
   (function () {
     if (reduceMotion || !("IntersectionObserver" in window)) return;
     // (not the numbers card: its top edge peeks up at the bottom of the first screen, so it's there from the start)
-    var targets = document.querySelectorAll(".about-copy, .facts, .feature, .card, .tl, .xp-item, " +
+    var targets = document.querySelectorAll(".about-copy, .facts, .feature, .card, .tl, .log-frame, " +
       ".bom, .hob-intro, .hob-card, .contact-text");
     function show(n, delay) {
       n.style.transitionDelay = delay + "ms";
@@ -2003,10 +2005,10 @@
     });
   })();
 
-  // A link straight to a job (the address a timeline row leaves) opens that job.
+  // A link straight to a job (the address a timeline row leaves) highlights its line.
   function fromHash() {
     var t = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
-    if (t && t.classList.contains("xp-item")) jumpTo(t);
+    if (t && t.classList.contains("log-row")) jumpTo(t);
   }
   fromHash();
   window.addEventListener("hashchange", fromHash);

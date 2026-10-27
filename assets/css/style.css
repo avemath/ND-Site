@@ -385,53 +385,43 @@ body.menu-open .bar::before { opacity: 0; }
 .pills { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .tag { display: inline-flex; align-items: center; height: 30px; font-size: 0.75rem; padding: 0 12px; border-radius: 999px; border: 1px solid var(--tag); color: var(--fg-2); }
 
-/* ---------- experience accordion ---------- */
-.xp { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--fg); }
-.xp-item { border-bottom: 1px solid var(--ln); }
-.xp-head {
-  width: 100%; display: grid; grid-template-columns: 12em minmax(0, 1fr) 34px; align-items: baseline; gap: 20px;
-  padding: 24px 0; background: none; border: 0; color: inherit; font: inherit; text-align: left;
+/* ---------- experience: a change log, like the revision table on a drawing ----------
+   Date | Role | Organization | What I did, in a framed white table. Current roles are
+   tinted and marked Now. On phones each line stacks into a small block. */
+.log-frame { background: #fff; border: 1.5px solid #111; border-radius: 4px; overflow: hidden; box-shadow: 0 16px 32px -18px rgba(0,0,0,.18); }
+.log-head { display: flex; justify-content: space-between; gap: 16px; padding: 12px 16px; border-bottom: 1.5px solid #111; font-size: .7rem; letter-spacing: .08em; color: #111; }
+.log { width: 100%; border-collapse: collapse; color: #111; }
+.log thead th { text-align: left; font-size: .68rem; font-weight: 400; letter-spacing: .08em; color: var(--fg-3); padding: 10px 16px; border-bottom: 1px solid #111; background: #F6F7F9; }
+.log td, .log tbody th { padding: 14px 16px; border-top: 1px solid #E3E5E9; vertical-align: top; text-align: left; }
+.log tr > * + * { border-left: 1px solid var(--card-ln); }
+.log-date { width: 11.5em; font-size: .75rem; color: var(--fg-2); }
+.log-range { display: block; white-space: nowrap; }
+.log-range + .log-range { margin-top: 4px; }
+.log-now { display: inline-block; margin: 0 0 6px; padding: 2px 8px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-size: .65rem; letter-spacing: .06em; }
+.log-role { width: 16%; font-weight: 500; }
+.log-org { width: 21%; color: var(--fg-2); }
+.log-what .points { margin: 0; font-size: .95rem; }
+.log-what .points li:last-child { margin-bottom: 0; }
+.log-links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 10px; }
+.log-links .card-more { min-height: 30px; }
+.log-row.now > * { background: var(--tint); }
+.log-row { scroll-margin-top: 96px; }
+.log-row:focus { outline: none; }
+.log-row.flash > * { animation: flash-row 1.6s var(--ease); }
+.log-row.still > * { box-shadow: inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent); }   /* reduced motion: a steady mark instead */
+@media (max-width: 759px) {
+  .log thead { display: none; }
+  .log tr { display: grid; grid-template-columns: minmax(0, 1fr); padding: 14px 16px; border-top: 1px solid #E3E5E9; }
+  .log tr:first-child { border-top: 0; }
+  .log td, .log tbody th { padding: 2px 0; border: 0 !important; width: auto; background: none !important; }
+  .log-row.now { background: var(--tint); }
+  .log-range { display: inline; }
+  .log-range + .log-range::before { content: ", "; }
+  .log-now { margin: 0 8px 4px 0; }
+  .log-role { font-size: 1.1rem; padding-top: 6px !important; }
+  .log-what { padding-top: 8px !important; }
 }
-button.xp-head { cursor: pointer; }
-.xp-h { margin: 0; font: inherit; }
-.compact .xp-head { grid-template-columns: 12em minmax(0, 1fr); padding: 18px 0; }
-.xp-dates { font-size: 0.75rem; color: var(--fg-3); }
-.xp-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
-.xp-role { font-size: clamp(1.15rem, 2vw, 1.45rem); font-weight: 500; }
-.compact .xp-role { font-size: 1.05rem; color: var(--fg-2); }
-/* one short line under a compact entry, lined up with its title */
-.xp-note { flex-basis: 100%; margin-top: 4px; color: var(--fg-3); font-size: 1rem; }
-.xp-org { color: var(--fg-3); }
-button.xp-head:hover .xp-role { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }
-
-/* plus / minus in a circle like the pills */
-.xp-toggle {
-  position: relative; width: 34px; height: 34px; align-self: center; justify-self: end;
-  border: 1px solid var(--tag); border-radius: 50%; transition: border-color .2s var(--ease), background-color .2s var(--ease);
-}
-.xp-toggle::before, .xp-toggle::after {
-  content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.5px; translate: -50% -50%;
-  background: var(--fg); border-radius: 1px;
-  transition: rotate .4s var(--ease), opacity .4s var(--ease), background-color .2s var(--ease);   /* same .4s as the panel it opens */
-}
-.xp-toggle::after { rotate: 90deg; }
-.open .xp-toggle::after { rotate: 0deg; opacity: 0; }
-
-.xp-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s var(--ease); }
-.xp-panel > * { overflow: hidden; min-height: 0; }
-.open .xp-panel { grid-template-rows: 1fr; }
-.xp-panel .points { margin: 0 0 0 calc(12em + 20px); max-width: 35em; }
-.xp-panel .points li:last-child { margin-bottom: 26px; } /* inside the clipped box so it collapses fully */
-/* "(see Projects)" in a job's bullets links to that section */
-.see-link { color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
-.see-link:hover { color: var(--accent); }
-@media (prefers-reduced-motion: reduce) { .xp-panel, .xp-toggle::before, .xp-toggle::after { transition: none; } }
-@media (max-width: 640px) {
-  .xp-head { grid-template-columns: minmax(0, 1fr) 34px; gap: 8px 16px; }
-  .xp-dates { grid-column: 1 / -1; grid-row: 1; }
-  .compact .xp-head { grid-template-columns: 1fr; }
-  .xp-panel .points { margin-left: 0; }
-}
+@media print { .log-frame { box-shadow: none; } .log-row { break-inside: avoid; } }
 
 /* ---------- coursework band (blue) ---------- */
 .marquee { display: flex; align-items: center; gap: 16px; padding: 20px var(--gutter); overflow: hidden; }
@@ -545,7 +535,6 @@ body.menu-open .gear { visibility: hidden; }
   .num-list { box-shadow: none; }
   .hero-name, .contact-h { text-shadow: none; font-size: 3rem; }
   .hero-inner > *, .contact-inner > * { text-shadow: none !important; }
-  .xp-panel { grid-template-rows: 1fr !important; }
   .feature, .card { background: none; border: 1px solid #ccc; break-inside: avoid; }
   .contact { min-height: 0; padding: 24px 0; }
   .sec, .numbers { padding-top: 32px; }
@@ -810,10 +799,6 @@ main { counter-reset: sec; }
 }
 .hob-name { color: #FFFFFF; }
 
-/* 11. accordion toggle in a circle, matching the pill language */
-button.xp-head:hover .xp-toggle { border-color: var(--fg); }
-.open .xp-toggle { background: var(--fg); border-color: var(--fg); }
-.open .xp-toggle::before { background: var(--bg); }   /* minus, light on the dark circle */
 
 /* 12. timeline: end labels stay inside the grid; phone gets full-width rows, no ellipses */
 .tl-year.end { transform: translateX(-100%); }
@@ -864,10 +849,9 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
 .tl-link:focus-visible { outline-offset: 0; border-radius: 0; }
 .tl-hint { margin-left: auto; }
 @media (hover: none) { .tl-hint { display: none; } }
-.card, .xp-item { scroll-margin-top: 88px; }
+.card { scroll-margin-top: 88px; }
 /* brief outline on the block a timeline row jumped to */
 .flash { animation: flash 1.6s var(--ease); }
-.xp-item.flash { animation-name: flash-row; }
 @keyframes flash { 0%, 35% { box-shadow: 0 0 0 2px var(--accent); } 100% { box-shadow: 0 0 0 2px transparent; } }
 @keyframes flash-row { 0%, 35% { background: rgba(20, 80, 168, .08); } 100% { background: transparent; } }
 
