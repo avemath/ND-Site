@@ -253,7 +253,7 @@ body.menu-open .bar::before { opacity: 0; }
    dark backing with 1px gaps, so every rule lines up exactly. --lift is how far the
    card rises into the hero; the hero keeps that much (plus breathing room) free at
    its bottom, so the card never covers the hero's text or buttons. */
-:root { --lift: 96px; --card-ln: #D6D9DE; }   /* --card-ln: the thin border on white cards and panels */
+:root { --lift: 96px; --card-ln: #D6D9DE; --tint: #EEF3FB; }   /* --tint: the light blue fill on a selected row or panel */   /* --card-ln: the thin border on white cards and panels */
 .hero { padding-bottom: calc(var(--lift) + 64px); }
 .hero .scroll-cue { display: none; }   /* the card itself leads the eye down */
 #intro { overflow: visible; }
@@ -271,7 +271,7 @@ body.menu-open .bar::before { opacity: 0; }
 .num-fig { position: relative; margin: 0 0 12px; display: flex; align-items: flex-start; gap: 6px; }
 .num-value { font-size: clamp(2.4rem, 4.6vw, 4.2rem); font-weight: 800; line-height: 1; letter-spacing: 0; white-space: nowrap; }
 .num-value.is-long { font-size: clamp(2rem, 3.6vw, 3.4rem); margin-top: .35em; } /* long values like 0.005 */
-.num-unit { color: var(--accent); font-size: 0.85rem; margin-top: .3em; font-weight: 700; text-transform: lowercase; }
+.num-unit { color: var(--fg-3); font-size: 0.85rem; margin-top: .3em; font-weight: 700; text-transform: lowercase; }
 .num-label { margin: 0; font-size: 1rem; color: #3A3A3A; max-width: 15em; }
 /* the About heading after the card gets the same breathing room as between sections */
 #intro > .numbers + .sec { padding-top: calc(var(--space) * .85); }
@@ -639,11 +639,11 @@ body.menu-open .gear { visibility: hidden; }
 .tl-bar.next { border: 1.5px dashed var(--fg-3); }
 .tl-bar.current::after { content: ""; position: absolute; right: -6px; top: 50%; translate: 0 -50%; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(20, 80, 168, .2); }
 .tl-grad, .tl-now { position: absolute; top: 0; bottom: 0; width: 0; pointer-events: none; }
-.tl-grad { border-left: 2px solid var(--accent); }
+.tl-grad { border-left: 2px solid var(--fg-2); }
 /* each label belongs to its own line: "B.S. May 2027" starts at the blue line and reads
    right, in blue; "Now" sits centered under the dashed line, one row lower, so the two
    can never run into each other */
-.tl-grad span { position: absolute; bottom: -24px; left: 6px; white-space: nowrap; color: var(--accent); }
+.tl-grad span { position: absolute; bottom: -24px; left: 6px; white-space: nowrap; color: var(--fg-2); }
 .tl-grad.down span { top: 6px; bottom: auto; left: 6px; writing-mode: vertical-rl; }
 .tl-grad.down ~ .tl-now span { bottom: -24px; }   /* the row under the chart is free then */
 .tl-now { border-left: 1px dashed var(--fg-3); }
@@ -980,7 +980,7 @@ body.menu-open .bar-sec { visibility: hidden; }
   transition: background-color .2s var(--ease), box-shadow .2s var(--ease);
 }
 .rev-top { display: flex; justify-content: space-between; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--card-ln); font-size: 0.75rem; color: var(--fg-3); }
-.rev-letter { color: var(--accent); font-weight: 700; }
+.rev-letter { color: var(--fg); font-weight: 700; }
 .rev-photo { display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #fff; border-bottom: 1px solid var(--card-ln); }
 .rev-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale .35s var(--ease); }
 .rev-photo.contain img { object-fit: contain; padding: 6px; }
@@ -989,14 +989,14 @@ body.menu-open .bar-sec { visibility: hidden; }
 .rev-tag { padding: 3px 9px; border: 1px solid var(--tag); border-radius: 999px; font-size: 0.7rem; color: var(--fg-2); }
 .rev-sum { flex: 1; padding: 12px 16px 10px; font-size: 1rem; line-height: 1.45; color: var(--fg-2); }
 .rev-more { padding: 0 16px 16px; font-size: 0.75rem; color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
-.rev-more::after { content: " +"; color: var(--accent); }
-.rev-panel[aria-expanded="true"] .rev-more::after { content: " \2212"; }
+.rev-more::before { content: "+ "; color: var(--accent); }
+.rev-panel[aria-expanded="true"] .rev-more::before { content: "\2212 "; }
 /* hover and the open panel: a blue top edge, like the selected row of the table */
 @media (hover: hover) {
-  .rev-panel:hover { background: #F6F8FC; box-shadow: inset 0 3px 0 var(--accent); }
+  .rev-panel:hover { background: var(--tint); }
   .rev-panel:hover .rev-photo img { scale: 1.03; }
 }
-.rev-panel[aria-expanded="true"] { background: #EEF3FB; box-shadow: inset 0 3px 0 var(--accent); }
+.rev-panel[aria-expanded="true"] { background: var(--tint); }
 .rev-panel:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 0; }   /* inset: the frame clips an outer ring */
 
 /* the details for the open robot */
@@ -1036,10 +1036,10 @@ body.menu-open .bar-sec { visibility: hidden; }
 .bom-table { width: 100%; border-collapse: collapse; }
 .bom-table thead th { padding: 10px 16px; border-bottom: 1px solid #111; background: #F6F7F9; text-align: left; font-size: 0.7rem; font-weight: 400; color: var(--fg-3); }
 .bom-table thead th + th, .bom-row > * + * { border-left: 1px solid var(--card-ln); }
-.bom-group th { padding: 16px 16px 8px; border-top: 1px solid #111; text-align: left; font-size: 0.75rem; font-weight: 700; letter-spacing: .08em; color: var(--accent); }
+.bom-group th { padding: 16px 16px 8px; border-top: 1px solid #111; text-align: left; font-size: 0.75rem; font-weight: 700; letter-spacing: .08em; color: var(--fg); }
 .bom-group:first-child th { border-top: 0; }
 .bom-row > * { padding: 11px 16px; border-top: 1px solid #E3E5E9; vertical-align: middle; text-align: left; }
-.bom-n { width: 1%; font-size: 0.75rem; font-weight: 700; color: var(--accent); }
+.bom-n { width: 1%; font-size: 0.75rem; font-weight: 700; color: var(--fg-3); }
 .bom-tool { width: 30%; font-weight: 500; }
 .bom-name { display: block; }
 .bom-note { display: block; margin-top: 3px; font-size: 0.7rem; font-weight: 400; color: var(--fg-3); }
@@ -1051,8 +1051,8 @@ body.menu-open .bar-sec { visibility: hidden; }
 }
 .bom-link:hover, .bom-link:focus-visible { border-color: var(--accent); color: var(--accent); }
 /* the row under the pointer (or holding keyboard focus) is selected, like a row in a parts list */
-.bom-row { transition: background-color .15s var(--ease), box-shadow .15s var(--ease); }
-.bom-row:hover, .bom-row:focus-within { background: #EEF3FB; box-shadow: inset 3px 0 0 var(--accent); }
+.bom-row { position: relative; transition: background-color .15s var(--ease); }
+.bom-row:hover, .bom-row:focus-within { background: var(--tint); }
 .bom-row:hover .bom-link, .bom-row:focus-within .bom-link { border-color: var(--accent); color: var(--accent); }
 .bom-also { margin: 0; padding: 12px 16px; border-top: 1px solid #111; font-size: 1rem; color: var(--fg-2); }
 .bom-also-k { font-size: 0.7rem; color: var(--fg-3); }
@@ -1212,3 +1212,21 @@ body.menu-open .bar-sec { visibility: hidden; }
 .sch-stub { stroke-width: 1.15; }
 /* drawings with callouts leave room above for the balloons, clear of the Fig. label */
 .drawing-wrap.has-marks { padding-top: 44px; }
+
+/* one "selected" look across the site: the CAD corner brackets the cards use, here on
+   robot panels and Skills rows too (hover, keyboard focus, or the open robot) */
+.rev-panel { position: relative; }
+.rev-panel::after, .bom-row::after {
+  content: ""; position: absolute; inset: 8px; z-index: 2; pointer-events: none; opacity: 0;
+  --b: linear-gradient(var(--accent), var(--accent));
+  background:
+    var(--b) top left / 12px 2px, var(--b) top left / 2px 12px,
+    var(--b) top right / 12px 2px, var(--b) top right / 2px 12px,
+    var(--b) bottom left / 12px 2px, var(--b) bottom left / 2px 12px,
+    var(--b) bottom right / 12px 2px, var(--b) bottom right / 2px 12px;
+  background-repeat: no-repeat;
+  transition: opacity .15s var(--ease);
+}
+.bom-row::after { inset: 4px 6px; }
+@media (hover: hover) { .rev-panel:hover::after, .bom-row:hover::after { opacity: 1; } }
+.rev-panel[aria-expanded="true"]::after, .rev-panel:focus-visible::after, .bom-row:focus-within::after { opacity: 1; }

@@ -745,7 +745,7 @@
       var open = rest.classList.toggle("open");
       rest.inert = !open;
       btn.setAttribute("aria-expanded", String(open));
-      btn.textContent = open ? "Show less" : "+ " + extra + " more";
+      btn.textContent = open ? "\u2212 Show less" : "+ " + extra + " more";   // + opens, minus closes, like "Details"
     });
     return el("div", "pts", [bullets(items.slice(0, 3)), rest, btn]);
   }
