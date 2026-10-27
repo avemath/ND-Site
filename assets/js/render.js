@@ -1024,8 +1024,9 @@
     if (F && !F.draft) where.featured = { id: "featured-project", label: F.shortLabel || F.title };
     var rowsN = 0, also = [], tbody = el("tbody", null, []);
     skills.forEach(function (g) {
-      var listed = (g.items || []).filter(function (t) { return t.usedOn && t.usedOn.length; });
-      (g.items || []).forEach(function (t) { if (!(t.usedOn && t.usedOn.length)) also.push(t.tool); });
+      var linked = function (t) { return (t.usedOn && t.usedOn.length) || t.row; };   // row: true keeps an unlinked tool in the table
+      var listed = (g.items || []).filter(linked);
+      (g.items || []).forEach(function (t) { if (!linked(t)) also.push(t.tool); });
       if (!listed.length) return;
       var gh = el("th", "mono", [g.group]);
       gh.colSpan = 3; gh.scope = "colgroup";
@@ -1033,7 +1034,7 @@
       listed.forEach(function (t) {
         rowsN++;
         var note = t.since ? (new Date().getFullYear() - t.since) + " yrs, since " + t.since : t.note;
-        var targets = t.usedOn.map(function (k) { return where[k]; }).filter(Boolean);
+        var targets = (t.usedOn || []).map(function (k) { return where[k]; }).filter(Boolean);
         var name = el("th", "bom-tool", [el("span", "bom-name", [t.tool]), note ? el("span", "bom-note mono", [note]) : null]);
         name.scope = "row";
         var tr = el("tr", "bom-row", [
@@ -1071,7 +1072,7 @@
     ]);
     var cell = function (k, v) { return el("span", "bom-cell", [el("span", "bom-k", [k]), el("span", "bom-v", [v])]); };
     sk.appendChild(el("div", "bom", [
-      el("div", "bom-head mono", [cell("Title", S.skillsTitle || "Tools and skills"), cell("Sheet", "Parts list"), cell("Items", String(rowsN))]),
+      el("div", "bom-head mono", [cell("Title", S.skillsTitle || "Tools and skills"), cell("Type", "Parts list"), cell("Items", String(rowsN))]),
       table,
       also.length ? el("p", "bom-also", [el("span", "bom-also-k mono", [(S.skillsAlsoLabel || "Also used") + ":"]), " " + also.join(", ")]) : null,
       S.skillsHint ? el("p", "bom-hint mono", [

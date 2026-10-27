@@ -32,6 +32,10 @@
    11. UR5e mount: his resume says "a laser camera and an RGB camera"; his answers say
        "a laser and a depth sensor". The site uses his answers. Which is right?
    12. Open to relocating?
+   13. Senior design: does "first-year team" mean the team's first year competing?
+   14. Where did he use MATLAB and ROS 2? (so those Skills rows can link to projects)
+   15. Is there a public repo for the USV path planner he could link?
+   16. Who is his iCORE Lab advisor (to name on the site, if he wants)?
    ========================================================================== */
 
 window.SITE = {
@@ -64,7 +68,7 @@ window.SITE = {
   // The line with the blinking blue dot. Set to "" to hide it.
   status: "Now: building a path planner for unmanned surface vessels at the LSU iCORE Lab",
   // A second small line under it, saying what he's looking for. Set to "" to hide it.
-  seeking: "Applying to M.S. programs for Fall 2027. Open to research and internship roles.",
+  seeking: "Applying to M.S. programs in controls and mechanical systems for Fall 2027. Open to research and internship roles.",
 
   /* ---------- Links ----------
      Leave a link as "" to hide it. */
@@ -162,31 +166,9 @@ window.SITE = {
   },
 
   /* ---------- Projects ----------
-     Most recent first. "hook" is the one-line intro under the title. */
+     Strongest first for a controls reader (path planning, the welding arm, senior
+     design), then the rest. "hook" is the one-line intro under the title. */
   projects: [
-    {
-      title: "Senior Design: Electric Boat",
-      timelineLabel: "Senior design",
-      role: "Team lead, team of 8 (4 mechanical, 3 electrical, 1 computer engineer)",
-      dates: "Aug 2026 to May 2027",       // a two-semester course
-      // QUESTION: confirm the competition name (he said "Mike Briscoe ASNE ONR national competition")
-      hook: "I'm leading a team of 8 building an electric boat with a custom, jet-ski-inspired hull for ASNE's Promoting Electric Propulsion (PEP) competition, a national student competition sponsored by ONR.",
-      points: [
-        "Designing the custom hull in SolidWorks",
-        "Leading a first-year team on a $7,000 budget",
-        "Our design uses a radio frequency controller for communications",   // QUESTION: what does the radio system do?
-      ],
-      resumePoints: [
-        "Leading a first-year team of 8 on a $7,000 budget, building an electric boat for ASNE's PEP competition",
-        "Designing the boat's custom, jet-ski-inspired hull in SolidWorks",
-      ],
-      tools: ["SolidWorks"],
-      art: "boat",
-      callouts: ["Custom hull inspired by a jet ski", "Electric drive", "Radio frequency controller"],
-      image: "",
-      imageAlt: "",
-      link: "",
-    },
     {
       title: "USV Path Planning",
       timelineLabel: "USV path planning",
@@ -209,25 +191,6 @@ window.SITE = {
       link: "",
     },
     {
-      title: "Wind Turbine Blade Inspection Mount",
-      timelineLabel: "Wind turbine mount",
-      role: "iCORE Lab",
-      dates: "",                           // QUESTION: when did he work on this?
-      hook: "I designed the mount that holds a laser and a depth sensor on a UR5e robot arm, to inspect wind turbine blades.",
-      points: [
-        "Designed the mount in SolidWorks",
-        "The laser projects a grid pattern onto the blade, and the depth sensor uses it to find surface imperfections",
-        "A step toward a belt sanding system for the blades",
-      ],
-      tools: ["SolidWorks", "UR5e"],
-      art: "turbine",
-      callouts: ["Mount", "Laser projecting a grid pattern", "Depth sensor"],
-      image: "",
-      imageAlt: "",
-      resume: false,                       // already covered under the iCORE Lab job on the resume
-      link: "",
-    },
-    {
       title: "Mock Welding Robotic Arm",
       timelineLabel: "Welding arm",        // shorter name used on the timeline
       role: "iCORE Lab",
@@ -235,12 +198,12 @@ window.SITE = {
       hook: "A 3D-printed 5-DOF arm built for mock welding. I designed the end effector and helped build and wire the arm.",
       points: [
         "Designed the end effector",
+        "Verified the CAD model in simulation software, then measured the real arm against it",
         "3D printed the arm and end effector",
         "Soldered wires to the servos' potentiometers so the arm could read its joint positions",
         // QUESTION: Uno R3 or R4? His wiring schematic says R3. Also: what does the Raspberry Pi
         // in the schematic do, and which motor controller board is it?
         "Wired the electronics around an Arduino Uno R4",
-        "Verified the CAD model in simulation software, then measured the real arm against it",
       ],
       result: "Measured 0.83% position error over 5 straight-line runs, comparing where the end effector ended up with where it should have been.",
       resumePoints: [
@@ -281,6 +244,49 @@ window.SITE = {
             alt: "The 3D-printed arm in pink on a lab bench, wired to a control board, with its end effector reaching over a checkerboard mat" },
         ] },
       ],
+      link: "",
+    },
+    {
+      title: "Senior Design: Electric Boat",
+      timelineLabel: "Senior design",
+      role: "Team lead, team of 8 (4 mechanical, 3 electrical, 1 computer engineer)",
+      dates: "Aug 2026 to May 2027",       // a two-semester course
+      // QUESTION: confirm the competition name (he said "Mike Briscoe ASNE ONR national competition")
+      hook: "I'm leading a team of 8 building an electric boat with a custom, jet-ski-inspired hull for ASNE's Promoting Electric Propulsion (PEP) competition, a national student competition sponsored by ONR.",
+      points: [
+        "Designing the custom hull in SolidWorks",
+        // QUESTION: confirm "first year" means the team's first year competing (not first-year students)
+        "Leading a new team in its first year of competition, on a $7,000 budget",
+        "Our design uses a radio frequency controller for communications",   // QUESTION: what does the radio system do?
+      ],
+      resumePoints: [
+        "Leading a new 8-person team in its first year of competition, on a $7,000 budget",
+        "Designing the custom, jet-ski-inspired hull in SolidWorks for an electric boat in ASNE's PEP competition",
+      ],
+      tools: ["SolidWorks"],
+      art: "boat",
+      callouts: ["Custom hull inspired by a jet ski", "Electric drive", "Radio frequency controller"],
+      image: "",
+      imageAlt: "",
+      link: "",
+    },
+    {
+      title: "Wind Turbine Blade Inspection Mount",
+      timelineLabel: "Wind turbine mount",
+      role: "iCORE Lab",
+      dates: "",                           // QUESTION: when did he work on this?
+      hook: "I designed the mount that holds a laser and a depth sensor on a UR5e robot arm, to inspect wind turbine blades.",
+      points: [
+        "Designed the mount in SolidWorks",
+        "The laser projects a grid pattern onto the blade, and the depth sensor uses it to find surface imperfections",
+        "A step toward a belt sanding system for the blades",
+      ],
+      tools: ["SolidWorks", "UR5e"],
+      art: "turbine",
+      callouts: ["Mount", "Laser projecting a grid pattern", "Depth sensor"],
+      image: "",
+      imageAlt: "",
+      resume: false,                       // already covered under the iCORE Lab job on the resume
       link: "",
     },
     {
@@ -510,7 +516,8 @@ window.SITE = {
        since:  a start year; shows as "N yrs, since YEAR" and keeps itself up to date
        usedOn: the projects it was used on, by their exact title ("featured" means
                the featured project). These become links to the project cards.
-     Tools with no usedOn are listed together on an "Also used" line at the bottom.
+     Tools with no usedOn are listed together on an "Also used" line at the bottom,
+     unless they have row: true.
      The resume page lists every tool, grouped the same way. */
   skillsTitle: "Tools and skills, with where each was used",
   skills: [
@@ -520,13 +527,13 @@ window.SITE = {
       { tool: "Fusion 360", usedOn: ["featured"] },
       { tool: "Inventor" },
     ] },
-    // QUESTION: what did he use ROS 2 for?
+    // QUESTION: where did he use MATLAB and ROS 2? Add those projects to usedOn so the rows link to them.
     { group: "Code and controls", items: [
       { tool: "Python", usedOn: ["USV Path Planning"] },
       { tool: "Matplotlib", usedOn: ["USV Path Planning"] },
       { tool: "Arduino", usedOn: ["Mock Welding Robotic Arm"] },
-      { tool: "ROS 2" },
-      { tool: "MATLAB" },
+      { tool: "MATLAB", row: true },        // row: true keeps it in the table even without a project link
+      { tool: "ROS 2", row: true },
     ] },
     { group: "Fabrication", items: [
       { tool: "3D printing (PLA, PETG)", usedOn: ["featured", "Mock Welding Robotic Arm", "Robot Maze Navigation"] },
