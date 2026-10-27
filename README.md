@@ -28,6 +28,10 @@ I based the design on nothing.tech:
 - The menu opens full screen.
 - The top section has a grid of dots that reacts to the mouse.
 - Each project has a line drawing that sketches itself in as you scroll to it.
+- The welding arm card shows Nicholas's real CAD as a 3D model, drawn in the same
+  line style, with his end effector in blue. Hovering over the card (or tapping it
+  on a phone) pulls the end effector apart like an exploded view on an assembly
+  drawing, and you can drag the arm to turn it a little.
 - Headings "decode" into place, like a scrambled sign settling.
 
 Since he's a mechanical engineer, I added a few engineering touches:
@@ -58,6 +62,8 @@ turn off automatically.
 | `assets/js/render.js` | Builds the main page from `content.js` |
 | `assets/js/resume.js` | Builds the resume page from `content.js` |
 | `assets/js/drawings.js` | The project line drawings (used until photos replace them) |
+| `assets/js/model3d.js` | The 3D model viewer on the welding arm card |
+| `assets/models/` | The 3D model file (`welding-arm.glb`), made from Nicholas's CAD |
 | `assets/og.png` | The preview image that shows up when the link is shared in a text, on LinkedIn, or in Slack |
 | `assets/favicon.svg`, `assets/apple-touch-icon.png` | The little "N" icon in browser tabs, search results, and on phone home screens |
 | `404.html` | The page people see if they go to an address on the site that doesn't exist |
@@ -169,8 +175,27 @@ replaced everywhere it appears. There are ten spots in five files:
       `/<new-repo-name>/`. If he renames the repo to `<his-username>.github.io`,
       it's just `/`
 
+## The 3D model
+
+The welding arm model is made from Nicholas's STEP files, which I keep in a private
+folder outside this repo (along with the steps and scripts to redo it). The short
+version: a converter turns the STEP assembly into one 3D file, a cleanup script
+takes out the limit switch (it was never built) and gives every part a plain name,
+and a last step shrinks the file to about 175 KB. The result replaces
+`assets/models/welding-arm.glb`.
+
+The viewer uses three.js, a free 3D library. The site only downloads it when the
+welding arm card is about to scroll into view, so it doesn't slow down the rest of
+the page. If a browser can't show 3D, the card keeps its line drawing instead.
+
+The text for the model (its label, the screen reader description, and the "Hover to
+explode" hint) is in `content.js`, under the welding arm project.
+
 ## Previewing on your computer
 
 Double-click `index.html` (or `resume.html`) to open it in your browser. That's it.
+One exception: the 3D model doesn't load from a double-clicked file (browsers block
+that), so the welding arm shows its line drawing. To see the model, open a terminal
+in this folder, run `python3 -m http.server`, and go to http://localhost:8000.
 (`404.html` only looks right on the live site, because its links start from the
 site's address.)
