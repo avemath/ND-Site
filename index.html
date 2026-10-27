@@ -21,6 +21,16 @@
   <meta property="og:image:alt" content="Nicholas Domke, Mechanical Engineering, LSU, Class of 2027">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image:alt" content="Nicholas Domke, Mechanical Engineering, LSU, Class of 2027">
+  <!-- three.js, pinned, for the 3D CAD model on the welding arm card. Nothing is
+       downloaded until that card is about to scroll into view (assets/js/model3d.js). -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+      }
+    }
+  </script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -138,6 +148,7 @@
   <!-- content.js must load before render.js -->
   <script src="content.js"></script>
   <script src="assets/js/drawings.js"></script>
+  <script src="assets/js/model3d.js"></script>
   <script src="assets/js/render.js"></script>
 </body>
 </html>

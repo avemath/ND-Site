@@ -248,6 +248,13 @@ window.SITE = {
       tools: ["3D printing", "Arduino Uno R4", "Soldering"],
       art: "arm",                          // QUESTION: is the "torch" in the drawing a Sharpie standing in for a welding torch?
       callouts: ["End effector", "Servo potentiometers", "Arduino Uno R4"],
+      // His real CAD as an interactive 3D model. It replaces the drawing once it loads;
+      // the drawing stays if it can't. Rebuilt from his STEP files (see the README).
+      model: "assets/models/welding-arm.glb",
+      modelTag: "CAD model",               // replaces "Illustration" in the figure label
+      modelLabel: "3D CAD model of the welding arm. Press Enter to explode the end effector.",
+      modelHint: "Hover to explode",
+      modelHintTouch: "Tap to explode",
       image: "",
       imageAlt: "",
       link: "",

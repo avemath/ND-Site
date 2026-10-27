@@ -910,3 +910,14 @@ body.menu-open .bar-sec { visibility: hidden; }
 /* ---------- very wide screens: a little more room for the content ---------- */
 @media (min-width: 1600px) { :root { --max: 1400px; } }
 
+/* ---------- 3D CAD model (assets/js/model3d.js) ----------
+   It sits exactly where the drawing was, so nothing moves when it swaps in. */
+.drawing-wrap { position: relative; }
+.has-model .drawing { visibility: hidden; }
+.model3d { position: absolute; inset: 36px 0 0; cursor: grab; touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+.model3d.dragging { cursor: grabbing; }
+.model3d canvas { display: block; width: 100%; height: 100%; }
+.model3d:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 10px; }
+.model-hint { position: absolute; right: 12px; bottom: 6px; z-index: 1; pointer-events: none; color: var(--fg-3); font-size: 0.72rem; }
+/* the model has no numbered markers, so the list uses small blue squares instead of numbers */
+.has-model .callout-n { width: 8px; height: 8px; border-radius: 2px; font-size: 0; }

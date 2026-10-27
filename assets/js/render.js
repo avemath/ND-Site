@@ -382,6 +382,11 @@
         box.classList.add("has-drawing");
         parts.forEach(function (p) { box.appendChild(p); });
         if (reduceMotion) box.classList.add("drawn"); else revealQ.observe(box);
+        // a 3D CAD model replaces the drawing once it loads (assets/js/model3d.js); the drawing is the fallback
+        if (item.model && window.CADMODEL) window.CADMODEL.attach(box, item, {
+          reduceMotion: function () { return reduceMotion; },
+          onMotionChange: function (f) { onMotionChange.push(f); },
+        });
       } else box.classList.add("is-empty");
     }
     return box;
