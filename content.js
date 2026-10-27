@@ -264,6 +264,18 @@ window.SITE = {
       // the 3D model is the first tab; more tabs (like a wiring diagram) can be added here
       tabs: [
         { label: "3D model" },
+        // His wiring schematic, redrawn in assets/js/drawings.js ("wiring"). The labels say
+        // only what his drawing shows. QUESTION: Uno R3 or R4 (his drawing says r3)?
+        { label: "Wiring", schematic: "wiring",
+          hint: "Hover or tap a part to see its connections.",
+          hintTouch: "Tap a part to see its connections.",
+          notes: {
+            pi: "Raspberry Pi: wired to the Arduino Uno",
+            arduino: "Arduino Uno: SDA, SCL, 5V, GND, and D2 to the motor controller inputs; wired to the Raspberry Pi",
+            controller: "Motor controller: inputs from the Arduino Uno (SDA, SCL, 5V, GND, D2); outputs to 3 MG995 and 2 SG90 servos",
+            mg995: "MG995 servo (1 of 3): wired to a motor controller output",
+            sg90: "SG90 servo (1 of 2): wired to a motor controller output",
+          } },
         { label: "Photo", photos: [
           { image: "assets/img/welding-arm-build.jpg", caption: "The built arm on the lab bench.",
             alt: "The 3D-printed arm in pink on a lab bench, wired to a control board, with its end effector reaching over a checkerboard mat" },

@@ -402,13 +402,118 @@
     return panel;
   }
 
+  /* A wiring schematic tab (drawings.js has the SVG). When the tab first shows on
+     screen, the parts fade in and each wire traces itself in turn; then small blue
+     dots run along the wires every few seconds in the direction the signal flows
+     (Pi to Arduino to motor controller to servos). Hovering, tapping, or focusing a
+     part lights its wires and shows a note from content.js. Reduced motion: drawn
+     at once, no dots. Nothing animates while the tab is hidden or off screen. */
+  function schematic(tab) {
+    var spec = DRAW[tab.schematic];
+    if (!spec) return el("div", "tab-media art-box", []);
+    var notes = tab.notes || {};
+    var wrap = el("div", "sch-wrap", []);
+    wrap.innerHTML = '<svg class="sch" viewBox="' + spec.box + '" preserveAspectRatio="xMidYMid meet" role="group" aria-label="' +
+      tab.label + ' diagram">' + spec.svg + '<g class="sch-pulses" aria-hidden="true"></g></svg>';
+    var svg = wrap.firstChild;
+    var wires = [].slice.call(svg.querySelectorAll(".sch-wire"));
+    var parts = [].slice.call(svg.querySelectorAll(".sch-part"));
+    var pulses = svg.querySelector(".sch-pulses");
+    var cap = el("p", "gal-cap mono sch-cap", []);
+    function hint() {
+      cap.textContent = "";
+      cap.appendChild(el("span", "hint-mouse", [tab.hint || ""]));
+      cap.appendChild(el("span", "hint-touch", [tab.hintTouch || tab.hint || ""]));
+    }
+    hint();
+
+    /* highlight a part and its wires */
+    var pinned = null;
+    function key(g) { return g.getAttribute("data-id") || g.getAttribute("data-part"); }
+    function light(g) {
+      var k = g ? key(g) : null;
+      parts.forEach(function (p) { p.classList.toggle("hot", p === g); });
+      wires.forEach(function (w) { w.classList.toggle("hot", !!k && w.getAttribute("data-ends").split(" ").indexOf(k) > -1); });
+      if (g) cap.textContent = notes[g.getAttribute("data-part")] || ""; else hint();
+    }
+    parts.forEach(function (g) {
+      var note = notes[g.getAttribute("data-part")] || "";
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "button");
+      g.setAttribute("aria-label", note);
+      g.addEventListener("mouseenter", function () { if (!pinned) light(g); });
+      g.addEventListener("mouseleave", function () { if (!pinned) light(null); });
+      g.addEventListener("focus", function () { light(g); });
+      g.addEventListener("blur", function () { light(pinned); });
+      g.addEventListener("click", function () { pinned = pinned === g ? null : g; light(pinned || g); });
+    });
+
+    /* draw-in and pulses */
+    var lens = wires.map(function (w) { return w.getTotalLength ? w.getTotalLength() : 60; });
+    var drawn = false, started = false, shown = true, onScreen = false, raf = 0, t0 = 0;
+    function setDash(on) {
+      wires.forEach(function (w, i) {
+        w.style.transition = "none";
+        w.style.strokeDasharray = on ? lens[i] : "";
+        w.style.strokeDashoffset = on ? lens[i] : "";
+      });
+    }
+    function finish() { drawn = true; svg.classList.add("sch-in"); setDash(false); loop(); }
+    function start() {
+      if (started) return;
+      started = true;
+      if (reduceMotion) { finish(); return; }
+      svg.classList.add("sch-in");                       // parts fade in
+      var step = 190, lead = 450;
+      wires.forEach(function (w, i) {
+        void w.getBoundingClientRect();
+        w.style.transition = "stroke-dashoffset .32s linear " + (lead + i * step) + "ms";
+        w.style.strokeDashoffset = "0";
+      });
+      setTimeout(function () { if (!drawn) finish(); }, lead + wires.length * step + 360);
+    }
+    // the dots run one group at a time: Pi to Arduino, then Arduino to controller,
+    // then controller to servos, then a pause
+    var groups = [0, 1, 2].map(function (n) { return wires.filter(function (w) { return w.getAttribute("data-step") === String(n); }); });
+    var LEG = 650, REST = 2600, CYCLE = LEG * 3 + REST;
+    function frame(now) {
+      raf = 0;
+      if (!t0) t0 = now;
+      var t = (now - t0) % CYCLE, g = Math.floor(t / LEG), f = (t % LEG) / LEG;
+      pulses.textContent = "";
+      if (g < 3) groups[g].forEach(function (w) {
+        var p = w.getPointAtLength(w.getTotalLength() * f);
+        var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        c.setAttribute("class", "sch-pulse"); c.setAttribute("r", "3.2");
+        c.setAttribute("cx", p.x); c.setAttribute("cy", p.y);
+        pulses.appendChild(c);
+      });
+      loop();
+    }
+    function loop() {
+      if (raf || !drawn || reduceMotion || !shown || !onScreen) { if (reduceMotion) pulses.textContent = ""; return; }
+      raf = requestAnimationFrame(frame);
+    }
+    function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; }
+    function update() {
+      if (shown && onScreen) { start(); loop(); } else stop();
+    }
+    if (!reduceMotion) setDash(true); else finish();
+
+    var panel = el("div", "tab-media art-box has-schematic", [wrap, el("div", "gal-bar", [cap])]);
+    panel.addEventListener("tabvisibility", function (e) { shown = e.detail; update(); });
+    new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; update(); }, { threshold: 0.3 }).observe(panel);
+    onMotionChange.push(function () { if (reduceMotion) { stop(); finish(); pulses.textContent = ""; } else loop(); });
+    return panel;
+  }
+
   var tabsN = 0;
   function tabbedMedia(item, cls) {
     var n = ++tabsN;
     var outer = el("div", cls + " has-tabs");
     var first = Object.assign({}, item, { tabs: null });
     var panels = item.tabs.map(function (t, k) {
-      return k === 0 ? media(first, "tab-media art-box") : gallery(t.photos || [], t.label);
+      return k === 0 ? media(first, "tab-media art-box") : t.schematic ? schematic(t) : gallery(t.photos || [], t.label);
     });
     var tabs = item.tabs.map(function (t, k) {
       var count = t.photos && t.photos.length > 1 ? " (" + t.photos.length + ")" : "";
