@@ -824,23 +824,6 @@ button.xp-head:hover .xp-toggle { border-color: var(--fg); }
 @media (prefers-reduced-motion: reduce) { .more { transition: none; } }
 @media print { .more { grid-template-rows: 1fr !important; } .more-btn { display: none !important; } }
 
-/* "Robot by robot" on the WildStang card: a revision block, like the one in the
-   corner of a drawing. Thin rules, mono labels, blue row numbers. */
-.revs { width: 100%; margin: 16px 0 8px; border-collapse: collapse; border: 1px solid var(--ln); font-size: 0.88rem; line-height: 1.45; }
-.revs caption { caption-side: top; text-align: left; padding: 0 0 8px; font-size: 0.75rem; color: var(--fg-3); }
-.revs th { padding: 7px 10px; border-bottom: 1px solid var(--ln); text-align: left; font-size: 0.7rem; font-weight: 400; color: var(--fg-3); }
-.revs td { padding: 9px 10px; border-top: 1px solid var(--ln); vertical-align: top; color: var(--fg-2); }
-.revs th + th, .revs td + td { border-left: 1px solid var(--ln); }
-.revs .rv-n { width: 1%; color: var(--accent); font-weight: 700; }
-.revs .rv-s { width: 1%; white-space: nowrap; color: var(--fg); }
-.revs .rv-y { display: block; margin-top: 2px; font-size: 0.68rem; color: var(--fg-3); white-space: normal; max-width: 9em; }
-@media (max-width: 420px) {
-  .revs { font-size: 0.84rem; }
-  .revs th, .revs td { padding-left: 7px; padding-right: 7px; }
-  .revs .rv-n, .revs th:first-child { display: none; }
-  .revs th:nth-child(2), .revs .rv-s { border-left: 0; }
-}
-
 /* ---------- timeline bars draw in left to right when the chart rises in ----------
    .rise is only added when motion is allowed, so with reduced motion the bars are
    simply there. The inset is negative so the "ongoing" dot past the bar's end shows. */
@@ -932,10 +915,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 .model-key::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 2px; background: #E6EEFA; box-shadow: inset 0 0 0 1.5px var(--accent); }
 .model-hint { color: var(--fg-3); }
 
-/* robot photos in the "Robot by robot" table, and the larger view they open */
-.rv-photo { display: block; margin-top: 8px; padding: 0; border: 1px solid var(--ln); border-radius: 6px; background: none; cursor: zoom-in; overflow: hidden; width: 76px; }
-.rv-photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-.rv-photo:hover, .rv-photo:focus-visible { border-color: var(--accent); }
+/* a photo opened larger (from the robot strip) */
 .lightbox { max-width: min(92vw, 1100px); max-height: 92vh; padding: 16px; border: 0; border-radius: 16px; background: #fff; color: #000; }
 .lightbox::backdrop { background: rgba(0, 0, 0, .78); }
 .lb-fig { margin: 0; }
@@ -946,3 +926,72 @@ body.menu-open .bar-sec { visibility: hidden; }
 .art-box.fit-contain { background: #fff; }
 .art-box.fit-contain img { object-fit: contain; padding: 8px; }
 .lightbox { position: fixed; }
+
+/* ---------- "See all 5 robots" link on the WildStang card ---------- */
+.card-more { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; margin-top: 2px; font-size: 0.75rem; color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+.card-more::after { content: "\2193"; margin-left: 8px; color: var(--accent); }
+.card-more:hover { color: var(--accent); }
+
+/* ---------- Five robots, four seasons: a revision block, REV A to REV E ----------
+   One framed strip of panels separated by thin rules, like the revisions table in
+   the corner of a drawing. Selecting a panel opens its details below. */
+.robots { padding-top: clamp(40px, 5vw, 64px); }
+.rev-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 20px; margin: 0 0 18px; }
+.rev-kicker { width: 100%; margin: 0; font-size: 0.75rem; color: var(--fg-3); }
+.rev-title { margin: 0; font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 900; line-height: 1; }
+.rev-hint { display: none; margin: 0 0 0 auto; font-size: 0.72rem; color: var(--fg-3); }
+.rev-hint::after { content: "\2192"; margin-left: 8px; color: var(--accent); }
+.rev-frame { background: #fff; border: 1px solid #D6D9DE; border-radius: 20px; overflow: hidden; box-shadow: 0 1px 1px rgba(0,0,0,.04), 0 2px 6px rgba(0,0,0,.05), 0 16px 32px -14px rgba(0,0,0,.16); }
+.rev-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.rev-row > li { display: flex; min-width: 0; }
+.rev-row > li + li { border-left: 1px solid #D6D9DE; }
+.rev-panel {
+  flex: 1; display: flex; flex-direction: column; min-width: 0; padding: 0; margin: 0;
+  background: #fff; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer;
+  transition: background-color .2s, box-shadow .2s;
+}
+.rev-top { display: flex; justify-content: space-between; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #D6D9DE; font-size: 0.72rem; color: var(--fg-3); }
+.rev-letter { color: var(--accent); font-weight: 700; }
+.rev-photo { display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #fff; border-bottom: 1px solid #D6D9DE; }
+.rev-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale .35s var(--ease); }
+.rev-photo.contain img { object-fit: contain; padding: 6px; }
+.rev-year { display: block; padding: 14px 16px 8px; font-size: 0.68rem; color: var(--fg-3); }
+.rev-tags { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px; }
+.rev-tag { padding: 3px 9px; border: 1px solid var(--tag); border-radius: 999px; font-size: 0.62rem; color: var(--fg-2); }
+.rev-sum { flex: 1; padding: 12px 16px 10px; font-size: 0.92rem; line-height: 1.45; color: var(--fg-2); }
+.rev-more { padding: 0 16px 16px; font-size: 0.7rem; color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+.rev-more::after { content: " +"; color: var(--accent); }
+.rev-panel[aria-expanded="true"] .rev-more::after { content: " \2212"; }
+/* hover and the open panel: a blue top edge, like the selected row of the table */
+@media (hover: hover) {
+  .rev-panel:hover { background: #F6F8FC; box-shadow: inset 0 3px 0 var(--accent); }
+  .rev-panel:hover .rev-photo img { scale: 1.03; }
+}
+.rev-panel[aria-expanded="true"] { background: #EEF3FB; box-shadow: inset 0 3px 0 var(--accent); }
+.rev-panel:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+
+/* the details for the open robot */
+.rev-detail { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(20px, 3vw, 40px); align-items: start; margin-top: 16px; padding: clamp(16px, 2.4vw, 28px); background: #fff; border: 1px solid #D6D9DE; border-radius: 20px; box-shadow: inset 0 3px 0 var(--accent), 0 16px 32px -14px rgba(0,0,0,.16); }
+.rev-detail[hidden] { display: none; }
+.rev-detail-photo { display: block; width: 100%; padding: 0; border: 1px solid #D6D9DE; border-radius: 14px; overflow: hidden; background: #fff; cursor: zoom-in; }
+.rev-detail-photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.rev-detail-photo.contain img { object-fit: contain; padding: 8px; }
+.rev-detail-photo:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.rev-detail-body .rev-year { padding: 0 0 6px; }
+.rev-detail-h { margin: 0 0 12px; font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 500; }
+.rev-detail-h:focus { outline: none; }
+.rev-detail-body .rev-tags { padding: 0; }
+.rev-text { margin: 14px 0 18px; max-width: 38em; color: var(--fg-2); }
+
+/* narrower screens: the panels become a sideways swipe row that snaps to each panel
+   (only the row scrolls; the page never does) */
+@media (max-width: 999px) {
+  .rev-hint { display: block; }
+  .rev-row { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: thin; }
+  .rev-row > li { flex: 0 0 min(70%, 280px); scroll-snap-align: start; }
+  .rev-detail { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rev-panel, .rev-photo img { transition: none; }
+  .rev-panel:hover .rev-photo img { scale: none; }
+}

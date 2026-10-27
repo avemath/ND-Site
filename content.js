@@ -336,25 +336,8 @@ window.SITE = {
         "Ran the team's CNC router using VCarve and printed Onyx parts on Markforged printers",
         "Designed a movable workshop storage system for use at competitions",
       ],
-      // "Robot by robot": a small table inside the card's "+ more" section. Each row can
-      // have a photo: "thumb" is the small one in the table, "image" opens larger.
-      robots: [
-        { season: "2019", year: "Freshman", text: "Built and assembled parts, learned to run the CNC router, and earned a driver spot as a freshman, which almost never happens.",
-          image: "assets/img/wildstang-2019.jpg", thumb: "assets/img/wildstang-2019-thumb.jpg",
-          alt: "WildStang's 2019 robot: a tall robot with a metal frame tower and blue 111 bumpers, in front of a brick wall" },
-        { season: "2020", year: "Sophomore", text: "Designed the drive base and gearbox, led their manufacturing and assembly, and helped manufacture the rest of the robot. We made 95% of it in house, with just the flywheel machined outside. Driver.",
-          image: "assets/img/wildstang-2020.jpg", thumb: "assets/img/wildstang-2020-thumb.jpg",
-          alt: "WildStang's 2020 robot: a low robot with a long horizontal arm, a colorful WildStang flag, and blue 111 bumpers" },
-        { season: "2021", year: "Junior, COVID season", text: "Team lead and the robot's driver. Designed the drive base and led manufacturing and assembly for the whole robot.",
-          image: "assets/img/wildstang-2021.jpg", thumb: "assets/img/wildstang-2021-thumb.jpg",
-          alt: "WildStang's 2021 robot: a tall net strung between two posts above blue 111 bumpers" },
-        { season: "2021", year: "Junior, second robot", text: "Team lead and driver on a team of 20. Designed the drive base, led design, machining, and assembly, and took on more project management so I could teach the team what I knew before I left.",
-          image: "assets/img/wildstang-2021-second.jpg", thumb: "assets/img/wildstang-2021-second-thumb.jpg",
-          alt: "WildStang's second 2021 robot: clear side panels with pink flags on top, no bumpers, on a gray carpet floor" },
-        { season: "2022", year: "Senior", text: "Driver. Led design decisions and mentored younger members, stepping in on the hardest problems. The mentors trusted me to run practices when they were away.",
-          image: "assets/img/wildstang-2022.jpg", thumb: "assets/img/wildstang-2022-thumb.jpg",
-          alt: "WildStang's 2022 robot: a tall robot with hooks on top, a colorful flag, and blue 111 bumpers" },
-      ],
+      // a link under the card to the "Five robots, four seasons" strip (robots, below)
+      moreLink: { label: "See all 5 robots", href: "#robots" },
       result: "Won 4 of the 5 regional competitions we attended, plus an at-home challenge during COVID.",
       // Used on the printable resume page instead of "points" and "result".
       resumePoints: [
@@ -372,6 +355,45 @@ window.SITE = {
       link: "",
     },
   ],
+
+  /* ---------- Five robots, four seasons (WildStang) ----------
+     A strip right after the project cards, laid out like the revision block on an
+     engineering drawing: REV A for the first robot, REV E for the last. Each panel
+     shows a photo, role tags, and a one-line summary; selecting it opens the full
+     details ("text") below the strip. "thumb" is the panel photo, "image" opens larger.
+     fit: "contain" shows a white-background photo whole instead of cropping it. */
+  robots: {
+    title: "Five robots, four seasons",
+    kicker: "WildStang / FIRST Robotics Competition",
+    hint: "Swipe to see all 5",              // shown on phones, where the panels scroll sideways
+    items: [
+      { rev: "A", season: "2019", year: "Freshman", roles: ["Driver"],
+        summary: "Built and assembled parts and earned a driver spot as a freshman.",
+        text: "Built and assembled parts, learned to run the CNC router, and earned a driver spot as a freshman, which almost never happens.",
+        image: "assets/img/wildstang-2019.jpg", thumb: "assets/img/wildstang-2019-thumb.jpg", fit: "cover",
+        alt: "WildStang's 2019 robot: a tall robot with a metal frame tower and blue 111 bumpers, in front of a brick wall" },
+      { rev: "B", season: "2020", year: "Sophomore", roles: ["Co-lead", "Driver"],
+        summary: "Designed the drive base and gearbox; 95% of the robot was made in house.",
+        text: "Designed the drive base and gearbox, led their manufacturing and assembly, and helped manufacture the rest of the robot. We made 95% of it in house, with just the flywheel machined outside. Driver.",
+        image: "assets/img/wildstang-2020.jpg", thumb: "assets/img/wildstang-2020-thumb.jpg", fit: "contain",
+        alt: "WildStang's 2020 robot: a low robot with a long horizontal arm, a colorful WildStang flag, and blue 111 bumpers" },
+      { rev: "C", season: "2021", year: "Junior, COVID season", roles: ["Team lead", "Driver"],
+        summary: "Designed the drive base and led manufacturing and assembly for the whole robot.",
+        text: "Team lead and the robot's driver. Designed the drive base and led manufacturing and assembly for the whole robot.",
+        image: "assets/img/wildstang-2021.jpg", thumb: "assets/img/wildstang-2021-thumb.jpg", fit: "contain",
+        alt: "WildStang's 2021 robot: a tall net strung between two posts above blue 111 bumpers" },
+      { rev: "D", season: "2021", year: "Junior, second robot", roles: ["Team lead", "Driver"],
+        summary: "Led design, machining, and assembly on a team of 20.",
+        text: "Team lead and driver on a team of 20. Designed the drive base, led design, machining, and assembly, and took on more project management so I could teach the team what I knew before I left.",
+        image: "assets/img/wildstang-2021-second.jpg", thumb: "assets/img/wildstang-2021-second-thumb.jpg", fit: "cover",
+        alt: "WildStang's second 2021 robot: clear side panels with pink flags on top, no bumpers, on a gray carpet floor" },
+      { rev: "E", season: "2022", year: "Senior", roles: ["Team lead", "Driver"],
+        summary: "Led design decisions and mentored younger members.",
+        text: "Driver. Led design decisions and mentored younger members, stepping in on the hardest problems. The mentors trusted me to run practices when they were away.",
+        image: "assets/img/wildstang-2022.jpg", thumb: "assets/img/wildstang-2022-thumb.jpg", fit: "contain",
+        alt: "WildStang's 2022 robot: a tall robot with hooks on top, a colorful flag, and blue 111 bumpers" },
+    ],
+  },
 
   /* ---------- Experience ----------
      Most recent first. compact: true shows a job as one short line. */

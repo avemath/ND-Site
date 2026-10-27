@@ -438,31 +438,6 @@
 
   /* ======================= projects ======================= */
 
-  // "Robot by robot": a small table laid out like the revision block on a drawing.
-  function robotTable(rows) {
-    var t = el("table", "revs");
-    t.appendChild(el("caption", "mono", ["Robot by robot"]));
-    t.appendChild(el("thead", null, [el("tr", "mono", ["No.", "Season", "What I did"].map(function (h) {
-      var th = el("th", null, [h]); th.scope = "col"; return th;
-    }))]));
-    t.appendChild(el("tbody", null, rows.map(function (r, i) {
-      var photo = null;
-      if (r.image) {
-        var im = document.createElement("img");
-        im.src = r.thumb || r.image; im.alt = r.alt || ""; im.loading = "lazy";
-        photo = el("button", "rv-photo", [im, el("span", "sr-only", [" (opens a larger photo)"])]);
-        photo.type = "button";
-        photo.addEventListener("click", function () { lightbox(r.image, r.alt, r.season + (r.year ? ", " + r.year : "")); });
-      }
-      return el("tr", null, [
-        el("td", "rv-n mono", [(i < 9 ? "0" : "") + (i + 1)]),
-        el("td", "rv-s mono", [el("span", null, [r.season]), r.year ? el("span", "rv-y", [r.year]) : null, photo]),
-        el("td", "rv-t", [r.text]),
-      ]);
-    })));
-    return t;
-  }
-
   // A photo opened larger, in a dialog (Escape, the Close button, or a click outside closes it).
   var lb = null;
   function lightbox(src, alt, caption) {
@@ -482,20 +457,14 @@
     if (lb.showModal) lb.showModal(); else window.open(src);
   }
 
-  // Cards show 3 bullets; any extras (and the robot table, if there is one) open
-  // under a "+ more" button so the cards line up.
-  function cardBullets(items, id, robots) {
-    var hasTable = robots && robots.length;
-    if (items.length <= 3 && !hasTable) return bullets(items);
-    var extra = Math.max(0, items.length - 3);
-    var label = (extra ? "+ " + extra + " more" : "+") + (hasTable ? (extra ? ", robot by robot" : " Robot by robot") : "");
-    var rest = el("div", "more", [el("div", null, [
-      extra ? bullets(items.slice(3)) : null,
-      hasTable ? robotTable(robots) : null,
-    ])]);
+  // Cards show 3 bullets; any extras open under a "+ N more" button.
+  function cardBullets(items, id) {
+    if (items.length <= 3) return bullets(items);
+    var extra = items.length - 3;
+    var rest = el("div", "more", [bullets(items.slice(3))]);
     rest.id = id;
     rest.inert = true;
-    var btn = el("button", "more-btn mono", [label]);
+    var btn = el("button", "more-btn mono", ["+ " + extra + " more"]);
     btn.type = "button";
     btn.setAttribute("aria-expanded", "false");
     btn.setAttribute("aria-controls", id);
@@ -503,7 +472,7 @@
       var open = rest.classList.toggle("open");
       rest.inert = !open;
       btn.setAttribute("aria-expanded", String(open));
-      btn.textContent = open ? "Show less" : label;
+      btn.textContent = open ? "Show less" : "+ " + extra + " more";
     });
     return el("div", "pts", [bullets(items.slice(0, 3)), rest, btn]);
   }
@@ -519,10 +488,11 @@
           el("p", "card-meta mono", [p.dates ? el("span", null, [p.dates]) : null, el("span", null, [p.role])]),
           el("h3", "card-title", [p.title]),
           p.hook ? el("p", "card-hook", [p.hook]) : null,
-          p.points && p.points.length ? cardBullets(p.points, "more-" + p._id, p.robots) : null,
+          p.points && p.points.length ? cardBullets(p.points, "more-" + p._id) : null,
           p.image2 ? secondPhoto(p, "card-photo") : null,
           p.result ? el("p", "card-result", [p.result]) : null,
           p.tools && p.tools.length ? pills(p.tools) : null,
+          p.moreLink ? link(p.moreLink.href, p.moreLink.label, "card-more mono") : null,
           p.link ? link(p.link, "View project", "pill pill-ghost card-link") : null,
         ]),
       ]);
@@ -530,6 +500,90 @@
       cards.appendChild(card);
     });
   } else hide(document.getElementById("projects"));
+
+  /* ======================= five robots, four seasons (WildStang) =======================
+     A row of panels laid out like the revision block on a drawing (REV A to REV E).
+     Selecting a panel opens that robot's details below the row; selecting it again,
+     the Close button, or Escape closes them and puts focus back on the panel. */
+
+  var R = S.robots;
+  var rsec = document.getElementById("robots");
+  if (R && R.items && R.items.length && rsec) {
+    rsec.hidden = false;
+    var rslot = slot("robots");
+    var title = el("h3", "rev-title dot", [R.title]);
+    title.id = "robots-h";
+    rslot.appendChild(el("div", "rev-head", [
+      R.kicker ? el("p", "rev-kicker mono", [R.kicker]) : null,
+      title,
+      R.hint ? el("p", "rev-hint mono", [R.hint]) : null,
+    ]));
+    var detail = el("div", "rev-detail", []);
+    detail.id = "robot-detail";
+    detail.hidden = true;
+    var active = null;
+    function tags(roles) {
+      return el("span", "rev-tags", (roles || []).map(function (t) { return el("span", "rev-tag mono", [t]); }));
+    }
+    function closeRobot(refocus) {
+      if (!active) return;
+      active.setAttribute("aria-expanded", "false");
+      detail.hidden = true;
+      if (refocus) active.focus();
+      active = null;
+    }
+    function openRobot(r, btn) {
+      if (active) active.setAttribute("aria-expanded", "false");
+      active = btn;
+      btn.setAttribute("aria-expanded", "true");
+      var img = document.createElement("img");
+      img.src = r.image || r.thumb; img.alt = r.alt || "";
+      var photo = el("button", "rev-detail-photo" + (r.fit === "contain" ? " contain" : ""), [img, el("span", "sr-only", [" (opens a larger photo)"])]);
+      photo.type = "button";
+      photo.addEventListener("click", function () { lightbox(r.image, r.alt, "REV " + r.rev + " / " + r.season + " / " + r.year); });
+      var h = el("h4", "rev-detail-h", ["REV " + r.rev + " / " + r.season]);
+      h.tabIndex = -1;
+      var close = el("button", "pill pill-ghost rev-close", ["Close"]);
+      close.type = "button";
+      close.addEventListener("click", function () { closeRobot(true); });
+      detail.textContent = "";
+      detail.appendChild(photo);
+      detail.appendChild(el("div", "rev-detail-body", [
+        el("p", "rev-year mono", [r.year]), h, tags(r.roles), el("p", "rev-text", [r.text]), close,
+      ]));
+      detail.hidden = false;
+      // on a swipe row, bring the chosen panel fully into view first
+      var rowEl = btn.closest(".rev-row");
+      if (rowEl && rowEl.scrollWidth > rowEl.clientWidth) {
+        rowEl.scrollTo({ left: btn.parentNode.offsetLeft - rowEl.firstElementChild.offsetLeft, behavior: reduceMotion ? "auto" : "smooth" });
+      }
+      h.focus({ preventScroll: true });
+      detail.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+    }
+    var row = el("ol", "rev-row", R.items.map(function (r) {
+      var img = document.createElement("img");
+      img.src = r.thumb || r.image; img.alt = ""; img.loading = "lazy";   // the panel's label says what it is
+      var b = el("button", "rev-panel", [
+        el("span", "rev-top mono", [el("span", "rev-letter", ["REV " + r.rev]), el("span", null, [r.season])]),
+        el("span", "rev-photo" + (r.fit === "contain" ? " contain" : ""), [img]),
+        el("span", "rev-year mono", [r.year]),
+        tags(r.roles),
+        el("span", "rev-sum", [r.summary]),
+        el("span", "rev-more mono", ["Details"]),
+      ]);
+      b.type = "button";
+      b.setAttribute("aria-expanded", "false");
+      b.setAttribute("aria-controls", "robot-detail");
+      b.setAttribute("aria-label", "REV " + r.rev + ", " + r.season + ", " + r.year + ". " + (r.roles || []).join(", ") + ". " + r.summary + " Show details.");
+      b.addEventListener("click", function () { if (active === b) closeRobot(false); else openRobot(r, b); });
+      return el("li", null, [b]);
+    }));
+    rslot.appendChild(el("div", "rev-frame", [row]));
+    rslot.appendChild(detail);
+    rsec.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && active && !(lb && lb.open)) { e.preventDefault(); closeRobot(true); }
+    });
+  }
   if ((!F || F.draft) && !projects.length) hide(document.getElementById("featured"), "#featured");
 
   /* ======================= timeline (built from the dates) ======================= */
