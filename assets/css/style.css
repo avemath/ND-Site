@@ -316,7 +316,9 @@ body.menu-open .bar::before { opacity: 0; }
 .art-box.is-empty { background-image: radial-gradient(circle, rgba(var(--dot-rgb), .1) 1.1px, transparent 1.5px); background-size: 12px 12px; }
 
 /* ---------- project cards ---------- */
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+/* align-items: start, so each card keeps its own height: opening "+ more" on one card
+   doesn't stretch the others in its row into tall empty boxes */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; align-items: start; }
 .card {
   display: flex; flex-direction: column;
   background: var(--card); border-radius: 24px;
@@ -925,7 +927,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 /* under the model: one key and the hint, on one line. The drawing's numbered
    callouts are for the drawing only (some of those parts aren't in the model). */
 .has-model .callouts { display: none; }
-.model-foot { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 16px; padding: 0 clamp(20px, 2.6vw, 28px) clamp(16px, 2vw, 22px); font-size: 0.75rem; color: var(--fg-2); }
+.model-foot { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; align-content: flex-start; gap: 6px 16px; padding: 0 clamp(20px, 2.6vw, 28px) clamp(16px, 2vw, 22px); font-size: 0.75rem; color: var(--fg-2); }
 .model-key { display: flex; align-items: center; gap: 8px; }
 .model-key::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 2px; background: #E6EEFA; box-shadow: inset 0 0 0 1.5px var(--accent); }
 .model-hint { color: var(--fg-3); }
