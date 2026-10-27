@@ -300,8 +300,8 @@ body.menu-open .bar::before { opacity: 0; }
    column and stays in view while the text beside it scrolls, instead of stretching
    to the card's full height. The drawing sits on its own inset panel. */
 @media (min-width: 861px) {
-  .feat-media.has-photo, .feat-media.has-drawing { align-self: start; aspect-ratio: 6 / 5; min-height: 0; position: sticky; top: 88px; }
-  .feat-media.has-drawing { margin: 16px 0 16px 16px; border-radius: 20px; }
+  .feat-media.has-photo, .feat-media.has-drawing, .feat-media.has-tabs { align-self: start; aspect-ratio: 6 / 5; min-height: 0; position: sticky; top: 88px; }
+  .feat-media.has-drawing, .feat-media.has-tabs { margin: 16px 0 16px 16px; border-radius: 20px; }
 }
 .feature .pills { margin-top: auto; padding-top: 6px; }
 @media (max-width: 860px) {
@@ -1041,3 +1041,40 @@ body.menu-open .bar-sec { visibility: hidden; }
 /* hints that differ by device: the mouse wording by default, the touch wording on touch screens */
 .hint-touch { display: none; }
 @media (hover: none) { .hint-mouse { display: none; } .hint-touch { display: inline; } }
+
+/* ---------- media tabs: one picture area, several views ("Drawing / Photos (2)") ----------
+   The tab row sits at the top; the panels share one grid cell, so the box keeps the
+   same size whichever tab is showing. */
+.art-box.has-tabs { display: flex; flex-direction: column; background-color: var(--art-bg); }
+.media-tabs { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 6px; padding: 14px clamp(20px, 2.6vw, 28px) 0; }
+.feat-media .media-tabs { padding-left: clamp(24px, 4vw, 48px); padding-top: 18px; }
+.media-tab {
+  min-height: 36px; padding: 0 14px; border: 1px solid var(--tag); border-radius: 999px;
+  background: transparent; color: var(--fg); font-size: 0.66rem; cursor: pointer;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+.media-tab:hover { border-color: var(--fg); }
+.media-tab[aria-selected="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+.media-tab:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.tab-stack { position: relative; flex: 1; min-height: 0; display: grid; }
+.tab-stack > .tab-media { grid-area: 1 / 1; min-height: 0; min-width: 0; transition: opacity .2s; }
+.tab-stack > .tab-media.is-off { visibility: hidden; opacity: 0; }
+.has-tabs .tab-media.has-drawing, .has-tabs .tab-media.has-gallery { background: none; }   /* the outer box draws the strip */
+.has-tabs .art-tag { top: 14px; }
+/* a tab of photos: one at a time, whole, with its caption and arrows underneath */
+.has-gallery { position: relative; }
+.gal-stage { position: absolute; inset: 12px clamp(14px, 2vw, 24px) 58px; }
+.gal-photo { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.gal-photo img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
+.gal-photo:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 12px; }
+.gal-bar { position: absolute; left: clamp(14px, 2vw, 24px); right: clamp(14px, 2vw, 24px); bottom: 10px; min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.gal-cap { margin: 0; font-size: 0.72rem; color: var(--fg-3); }
+.gal-nav { display: flex; align-items: center; gap: 8px; flex: none; }
+.gal-count { font-size: 0.7rem; color: var(--fg-3); min-width: 3em; text-align: center; }
+.gal-arrow { width: 40px; height: 40px; border: 1px solid var(--tag); border-radius: 50%; background: var(--card, #fff); color: var(--fg); font-size: 1rem; cursor: pointer; }
+.gal-arrow:hover { border-color: var(--accent); color: var(--accent); }
+.gal-arrow:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .tab-stack > .tab-media, .media-tab { transition: none; } }
+/* phones: the box takes its height from the drawing or model panel */
+@media (max-width: 640px) { .feat-media.has-tabs { aspect-ratio: auto; } }
+@media (max-width: 699px) { .card-wide .card-media.has-tabs { aspect-ratio: auto; } }

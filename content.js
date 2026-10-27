@@ -144,13 +144,21 @@ window.SITE = {
     art: "rov",
     callouts: ["3D-printed mount", "Acoustic modem in a watertight enclosure", "Cable into the vehicle"],
     video: "",
-    // Integer approved these photos (Oct 2026). The line drawing above ("art") shows if a photo can't load.
-    image: "assets/img/rov-sarbot-mount.jpg",
-    imageAlt: "The SARbot, a yellow and black underwater vehicle, on a table outdoors, with Nicholas's white 3D-printed mount holding the modem's watertight enclosure on top",
-    // Optional second photo, shown under the bullets with a small caption. Leave image2 as "" to hide it.
-    image2: "assets/img/rov-mount-prototypes.jpg",
-    image2Alt: "Red, blue, and white 3D-printed prototype mounts spread across a desk",
-    image2Caption: "Prototype versions of the mounts.",
+    image: "",
+    imageAlt: "",
+    // Tabs above the picture area. The first tab is the usual media (here, the line
+    // drawing); each other tab is a set of photos with captions, shown one at a time
+    // with arrows. The count, like "Photos (2)", is added on its own.
+    // Integer approved these photos (Oct 2026).
+    tabs: [
+      { label: "Drawing" },
+      { label: "Photos", photos: [
+        { image: "assets/img/rov-sarbot-mount.jpg", caption: "The mount on the SARbot.",
+          alt: "The SARbot, a yellow and black underwater vehicle, on a table outdoors, with Nicholas's white 3D-printed mount holding the modem's watertight enclosure on top" },
+        { image: "assets/img/rov-mount-prototypes.jpg", caption: "Prototype versions of the mounts.",
+          alt: "Red, blue, and white 3D-printed prototype mounts spread across a desk" },
+      ] },
+    ],
   },
 
   /* ---------- Projects ----------
@@ -253,10 +261,14 @@ window.SITE = {
       modelHintTouch: "Tap to explode",
       image: "",
       imageAlt: "",
-      // a smaller photo under the bullets (the 3D model stays the main picture)
-      image2: "assets/img/welding-arm-build.jpg",
-      image2Alt: "The 3D-printed arm in pink on a lab bench, wired to a control board, with its end effector reaching over a checkerboard mat",
-      image2Caption: "The built arm on the lab bench.",
+      // the 3D model is the first tab; more tabs (like a wiring diagram) can be added here
+      tabs: [
+        { label: "3D model" },
+        { label: "Photo", photos: [
+          { image: "assets/img/welding-arm-build.jpg", caption: "The built arm on the lab bench.",
+            alt: "The 3D-printed arm in pink on a lab bench, wired to a control board, with its end effector reaching over a checkerboard mat" },
+        ] },
+      ],
       link: "",
     },
     {

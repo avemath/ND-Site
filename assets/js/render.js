@@ -367,7 +367,93 @@
     videoQ.observe(v);
   }
 
+  /* Media tabs: a card's picture area can switch between views, for example
+     "Drawing / Photos (2)" or "3D model / Photo". The first tab is the card's usual
+     media (drawing, 3D model, video, or photo); each other tab is a set of photos with
+     captions. Add a tab in content.js ("tabs") and it shows up here. All panels share
+     one box, so switching never changes its size. */
+  function gallery(photos, label) {
+    var i = 0;
+    var img = document.createElement("img");
+    img.loading = "lazy";
+    var open = el("button", "gal-photo", [img, el("span", "sr-only", [" (opens a larger photo)"])]);
+    open.type = "button";
+    open.addEventListener("click", function () { var p = photos[i]; lightbox(p.image, p.alt, p.caption); });
+    var cap = el("p", "gal-cap mono", []);
+    var count = el("span", "gal-count mono", []);
+    count.setAttribute("aria-live", "polite");
+    function show(n) {
+      i = (n + photos.length) % photos.length;
+      img.src = photos[i].image; img.alt = photos[i].alt || "";
+      cap.textContent = photos[i].caption || "";
+      count.textContent = (i + 1) + " / " + photos.length;
+    }
+    function arrow(txt, name, d) {
+      var b = el("button", "gal-arrow", [txt]);
+      b.type = "button";
+      b.setAttribute("aria-label", name);
+      b.addEventListener("click", function () { show(i + d); });
+      return b;
+    }
+    var nav = photos.length > 1 ? el("span", "gal-nav", [arrow("\u2190", "Previous photo", -1), count, arrow("\u2192", "Next photo", 1)]) : null;
+    show(0);
+    var panel = el("div", "tab-media art-box has-gallery", [el("div", "gal-stage", [open]), el("div", "gal-bar", [cap, nav])]);
+    panel.setAttribute("aria-label", label);
+    return panel;
+  }
+
+  var tabsN = 0;
+  function tabbedMedia(item, cls) {
+    var n = ++tabsN;
+    var outer = el("div", cls + " has-tabs");
+    var first = Object.assign({}, item, { tabs: null });
+    var panels = item.tabs.map(function (t, k) {
+      return k === 0 ? media(first, "tab-media art-box") : gallery(t.photos || [], t.label);
+    });
+    var tabs = item.tabs.map(function (t, k) {
+      var count = t.photos && t.photos.length > 1 ? " (" + t.photos.length + ")" : "";
+      var b = el("button", "media-tab mono", [t.label + count]);
+      b.type = "button";
+      b.id = "mtab-" + n + "-" + k;
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-controls", "mpanel-" + n + "-" + k);
+      panels[k].id = "mpanel-" + n + "-" + k;
+      panels[k].setAttribute("role", "tabpanel");
+      panels[k].setAttribute("aria-labelledby", b.id);
+      b.addEventListener("click", function () { select(k); });
+      return b;
+    });
+    function select(k, focus) {
+      tabs.forEach(function (b, j) {
+        var on = j === k;
+        b.setAttribute("aria-selected", String(on));
+        b.tabIndex = on ? 0 : -1;
+        panels[j].classList.toggle("is-off", !on);
+        panels[j].inert = !on;
+        // lets a hidden 3D model stop drawing (assets/js/model3d.js)
+        panels[j].dispatchEvent(new CustomEvent("tabvisibility", { detail: on }));
+      });
+      if (focus) tabs[k].focus();
+    }
+    var row = el("div", "media-tabs", tabs);
+    row.setAttribute("role", "tablist");
+    row.setAttribute("aria-label", "Pictures of " + item.title);
+    row.addEventListener("keydown", function (e) {
+      var now = tabs.indexOf(document.activeElement);
+      if (now < 0) return;
+      var to = { ArrowRight: now + 1, ArrowLeft: now - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (to == null) return;
+      e.preventDefault();
+      select((to + tabs.length) % tabs.length, true);
+    });
+    outer.appendChild(row);
+    outer.appendChild(el("div", "tab-stack", panels));
+    select(0);
+    return outer;
+  }
+
   function media(item, cls) {
+    if (item.tabs && item.tabs.length > 1) return tabbedMedia(item, cls);
     var box = el("div", cls);
     if (item.video) {
       video(item, box);

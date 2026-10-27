@@ -213,9 +213,9 @@
         }
       }
       draw();
-      if (moving && st.onScreen) kick(); else st.last = 0;
+      if (moving && st.onScreen && st.tabShown !== false) kick(); else st.last = 0;
     }
-    function kick() { if (!st.raf && st.onScreen) st.raf = requestAnimationFrame(tick); }
+    function kick() { if (!st.raf && st.onScreen && st.tabShown !== false) st.raf = requestAnimationFrame(tick); }
     function set(open) {
       st.to = open ? 1 : 0;
       holder.setAttribute("aria-pressed", String(!!open));
@@ -235,6 +235,11 @@
       if (st.onScreen) kick();
     }).observe(holder);
     env.onMotionChange(function () { kick(); });
+    // inside media tabs: stop drawing while another tab is showing
+    box.addEventListener("tabvisibility", function (e) {
+      st.tabShown = e.detail;
+      if (e.detail) kick();
+    });
 
     /* ---------- input ---------- */
     var card = box.closest(".card") || box;
