@@ -1,97 +1,76 @@
-/* Printable resume page. On screen: a white letter-size sheet on grey.
-   In print: just the sheet, black on white, Letter size. */
+/* The resume page, styled like his resume PDF: Times New Roman style serif (Tinos),
+   black on white, bold section headings with a heavy rule under each.
+   On screen: a white letter-size sheet on the site's grey, with the site's buttons above.
+   In print: just the sheet, Letter, 0.5in margins, on two pages like his PDF. */
 :root {
   --ink: #000000;
-  --ink-2: #333333;
-  --ink-3: #5E5E5E;
-  --rule: #D0D3D8;
   --accent: #1450A8;
   --desk: #E4E6E9;   /* the site's drafting-table grey */
-  --sans: "Space Grotesk", system-ui, sans-serif;
+  --serif: "Tinos", "Times New Roman", Times, serif;
   --mono: "Space Mono", ui-monospace, monospace;
 }
 * { box-sizing: border-box; }
 html { background: var(--desk); }
-body { margin: 0; padding: 24px 16px 64px; background: var(--desk); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
-a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 2px; }
+body { margin: 0; padding: 24px 16px 64px; background: var(--desk); color: var(--ink); font-family: var(--serif); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
+/* the site's buttons above the sheet */
 .tools { max-width: 8.5in; margin: 0 auto 16px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.tools-end { display: flex; gap: 12px; flex-wrap: wrap; }
 .pill { display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; font-family: var(--mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .06em; text-decoration: none; cursor: pointer; }
 .pill.ghost { border: 1px solid #8C8C8C; background: transparent; color: var(--ink); }
 .pill.ghost:hover { border-color: var(--ink); }
 .pill.solid { border: 1px solid var(--ink); background: var(--ink); color: #fff; }
 .pill.solid:hover { background: var(--accent); border-color: var(--accent); }
+#pdf-btn::after { content: "\2193"; margin-left: 8px; color: var(--accent); }
+.pill[hidden] { display: none; }
 
-.sheet { max-width: 8.5in; margin: 0 auto; background: #fff; padding: clamp(24px, 6vw, 0.6in); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 12px 40px rgba(0,0,0,.08); }
+/* the sheet: 11pt text, 16pt name, 12pt headings, like his PDF */
+.sheet { max-width: 8.5in; margin: 0 auto; background: #fff; padding: clamp(20px, 6vw, 0.5in);
+  font-size: 11pt; line-height: 1.17; box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 12px 40px rgba(0,0,0,.08); }
+.sheet a { color: inherit; text-decoration: underline; text-underline-offset: 1px; text-decoration-thickness: 1px; }
+.head { text-align: center; margin-bottom: 14px; }
+.name { margin: 0 0 2px; font-size: 16pt; font-weight: 700; line-height: 1.2; }
+.contact { margin: 0; overflow-wrap: anywhere; }
 
-.head { padding-bottom: 14px; border-bottom: 2px solid var(--ink); overflow: hidden; }
-.name { margin: 0; font-family: var(--sans); font-weight: 700; font-size: clamp(2rem, 6vw, 2.6rem); line-height: 1; letter-spacing: -.015em; }
-.role { margin: 10px 0 6px; font-family: var(--mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); }
-.role-part { white-space: nowrap; }
-/* every item starts with a dot; the list is shifted left by one dot's width (4 + 2 x 10px)
-   and .head clips it, so no line starts or ends with a stray dot */
-.contact { margin: 0 0 0 -24px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; font-size: .9rem; }
-.ci { display: inline-flex; align-items: center; }
-.ci::before { content: ""; flex: none; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin: 0 10px;
-  -webkit-print-color-adjust: exact; print-color-adjust: exact; }   /* prints even with background graphics off */
-
-.sec { margin-top: 18px; }
-.sec-h { margin: 0 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
-.item + .item { margin-top: 10px; }
-.row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
-.row-main { min-width: 0; }
-.row h3 { margin: 0; font-size: 1rem; font-weight: 600; }
-.row-date { flex: none; font-family: var(--mono); font-size: .75rem; color: var(--ink-3); text-align: right; white-space: nowrap; }
-.sub { margin: 1px 0 0; color: var(--ink-2); font-size: .92rem; }
-.line { margin: 6px 0 0; font-size: .92rem; color: var(--ink-2); }
-.line strong { color: var(--ink); font-weight: 600; }
-.pts { margin: 4px 0 0; padding-left: 18px; color: var(--ink-2); font-size: .92rem; }
-.pts li { margin: 2px 0; }
-.pts li::marker { color: var(--accent); }
-.skills { margin: 0; display: grid; gap: 4px; }
-.skills div { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 12px; font-size: .92rem; }
-.skills dt { font-weight: 600; }
-.skills dd { margin: 0; color: var(--ink-2); }
-.foot { margin: 22px 0 0; font-family: var(--mono); font-size: .7rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.sec { margin-top: 12px; }
+.sec-h { margin: 0 0 5px; padding-bottom: 1px; border-bottom: 2.25px solid var(--ink); font-size: 12pt; font-weight: 700; text-transform: uppercase; line-height: 1.25; }
+.item + .item { margin-top: 5px; }
+.grad { margin-top: 14px !important; }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 16px; flex-wrap: wrap; }
+.row-t { margin: 0; font-size: 1em; font-weight: 700; }
+.row-d { font-weight: 700; white-space: nowrap; margin-left: auto; }
+.where, .line { margin: 0; }
+.pts { margin: 0; padding: 0 0 0 0.6in; list-style: none; }
+.pts li { position: relative; }
+.pts li::before { position: absolute; left: -0.33in; }
+.pts.dots li::before { content: "\2022"; }
+.pts.dashes li::before { content: "-"; }
 .noscript { max-width: 8.5in; margin: 0 auto; font-family: var(--mono); }
 
-@media (max-width: 560px) {
-  .row { flex-direction: column; gap: 0; }
-  .row-date { text-align: left; }
-  .skills div { grid-template-columns: 1fr; gap: 0; }
-  /* contact details one per line, so no separator dot starts a line */
-  .contact { flex-direction: column; align-items: flex-start; margin-left: 0; gap: 0; }
-  .ci::before { display: none; }
-  .ci a { display: inline-block; padding-block: 8px; }   /* bigger tap targets */
+/* phones: a slightly smaller indent, and the date drops under a long title */
+@media screen and (max-width: 560px) {
+  .sheet { font-size: 16px; line-height: 1.3; }
+  .name { font-size: 22px; }
+  .sec-h { font-size: 17px; }
+  .pts { padding-left: 26px; }
+  .pts li::before { left: -16px; }
+  .row-d { margin-left: 0; }
 }
 
-@page { size: letter; margin: 0.42in 0.5in; }
+@page { size: letter; margin: 0.5in; }
 @media print {
-  html, body { background: #fff; padding: 0; font-size: 9.5pt; line-height: 1.28; }
-  /* tighter spacing so it fits on one Letter page */
-  .head { padding-bottom: 10px; }
-  .name { font-size: 2.2rem; }
-  .role { margin: 6px 0 4px; }
-  .contact { font-size: .86rem; }   /* all on one line */
-  .sec { margin-top: 9px; }
-  .sec-h { margin-bottom: 5px; padding-bottom: 3px; }
-  .item + .item { margin-top: 4px; }
-  /* the org or course sits on the title line instead of its own line */
-  .row-main { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; }
-  .row-main .sub { margin: 0; flex: 1 1 0; min-width: 0; }   /* stays on the title line and wraps there if long */
-  .row-main .sub::before { content: "/ "; color: var(--ink-3); }
-  .pts { margin-top: 1px; }
-  .pts li { margin: 0; }
-  .line { margin-top: 4px; }
-  .skills { gap: 1px; }
-  .foot { margin-top: 8px; }
+  html, body { background: #fff; padding: 0; }
   .tools, noscript { display: none !important; }
   .sheet { max-width: none; padding: 0; box-shadow: none; }
-  .item { break-inside: avoid; }
+  .sheet { line-height: 1.15; }
+  .head { margin-bottom: 10px; }
+  .sec { margin-top: 10px; }
+  .item + .item { margin-top: 4px; }
+  .grad { margin-top: 12px !important; }
+  .item, .sec-skills { break-inside: avoid; }
   .sec-h { break-after: avoid; }
-  a { text-decoration: none; }
+  .sec-projects { break-before: page; }   /* Projects starts page 2, as on his PDF */
+  .sec-projects .sec-h { margin-top: 0; }
+  .sec-projects { margin-top: 0; }
 }
-
-/* phones (on screen only): resume text at a comfortable reading size */
-@media screen and (max-width: 560px) { .sub, .line, .pts, .skills div, .contact { font-size: 1rem; } }

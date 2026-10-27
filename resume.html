@@ -22,15 +22,20 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Tinos matches Times New Roman, the font on his resume PDF; Space Mono is for the buttons above the sheet -->
+  <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/resume.css">
 </head>
 <body>
-  <!-- A one-page-style resume built from content.js. It has no phone number on
-       purpose. Visitors can print it or save it as a PDF from the button. -->
+  <!-- His resume as a web page, built from the "resume" block in content.js and styled
+       like his PDF. It has no phone number on purpose. Visitors can download his PDF
+       or print this page. -->
   <nav class="tools" aria-label="Resume tools">
     <a class="pill ghost" href="./">Back to portfolio</a>
-    <button class="pill solid" type="button" id="print-btn">Print or save as PDF</button>
+    <span class="tools-end">
+      <a class="pill ghost" id="pdf-btn" href="assets/Nicholas_Domke_Resume.pdf" download="Nicholas_Domke_Resume.pdf">Download PDF</a>
+      <button class="pill solid" type="button" id="print-btn">Print</button>
+    </span>
   </nav>
   <main class="sheet" id="resume"></main>
   <noscript><p class="noscript">This page needs JavaScript turned on to show the resume.</p></noscript>

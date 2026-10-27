@@ -73,7 +73,8 @@ turn off automatically.
 |---|---|
 | `content.js` | **All of the site's text and links. This is the only file you need to edit.** |
 | `index.html` | The main page's structure, plus the link preview tags (what shows up when the link is shared) |
-| `resume.html` | A printable resume built from `content.js`. No phone number. Visitors can save it as a PDF |
+| `resume.html` | His resume as a web page, built from `content.js` and styled like his PDF. No phone number. Visitors can print it or download his PDF |
+| `assets/Nicholas_Domke_Resume.pdf` | His resume PDF (the Download PDF buttons). No phone number |
 | `assets/css/style.css` | How the main page looks |
 | `assets/css/resume.css` | How the resume page looks, on screen and printed |
 | `assets/js/render.js` | Builds the main page from `content.js` |
@@ -119,10 +120,17 @@ Open `content.js` and follow the notes at the top. The short version:
 - **Spec table:** `specs` on the featured project is the small table (Role, CAD,
   Materials, and so on). When it's filled in, it shows instead of the tool pills
   (the small rounded labels).
-- **Resume bullets:** jobs and projects can have `resumePoints`, which are bullets
-  used only on the resume page. I use them to keep the resume on one page.
-  `resume: false` leaves a project off the resume (the two iCORE Lab cards are
-  already covered under the iCORE job).
+- **Resume page:** the `resume` block in `content.js` is his resume PDF, line for
+  line and in the same order (education, experience, skills, projects). The resume
+  page is built from it and styled like his PDF: Times New Roman style font, black
+  on white, two printed pages with Projects starting on the second. When his resume
+  changes, I update that block and replace `assets/Nicholas_Domke_Resume.pdf`
+  together. Before I add a new PDF, I check it has no phone number and that it
+  links to the site's current address.
+- **Resume PDF:** `resumePdf` under `links` is his PDF. The Resume button at the top
+  and bottom of the main page has a small "PDF" half that downloads it, and the
+  resume page has a Download PDF button next to Print. Leave `resumePdf` as `""`
+  to hide those.
 - **Revision letter:** `revision` is the REV box in the footer. Bump the letter
   (C to D, and so on) when the site gets a real update.
 - **If the page goes blank after an edit,** look for a missing quote or comma.
@@ -148,7 +156,7 @@ questions. Here's what's left:
 - [ ] Optional: link his GitHub (github.com/nmdomke) once he has projects on it
 - [ ] Optional: add the site to Google Search Console and submit `sitemap.xml`, so
       Google finds it sooner
-- [ ] Keep `content.js` in sync whenever his resume changes
+- [ ] Keep `content.js` (and the PDF) in sync whenever his resume changes
 
 ## Turning on GitHub Pages
 

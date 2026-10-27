@@ -76,15 +76,96 @@ window.SITE = {
     email: "nmdomke2004@gmail.com",
     linkedin: "https://www.linkedin.com/in/nicholas-domke/",
     github: "",                            // Add his GitHub (github.com/nmdomke) here once it has projects on it
-    // The "Resume" button. resume.html is a printable resume page built from
-    // this file, with no phone number. You can also point this at a PDF in the
-    // assets folder (e.g. "assets/resume.pdf"), but his current PDF lists his
-    // phone number and this repo is public.
+    // The "Resume" button: resume.html is the resume as a web page, built from the
+    // "resume" block below. resumePdf is his PDF, offered as a download next to it.
+    // Before replacing the PDF, check it has no phone number (this repo is public).
     resume: "resume.html",
+    resumePdf: "assets/Nicholas_Domke_Resume.pdf",
   },
 
-  // Shown under Education on the printable resume page.
-  gradIntent: "Applying to M.S. programs in controls and mechanical systems for Fall 2027",
+  /* ---------- Resume page (resume.html) ----------
+     Line for line from his resume PDF (assets/Nicholas_Domke_Resume.pdf), in the same
+     order. When he updates his resume, update this block and the PDF together.
+     Dates use the site's format ("May 2026 to Aug 2026", "now"); the page writes them
+     the way his PDF does: months in full, joined by an en dash, and "now" as "Present".
+     The email, LinkedIn, and site address come from "links" and "siteUrl" above. */
+  resume: {
+    location: "Baton Rouge, Louisiana (hometown: Mount Prospect, Illinois)",
+    education: {
+      school: "Louisiana State University (LSU), Baton Rouge, LA",
+      dates: "May 2027",
+      degree: "Bachelor of Science in Mechanical Engineering",
+      minors: "Robotics, Computer Science (in progress)",
+      coursework: "Thermodynamics, Heat Transfer, Fluid Dynamics, Manufacturing Processes, System Dynamics, Simulation Methods, Statics, Strength of Materials, Circuits, Electronics, Kinematics, Introduction to Robotics, Welding Engineering 1, Industrial Robotics, Instrumentation and Measurements, Machine Design",
+      gradTitle: "Graduate Study Intent",
+      gradPlan: "Applying to Master of Science programs in Controls and Mechanical Systems",
+      gradNote: "Applications for Fall 2027",
+    },
+    experience: [
+      { title: "Mechanical Engineering Intern", where: "Integer Technologies, Baton Rouge, Louisiana", dates: "May 2026 to Aug 2026", points: [
+        "Designed 3D-printed mounts in Fusion 360 to integrate an acoustic modem, housed in a Blue Robotics watertight enclosure, onto a BlueROV2-based vehicle (BlueLink SARbot) for in-water testing",
+        "Developed 4 design concepts, starting from a modular rail mount, then printed and refined 5 to 6 iterations of the final mount in PETG at 100% infill",
+        "Designed a Raspberry Pi mount that fits inside the watertight enclosure, refined over 6 versions and printed in PLA",
+        "Selected quick-connect bulkheads and cables so the modem connects and disconnects while the vehicle is in the water; the mounts performed well in pool and lake tests",
+      ] },
+      { title: "Student Researcher", where: "LSU iCORE Lab, Baton Rouge, Louisiana", dates: "Mar 2026 to now", points: [
+        "Building a path planner for unmanned surface vessels in simulation, combining artificial potential field and ant colony optimization models to avoid static and moving obstacles",
+        "Designed a SolidWorks mount that holds a laser and a depth sensor on a UR5e robot arm to detect surface imperfections on wind turbine blades",
+        "Designed the end effector for a 3D-printed 5-DOF mock welding arm and measured 0.83% position error over 5 straight-line runs",
+      ] },
+      { title: "Math Tutor", where: "LSU Math Lab, Baton Rouge, Louisiana", dates: "Aug 2025 to May 2026", points: [
+        "Tutored up to 100 students in college algebra and trigonometry to improve critical thinking and comprehension",
+      ] },
+      { title: "Volunteer Referee", where: "FIRST LEGO League", dates: "2017 to 2022", points: [
+        "Refereed competitions and advised teams on how to improve before their next run",
+      ] },
+      { title: "Server", where: "Enterrium, Schaumburg, Illinois", dates: "May 2025 to Jan 2026", points: [
+        "Maintained an enthusiastic attitude while managing multiple tasks for customer service",
+      ] },
+      { title: "Server", where: "Texas Roadhouse, Mount Prospect, Illinois", dates: "May 2023 to Aug 2024", points: [
+        "Maintained an enthusiastic attitude while managing multiple tasks for customer service",
+      ] },
+    ],
+    skills: [
+      { label: "Software", text: "SolidWorks (8 years), Onshape, Fusion 360, Inventor, MATLAB, Python, Robotic Operating System 2 (ROS 2), Arduino IDE, VCarve" },
+      { label: "Hardware", text: "Manual Lathe, Haas CNC Router, CNC Router, MIG Welding, 3D Printing (PLA, PETG, Markforged Onyx), Soldering, Drill Press, Miter Saw, Band Saw" },
+    ],
+    projects: [
+      { title: "Senior Design: Electric Boat", dates: "Aug 2026 to May 2027", points: [
+        "Team lead for a team of 8 (4 mechanical, 3 electrical, 1 computer engineer) building an electric boat for ASNE's Promoting Electric Propulsion (PEP) national student competition, sponsored by ONR",
+        "Designing the custom, jet-ski-inspired hull in SolidWorks",
+        "Leading a new team in its first year of competition on a $7,000 budget",
+      ] },
+      { title: "Mock Welding Robotic Arm", dates: "Mar 2026 to May 2026", points: [
+        "Designed the end effector in SolidWorks for a 5-DOF DIY robot arm, on a team of 3 (two mechanical engineers, one computer science student)",
+        "3D printed the arm and end effector, and soldered wires to the servo potentiometers so the arm could read its joint positions",
+        "Verified the CAD model in simulation software, then measured the real arm: 0.83% position error over 5 straight-line runs",
+      ] },
+      { title: "Robot Maze Navigation Semester Project for Introduction to Robotics", dates: "Oct 2025 to Dec 2025", points: [
+        "Designed a mobile robot base and camera system in SolidWorks and 3D printed them, on a team of 3 (two mechanical engineers, one computer science student)",
+        "The robot autonomously navigated and finished the maze using its camera",
+      ] },
+      { title: "Manufacturing Lab Projects", dates: "Jan 2025 to Apr 2025", points: [
+        "Operated a manual lathe to machine a clutch alignment pin to a tolerance of \u00B10.005 inches",
+        "MIG welded a steel stool",
+        "Programmed and operated a Haas CNC router to cut an aluminum heat exchanger, writing the G-code and tool paths",
+      ] },
+      { title: "Inclusive Playground, Sophomore Design Course", dates: "Sep 2023 to Dec 2023", points: [
+        "Researched existing playgrounds with a team of 6 mechanical engineers and designed one more inclusive for all types of disabilities, following ADA guidelines",
+        "Designed the playground model in SolidWorks and combined each team member's parts into the final assembly",
+        "Chose aluminum and polyethylene to keep the playground lightweight for easier construction",
+      ] },
+      { title: "WildStang Robotics Team, FIRST Robotics Competition", dates: "Aug 2018 to May 2022", points: [
+        "Primary team lead junior and senior years (co-lead sophomore year) and a driver all four years, on a team of about 80",
+        "Won 4 of the 5 regional competitions attended, plus an at-home challenge during COVID",
+        "Led design, manufacturing, and assembly of 5 robots over 4 years, including designing the drive base and gearbox; 95% of the 2020 robot was manufactured in house",
+        "Led CAD design using SolidWorks and Onshape while teaching younger team members CAD and power tools (hand lathes, drills, miter saws, band saws)",
+        "Managed project timelines and coordinated with each sub-team so each robot was working within the 8-week build season",
+        "Ran the team's CNC router using VCarve and 3D printed Onyx parts on Markforged 3D printers",
+        "Designed, modeled, and assembled a new workshop storage system in Onshape so essentials could be moved easily for competitions",
+      ] },
+    ],
+  },
 
   /* ---------- Numbers strip (big dot-matrix numbers under the hero) ----------
      "pre" is small text above the number, "unit" is small blue text after it.
@@ -191,7 +272,6 @@ window.SITE = {
       imageAlt: "Simulation of the artificial potential field model: the agent, a blue dot, moves across an X/Y grid toward the goal, a red star.",
       mediaTag: "Simulation",
       spotlight: 2,                        // second full-width card, after the welding arm
-      resume: false,                       // already covered under the iCORE Lab job on the resume
       link: "",
     },
     {
@@ -264,10 +344,6 @@ window.SITE = {
         "Leading a new team in its first year of competition, on a $7,000 budget",
         "Our design uses a radio frequency controller for communications",   // QUESTION: what does the radio system do?
       ],
-      resumePoints: [
-        "Leading a new 8-person team in its first year of competition, on a $7,000 budget",
-        "Designing the custom, jet-ski-inspired hull in SolidWorks for an electric boat in ASNE's PEP competition",
-      ],
       tools: ["SolidWorks"],
       art: "boat",
       callouts: ["Custom hull inspired by a jet ski", "Electric drive", "Radio frequency controller"],
@@ -291,7 +367,6 @@ window.SITE = {
       callouts: ["Mount", "Laser projecting a grid pattern", "Depth sensor"],
       image: "",
       imageAlt: "",
-      resume: false,                       // already covered under the iCORE Lab job on the resume
       link: "",
     },
     {
@@ -305,9 +380,6 @@ window.SITE = {
         "Team of 3: two mechanical engineers and one computer science student",
       ],
       result: "The robot finished the maze.",
-      resumePoints: [
-        "Designed and 3D printed the base and camera system on a team of 3; the robot finished the maze",
-      ],
       tools: ["SolidWorks", "3D printing"],
       art: "maze",
       callouts: ["Printed base and camera system", "Autonomous route"],
@@ -388,12 +460,6 @@ window.SITE = {
       // a link under the card to the "Five robots, four seasons" strip (robots, below)
       moreLink: { label: "See all 5 robots", href: "#robots" },
       result: "Won 4 of the 5 regional competitions we attended, plus an at-home challenge during COVID.",
-      // Used on the printable resume page instead of "points" and "result".
-      resumePoints: [
-        "Led a team of about 80 as primary team lead junior and senior years, and drove in competition all four years",
-        "Designed the drive base for 3 robots and led their manufacturing and assembly",
-        "Won 4 of the 5 regional competitions attended, plus an at-home challenge during COVID",
-      ],
       tools: ["SolidWorks", "Onshape", "VCarve", "Markforged"],
       art: "frc",
       callouts: ["CAD in SolidWorks and Onshape", "Onyx parts on Markforged printers", "Built in 8-week seasons"],
@@ -460,12 +526,6 @@ window.SITE = {
         "Designed a mount for a laser and a depth sensor on a UR5e robotic arm to find surface imperfections on wind turbine blades (see Projects)",
         "Designed the end effector for a 3D-printed 5-DOF mock welding arm, and helped build and wire the arm (see Projects)",
       ],
-      // Used on the printable resume page (resume.html) instead of "points".
-      resumePoints: [
-        "Building a USV path planner in Python, tuning potential field and ant colony optimization models",
-        "Designed a SolidWorks mount for a laser and depth sensor on a UR5e arm to inspect wind turbine blades",
-        // The mock welding arm is left out here: it has its own entry under Projects on the resume.
-      ],
     },
     {
       role: "Mechanical Engineering Intern",
@@ -475,11 +535,6 @@ window.SITE = {
       dates: "May 2026 to Aug 2026",
       points: [
         "Designed and 3D printed the mount that holds an acoustic modem's watertight enclosure on a BlueROV2-based vehicle, plus a Raspberry Pi mount that fits inside the enclosure (see Featured)",
-      ],
-      resumePoints: [
-        "Designed 3D-printed mounts in Fusion 360 to hold an acoustic modem's watertight enclosure on a BlueROV2-based vehicle, and a Raspberry Pi inside it",
-        "Iterated from a modular rail concept through 4 versions to the final design, printed in PETG at 100% infill",
-        "Tested in a pool and a lake; the mounts and quick-connect bulkheads worked in and out of the water",
       ],
     },
     {
