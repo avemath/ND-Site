@@ -143,16 +143,13 @@ window.SITE = {
     art: "rov",
     callouts: ["3D-printed mount", "Acoustic modem in a watertight enclosure", "Cable into the vehicle"],
     video: "",
-    image: "",
-    imageAlt: "",
-    // Optional second photo, shown under the bullets with a small caption.
-    // Leave image2 as "" to hide it. Example:
-    //   image2: "assets/img/rov-housing-prototypes.jpg",
-    //   image2Alt: "3D-printed prototype mounts and clamps in red, blue, and white on a desk",
-    //   image2Caption: "Prototype versions of the mount.",
-    image2: "",
-    image2Alt: "",
-    image2Caption: "",
+    // Integer approved these photos (Oct 2026). The line drawing above ("art") shows if a photo can't load.
+    image: "assets/img/rov-sarbot-mount.jpg",
+    imageAlt: "The SARbot, a yellow and black underwater vehicle, on a table outdoors, with Nicholas's white 3D-printed mount holding the modem's watertight enclosure on top",
+    // Optional second photo, shown under the bullets with a small caption. Leave image2 as "" to hide it.
+    image2: "assets/img/rov-mount-prototypes.jpg",
+    image2Alt: "Red, blue, and white 3D-printed prototype mounts spread across a desk",
+    image2Caption: "Prototype versions of the mounts.",
   },
 
   /* ---------- Projects ----------

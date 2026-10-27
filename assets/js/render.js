@@ -374,6 +374,15 @@
     } else if (item.image) {
       var img = document.createElement("img");
       img.src = item.image; img.alt = item.imageAlt || ""; img.loading = "lazy";
+      // if the photo can't load, the line drawing takes its place
+      img.addEventListener("error", function () {
+        var parts = drawing(item);
+        if (!parts) return;
+        box.removeChild(img);
+        box.classList.remove("has-photo");
+        box.classList.add("has-drawing", "drawn");
+        parts.forEach(function (p) { box.appendChild(p); });
+      });
       box.appendChild(img);
       box.classList.add("has-photo");
     } else {
