@@ -283,6 +283,7 @@ window.SITE = {
       hook: "A 3D-printed 5-DOF arm built for mock welding. I designed the end effector and helped build and wire the arm.",
       points: [
         "Designed the end effector",
+        "Team of 3: two mechanical engineers and one computer science student",
         "Verified the CAD model in simulation software, then measured the real arm against it",
         "3D printed the arm and end effector",
         "Soldered wires to the servos' potentiometers so the arm could read its joint positions",
@@ -291,12 +292,7 @@ window.SITE = {
         "Wired the electronics around an Arduino Uno R4",
       ],
       result: "Measured 0.83% position error over 5 straight-line runs, comparing where the end effector ended up with where it should have been.",
-      resumePoints: [
-        "Designed the end effector, 3D printed the arm, and soldered wires to the servos' potentiometers to read joint positions",
-        "Wired the electronics around an Arduino Uno R4 and verified the CAD model in simulation software",
-        "Measured 0.83% position error over 5 straight-line runs against where the end effector should have been",
-      ],
-      tools: ["3D printing", "Arduino Uno R4", "Soldering"],
+      tools: ["SolidWorks", "3D printing", "Arduino Uno R4", "Arduino IDE", "Soldering"],
       art: "arm",                          // QUESTION: is the "torch" in the drawing a Sharpie standing in for a welding torch?
       callouts: ["End effector", "Servo potentiometers", "Arduino Uno R4"],
       // His real CAD as an interactive 3D model. It replaces the drawing once it loads;
@@ -595,7 +591,7 @@ window.SITE = {
   skillsTitle: "Tools and skills, with where each was used",
   skills: [
     { group: "CAD", items: [
-      { tool: "SolidWorks", since: 2018, usedOn: ["Senior Design: Electric Boat", "Wind Turbine Blade Inspection Mount", "Robot Maze Navigation", "Inclusive Playground", "WildStang Robotics"] },
+      { tool: "SolidWorks", since: 2018, usedOn: ["Senior Design: Electric Boat", "Mock Welding Robotic Arm", "Wind Turbine Blade Inspection Mount", "Robot Maze Navigation", "Inclusive Playground", "WildStang Robotics"] },
       { tool: "Onshape", note: "Led CAD at WildStang", usedOn: ["WildStang Robotics"] },
       { tool: "Fusion 360", usedOn: ["featured"] },
       { tool: "Inventor" },
