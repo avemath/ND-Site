@@ -29,13 +29,11 @@
    8. Welding arm: what does the Raspberry Pi do?
    9. Welding arm: which motor controller board is it?
    10. Wind turbine mount: when did he work on it? (no dates yet, so it's not on the timeline)
-   11. UR5e mount: his resume says "a laser camera and an RGB camera"; his answers say
-       "a laser and a depth sensor". The site uses his answers. Which is right?
-   12. Open to relocating?
-   13. Senior design: does "first-year team" mean the team's first year competing?
-   14. Where did he use MATLAB and ROS 2? (so those Skills rows can link to projects)
-   15. Is there a public repo for the USV path planner he could link?
-   16. Who is his iCORE Lab advisor (to name on the site, if he wants)?
+   11. Open to relocating?
+   12. Senior design: does "first-year team" mean the team's first year competing?
+   13. Where did he use Inventor, MATLAB, and ROS 2? (so those Skills rows can link to projects)
+   14. Is there a public repo for the USV path planner he could link?
+   15. Who is his iCORE Lab advisor (to name on the site, if he wants)?
    ========================================================================== */
 
 window.SITE = {
@@ -515,8 +513,6 @@ window.SITE = {
       org: "LSU iCORE Lab",
       place: "Baton Rouge, LA",
       dates: "Mar 2026 to now",
-      // QUESTION: his resume says "a laser camera and an RGB camera", but his answers say
-      // "a laser and a depth sensor". The site uses his answers. Which is right?
       points: [
         "Building a path planner for unmanned surface vessels, focused on avoiding nearby hazards (see Projects)",
         "Designed a mount for a laser and a depth sensor on a UR5e robotic arm to find surface imperfections on wind turbine blades (see Projects)",
@@ -596,11 +592,11 @@ window.SITE = {
       { tool: "Fusion 360", usedOn: ["featured"] },
       { tool: "Inventor" },
     ] },
-    // QUESTION: where did he use MATLAB and ROS 2? Add those projects to usedOn so the rows link to them.
+    // QUESTION: where did he use Inventor, MATLAB, and ROS 2? Add those projects to usedOn so the rows link to them.
     { group: "Code and controls", items: [
       { tool: "Python", usedOn: ["USV Path Planning"] },
       { tool: "Matplotlib", usedOn: ["USV Path Planning"] },
-      { tool: "Arduino", usedOn: ["Mock Welding Robotic Arm"] },
+      { tool: "Arduino IDE, Arduino Uno", usedOn: ["Mock Welding Robotic Arm"] },
       { tool: "MATLAB", row: true },        // row: true keeps it in the table even without a project link
       { tool: "ROS 2", row: true },
     ] },
@@ -609,10 +605,18 @@ window.SITE = {
       { tool: "Markforged (Onyx)", usedOn: ["WildStang Robotics"] },
       { tool: "CNC router, VCarve", note: "Ran the team's router", usedOn: ["WildStang Robotics"] },
       { tool: "Haas CNC, G-code", note: "Wrote the G-code", usedOn: ["Manufacturing Lab Projects"] },
-      { tool: "Manual lathe", note: "Held \u00B10.005 in.", usedOn: ["Manufacturing Lab Projects"] },
+      { tool: "Manual lathe", note: "Held \u00B10.005 in.", usedOn: ["Manufacturing Lab Projects", "WildStang Robotics"] },
       { tool: "MIG welding", usedOn: ["Manufacturing Lab Projects"] },
       { tool: "Soldering", usedOn: ["Mock Welding Robotic Arm"] },
-      { tool: "Drill press" }, { tool: "Band saw" }, { tool: "Miter saw" },
+      // his resume: he taught younger WildStang members to use hand lathes, drills, miter saws, and band saws
+      { tool: "Drill press", usedOn: ["WildStang Robotics"] },
+      { tool: "Band saw", usedOn: ["WildStang Robotics"] },
+      { tool: "Miter saw", usedOn: ["WildStang Robotics"] },
+    ] },
+    // the other tags on project cards: equipment he designed for, and the standard he designed to
+    { group: "Equipment and standards", items: [
+      { tool: "UR5e robot arm", note: "Designed a sensor mount for it", usedOn: ["Wind Turbine Blade Inspection Mount"] },
+      { tool: "ADA guidelines", usedOn: ["Inclusive Playground"] },
     ] },
   ],
   skillsAlsoLabel: "Also used",
