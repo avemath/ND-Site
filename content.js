@@ -71,7 +71,7 @@ window.SITE = {
   links: {
     email: "nmdomke2004@gmail.com",
     linkedin: "https://www.linkedin.com/in/nicholas-domke/",
-    github: "",                            // His GitHub (github.com/nmdomke) is empty for now. Add the link once he has projects on it
+    github: "",                            // Add his GitHub (github.com/nmdomke) here once it has projects on it
     // The "Resume" button. resume.html is a printable resume page built from
     // this file, with no phone number. You can also point this at a PDF in the
     // assets folder (e.g. "assets/resume.pdf"), but his current PDF lists his
@@ -353,7 +353,7 @@ window.SITE = {
         "Won 4 of the 5 regional competitions attended, plus an at-home challenge during COVID",
       ],
       tools: ["SolidWorks", "Onshape", "VCarve", "Markforged"],
-      art: "frc",                          // NOTE: generic robot drawing; a photo of one of his robots would be much better
+      art: "frc",
       callouts: ["CAD in SolidWorks and Onshape", "Onyx parts on Markforged printers", "Built in 8-week seasons"],
       // the line drawing ("art") shows if the photo can't load
       image: "assets/img/wildstang-2022.jpg",
@@ -486,7 +486,7 @@ window.SITE = {
   /* ---------- Skills (spec sheet rows) ---------- */
   skills: [
     { group: "CAD", items: ["SolidWorks (since 2018)", "Onshape", "Fusion 360", "Inventor"] },
-    // QUESTION: what did he use ROS 2 for? (He used ROS 2, but not on the UR5e mount.)
+    // QUESTION: what did he use ROS 2 for?
     { group: "Code and controls", items: ["Python", "Matplotlib", "ROS 2", "MATLAB", "Arduino"] },
     { group: "Fabrication", items: ["3D printing", "Markforged", "MIG welding", "Manual lathe", "Haas CNC", "G-code", "CNC router", "VCarve", "Drill press", "Band saw", "Miter saw"] },
   ],

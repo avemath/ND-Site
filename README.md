@@ -179,8 +179,8 @@ replaced everywhere it appears. There are ten spots in five files:
 The welding arm model is made from Nicholas's STEP files, which I keep in a private
 folder outside this repo (along with the steps and scripts to redo it). The short
 version: a converter turns the STEP assembly into one 3D file, a cleanup script
-takes out the limit switch (it was never built) and gives every part a plain name,
-and a last step shrinks the file to about 175 KB. The result replaces
+takes out the limit switch (it isn't part of the finished arm) and gives every part
+a plain name, and a last step shrinks the file to about 175 KB. The result replaces
 `assets/models/welding-arm.glb`.
 
 The viewer uses three.js, a free 3D library. The site only downloads it when the

@@ -62,7 +62,7 @@
         // cable from the rear end cap down into the vehicle
         '<path class="ln" d="M138 58 C 104 54, 98 82, 120 96"/>' +
         '<path class="ln" d="M138 70 C 116 72, 114 86, 130 96"/>' +
-        // acoustic modem in its watertight enclosure: a tube with end caps (not his part)
+        // the modem and its Blue Robotics enclosure: a tube with end caps (his mount holds them)
         '<rect class="ln solid" x="136" y="48" width="12" height="40" rx="3"/>' +
         '<rect class="ln solid" x="146" y="53" width="106" height="30" rx="3"/>' +
         '<path class="ln" d="M146 60 H252 M146 76 H252"/>' +
