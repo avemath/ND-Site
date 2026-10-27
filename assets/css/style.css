@@ -207,8 +207,9 @@ body.menu-open .bar::before { opacity: 0; }
   text-wrap: balance;
 }
 
-/* block + inline dot, so a wrapped status stays centered with the dot on its first line */
-.status { margin: 26px auto 0; font-size: 0.8rem; color: var(--fg-3); text-wrap: balance; }
+/* block + inline dot, so a wrapped status stays centered with the dot on its first line.
+   Capped near the tagline's width so the two lines wrap into a neat centered block. */
+.status { max-width: 700px; margin: 26px auto 0; font-size: 0.8rem; line-height: 1.6; color: #A6A6A6; text-wrap: balance; }
 .seeking { margin-top: 10px; }
 /* the "Now" dot: the light accent blue, with a gentle pulse (it never fades out) */
 .rec { display: inline-block; margin-right: 10px; vertical-align: 0.05em; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-lt); box-shadow: 0 0 0 3px rgba(122,167,255,.25), 0 0 12px rgba(122,167,255,.8); animation: rec 2.2s ease-in-out infinite; }
