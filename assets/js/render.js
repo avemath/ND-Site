@@ -386,6 +386,7 @@
       box.appendChild(img);
       box.classList.add("has-photo");
       if (item.imageFit === "contain") box.classList.add("fit-contain");
+      if (item.imagePosition) img.style.objectPosition = item.imagePosition;   // which part stays in view when cropped
     } else {
       var parts = drawing(item);
       if (parts) {
@@ -404,11 +405,11 @@
 
   /* ======================= featured ======================= */
 
-  // Optional second photo on the featured card (image2), with a caption.
-  function secondPhoto(item) {
+  // Optional second photo (image2), with a caption: on the featured card, and smaller on project cards.
+  function secondPhoto(item, cls) {
     var img = document.createElement("img");
     img.src = item.image2; img.alt = item.image2Alt || ""; img.loading = "lazy";
-    return el("figure", "feat-photo", [img, item.image2Caption ? el("figcaption", "mono", [item.image2Caption]) : null]);
+    return el("figure", "feat-photo" + (cls ? " " + cls : ""), [img, item.image2Caption ? el("figcaption", "mono", [item.image2Caption]) : null]);
   }
 
   // A small spec table, like the parts list on a drawing.
@@ -519,6 +520,7 @@
           el("h3", "card-title", [p.title]),
           p.hook ? el("p", "card-hook", [p.hook]) : null,
           p.points && p.points.length ? cardBullets(p.points, "more-" + p._id, p.robots) : null,
+          p.image2 ? secondPhoto(p, "card-photo") : null,
           p.result ? el("p", "card-result", [p.result]) : null,
           p.tools && p.tools.length ? pills(p.tools) : null,
           p.link ? link(p.link, "View project", "pill pill-ghost card-link") : null,

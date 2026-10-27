@@ -293,6 +293,9 @@ body.menu-open .bar::before { opacity: 0; }
 .feat-photo { margin: 0 0 22px; }
 .feat-photo img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 14px; background: var(--card); }
 .feat-photo figcaption { margin-top: 8px; font-size: 0.75rem; color: var(--fg-3); }
+/* the smaller second photo on a project card */
+.card-photo { max-width: 260px; margin: 0 0 20px; }
+.card-photo img { aspect-ratio: 1 / 1; object-position: center 45%; border-radius: 12px; border: 1px solid var(--ln); }
 /* desktop: the featured photo or drawing keeps a landscape shape at the top of its
    column and stays in view while the text beside it scrolls, instead of stretching
    to the card's full height. The drawing sits on its own inset panel. */
@@ -536,7 +539,7 @@ body.menu-open .gear { visibility: hidden; }
 /* sits on the same line as the figure tag, top right */
 .vid-btn { position: absolute; top: 8px; right: 10px; z-index: 1; min-width: 84px; padding: 0 14px; font-size: 0.72rem; background: var(--card, #fff); }
 .feat-media .vid-btn { top: 12px; right: clamp(14px, 3vw, 36px); }
-.card-media.has-drawing { aspect-ratio: 16 / 11; }
+.card-media.has-drawing, .card-media.has-photo { aspect-ratio: 16 / 11; }   /* photos match the drawings beside them */
 /* one left edge inside every card: art tag + callouts line up with the body text */
 .art-tag { position: absolute; top: 20px; left: clamp(20px, 2.6vw, 28px); color: var(--fg-3); z-index: 1; }
 .drawing-wrap { flex: 1; min-height: 0; display: flex; padding: 32px 18px 10px; }
