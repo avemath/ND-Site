@@ -106,7 +106,7 @@ window.SITE = {
      MEDIA, in order of priority (the first one that's filled in is shown):
        video:  a short muted loop, e.g. "assets/video/rov-test.mp4" (keep it under ~8 MB)
        image:  a photo, e.g. "assets/img/rov.jpg" (also fill in imageAlt)
-       art:    a line drawing from assets/js/drawings.js: rov, arm, maze, lathe, playground, frc
+       art:    a line drawing from assets/js/drawings.js: rov, arm, maze, lathe, playground, frc, boat, turbine
      The drawings are ILLUSTRATIONS (labeled "Fig. 01 / Illustration" and so on), not his actual
      CAD. Replace them with his photos or SolidWorks renders when we get them.
      "callouts" are the numbered labels on the drawing, in order. */
@@ -154,17 +154,24 @@ window.SITE = {
      Most recent first. "hook" is the one-line intro under the title. */
   projects: [
     {
-      draft: true,                         // Hidden until filled in. Delete this line to show it.
-      title: "Senior Design: [Project name]",
-      role: "Team lead",
+      title: "Senior Design: Electric Boat",
+      timelineLabel: "Senior design",
+      role: "Team lead, team of 8 (4 mechanical, 3 electrical, 1 computer engineer)",
       dates: "2026 to 2027",
-      hook: "[One line: what it does and who it's for]",
+      // QUESTION: confirm the competition name (he said "Mike Briscoe ASNE ONR national competition")
+      hook: "An electric boat with a custom hull inspired by a jet ski, for ASNE's Promoting Electric Propulsion (PEP) competition, a national student competition sponsored by ONR.",
       points: [
-        "[What the team is building]",
-        "[What he's responsible for as team lead]",
+        "Designing the hull in SolidWorks",
+        "Leading the team on a $7,000 budget as a first-year team",
+        "Includes a radio frequency controller for communications",   // QUESTION: what does the radio system do?
       ],
-      tools: ["[Tools used]"],
-      art: "",
+      resumePoints: [
+        "Leading a first-year team of 8 on a $7,000 budget, building an electric boat for ASNE's PEP competition",
+        "Designing a custom hull inspired by a jet ski in SolidWorks",
+      ],
+      tools: ["SolidWorks"],
+      art: "boat",
+      callouts: ["Custom hull inspired by a jet ski", "Electric drive", "Radio frequency controller"],
       image: "",
       imageAlt: "",
       link: "",

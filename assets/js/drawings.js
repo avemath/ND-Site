@@ -179,6 +179,32 @@
       anchors: [[70, 150], [172, 160], [222, 160]],
     },
 
+    /* Senior design: electric boat, side view. A jet-ski-style hull (accent),
+       the electric drive inside it (dashed, hidden lines), and the radio antenna. */
+    boat: {
+      box: "16 44 372 156",
+      svg:
+        '<path class="ln wave" d="' + waves(186, 20, 384) + '"/>' +
+        // hull: flat stern on the left, bow rising on the right
+        '<path class="ln acc solid" d="M58 128 L64 176 Q170 198 270 190 Q338 182 366 112 L338 110 Q292 132 232 132 Z"/>' +
+        '<path class="ln acc" d="M70 162 Q190 180 312 168"/>' +
+        // jet nozzle at the stern
+        '<rect class="ln solid" x="42" y="160" width="20" height="12" rx="2"/>' +
+        // electric drive inside the hull: battery, motor, and shaft to the jet (hidden lines)
+        '<rect class="ln cl" x="134" y="142" width="76" height="22" rx="2"/>' +
+        '<circle class="ln cl" cx="96" cy="158" r="9"/>' +
+        '<path class="ln cl" d="M87 162 H62 M105 156 H134"/>' +
+        // seat and console with handlebars
+        '<rect class="ln solid" x="110" y="108" width="96" height="22" rx="11"/>' +
+        '<path class="ln solid" d="M214 131 Q232 96 288 98 L328 120 L306 128 Z"/>' +
+        '<path class="ln" d="M248 101 L238 82 H266"/>' +
+        // radio antenna and signal
+        '<path class="ln" d="M302 102 V70"/>' +
+        '<circle class="ln solid" cx="302" cy="67" r="3"/>' +
+        '<path class="ln acc" d="M312 58 a14 14 0 0 1 0 18 M321 52 a24 24 0 0 1 0 30"/>',
+      anchors: [[272, 180], [172, 153], [290, 66]],
+    },
+
     /* FIRST competition robot: drivetrain, bumpers, elevator, claw holding a game piece */
     frc: {
       box: "40 16 300 194",
