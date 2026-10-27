@@ -441,14 +441,12 @@ window.SITE = {
       dates: "Aug 2018 to May 2022",
       hook: "Where I learned to design and build a robot on an 8-week deadline, starting in 2018.",
       points: [
+        // four bullets: the robot strip below and the resume page cover the rest (keeping
+        // sub-teams on schedule, the CNC router and Markforged printers, the storage system)
+        "Co-led the team sophomore year, then was primary team lead junior and senior years, and drove in competition all four years as one of the team's two drivers",
         "Built 5 competition robots in 4 years on a team of about 80",
-        "Drove in competition all four years as one of the team's two drivers",
-        "Co-led the team sophomore year, then was primary team lead junior and senior years",
-        "Put in 40 to 50 hours a week in the shop during build season",   // QUESTION: confirm "during build season"
         "Led CAD in SolidWorks and Onshape and trained younger members on CAD and power tools",
-        "Kept sub-teams on schedule so each robot was working within the 8-week build season",
-        "Ran the team's CNC router using VCarve and printed Onyx parts on Markforged printers",
-        "Designed a movable workshop storage system for use at competitions",
+        "Put in 40 to 50 hours a week in the shop during build season",   // QUESTION: confirm "during build season"
       ],
       // a link under the card to the "Five robots, four seasons" strip (robots, below)
       moreLink: { label: "See all 5 robots", href: "#robots" },
