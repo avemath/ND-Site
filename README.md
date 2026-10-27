@@ -68,7 +68,7 @@ turn off automatically.
 | `assets/favicon.svg`, `assets/apple-touch-icon.png` | The little "N" icon in browser tabs, search results, and on phone home screens |
 | `404.html` | The page people see if they go to an address on the site that doesn't exist |
 | `sitemap.xml` | A list of the site's pages for search engines |
-| `assets/img/` | Project photos go here |
+| `assets/img/` | Project photos. Each one has its location and camera data removed and is under 300 KB |
 | `assets/video/` | Short silent clips, like his path planning simulation (an MP4, a WebM, and a still frame) |
 | `.nojekyll` | A hidden, empty file that tells GitHub Pages to serve the files as they are. Leave it. |
 
@@ -110,11 +110,10 @@ All of his info is filled in from his October 2026 resume and his answers to my
 questions. Here's what's left:
 
 - [ ] Get his answers to the open questions at the top of `content.js` (things
-      like the BlueROV2 Heavy, the competition name, and the radio system)
-- [ ] Integer's OK before any BlueROV2 photos go on the site. The photos are ready
-      in my private folder, not in this repo
+      like the SARbot, the competition name, and which Arduino the arm uses)
 - [ ] Photos of his iCORE Lab work (he said it's all public and he'll send some),
-      plus any of the welding arm, maze robot, WildStang robots, and senior design boat
+      plus any of the maze robot and the senior design boat. The BlueROV2 and
+      WildStang photos are up (Integer approved theirs)
 - [ ] Drone photos for "Off the clock" (3 to 6 is plenty)
 - [ ] Have him read the tagline and the About paragraphs (I drafted them in his voice)
 - [ ] Optional: link his GitHub (github.com/nmdomke) once he has projects on it
