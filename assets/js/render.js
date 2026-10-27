@@ -1602,8 +1602,14 @@
   }).map(function (h, i) {
     return { h: h, text: "Sec. " + (i < 9 ? "0" : "") + (i + 1) + " / " + h.textContent };
   });
+  // Contact continues the section numbering ("Sec. 06 / Contact"), above its heading and in the bar
   var contactH = document.querySelector(".contact-h");
-  if (contactH) secMarks.push({ h: contactH, text: "Contact" });
+  if (contactH) {
+    var cn = secMarks.length + 1, cLabel = document.querySelector(".contact-inner .label");
+    var cText = "Sec. " + (cn < 10 ? "0" : "") + cn + " / " + (cLabel ? cLabel.textContent : "Contact");
+    if (cLabel) cLabel.textContent = cText;
+    secMarks.push({ h: contactH, text: cText });
+  }
   function readSec() {
     var t = "";
     // a section counts once its heading passes the middle of the screen
