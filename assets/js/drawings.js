@@ -103,9 +103,9 @@
         '<circle class="ln solid" cx="108" cy="140" r="12"/><circle class="ln" cx="108" cy="140" r="3"/>' +
         '<circle class="ln solid" cx="180" cy="72" r="11"/><circle class="ln" cx="180" cy="72" r="3"/>' +
         '<circle class="ln solid" cx="268" cy="98" r="8"/>' +
-        // limit switches (accent squares at the joints)
-        '<rect class="fillr" x="118" y="122" width="7" height="7" rx="1"/>' +
-        '<rect class="fillr" x="188" y="56" width="7" height="7" rx="1"/>' +
+        // servo potentiometers, read for the joint positions (accent dots on the joints)
+        '<circle class="fillr" cx="121" cy="126" r="4"/>' +
+        '<circle class="fillr" cx="192" cy="59" r="4"/>' +
         // end effector: torch
         '<path class="ln acc solid" d="M278 126 L292 124 L296 156 L284 158 Z"/>' +
         '<path class="ln acc" d="M287 158 L290 166 L293 157"/>',

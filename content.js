@@ -55,8 +55,7 @@ window.SITE = {
 
   // Under his name at the top. DRAFT: have him approve the wording.
   tagline:
-    "I design and build robot hardware, from CAD model to finished part: " +
-    "an acoustic modem housing for an underwater robot and a 3D-printed arm that calibrates itself.",
+    "I like building things that move, and I've been at it since my first FIRST robot in 2018.",
 
   // The line with the blinking blue dot. Set to "" to hide it.
   status: "Now: path planning for unmanned surface vessels at the LSU iCORE Lab",
@@ -175,18 +174,18 @@ window.SITE = {
       timelineLabel: "Welding arm",        // shorter name used on the timeline
       role: "iCORE Lab",
       dates: "Mar 2026 to May 2026",
-      hook: "A 3D-printed 5-DOF arm that calibrates itself using limit switches.",
+      hook: "A 3D-printed 5-DOF arm built for mock welding. I designed the end effector and worked on most of the build except the code.",
       points: [
-        "Designed the end effector for a DIY 5-DOF robot arm",
+        "Designed the end effector",
         "3D printed the arm and end effector",
-        "Mounted and wired the electronics around an Arduino Uno R4",
-        "Used limit switches so the arm calibrates itself",
-        "Measured and analyzed the arm's performance",   // QUESTION: what was measured?
+        "Soldered wires to the servos' potentiometers to read joint positions",
+        "Wired the electronics around an Arduino Uno R4",
+        "Put the CAD model into simulation software to check it, then measured the real arm against it",
       ],
-      result: "",                          // QUESTION: one sentence on what the analysis found
-      tools: ["3D printing", "Arduino Uno R4", "Limit switches"],
-      art: "arm",
-      callouts: ["End effector", "Limit switches", "Arduino Uno R4"],
+      result: "Measured 0.83% position error over 5 straight-line runs, comparing where the end effector ended up with where it should have been.",
+      tools: ["3D printing", "Arduino Uno R4", "Soldering"],
+      art: "arm",                          // QUESTION: is the "torch" in the drawing a Sharpie standing in for a welding torch?
+      callouts: ["End effector", "Servo potentiometers", "Arduino Uno R4"],
       image: "",
       imageAlt: "",
       link: "",
@@ -360,11 +359,11 @@ window.SITE = {
       ],
     },
     {
-      title: "Program",
+      title: "Code and controls",
       proof: [
-        "Worked with ROS and Python on a UR5e inspection setup at the iCORE Lab",
-        "Used an Arduino Uno R4 and limit switches for self-calibration on a 5-DOF arm",
-        "Helped debug autonomous navigation and object detection code",
+        "Building a path planner for unmanned surface vessels in Python",
+        "Tuning artificial potential field and ant colony optimization models in simulation",
+        "Wired a 5-DOF arm around an Arduino Uno R4 and measured its position error",
       ],
     },
     {
