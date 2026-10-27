@@ -91,7 +91,9 @@ Open `content.js` and follow the notes at the top. The short version:
   then an `image`, then its line drawing (`art`). A video plays silently on a loop
   while it's on screen, with a Play/Pause button.
 - **Tabs:** a card's picture area can have tabs, like "Drawing / Photos (2)" on the
-  featured card or "3D model / Photo" on the welding arm. The first tab is the card's
+  featured card or "3D model / Wiring / Photo" on the welding arm. The Wiring tab is
+  Nicholas's wiring schematic, redrawn in `assets/js/drawings.js`; its part notes
+  are in `content.js`. The first tab is the card's
   usual picture; each other tab is a list of photos with captions, shown one at a
   time with arrows. To add a tab, copy one of the entries under `tabs`.
 - **Second photo:** a project card can also show a smaller second photo under its
