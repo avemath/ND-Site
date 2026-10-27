@@ -385,6 +385,7 @@
       });
       box.appendChild(img);
       box.classList.add("has-photo");
+      if (item.imageFit === "contain") box.classList.add("fit-contain");
     } else {
       var parts = drawing(item);
       if (parts) {
@@ -444,13 +445,40 @@
       var th = el("th", null, [h]); th.scope = "col"; return th;
     }))]));
     t.appendChild(el("tbody", null, rows.map(function (r, i) {
+      var photo = null;
+      if (r.image) {
+        var im = document.createElement("img");
+        im.src = r.thumb || r.image; im.alt = r.alt || ""; im.loading = "lazy";
+        photo = el("button", "rv-photo", [im, el("span", "sr-only", [" (opens a larger photo)"])]);
+        photo.type = "button";
+        photo.addEventListener("click", function () { lightbox(r.image, r.alt, r.season + (r.year ? ", " + r.year : "")); });
+      }
       return el("tr", null, [
         el("td", "rv-n mono", [(i < 9 ? "0" : "") + (i + 1)]),
-        el("td", "rv-s mono", [el("span", null, [r.season]), r.year ? el("span", "rv-y", [r.year]) : null]),
+        el("td", "rv-s mono", [el("span", null, [r.season]), r.year ? el("span", "rv-y", [r.year]) : null, photo]),
         el("td", "rv-t", [r.text]),
       ]);
     })));
     return t;
+  }
+
+  // A photo opened larger, in a dialog (Escape, the Close button, or a click outside closes it).
+  var lb = null;
+  function lightbox(src, alt, caption) {
+    if (!lb) {
+      lb = el("dialog", "lightbox", []);
+      var close = el("button", "pill pill-ghost lb-close", ["Close"]);
+      close.type = "button";
+      close.addEventListener("click", function () { lb.close(); });
+      lb.appendChild(el("figure", "lb-fig", [document.createElement("img"), el("figcaption", "mono", [])]));
+      lb.appendChild(close);
+      lb.addEventListener("click", function (e) { if (e.target === lb) lb.close(); });
+      document.body.appendChild(lb);
+    }
+    var img = lb.querySelector("img");
+    img.src = src; img.alt = alt || "";
+    lb.querySelector("figcaption").textContent = caption || "";
+    if (lb.showModal) lb.showModal(); else window.open(src);
   }
 
   // Cards show 3 bullets; any extras (and the robot table, if there is one) open

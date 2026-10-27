@@ -326,13 +326,24 @@ window.SITE = {
         "Ran the team's CNC router using VCarve and printed Onyx parts on Markforged printers",
         "Designed a movable workshop storage system for use at competitions",
       ],
-      // "Robot by robot": a small table inside the card's "+ more" section.
+      // "Robot by robot": a small table inside the card's "+ more" section. Each row can
+      // have a photo: "thumb" is the small one in the table, "image" opens larger.
       robots: [
-        { season: "2019", year: "Freshman", text: "Manufacturing and assembly. Learned to run the CNC router, and was one of the drivers as a freshman." },
-        { season: "2020", year: "Sophomore", text: "Designed the drive base and gearbox and led their manufacturing and assembly. 95% of the robot was made in house; only the flywheel was machined outside. Driver." },
-        { season: "2021", year: "Junior, COVID season", text: "Team lead and driver. Designed the drive base and led manufacturing and assembly for the whole robot." },
-        { season: "2021", year: "Junior, second robot", text: "Team lead and driver on a team of 20. Designed the drive base, led design, machining, and assembly, and took on more project management to teach the team before I left." },
-        { season: "2022", year: "Senior", text: "Driver. Led design decisions and mentored younger members, stepping in on the hard parts. Ran practices when the mentors were away." },
+        { season: "2019", year: "Freshman", text: "Manufacturing and assembly. Learned to run the CNC router, and was one of the drivers as a freshman.",
+          image: "assets/img/wildstang-2019.jpg", thumb: "assets/img/wildstang-2019-thumb.jpg",
+          alt: "WildStang's 2019 robot: a tall robot with a metal frame tower and blue 111 bumpers, in front of a brick wall" },
+        { season: "2020", year: "Sophomore", text: "Designed the drive base and gearbox and led their manufacturing and assembly. 95% of the robot was made in house; only the flywheel was machined outside. Driver.",
+          image: "assets/img/wildstang-2020.jpg", thumb: "assets/img/wildstang-2020-thumb.jpg",
+          alt: "WildStang's 2020 robot: a low robot with a long horizontal arm, a colorful WildStang flag, and blue 111 bumpers" },
+        { season: "2021", year: "Junior, COVID season", text: "Team lead and driver. Designed the drive base and led manufacturing and assembly for the whole robot.",
+          image: "assets/img/wildstang-2021.jpg", thumb: "assets/img/wildstang-2021-thumb.jpg",
+          alt: "WildStang's 2021 robot: a tall net strung between two posts above blue 111 bumpers" },
+        { season: "2021", year: "Junior, second robot", text: "Team lead and driver on a team of 20. Designed the drive base, led design, machining, and assembly, and took on more project management to teach the team before I left.",
+          image: "assets/img/wildstang-2021-second.jpg", thumb: "assets/img/wildstang-2021-second-thumb.jpg",
+          alt: "WildStang's second 2021 robot: clear side panels with pink flags on top, no bumpers, on a gray carpet floor" },
+        { season: "2022", year: "Senior", text: "Driver. Led design decisions and mentored younger members, stepping in on the hard parts. Ran practices when the mentors were away.",
+          image: "assets/img/wildstang-2022.jpg", thumb: "assets/img/wildstang-2022-thumb.jpg",
+          alt: "WildStang's 2022 robot: a tall robot with hooks on top, a colorful flag, and blue 111 bumpers" },
       ],
       result: "Won 4 of the 5 regional competitions we attended, plus an at-home challenge during COVID.",
       // Used on the printable resume page instead of "points" and "result".
@@ -344,8 +355,10 @@ window.SITE = {
       tools: ["SolidWorks", "Onshape", "VCarve", "Markforged"],
       art: "frc",                          // NOTE: generic robot drawing; a photo of one of his robots would be much better
       callouts: ["CAD in SolidWorks and Onshape", "Onyx parts on Markforged printers", "Built in 8-week seasons"],
-      image: "",
-      imageAlt: "",
+      // the line drawing ("art") shows if the photo can't load
+      image: "assets/img/wildstang-2022.jpg",
+      imageAlt: "WildStang's 2022 robot: a tall robot with hooks on top, a colorful flag, and blue 111 bumpers",
+      imageFit: "contain",                 // show the whole robot (the photo has a white background)
       link: "",
     },
   ],

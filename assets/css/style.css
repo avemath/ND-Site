@@ -926,3 +926,18 @@ body.menu-open .bar-sec { visibility: hidden; }
 .model-key { display: flex; align-items: center; gap: 8px; }
 .model-key::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 2px; background: #E6EEFA; box-shadow: inset 0 0 0 1.5px var(--accent); }
 .model-hint { color: var(--fg-3); }
+
+/* robot photos in the "Robot by robot" table, and the larger view they open */
+.rv-photo { display: block; margin-top: 8px; padding: 0; border: 1px solid var(--ln); border-radius: 6px; background: none; cursor: zoom-in; overflow: hidden; width: 76px; }
+.rv-photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.rv-photo:hover, .rv-photo:focus-visible { border-color: var(--accent); }
+.lightbox { max-width: min(92vw, 1100px); max-height: 92vh; padding: 16px; border: 0; border-radius: 16px; background: #fff; color: #000; }
+.lightbox::backdrop { background: rgba(0, 0, 0, .78); }
+.lb-fig { margin: 0; }
+.lb-fig img { display: block; max-width: 100%; max-height: calc(92vh - 110px); margin: 0 auto; border-radius: 8px; }
+.lb-fig figcaption { margin-top: 10px; font-size: 0.75rem; color: #575757; }
+.lb-close { position: absolute; top: 10px; right: 10px; background: #fff; color: #000; border: 1px solid #8C8C8C; }
+/* a photo with its own white background can show whole instead of cropped (imageFit: "contain") */
+.art-box.fit-contain { background: #fff; }
+.art-box.fit-contain img { object-fit: contain; padding: 8px; }
+.lightbox { position: fixed; }
