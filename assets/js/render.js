@@ -698,6 +698,15 @@
       g.setAttribute("aria-hidden", "true");
       g.style.left = across(gradAt);
       grid.appendChild(g);
+      // the label reads right from the blue line; where the chart has no room for it
+      // (narrow screens), it runs down along the line instead of off the page
+      var fitGrad = function () {
+        g.classList.remove("down");
+        var s = g.firstChild.getBoundingClientRect();
+        if (s.width && s.right > document.documentElement.clientWidth - 12) g.classList.add("down");
+      };
+      requestAnimationFrame(fitGrad);
+      window.addEventListener("resize", fitGrad);
     }
     if (cut) {
       var gap = el("span", "tl-gap");
