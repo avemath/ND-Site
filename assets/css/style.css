@@ -253,7 +253,7 @@ body.menu-open .bar::before { opacity: 0; }
    dark backing with 1px gaps, so every rule lines up exactly. --lift is how far the
    card rises into the hero; the hero keeps that much (plus breathing room) free at
    its bottom, so the card never covers the hero's text or buttons. */
-:root { --lift: 96px; }
+:root { --lift: 96px; --card-ln: #D6D9DE; }   /* --card-ln: the thin border on white cards and panels */
 .hero { padding-bottom: calc(var(--lift) + 64px); }
 .hero .scroll-cue { display: none; }   /* the card itself leads the eye down */
 #intro { overflow: visible; }
@@ -350,7 +350,7 @@ body.menu-open .bar::before { opacity: 0; }
 .card {
   display: flex; flex-direction: column;
   background: var(--card); border-radius: 24px;
-  border: 1px solid #D6D9DE;
+  border: 1px solid var(--card-ln);
   overflow: hidden;
 }
 .card-media { aspect-ratio: 16 / 9; }
@@ -432,7 +432,7 @@ button.xp-head:hover .xp-role { text-decoration: underline; text-decoration-colo
 .marquee-item { font-size: clamp(1.4rem, 3vw, 2.2rem); white-space: nowrap; }
 .marquee-sep { width: 8px; height: 8px; border-radius: 50%; background: var(--fg); margin: 0 clamp(20px, 3vw, 40px); flex: none; }
 .marquee-btn { flex: none; min-height: 44px; padding: 0 14px; font-size: 0.75rem; background: transparent; color: #fff; border: 1px solid var(--ghost); }
-.marquee-btn:hover { background: #000; border-color: #000; }
+.marquee-btn:hover { background: transparent; border-color: #fff; }   /* like every other outlined button */
 @keyframes marquee { to { transform: translateX(-50%); } }
 @media (max-width: 640px) { .marquee-label { display: none; } }
 @media (prefers-reduced-motion: reduce) {
@@ -876,7 +876,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 }
 /* the featured card: a stronger shadow and a blue stripe along the top, like a title block edge */
 .feature {
-  background: #FFFFFF; border: 1px solid #D6D9DE;
+  background: #FFFFFF; border: 1px solid var(--card-ln);
   --sh: inset 0 4px 0 var(--accent), 0 2px 4px rgba(0,0,0,.05), 0 20px 44px -14px rgba(0,0,0,.2);
   --sh-hover: inset 0 4px 0 var(--accent), 0 4px 8px rgba(0,0,0,.06), 0 28px 56px -14px rgba(0,0,0,.28);
 }
@@ -933,7 +933,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 .model3d { position: absolute; inset: 36px 0 0; cursor: grab; touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
 .model3d.dragging { cursor: grabbing; }
 .model3d canvas { display: block; width: 100%; height: 100%; }
-.model3d:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 10px; }
+.model3d:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 10px; }   /* inset: its box clips an outer ring */
 /* under the model: one key and the hint, on one line. The drawing's numbered
    callouts are for the drawing only (some of those parts aren't in the model). */
 .has-model .callouts { display: none; }
@@ -968,18 +968,18 @@ body.menu-open .bar-sec { visibility: hidden; }
 .rev-title { margin: 0; font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 900; line-height: 1; }
 .rev-hint { display: none; margin: 0 0 0 auto; font-size: 0.75rem; color: var(--fg-3); }
 .rev-hint::after { content: "\2192"; margin-left: 8px; color: var(--accent); }
-.rev-frame { background: #fff; border: 1px solid #D6D9DE; border-radius: 20px; overflow: hidden; box-shadow: 0 1px 1px rgba(0,0,0,.04), 0 2px 6px rgba(0,0,0,.05), 0 16px 32px -14px rgba(0,0,0,.16); }
+.rev-frame { background: #fff; border: 1px solid var(--card-ln); border-radius: 20px; overflow: hidden; box-shadow: 0 1px 1px rgba(0,0,0,.04), 0 2px 6px rgba(0,0,0,.05), 0 16px 32px -14px rgba(0,0,0,.16); }
 .rev-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .rev-row > li { display: flex; min-width: 0; }
-.rev-row > li + li { border-left: 1px solid #D6D9DE; }
+.rev-row > li + li { border-left: 1px solid var(--card-ln); }
 .rev-panel {
   flex: 1; display: flex; flex-direction: column; min-width: 0; padding: 0; margin: 0;
   background: #fff; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer;
   transition: background-color .2s, box-shadow .2s;
 }
-.rev-top { display: flex; justify-content: space-between; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #D6D9DE; font-size: 0.75rem; color: var(--fg-3); }
+.rev-top { display: flex; justify-content: space-between; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--card-ln); font-size: 0.75rem; color: var(--fg-3); }
 .rev-letter { color: var(--accent); font-weight: 700; }
-.rev-photo { display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #fff; border-bottom: 1px solid #D6D9DE; }
+.rev-photo { display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #fff; border-bottom: 1px solid var(--card-ln); }
 .rev-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale .35s var(--ease); }
 .rev-photo.contain img { object-fit: contain; padding: 6px; }
 .rev-year { display: block; padding: 14px 16px 8px; font-size: 0.7rem; color: var(--fg-3); }
@@ -995,15 +995,14 @@ body.menu-open .bar-sec { visibility: hidden; }
   .rev-panel:hover .rev-photo img { scale: 1.03; }
 }
 .rev-panel[aria-expanded="true"] { background: #EEF3FB; box-shadow: inset 0 3px 0 var(--accent); }
-.rev-panel:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+.rev-panel:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 0; }   /* inset: the frame clips an outer ring */
 
 /* the details for the open robot */
-.rev-detail { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(20px, 3vw, 40px); align-items: start; margin-top: 16px; padding: clamp(16px, 2.4vw, 28px); background: #fff; border: 1px solid #D6D9DE; border-radius: 20px; box-shadow: inset 0 3px 0 var(--accent), 0 16px 32px -14px rgba(0,0,0,.16); }
+.rev-detail { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(20px, 3vw, 40px); align-items: start; margin-top: 16px; padding: clamp(16px, 2.4vw, 28px); background: #fff; border: 1px solid var(--card-ln); border-radius: 20px; box-shadow: inset 0 3px 0 var(--accent), 0 16px 32px -14px rgba(0,0,0,.16); }
 .rev-detail[hidden] { display: none; }
-.rev-detail-photo { display: block; width: 100%; padding: 0; border: 1px solid #D6D9DE; border-radius: 14px; overflow: hidden; background: #fff; cursor: zoom-in; }
+.rev-detail-photo { display: block; width: 100%; padding: 0; border: 1px solid var(--card-ln); border-radius: 14px; overflow: hidden; background: #fff; cursor: zoom-in; }
 .rev-detail-photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .rev-detail-photo.contain img { object-fit: contain; padding: 8px; }
-.rev-detail-photo:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .rev-detail-body .rev-year { padding: 0 0 6px; }
 .rev-detail-h { margin: 0 0 12px; font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 500; }
 .rev-detail-h:focus { outline: none; }
@@ -1034,7 +1033,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 .bom-v { font-size: 0.8rem; color: #111; }
 .bom-table { width: 100%; border-collapse: collapse; }
 .bom-table thead th { padding: 10px 16px; border-bottom: 1px solid #111; background: #F6F7F9; text-align: left; font-size: 0.7rem; font-weight: 400; color: var(--fg-3); }
-.bom-table thead th + th, .bom-row > * + * { border-left: 1px solid #D6D9DE; }
+.bom-table thead th + th, .bom-row > * + * { border-left: 1px solid var(--card-ln); }
 .bom-group th { padding: 16px 16px 8px; border-top: 1px solid #111; text-align: left; font-size: 0.75rem; font-weight: 700; letter-spacing: .08em; color: var(--accent); }
 .bom-group:first-child th { border-top: 0; }
 .bom-row > * { padding: 11px 16px; border-top: 1px solid #E3E5E9; vertical-align: middle; text-align: left; }
@@ -1049,7 +1048,6 @@ body.menu-open .bar-sec { visibility: hidden; }
   transition: border-color .15s, color .15s, background-color .15s;
 }
 .bom-link:hover, .bom-link:focus-visible { border-color: var(--accent); color: var(--accent); }
-.bom-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 /* the row under the pointer (or holding keyboard focus) is selected, like a row in a parts list */
 .bom-row { transition: background-color .15s, box-shadow .15s; }
 .bom-row:hover, .bom-row:focus-within { background: #EEF3FB; box-shadow: inset 3px 0 0 var(--accent); }
@@ -1082,14 +1080,16 @@ body.menu-open .bar-sec { visibility: hidden; }
 .art-box.has-tabs { display: flex; flex-direction: column; background-color: var(--art-bg); }
 .media-tabs { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 6px; padding: 14px clamp(20px, 2.6vw, 28px) 0; }
 .feat-media .media-tabs { padding-left: clamp(24px, 4vw, 48px); padding-top: 18px; }
+/* the photos and their caption start on the same edge as the tabs */
+.feat-media .gal-stage { left: clamp(24px, 4vw, 48px); right: clamp(24px, 4vw, 48px); }
+.feat-media .gal-bar { left: clamp(24px, 4vw, 48px); right: clamp(24px, 4vw, 48px); }
 .media-tab {
-  min-height: 36px; padding: 0 14px; border: 1px solid var(--tag); border-radius: 999px;
+  min-height: 40px; padding: 0 14px; border: 1px solid var(--ghost); border-radius: 999px;
   background: transparent; color: var(--fg); font-size: 0.7rem; cursor: pointer;
   transition: background-color .15s, color .15s, border-color .15s;
 }
 .media-tab:hover { border-color: var(--fg); }
 .media-tab[aria-selected="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg); }
-.media-tab:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .tab-stack { position: relative; flex: 1; min-height: 0; display: grid; }
 .tab-stack > .tab-media { grid-area: 1 / 1; min-height: 0; min-width: 0; transition: opacity .2s; }
 .tab-stack > .tab-media.is-off { visibility: hidden; opacity: 0; }
@@ -1097,17 +1097,15 @@ body.menu-open .bar-sec { visibility: hidden; }
 .has-tabs .art-tag { top: 14px; }
 /* a tab of photos: one at a time, whole, with its caption and arrows underneath */
 .has-gallery { position: relative; }
-.gal-stage { position: absolute; inset: 12px clamp(14px, 2vw, 24px) 58px; }
+.gal-stage { position: absolute; inset: 12px clamp(14px, 2vw, 24px) 64px; }
 .gal-photo { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
 .gal-photo img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
-.gal-photo:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 12px; }
-.gal-bar { position: absolute; left: clamp(14px, 2vw, 24px); right: clamp(14px, 2vw, 24px); bottom: 10px; min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.gal-bar { position: absolute; left: clamp(14px, 2vw, 24px); right: clamp(14px, 2vw, 24px); bottom: 10px; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .gal-cap { margin: 0; font-size: 0.75rem; color: var(--fg-3); }
 .gal-nav { display: flex; align-items: center; gap: 8px; flex: none; }
-.gal-count { font-size: 0.7rem; color: var(--fg-3); min-width: 3em; text-align: center; }
-.gal-arrow { width: 40px; height: 40px; border: 1px solid var(--tag); border-radius: 50%; background: var(--card, #fff); color: var(--fg); font-size: 1rem; cursor: pointer; }
-.gal-arrow:hover { border-color: var(--accent); color: var(--accent); }
-.gal-arrow:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.gal-count { font-size: 0.75rem; color: var(--fg-3); min-width: 3em; text-align: center; }
+.gal-arrow { width: 44px; height: 44px; padding: 0; border: 1px solid var(--ghost); border-radius: 50%; background: var(--card, #fff); color: var(--fg); font-family: var(--mono); font-size: 1rem; cursor: pointer; transition: border-color .2s var(--ease); }
+.gal-arrow:hover { border-color: var(--fg); }   /* like the other outlined buttons */
 @media (prefers-reduced-motion: reduce) { .tab-stack > .tab-media, .media-tab { transition: none; } }
 /* phones: the box takes its height from the drawing or model panel */
 @media (max-width: 640px) { .feat-media.has-tabs { aspect-ratio: auto; } }
@@ -1190,7 +1188,6 @@ body.menu-open .bar-sec { visibility: hidden; }
   background: linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) center / 18px 1px no-repeat,
     linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) center / 1px 18px no-repeat;
 }
-.hob-view:focus-visible { outline: 3px solid #7AA7FF; outline-offset: 2px; }
 
 /* the piano card spans the full width on top: text above, the keyboard centered
    below it at a comfortable size; guitar and drone sit side by side underneath and
