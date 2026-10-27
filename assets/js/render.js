@@ -887,7 +887,7 @@
       axis.appendChild(brk);
     }
     var grid = el("div", "tl-rows");
-    var gradAt = when(S.graduation, false);
+    var gradAt = when(S.graduation, true);   // the end of the graduation month, where a "to May 2027" bar ends
     rowsData.forEach(function (d, i) {
       var bar = el("span", "tl-bar " + d.kind + (d.r[2] ? " current" : "") + (d.faint ? " faint" : ""));
       bar.style.setProperty("--i", i);   // stagger for the draw-in
@@ -1768,7 +1768,9 @@
       hl.style.transform = "translateY(" + sy + "px)";
       vl.style.transform = "translateX(" + sx + "px)";
       box.style.transform = "translate(" + sx + "px," + sy + "px)";
-      read.textContent = "X " + fmt((sx - w / 2) / 96) + "   Y " + fmt((h / 2 - sy) / 96) + "   IN   SNAP: GRID";
+      // each grid step reads as 0.250 in, like a CAD snap grid (rounded to the nearest 0.125)
+      var inch = function (px) { return Math.round(px / gap * 2) / 2 * 0.25; };
+      read.textContent = "X " + fmt(inch(sx - w / 2)) + "   Y " + fmt(inch(h / 2 - sy)) + "   IN   SNAP: GRID";
     }
     heroEl.addEventListener("pointermove", function (e) {
       if (e.pointerType !== "mouse") return;

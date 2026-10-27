@@ -595,7 +595,7 @@ body.menu-open .gear { visibility: hidden; }
 /* in a small drawing that text shrinks to 5 to 8 px, so it's left out
    (the card's own text and the numbered list under the drawing say the same) */
 .art-box.has-drawing { container-type: inline-size; }
-@container (max-width: 440px) { .drawing .lbl { display: none; } }
+@container (max-width: 440px) { .drawing .lbl:not(.acc-t) { display: none; } }   /* a dimension keeps its value */
 .drawing .lbl.acc-t { fill: var(--accent); }
 .drawing .lbl.bump-t { fill: var(--fg); font-weight: 700; letter-spacing: .2em; }
 .drawing .mk circle { fill: var(--accent); stroke: var(--art-bg); stroke-width: 2.5; transition: stroke .2s var(--ease); }
@@ -1115,9 +1115,9 @@ body.menu-open .bar-sec { visibility: hidden; }
 .has-schematic { position: relative; }
 .sch-wrap { position: absolute; inset: 10px clamp(10px, 2vw, 20px) 74px; }   /* room for a 3-line note */
 .sch { display: block; width: 100%; height: 100%; overflow: visible; }
-.sch-box { fill: #fff; stroke: var(--fg); stroke-width: 1.6; transition: stroke .15s var(--ease), fill .15s var(--ease); }
+.sch-box { fill: var(--card); stroke: var(--fg); stroke-width: 1.6; transition: stroke .15s var(--ease), fill .15s var(--ease); }
 .sch-title, .sch-pin, .sch-small, .sch-s { text-anchor: middle; fill: var(--fg); }
-.sch-title { font: 500 13px var(--sans); }
+.sch-title { font: 400 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; }   /* part names styled like the other drawings' labels */
 .sch-pin { font: 700 9.5px var(--mono); fill: var(--fg-2); }
 .sch-small { font: 400 9px var(--mono); text-transform: uppercase; letter-spacing: .06em; fill: var(--fg-3); }
 .sch-s { font: 500 12px var(--sans); }
