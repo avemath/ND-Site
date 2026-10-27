@@ -45,6 +45,9 @@ Since he's a mechanical engineer, I added a few engineering touches:
 - Skills is laid out like the parts list (bill of materials) on an engineering
   drawing. Each tool links to the projects it was used on: hovering a row outlines
   those project cards, and selecting a project jumps to its card.
+- In "Off the clock", the piano and the guitar are playable (the guitar is in
+  standard tuning and shows the note you played), and the drone's propellers spin
+  when you hover over or tap its card.
 - Right after the project cards, "Five robots, four seasons" shows his five WildStang
   robots like the revision block on a drawing, REV A (2019) through REV E (2022).
   Selecting one opens its details. On a phone the robots scroll sideways.
@@ -126,7 +129,9 @@ questions. Here's what's left:
 - [ ] Photos of his iCORE Lab work (he said it's all public and he'll send some),
       plus any of the maze robot and the senior design boat. The BlueROV2 and
       WildStang photos are up (Integer approved theirs)
-- [ ] Drone photos for "Off the clock" (3 to 6 is plenty)
+- [ ] Drone photos for "Off the clock" (3 to 6 is plenty). Before adding them, strip
+      their location and camera data, like the other photos. They replace the drone
+      drawing with a grid framed like a drone camera view
 - [ ] Have him read the tagline and the About paragraphs (I drafted them in his voice)
 - [ ] Optional: link his GitHub (github.com/nmdomke) once he has projects on it
 - [ ] Optional: add the site to Google Search Console and submit `sitemap.xml`, so
