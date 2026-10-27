@@ -15,6 +15,8 @@
   var DUR = 800;                       // explode / reassemble time, ms
   var VIEW = { az: 120, el: 18 };      // degrees around from the CAD's front, and above
   var TURN = { az: 40, el: 14 };       // how far a drag can turn it
+  var ARM_H = 0.75;                    // the assembled arm's share of the picture height
+  var ROOM = 0.90;                     // the most of the height and width the exploded view may use
   var CREASE = 28;                     // edge angle, degrees
 
   function webgl() {
@@ -137,7 +139,7 @@
 
     /* ---------- camera: a fixed orthographic frame that fits both states ---------- */
     var cam = new THREE.OrthographicCamera(-1, 1, 1, -1, -5000, 5000);
-    var target = new THREE.Vector3(), frame = { w: 1, h: 1 };
+    var target = new THREE.Vector3(), frame = null;
     function place(az, el) {
       var a = THREE.MathUtils.degToRad(az), e = THREE.MathUtils.degToRad(el), d = 1000;
       cam.position.set(Math.sin(a) * Math.cos(e) * d, Math.sin(e) * d, Math.cos(a) * Math.cos(e) * d).add(target);
@@ -146,8 +148,9 @@
       cam.updateMatrixWorld(true);
     }
     function fit() {
-      // project every vertex in both states from the default view and the drag limits
+      // project every vertex, assembled and exploded, from the resting view
       var lo = new THREE.Vector2(Infinity, Infinity), hi = new THREE.Vector2(-Infinity, -Infinity), v = new THREE.Vector3();
+      var lo0 = new THREE.Vector2(Infinity, Infinity), hi0 = new THREE.Vector2(-Infinity, -Infinity);
       var all = new THREE.Box3();
       parts.forEach(function (p) { all.union(bbox(p)); });
       target.copy(all.getCenter(new THREE.Vector3()));
@@ -162,15 +165,14 @@
             for (var i = 0; i < pos.count; i += 3) {
               v.fromBufferAttribute(pos, i).applyMatrix4(m).applyMatrix4(inv);
               lo.min(v); hi.max(v);
+              if (!s) { lo0.min(v); hi0.max(v); }
             }
           });
         });
       });
-      // the frame is centered on the view's midpoint
-      place(VIEW.az, VIEW.el);
-      var right = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 0), up = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 1);
-      target.add(right.multiplyScalar((lo.x + hi.x) / 2)).add(up.multiplyScalar((lo.y + hi.y) / 2));
-      frame.w = (hi.x - lo.x) * 1.04; frame.h = (hi.y - lo.y) * 1.04;
+      // the extents, assembled (lo0, hi0) and exploded (lo, hi), around the model's center;
+      // draw() sizes and places the frame from them for the picture area's shape
+      frame = { lo: lo, hi: hi, lo0: lo0, hi0: hi0 };
     }
     fit();
 
@@ -182,8 +184,15 @@
       ee.forEach(function (p) { p.mesh.position.copy(p.home).addScaledVector(p.off, e); });
       if (axisLine) axisLine.material.opacity = Math.max(0, (e - 0.35) / 0.65) * 0.8;
       place(VIEW.az + st.az, VIEW.el + st.el);
-      var w = holder.clientWidth || 1, h = holder.clientHeight || 1, k = Math.max(frame.w / w, frame.h / h);
-      cam.left = -w * k / 2; cam.right = w * k / 2; cam.top = h * k / 2; cam.bottom = -h * k / 2;
+      // the assembled arm fills about ARM_H of the height; the exploded view stays within
+      // ROOM of the height and width. The arm sits centered unless the exploded parts
+      // need it to shift to stay inside.
+      var w = holder.clientWidth || 1, h = holder.clientHeight || 1, f = frame;
+      var k = Math.max((f.hi0.y - f.lo0.y) / (ARM_H * h), (f.hi.y - f.lo.y) / (ROOM * h), (f.hi.x - f.lo.x) / (ROOM * w));
+      var hw = ROOM * w * k / 2, hh = ROOM * h * k / 2;
+      var cx = Math.min(Math.max((f.lo0.x + f.hi0.x) / 2, f.hi.x - hw), f.lo.x + hw);
+      var cy = Math.min(Math.max((f.lo0.y + f.hi0.y) / 2, f.hi.y - hh), f.lo.y + hh);
+      cam.left = cx - w * k / 2; cam.right = cx + w * k / 2; cam.top = cy + h * k / 2; cam.bottom = cy - h * k / 2;
       cam.updateProjectionMatrix();
       root.updateMatrixWorld(true);
       var dir = new THREE.Vector3(); cam.getWorldDirection(dir);
