@@ -21,7 +21,8 @@
   window.DRAWINGS = {
 
     /* BlueROV2 side view (front is on the right, at the camera dome), with
-       Nicholas's 3D-printed modem housing sleeve on top. Drawn from his photos:
+       Nicholas's 3D-printed mount on top, holding the acoustic modem in its
+       watertight Blue Robotics enclosure. Drawn from his photos:
        frame side plate with skids, foam floats with cap plates and lifting eyes,
        ducted thrusters with cone tips, electronics tube, lights, sonar below. */
     rov: {
@@ -61,17 +62,19 @@
         // cable from the rear end cap down into the vehicle
         '<path class="ln" d="M138 58 C 104 54, 98 82, 120 96"/>' +
         '<path class="ln" d="M138 70 C 116 72, 114 86, 130 96"/>' +
-        // acoustic modem: black cylinder with bolted end caps (not his part)
-        '<rect class="ln solid" x="136" y="48" width="16" height="38" rx="3"/>' +
+        // acoustic modem in its watertight enclosure: a tube with end caps (not his part)
+        '<rect class="ln solid" x="136" y="48" width="12" height="40" rx="3"/>' +
+        '<rect class="ln solid" x="146" y="53" width="106" height="30" rx="3"/>' +
+        '<path class="ln" d="M146 60 H252 M146 76 H252"/>' +
         '<rect class="ln solid" x="248" y="41" width="22" height="52" rx="4"/>' +
         '<circle class="ln" cx="259" cy="47" r="1.2"/><circle class="ln" cx="259" cy="60" r="1.2"/>' +
         '<circle class="ln" cx="259" cy="74" r="1.2"/><circle class="ln" cx="259" cy="87" r="1.2"/>' +
-        // modem housing sleeve and saddle (accent, his design)
-        '<path class="ln acc solid" d="M162 89 L154 96 H246 L238 89 Z"/>' +
-        '<rect class="ln acc solid" x="150" y="44" width="100" height="46" rx="7"/>' +
-        '<path class="ln acc" d="M166 54 V66 M178 54 V66 M190 54 V66"/>' +
-        '<path class="ln acc" d="M150 80 H250"/>',
-      anchors: [[218, 64], [259, 67], [113, 62]],
+        // his mount (accent): a base on the float and two clamp rings around the tube
+        '<path class="ln acc solid" d="M164 89 L156 96 H244 L236 89 Z"/>' +
+        '<rect class="ln acc solid" x="166" y="47" width="16" height="42" rx="4"/>' +
+        '<rect class="ln acc solid" x="218" y="47" width="16" height="42" rx="4"/>' +
+        '<path class="ln acc" d="M166 53 H182 M166 83 H182 M218 53 H234 M218 83 H234"/>',
+      anchors: [[226, 68], [259, 67], [113, 62]],
     },
 
     /* 5-DOF arm doing a mock weld */

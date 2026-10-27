@@ -99,7 +99,7 @@ window.SITE = {
       "What I still like best is taking a design off the screen and into something I can wire up and test.",
     "Now I'm a mechanical engineering senior at LSU with a minor in robotics, graduating in May 2027. " +
       "In the iCORE Lab I work on hazard avoidance and path planning for unmanned surface vessels. " +
-      "In summer 2026 at Integer Technologies, I designed the housing that put an acoustic modem on a BlueROV2. " +
+      "In summer 2026 at Integer Technologies, I designed the 3D-printed mount that holds an acoustic modem on a BlueROV2. " +
       "After graduation, I'm applying to M.S. programs in controls and mechanical systems for Fall 2027.",
   ],
 
@@ -112,18 +112,21 @@ window.SITE = {
      CAD. Replace them with his photos or SolidWorks renders when we get them.
      "callouts" are the numbered labels on the drawing, in order. */
   featured: {
-    title: "Acoustic Modem Housing for a BlueROV2",
+    title: "Acoustic Modem Mount for a BlueROV2",
     org: "Integer Technologies",
     dates: "May 2026 to Aug 2026",
-    hook: "A BlueROV2 needed an acoustic modem for in-water testing. I designed the housing and mount, and picked connectors that disconnect quickly while the vehicle is in the water.",
+    hook: "A BlueROV2 needed an acoustic modem for in-water testing. The modem sits in a watertight enclosure from Blue Robotics. I designed the mount that holds it on the vehicle, and picked connectors that disconnect quickly while the vehicle is in the water.",
     points: [
-      "Designed the housing and mount in Fusion 360",
-      "3D printed test and final parts in PLA and PETG",
+      "Designed the mount in Fusion 360",
+      // QUESTION: he called it a "rifle scope" style mount. Should the site say that?
+      "Designed 4 versions of the mount and printed 5 to 6 iterations of the final design",
+      "Printed the final mount in PETG at 100% infill",
       "Selected cables and connectors that connect and disconnect quickly while the vehicle is in the water",
-      // DRAFT: confirm with Nicholas, then uncomment this line to show it.
-      // "Printed and tested several prototype versions before the final housing",
+      // QUESTION: does "Pi" mean Raspberry Pi, and was this part of the same project?
+      "Also designed a Raspberry Pi mount through 6 versions, printed in PLA with 3 walls and honeycomb infill",
     ],
-    result: "Tested in the water on the BlueROV2.",   // QUESTION: how did the test go, and did the quick-disconnects work?
+    // QUESTION: he said it held buoyancy in the pool but not the lake. Should that be mentioned?
+    result: "Tested in a pool and a lake on the BlueROV2. The quick-connect bulkheads worked in and out of the water.",
     tools: ["Fusion 360", "PLA", "PETG", "BlueROV2"],
     // Spec table on the card, like the parts list on a drawing. When filled in,
     // it shows instead of the tool pills. Delete a row to drop it.
@@ -134,15 +137,15 @@ window.SITE = {
       { label: "Vehicle", value: "BlueROV2" },   // QUESTION: is this the BlueROV2 Heavy configuration?
     ],
     art: "rov",
-    callouts: ["3D-printed modem housing", "Acoustic modem", "Cable into the vehicle"],
+    callouts: ["3D-printed mount", "Acoustic modem in a watertight enclosure", "Cable into the vehicle"],
     video: "",
     image: "",
     imageAlt: "",
     // Optional second photo, shown under the bullets with a small caption.
     // Leave image2 as "" to hide it. Example:
     //   image2: "assets/img/rov-housing-prototypes.jpg",
-    //   image2Alt: "3D-printed prototype housings and clamps in red, blue, and white on a desk",
-    //   image2Caption: "Prototype versions of the housing.",
+    //   image2Alt: "3D-printed prototype mounts and clamps in red, blue, and white on a desk",
+    //   image2Caption: "Prototype versions of the mount.",
     image2: "",
     image2Alt: "",
     image2Caption: "",
@@ -292,12 +295,12 @@ window.SITE = {
       place: "Baton Rouge, LA",
       dates: "May 2026 to Aug 2026",
       points: [
-        "Designed and 3D printed the housing that mounts an acoustic modem on a BlueROV2 for in-water testing (see Featured)",
+        "Designed and 3D printed the mount that holds an acoustic modem on a BlueROV2 for in-water testing (see Featured)",
       ],
       resumePoints: [
-        "Designed a housing and mount in Fusion 360 to integrate an acoustic modem with a BlueROV2 for in-water testing",
-        "3D printed parts in PLA and PETG for testing and final assembly",
-        "Selected cables and connectors for quick connection and removal while the vehicle is in the water",
+        "Designed a mount in Fusion 360 to integrate an acoustic modem with a BlueROV2 for in-water testing",
+        "Designed 4 versions and printed 5 to 6 iterations of the final design; printed the final mount in PETG at 100% infill",
+        "Selected quick-connect bulkheads that worked in and out of the water during pool and lake tests",
       ],
     },
     {
@@ -345,7 +348,7 @@ window.SITE = {
       proof: [
         "SolidWorks since 2018, plus Onshape, Fusion 360, and Inventor",
         "Led CAD for 5 WildStang competition robots",
-        "Designed the BlueROV2 modem housing at Integer",
+        "Designed the BlueROV2 modem mount at Integer",
       ],
     },
     {
