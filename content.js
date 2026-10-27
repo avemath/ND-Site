@@ -59,7 +59,7 @@ window.SITE = {
 
   // Under his name at the top. DRAFT: have him approve the wording.
   tagline:
-    "I build things that move, and I've been at it since my first FIRST robot in 2018.",
+    "I design robot parts in CAD, build them in the shop, and test them in the real world.",
 
   // The line with the blinking blue dot. Set to "" to hide it.
   status: "Now: building a path planner for unmanned surface vessels at the LSU iCORE Lab",
