@@ -19,11 +19,7 @@
    comments. His phone number is intentionally NOT on the site.
 
    QUESTIONS FOR NICHOLAS (still open; each one is also marked // QUESTION below)
-   1. BlueROV2: is it the BlueROV2 Heavy configuration?
    2. Integer: are they okay with photos of the BlueROV2 and the mount being public?
-   3. Mount: he called it a "rifle scope" style mount. Should the site say that?
-   4. "Pi mount": is that a Raspberry Pi, and was it part of the same project?
-   5. Buoyancy: it held buoyancy in the pool but not the lake. Should that be mentioned?
    6. ROS 2: what did he use it for?
    7. Senior design: is the competition ASNE's Promoting Electric Propulsion (PEP)?
    8. Senior design: what does the radio frequency controller do?
@@ -122,18 +118,16 @@ window.SITE = {
     title: "Acoustic Modem Mount for a BlueROV2",
     org: "Integer Technologies",
     dates: "May 2026 to Aug 2026",
-    hook: "A BlueROV2 needed an acoustic modem for in-water testing. The modem sits in a watertight enclosure from Blue Robotics. I designed the mount that holds it on the vehicle, and picked connectors that disconnect quickly while the vehicle is in the water.",
+    hook: "A BlueLink SARbot, an underwater vehicle built on the BlueROV2, needed an acoustic modem for in-water testing. The modem sits in a watertight enclosure from Blue Robotics. I designed the two printed parts: the mount that holds the enclosure on the vehicle, and a Raspberry Pi mount that fits inside it.",
     points: [
-      "Designed the mount in Fusion 360",
-      // QUESTION: he called it a "rifle scope" style mount. Should the site say that?
+      "Designed both mounts in Fusion 360",
+      "Started with a rail concept, like a rifle scope mount, so different modems could slide on and off, then changed it for the final design",
       "Designed 4 versions of the mount and printed 5 to 6 iterations of the final design",
       "Printed the final mount in PETG at 100% infill",
+      "Designed the Raspberry Pi mount that fits inside the watertight enclosure, through 6 versions, printed in PLA with 3 walls and honeycomb infill",
       "Selected cables and connectors that connect and disconnect quickly while the vehicle is in the water",
-      // QUESTION: does "Pi" mean Raspberry Pi, and was this part of the same project?
-      "Also designed a Raspberry Pi mount through 6 versions, printed in PLA with 3 walls and honeycomb infill",
     ],
-    // QUESTION: he said it held buoyancy in the pool but not the lake. Should that be mentioned?
-    result: "Tested in a pool and a lake on the BlueROV2. The quick-connect bulkheads worked in and out of the water.",
+    result: "Tested in a pool and a lake. The printed mounts worked well in the water, and the quick-connect bulkheads worked in and out of it.",
     tools: ["Fusion 360", "PLA", "PETG", "BlueROV2"],
     // Spec table on the card, like the parts list on a drawing. When filled in,
     // it shows instead of the tool pills. Delete a row to drop it.
@@ -141,7 +135,8 @@ window.SITE = {
       { label: "Role", value: "Mechanical Engineering Intern" },
       { label: "CAD", value: "Fusion 360" },
       { label: "Materials", value: "PLA, PETG" },
-      { label: "Vehicle", value: "BlueROV2" },   // QUESTION: is this the BlueROV2 Heavy configuration?
+      // QUESTION: confirm the SARbot is BlueROV2 Heavy based (BlueLink says its systems are modified BlueROV2 Heavy vehicles)
+      { label: "Vehicle", value: "BlueLink SARbot (BlueROV2 Heavy based)" },
     ],
     art: "rov",
     callouts: ["3D-printed mount", "Acoustic modem in a watertight enclosure", "Cable into the vehicle"],
@@ -383,12 +378,12 @@ window.SITE = {
       place: "Baton Rouge, LA",
       dates: "May 2026 to Aug 2026",
       points: [
-        "Designed and 3D printed the mount that holds an acoustic modem on a BlueROV2 for in-water testing (see Featured)",
+        "Designed and 3D printed the mount that holds an acoustic modem's watertight enclosure on a BlueROV2-based vehicle, plus a Raspberry Pi mount that fits inside the enclosure (see Featured)",
       ],
       resumePoints: [
-        "Designed a mount in Fusion 360 to integrate an acoustic modem with a BlueROV2 for in-water testing",
-        "Designed 4 versions and printed 5 to 6 iterations of the final design; printed the final mount in PETG at 100% infill",
-        "Selected quick-connect bulkheads that worked in and out of the water during pool and lake tests",
+        "Designed 3D-printed mounts in Fusion 360 to hold an acoustic modem's watertight enclosure on a BlueROV2-based vehicle, and a Raspberry Pi inside it",
+        "Went from a modular rail concept through 4 versions to the final design; printed it in PETG at 100% infill",
+        "Tested in a pool and a lake; the mounts and quick-connect bulkheads worked in and out of the water",
       ],
     },
     {
