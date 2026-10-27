@@ -273,6 +273,7 @@
     holder.addEventListener("pointercancel", function (e) { end(e, true); });
 
     /* ---------- swap the drawing for the model ---------- */
+    var legendH = (box.querySelector(".callouts") || {}).offsetHeight || 0;   // measured before it hides
     wrap.appendChild(holder);
     box.classList.add("has-model");
     var tag = box.querySelector(".art-tag");
@@ -295,6 +296,8 @@
       foot.appendChild(hint);
     }
     var legend = box.querySelector(".callouts");
+    // the key takes the drawing list's place at the same height, so nothing below moves
+    if (legendH) { foot.style.boxSizing = "border-box"; foot.style.minHeight = legendH + "px"; }
     box.insertBefore(foot, legend || null);
     size();
     draw();
