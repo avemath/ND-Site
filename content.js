@@ -229,7 +229,7 @@ window.SITE = {
         { label: "3D model" },
         // His wiring schematic, redrawn in assets/js/drawings.js ("wiring"). The labels say
         // only what his drawing shows. QUESTION: Uno R3 or R4 (his drawing says r3)?
-        { label: "Wiring", schematic: "wiring",
+        { label: "Wiring", schematic: "wiring", tag: "Schematic",   // tag: the label after "Fig. 0N /"
           hint: "Hover or tap a part to see its connections.",
           hintTouch: "Tap a part to see its connections.",
           notes: {
@@ -329,6 +329,7 @@ window.SITE = {
       ],
       tools: ["Manual lathe", "MIG welding", "Haas CNC", "G-code"],
       art: "lathe",
+      callouts: ["Clutch alignment pin", "Steel stool", "Aluminum heat exchanger"],
       image: "",
       imageAlt: "",
       link: "",

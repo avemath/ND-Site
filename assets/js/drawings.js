@@ -18,6 +18,37 @@
     return d;
   }
 
+  /* Wiring schematic for the welding arm, redrawn from Nicholas's drawing (his
+     original is in the private folder, not this repo). Stacked top to bottom in the
+     order the signal flows, with only the parts, pins, and wires he drew.
+     d1, d2, d3 lengthen the three runs of wire (Pi to Arduino, Arduino to motor
+     controller, controller to servos); render.js stretches them the same way to fill
+     a taller picture area.
+     data-part names a component (data-id tells the servos apart); data-ends on a wire
+     lists the two parts it joins; data-step orders the wires for the draw-in (render.js
+     runs the animation). */
+  function wiring(d1, d2, d3) {
+    var A = d1, C = d1 + d2, S = d1 + d2 + d3, X = [92, 136, 180, 224, 268], PINS = ["SDA", "SCL", "5V", "D2", "GND"];
+    var KIND = ["mg995", "mg995", "mg995", "sg90", "sg90"];
+    var svg =
+      // Raspberry Pi (top), wired to the top edge of the Arduino, as in his drawing
+      '<g class="sch-part" data-part="pi"><rect class="sch-box" x="120" y="16" width="120" height="52" rx="2"/><text class="sch-title" x="180" y="47">Raspberry Pi</text></g>' +
+      '<path class="sch-wire" data-step="0" data-ends="pi arduino" d="M180 68 V' + (116 + A) + '"/>' +
+      // Arduino Uno with the five pins his drawing uses, along its bottom edge
+      '<g class="sch-part" data-part="arduino"><rect class="sch-box" x="60" y="' + (116 + A) + '" width="240" height="118" rx="2"/><text class="sch-title" x="180" y="' + (164 + A) + '">Arduino Uno</text>' +
+      X.map(function (x, i) { return '<text class="sch-pin" x="' + x + '" y="' + (224 + A) + '">' + PINS[i] + '</text><path class="sch-stub" d="M' + x + " " + (234 + A) + " V" + (244 + A) + '"/>'; }).join("") + "</g>" +
+      // controller inputs, left to right: SDA, SCL, 5V, D2, GND (as in his drawing)
+      X.map(function (x, i) { return '<path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="' + PINS[i] + '" d="M' + x + " " + (244 + A) + " V" + (300 + C) + '"/>'; }).join("") +
+      '<g class="sch-part" data-part="controller"><rect class="sch-box" x="60" y="' + (300 + C) + '" width="240" height="86" rx="2"/><text class="sch-small" x="180" y="' + (318 + C) + '">Inputs</text><text class="sch-title" x="180" y="' + (348 + C) + '">Motor Controller</text><text class="sch-small" x="180" y="' + (378 + C) + '">Outputs</text>' +
+      X.map(function (x) { return '<circle class="sch-dot" cx="' + x + '" cy="' + (300 + C) + '" r="3.5"/><circle class="sch-dot" cx="' + x + '" cy="' + (386 + C) + '" r="3.5"/>'; }).join("") + "</g>" +
+      // outputs to the servos: 3 MG995, then 2 SG90
+      X.map(function (x, i) { return '<path class="sch-wire" data-step="2" data-ends="controller s' + (i + 1) + '" d="M' + x + " " + (386 + C) + " V" + (446 + S) + '"/>'; }).join("") +
+      X.map(function (x, i) { return '<g class="sch-part" data-part="' + KIND[i] + '" data-id="s' + (i + 1) + '"><circle class="sch-box" cx="' + x + '" cy="' + (462 + S) + '" r="16"/><text class="sch-s" x="' + x + '" y="' + (467 + S) + '">S</text><path class="sch-stub" d="M' + x + " " + (478 + S) + " V" + (486 + S) + '"/></g>'; }).join("") +
+      '<g class="sch-foot"><path class="sch-brace" d="M78 ' + (500 + S) + " V" + (505 + S) + " H194 V" + (500 + S) + " M210 " + (500 + S) + " V" + (505 + S) + " H282 V" + (500 + S) + '"/>' +
+      '<text class="sch-small" x="136" y="' + (522 + S) + '">MG995 servos</text><text class="sch-small" x="246" y="' + (522 + S) + '">SG90 servos</text></g>';
+    return { box: "52 4 256 " + (528 + S), svg: svg };
+  }
+
   window.DRAWINGS = {
 
     /* BlueROV2 side view (front is on the right, at the camera dome), with
@@ -152,7 +183,7 @@
         '<text class="lbl" x="71" y="208" text-anchor="middle">LATHE</text>' +
         '<text class="lbl" x="200" y="208" text-anchor="middle">MIG WELDER</text>' +
         '<text class="lbl" x="330" y="208" text-anchor="middle">CNC ROUTER</text>',
-      anchors: [],
+      anchors: [[44, 110], [200, 84], [330, 72]],   // the pin, the stool seat, the heat exchanger plate
     },
 
     /* Playground with an ADA ramp, tower, slide and swings */
@@ -239,29 +270,8 @@
       anchors: [[218, 162], [245, 84], [250, 162]],
     },
 
-    /* Wiring schematic for the welding arm, redrawn from Nicholas's drawing
-       (his original is in the private folder, not this repo). Stacked top to bottom
-       in the order the signal flows, with only the parts, pins, and wires he drew.
-       data-part names a component (data-id tells the servos apart); data-ends on a wire
-       lists the two parts it joins;
-       data-step orders the wires for the draw-in (render.js runs the animation). */
-    wiring: {
-      box: "40 4 280 528",
-      svg:
-        // Raspberry Pi (top), wired to the top edge of the Arduino, as in his drawing
-        '<g class="sch-part" data-part="pi"><rect class="sch-box" x="120" y="16" width="120" height="52" rx="2"/><text class="sch-title" x="180" y="47">Raspberry Pi</text></g>' +
-        '<path class="sch-wire" data-step="0" data-ends="pi arduino" d="M180 68 V116"/>' +
-        // Arduino Uno with the five pins his drawing uses, along its bottom edge
-        '<g class="sch-part" data-part="arduino"><rect class="sch-box" x="60" y="116" width="240" height="118" rx="2"/><text class="sch-title" x="180" y="164">Arduino Uno</text><text class="sch-pin" x="92" y="224">SDA</text><path class="sch-stub" d="M92 234 V244"/><text class="sch-pin" x="136" y="224">SCL</text><path class="sch-stub" d="M136 234 V244"/><text class="sch-pin" x="180" y="224">5V</text><path class="sch-stub" d="M180 234 V244"/><text class="sch-pin" x="224" y="224">D2</text><path class="sch-stub" d="M224 234 V244"/><text class="sch-pin" x="268" y="224">GND</text><path class="sch-stub" d="M268 234 V244"/></g>' +
-        // controller inputs, left to right: SDA, SCL, 5V, D2, GND (as in his drawing)
-        '<path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="SDA" d="M92 244 V300"/><path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="SCL" d="M136 244 V300"/><path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="5V" d="M180 244 V300"/><path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="D2" d="M224 244 V300"/><path class="sch-wire" data-step="1" data-ends="arduino controller" data-pin="GND" d="M268 244 V300"/>' +
-        '<g class="sch-part" data-part="controller"><rect class="sch-box" x="60" y="300" width="240" height="86" rx="2"/><text class="sch-small" x="180" y="318">Inputs</text><text class="sch-title" x="180" y="348">Motor Controller</text><text class="sch-small" x="180" y="378">Outputs</text><circle class="sch-dot" cx="92" cy="300" r="3.5"/><circle class="sch-dot" cx="92" cy="386" r="3.5"/><circle class="sch-dot" cx="136" cy="300" r="3.5"/><circle class="sch-dot" cx="136" cy="386" r="3.5"/><circle class="sch-dot" cx="180" cy="300" r="3.5"/><circle class="sch-dot" cx="180" cy="386" r="3.5"/><circle class="sch-dot" cx="224" cy="300" r="3.5"/><circle class="sch-dot" cx="224" cy="386" r="3.5"/><circle class="sch-dot" cx="268" cy="300" r="3.5"/><circle class="sch-dot" cx="268" cy="386" r="3.5"/></g>' +
-        // outputs to the servos: 3 MG995, then 2 SG90
-        '<path class="sch-wire" data-step="2" data-ends="controller s1" d="M92 386 V446"/><path class="sch-wire" data-step="2" data-ends="controller s2" d="M136 386 V446"/><path class="sch-wire" data-step="2" data-ends="controller s3" d="M180 386 V446"/><path class="sch-wire" data-step="2" data-ends="controller s4" d="M224 386 V446"/><path class="sch-wire" data-step="2" data-ends="controller s5" d="M268 386 V446"/>' +
-        '<g class="sch-part" data-part="mg995" data-id="s1"><circle class="sch-box" cx="92" cy="462" r="16"/><text class="sch-s" x="92" y="467">S</text><path class="sch-stub" d="M92 478 V486"/></g><g class="sch-part" data-part="mg995" data-id="s2"><circle class="sch-box" cx="136" cy="462" r="16"/><text class="sch-s" x="136" y="467">S</text><path class="sch-stub" d="M136 478 V486"/></g><g class="sch-part" data-part="mg995" data-id="s3"><circle class="sch-box" cx="180" cy="462" r="16"/><text class="sch-s" x="180" y="467">S</text><path class="sch-stub" d="M180 478 V486"/></g><g class="sch-part" data-part="sg90" data-id="s4"><circle class="sch-box" cx="224" cy="462" r="16"/><text class="sch-s" x="224" y="467">S</text><path class="sch-stub" d="M224 478 V486"/></g><g class="sch-part" data-part="sg90" data-id="s5"><circle class="sch-box" cx="268" cy="462" r="16"/><text class="sch-s" x="268" y="467">S</text><path class="sch-stub" d="M268 478 V486"/></g>' +
-        '<path class="sch-brace" d="M78 500 V505 H194 V500 M210 500 V505 H282 V500"/>' +
-        '<text class="sch-small" x="136" y="522">MG995 servos</text><text class="sch-small" x="246" y="522">SG90 servos</text>',
-    },
+    /* the welding arm's wiring schematic (built by wiring() above) */
+    wiring: wiring(0, 0, 0),
 
     /* Drone, top down, for the "Off the clock" card until his photos come. The
        propellers (dr-prop) spin when the card is hovered or tapped (render.js). */
@@ -270,6 +280,8 @@
       svg:
         // arms from the body out to the four motors
         '<path class="dr-arm" d="M150 95 L62 40"/><path class="dr-arm" d="M150 95 L238 40"/><path class="dr-arm" d="M150 95 L62 150"/><path class="dr-arm" d="M150 95 L238 150"/>' +
+        // the inner line makes each arm an outlined bar, like the arm links in the other drawings
+        '<path class="dr-arm-in" d="M150 95 L62 40"/><path class="dr-arm-in" d="M150 95 L238 40"/><path class="dr-arm-in" d="M150 95 L62 150"/><path class="dr-arm-in" d="M150 95 L238 150"/>' +
         // the prop disks (dashed), motors, and two-blade propellers that spin
         '<circle class="dr-disk" cx="62" cy="40" r="36"/><circle class="dr-motor" cx="62" cy="40" r="10"/><g class="dr-prop"><path d="M29 40 H95"/><circle cx="62" cy="40" r="3"/></g><circle class="dr-disk" cx="238" cy="40" r="36"/><circle class="dr-motor" cx="238" cy="40" r="10"/><g class="dr-prop"><path d="M205 40 H271"/><circle cx="238" cy="40" r="3"/></g><circle class="dr-disk" cx="62" cy="150" r="36"/><circle class="dr-motor" cx="62" cy="150" r="10"/><g class="dr-prop"><path d="M29 150 H95"/><circle cx="62" cy="150" r="3"/></g><circle class="dr-disk" cx="238" cy="150" r="36"/><circle class="dr-motor" cx="238" cy="150" r="10"/><g class="dr-prop"><path d="M205 150 H271"/><circle cx="238" cy="150" r="3"/></g>' +
         // body, battery, and the camera on the front edge

@@ -294,14 +294,40 @@
     if (!spec) return null;
     figCount++;
     var built = spec.grid ? mazeSpec(spec) : spec;
-    var labels = (item.callouts || []).slice(0, built.anchors.length);
-    var marks = labels.map(function (t, i) {
-      var a = built.anchors[i];
-      return '<g class="mk" data-i="' + i + '" transform="translate(' + a[0] + " " + a[1] + ')"><circle r="9"/><text y="3.6" text-anchor="middle">' + (i + 1) + "</text></g>";
+    // callouts, drafting style: numbered left to right, each in a balloon above the
+    // drawing with a thin leader down to a dot on its part
+    var pairs = (item.callouts || []).slice(0, built.anchors.length).map(function (t, i) { return { t: t, a: built.anchors[i] }; });
+    pairs.sort(function (p, q) { return p.a[0] - q.a[0]; });
+    var labels = pairs.map(function (p) { return p.t; });
+    var vb = (built.box || "0 0 400 225").split(/\s+/).map(Number), TOP = pairs.length ? 34 : 0;
+    var marks = pairs.map(function (p, i) {
+      return '<g class="mk" data-i="' + i + '"><path class="mk-lead" d=""/><circle class="mk-dot" cx="' + p.a[0] + '" cy="' + p.a[1] + '" r="2.4"/>' +
+        '<g class="mk-ball"><circle r="9"/><text y="3.6" text-anchor="middle">' + (i + 1) + "</text></g></g>";
     }).join("");
-    var holder = el("div", "drawing-wrap");
-    holder.innerHTML = '<svg class="drawing" viewBox="' + (built.box || "0 0 400 225") + '" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">' + built.svg + marks + "</svg>";
+    var holder = el("div", "drawing-wrap" + (pairs.length ? " has-marks" : ""));
+    holder.innerHTML = '<svg class="drawing" viewBox="' + vb[0] + " " + (vb[1] - TOP) + " " + vb[2] + " " + (vb[3] + TOP) +
+      '" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">' + built.svg + marks + "</svg>";
     var svg = holder.firstChild;
+    // place the balloons at the same on-screen size as the list's numbers, spaced so they never touch
+    if (pairs.length) {
+      var layoutMarks = function () {
+        var w = svg.getBoundingClientRect().width;
+        if (!w) return;
+        var k = Math.max(vb[2] / w, (vb[3] + TOP) / (svg.getBoundingClientRect().height || 1));   // view units per pixel
+        var r = 9 * k, gapX = 2 * r + 6 * k, y = vb[1] - TOP / 2 + 2 * k;
+        var lo = vb[0] + r + 2, hi = vb[0] + vb[2] - r - 2, xs = pairs.map(function (p) { return Math.min(hi, Math.max(lo, p.a[0])); });
+        for (var i = 1; i < xs.length; i++) xs[i] = Math.max(xs[i], xs[i - 1] + gapX);
+        for (i = xs.length - 1; i >= 0; i--) { xs[i] = Math.min(xs[i], i === xs.length - 1 ? hi : xs[i + 1] - gapX); }
+        [].forEach.call(svg.querySelectorAll(".mk"), function (g, i) {
+          var a = pairs[i].a;
+          g.querySelector(".mk-ball").setAttribute("transform", "translate(" + xs[i].toFixed(1) + " " + y.toFixed(1) + ") scale(" + k.toFixed(3) + ")");
+          g.querySelector(".mk-lead").setAttribute("d", "M" + xs[i].toFixed(1) + " " + (y + r).toFixed(1) + " L" + a[0] + " " + a[1]);
+          g.querySelector(".mk-lead").style.strokeWidth = (1 * k).toFixed(2);
+          g.querySelector(".mk-dot").setAttribute("r", (2.6 * k).toFixed(2));
+        });
+      };
+      new ResizeObserver(layoutMarks).observe(svg);
+    }
     if (built.robotStart) {
       var rb = svg.querySelector(".robot");
       if (reduceMotion) rb.setAttribute("transform", "translate(" + built.robotStart[0] + " " + built.robotStart[1] + ")");
@@ -426,6 +452,9 @@
   function schematic(tab) {
     var spec = DRAW[tab.schematic];
     if (!spec) return el("div", "tab-media art-box", []);
+    figCount++;
+    var tag = el("span", "art-tag mono", ["Fig. " + (figCount < 10 ? "0" : "") + figCount + " / " + (tab.tag || "Schematic")]);
+    tag.setAttribute("aria-hidden", "true");
     var notes = tab.notes || {};
     var wrap = el("div", "sch-wrap", []);
     wrap.innerHTML = '<svg class="sch" viewBox="' + spec.box + '" preserveAspectRatio="xMidYMid meet" role="group" aria-label="' +
@@ -474,10 +503,36 @@
       });
     }
     function finish() { drawn = true; svg.classList.add("sch-in"); setDash(false); loop(); }
+    // fit the picture area: lengthen (or shorten) the three runs of wire, in a 36 : 50 : 50
+    // proportion, so the diagram fills it; the parts only move, so nothing changes size
+    var vb = spec.box.split(" ").map(Number);
+    function fit() {
+      var r = wrap.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      // positive stretches the wires; negative shortens them (to about half) in a short, wide area
+      var extra = Math.max(-90, Math.min(240, r.height / (r.width / vb[2]) - vb[3]));
+      if (Math.abs(extra) < 12) return;
+      var A = extra * 36 / 136, C = A + extra * 50 / 136, Sx = extra;
+      var shift = function (sel, dy) { [].forEach.call(svg.querySelectorAll(sel), function (n) { n.setAttribute("transform", "translate(0 " + dy.toFixed(1) + ")"); }); };
+      shift('[data-part="arduino"]', A); shift('[data-part="controller"]', C);
+      shift('[data-part="mg995"], [data-part="sg90"], .sch-foot', Sx);
+      wires.forEach(function (w) {
+        var m = /^M(\d+) (\d+) V(\d+)$/.exec(w.getAttribute("data-d") || w.getAttribute("d"));
+        if (!m) return;
+        w.setAttribute("data-d", m[0]);
+        var step = w.getAttribute("data-step"), y0 = +m[2], y1 = +m[3];
+        var dy0 = step === "0" ? 0 : step === "1" ? A : C, dy1 = step === "0" ? A : step === "1" ? C : Sx;
+        w.setAttribute("d", "M" + m[1] + " " + (y0 + dy0).toFixed(1) + " V" + (y1 + dy1).toFixed(1));
+      });
+      svg.setAttribute("viewBox", vb[0] + " " + vb[1] + " " + vb[2] + " " + (vb[3] + extra).toFixed(1));
+      lens = wires.map(function (w) { return w.getTotalLength(); });
+    }
     function start() {
       if (started) return;
       started = true;
+      fit();
       if (reduceMotion) { finish(); return; }
+      setDash(true);
       svg.classList.add("sch-in");                       // parts fade in
       var step = 190, lead = 450;
       wires.forEach(function (w, i) {
@@ -524,7 +579,7 @@
     }
     if (!reduceMotion) setDash(true); else finish();
 
-    var panel = el("div", "tab-media art-box has-schematic", [wrap, el("div", "gal-bar", [cap])]);
+    var panel = el("div", "tab-media art-box has-schematic", [tag, wrap, el("div", "gal-bar", [cap])]);
     panel.addEventListener("tabvisibility", function (e) { shown = e.detail; update(); });
     new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; update(); }, { threshold: 0.3 }).observe(panel);
     onMotionChange.push(function () { if (reduceMotion) { stop(); finish(); hideDots(); } else loop(); });
@@ -718,6 +773,7 @@
       cards.appendChild(card);
     });
   } else hide(document.getElementById("projects"));
+  renumberFigs();   // figures read 01, 02, ... in page order, tabs included
 
   /* ======================= five robots, four seasons (WildStang) =======================
      A row of panels laid out like the revision block on a drawing (REV A to REV E).
