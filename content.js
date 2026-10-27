@@ -18,16 +18,23 @@
    The repo is public, so everything in this file is public too, even the
    comments. His phone number is intentionally NOT on the site.
 
-   QUESTIONS FOR NICHOLAS (answers would make the site stronger)
-   1. Photos: BlueROV2 with the housing, welding arm, maze robot, lathe pin,
-      stool, WildStang robots. Any of these can replace a dot drawing.
-   2. Integer: the housing was tested in the water. How did the test go, and
-      did the quick-disconnects work?
-   3. Welding arm: what did the quantitative analysis measure and find?
-   4. Maze robot: did it finish the maze?
-   5. WildStang: any awards or event results 2018 to 2022?
-   6. Senior design: project name, his role, sponsor.
-   7. Open to relocating?
+   QUESTIONS FOR NICHOLAS (still open; each one is also marked // QUESTION below)
+   1. BlueROV2: is it the BlueROV2 Heavy configuration?
+   2. Integer: are they okay with photos of the BlueROV2 and the mount being public?
+   3. Mount: he called it a "rifle scope" style mount. Should the site say that?
+   4. "Pi mount": is that a Raspberry Pi, and was it part of the same project?
+   5. Buoyancy: it held buoyancy in the pool but not the lake. Should that be mentioned?
+   6. ROS 2: what did he use it for?
+   7. Senior design: is the competition ASNE's Promoting Electric Propulsion (PEP)?
+   8. Senior design: what does the radio frequency controller do?
+   9. WildStang: were the 40 to 50 hours a week during build season?
+   10. Welding arm: does a Sharpie stand in for the welding torch?
+   11. Open to relocating?
+   Also new from this round:
+   12. Wind turbine mount: when did he work on it? (no dates yet, so it's not on the timeline)
+   13. Senior design: which months? "2026 to 2027" draws as Jan 2026 to Dec 2027.
+   14. UR5e mount: his resume says "a laser camera and an RGB camera"; his answers say
+       "a laser and a depth sensor". The site uses his answers. Which is right?
    ========================================================================== */
 
 window.SITE = {
@@ -49,7 +56,7 @@ window.SITE = {
   lastUpdated: "October 2026",             // Change this whenever the site is updated
   // Shown in the drawing title block in the footer. Bump the letter (C, D, E...)
   // whenever the site gets a real update, like a revision on an engineering drawing.
-  revision: "C",
+  revision: "D",
   // The live address. Update this if the site moves to his own GitHub account.
   siteUrl: "https://avemath.github.io/ND-Site/",
 
@@ -104,7 +111,9 @@ window.SITE = {
 
   /* ---------- Featured project (the big card at the top of Projects) ----------
      MEDIA, in order of priority (the first one that's filled in is shown):
-       video:  a short muted loop, e.g. "assets/video/rov-test.mp4" (keep it under ~8 MB)
+       video:  a short muted loop, e.g. "assets/video/rov-test.mp4" (keep it under ~8 MB).
+               Optional with it: videoWebm (the same clip as a WebM), image (a still frame
+               shown before it plays), and mediaTag (the label after "Fig. 0N /", e.g. "Simulation").
        image:  a photo, e.g. "assets/img/rov.jpg" (also fill in imageAlt)
        art:    a line drawing from assets/js/drawings.js: rov, arm, maze, lathe, playground, frc, boat, turbine
      The drawings are ILLUSTRATIONS (labeled "Fig. 01 / Illustration" and so on), not his actual
@@ -231,6 +240,11 @@ window.SITE = {
         "Put the CAD model into simulation software to check it, then measured the real arm against it",
       ],
       result: "Measured 0.83% position error over 5 straight-line runs, comparing where the end effector ended up with where it should have been.",
+      resumePoints: [
+        "Designed the end effector, 3D printed the arm, and soldered wires to the servos' potentiometers to read joint positions",
+        "Wired the electronics around an Arduino Uno R4 and checked the CAD model in simulation software",
+        "Measured 0.83% position error over 5 straight-line runs against where the end effector should have been",
+      ],
       tools: ["3D printing", "Arduino Uno R4", "Soldering"],
       art: "arm",                          // QUESTION: is the "torch" in the drawing a Sharpie standing in for a welding torch?
       callouts: ["End effector", "Servo potentiometers", "Arduino Uno R4"],
@@ -249,6 +263,9 @@ window.SITE = {
         "Team of 3: two mechanical engineers and one computer science student",
       ],
       result: "Finished the maze.",
+      resumePoints: [
+        "Designed and 3D printed the base and camera system on a team of 3; the robot finished the maze",
+      ],
       tools: ["SolidWorks", "3D printing"],
       art: "maze",
       callouts: ["Printed base and camera system", "Autonomous route"],
@@ -348,8 +365,8 @@ window.SITE = {
       ],
       // Used on the printable resume page (resume.html) instead of "points".
       resumePoints: [
-        "Building a path planner for unmanned surface vessels in Python, tuning artificial potential field and ant colony optimization models in simulation",
-        "Designed a SolidWorks mount for a laser and a depth sensor on a UR5e robotic arm to find surface imperfections on wind turbine blades",
+        "Building a USV path planner in Python, tuning potential field and ant colony optimization models",
+        "Designed a SolidWorks mount for a laser and depth sensor on a UR5e arm to inspect wind turbine blades",
         // The mock welding arm is left out here: it has its own entry under Projects on the resume.
       ],
     },
