@@ -59,10 +59,10 @@ window.SITE = {
 
   // Under his name at the top. DRAFT: have him approve the wording.
   tagline:
-    "I like building things that move, and I've been at it since my first FIRST robot in 2018.",
+    "I build things that move, and I've been at it since my first FIRST robot in 2018.",
 
   // The line with the blinking blue dot. Set to "" to hide it.
-  status: "Now: path planning for unmanned surface vessels at the LSU iCORE Lab",
+  status: "Now: building a path planner for unmanned surface vessels at the LSU iCORE Lab",
   // A second small line under it, saying what he's looking for. Set to "" to hide it.
   seeking: "Applying to M.S. programs for Fall 2027. Open to research and internship roles.",
 
@@ -98,12 +98,12 @@ window.SITE = {
      Each string is one paragraph. DRAFT: have him rewrite in his own voice. */
   about: [
     "I started using SolidWorks in 2018 on my high school FIRST Robotics Competition team, WildStang. " +
-      "Over four years I helped build five robots, drove every season, and was the team's primary lead my junior and senior years. " +
-      "What I still like best is taking a design off the screen and into something I can wire up and test.",
+      "Over four years I built five robots with the team, drove every season, and was the team's primary lead my junior and senior years. " +
+      "What I like best is taking a design off the screen and into something I can wire up and test.",
     "Now I'm a mechanical engineering senior at LSU with a minor in robotics, graduating in May 2027. " +
-      "In the iCORE Lab I work on hazard avoidance and path planning for unmanned surface vessels. " +
-      "In summer 2026 at Integer Technologies, I designed the 3D-printed mount that holds an acoustic modem on a BlueROV2. " +
-      "After graduation, I'm applying to M.S. programs in controls and mechanical systems for Fall 2027.",
+      "In the iCORE Lab I'm building a path planner for unmanned surface vessels, focused on avoiding hazards. " +
+      "In summer 2026 at Integer Technologies, I designed the 3D-printed mounts that hold an acoustic modem on a BlueROV2-based vehicle, and they worked well in pool and lake tests. " +
+      "I'm applying to M.S. programs in controls and mechanical systems for Fall 2027.",
   ],
 
   /* ---------- Featured project (the big card at the top of Projects) ----------
@@ -374,9 +374,9 @@ window.SITE = {
       // QUESTION: his resume says "a laser camera and an RGB camera", but his answers say
       // "a laser and a depth sensor". The site uses his answers. Which is right?
       points: [
-        "Research proximity hazard avoidance and path planning for unmanned surface vessels (see Projects)",
+        "Building a path planner for unmanned surface vessels, focused on avoiding nearby hazards (see Projects)",
         "Designed a mount for a laser and a depth sensor on a UR5e robotic arm to find surface imperfections on wind turbine blades (see Projects)",
-        "Built a 3D-printed 5-DOF robotic arm for mock welding (see Projects)",
+        "Designed the end effector for a 3D-printed 5-DOF mock welding arm, and helped build and wire the arm (see Projects)",
       ],
       // Used on the printable resume page (resume.html) instead of "points".
       resumePoints: [
@@ -396,7 +396,7 @@ window.SITE = {
       ],
       resumePoints: [
         "Designed 3D-printed mounts in Fusion 360 to hold an acoustic modem's watertight enclosure on a BlueROV2-based vehicle, and a Raspberry Pi inside it",
-        "Went from a modular rail concept through 4 versions to the final design; printed it in PETG at 100% infill",
+        "Iterated from a modular rail concept through 4 versions to the final design, printed in PETG at 100% infill",
         "Tested in a pool and a lake; the mounts and quick-connect bulkheads worked in and out of the water",
       ],
     },
@@ -423,7 +423,7 @@ window.SITE = {
       dates: "2017 to 2022",
       compact: true,
       // A compact entry can have one short "note" line under it.
-      note: "Refereed competitions and gave teams tips on improving before their next run.",
+      note: "Refereed competitions and advised teams on how to improve before their next run.",
     },
   ],
 
@@ -454,7 +454,7 @@ window.SITE = {
       proof: [
         "SolidWorks since 2018, plus Onshape, Fusion 360, and Inventor",
         "Led CAD for 5 WildStang competition robots",
-        "Designed the BlueROV2 modem mount at Integer",
+        "Designed 3D-printed modem mounts for a BlueROV2-based vehicle at Integer",
       ],
     },
     {
@@ -476,7 +476,7 @@ window.SITE = {
     {
       title: "Lead and teach",
       proof: [
-        "Primary team lead of WildStang, a team of about 80, junior and senior years",
+        "Led WildStang, a team of about 80, as primary team lead junior and senior years",
         "Trained younger WildStang members on CAD and power tools",
         "Tutored up to 100 students in the LSU Math Lab",
       ],
@@ -499,18 +499,18 @@ window.SITE = {
     title: "Off the clock",
     menuLabel: "Off the clock",
     intro:
-      "I like learning new things. During COVID in 2020, I taught myself piano, guitar, " +
-      "and how to fly a drone.",
+      "I love learning new things. In 2020, during COVID, I taught myself piano, guitar, " +
+      "and drone flying.",
     items: [
       {
         name: "Piano",
-        text: "My favorite instrument right now. I've taught myself since 2020, with no lessons, and Bach is my favorite composer.",
+        text: "My favorite instrument right now. I've been teaching myself since 2020, and Bach is my favorite composer.",
         keys: true,                        // shows the playable keyboard
         keysHint: "Tap a key, or use A to L",   // small line under the keyboard
       },
       {
         name: "Guitar",
-        text: "I own three electrics, an acoustic, and a ukulele, and I've taught myself since 2020. I also played clarinet in my high school band.",
+        text: "I've taught myself since 2020, and I have three electrics, an acoustic, and a ukulele. I also played clarinet in my high school band.",
       },
       {
         name: "Drone photography",
