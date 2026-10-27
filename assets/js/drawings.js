@@ -205,6 +205,40 @@
       anchors: [[272, 180], [172, 153], [290, 66]],
     },
 
+    /* UR5e arm with Nicholas's mount (accent) holding a laser and a depth
+       sensor. The laser projects a grid onto a wind turbine blade on the right. */
+    turbine: {
+      box: "20 16 360 196",
+      svg:
+        '<path class="ln" d="M24 202 H214"/>' +
+        // UR5e: base, shoulder, upper arm, elbow, forearm, wrist
+        '<rect class="ln solid" x="40" y="180" width="46" height="22" rx="3"/>' +
+        '<path class="ln link" d="M63 166 L122 94"/><path class="link-in" d="M63 166 L122 94"/>' +
+        '<path class="ln link" d="M122 94 L190 112"/><path class="link-in" d="M122 94 L190 112"/>' +
+        '<circle class="ln solid" cx="63" cy="166" r="13"/><circle class="ln" cx="63" cy="166" r="4"/>' +
+        '<circle class="ln solid" cx="122" cy="94" r="11"/><circle class="ln" cx="122" cy="94" r="3"/>' +
+        '<circle class="ln solid" cx="194" cy="114" r="9"/>' +
+        '<rect class="ln solid" x="200" y="106" width="14" height="18" rx="3"/>' +
+        // the mount: a plate on the wrist, holding both sensors
+        '<rect class="ln acc solid" x="214" y="94" width="12" height="54" rx="2"/>' +
+        '<path class="ln acc" d="M226 102 H232 M226 140 H232"/>' +
+        // laser (top) and depth sensor with two lenses (bottom)
+        '<rect class="ln solid" x="232" y="96" width="26" height="12" rx="2"/>' +
+        '<rect class="ln solid" x="232" y="128" width="30" height="18" rx="3"/>' +
+        '<circle class="ln" cx="256" cy="134" r="2.5"/><circle class="ln" cx="256" cy="141" r="2.5"/>' +
+        // laser fan onto the blade
+        '<path class="ln cl acc" d="M258 102 L320 62 M258 102 L328 160"/>' +
+        // blade, edge on, and the projected grid
+        '<path class="ln solid" d="M318 20 Q298 116 332 206 H364 Q350 116 350 20 Z"/>' +
+        '<circle class="fillr" cx="322" cy="78" r="2"/><circle class="fillr" cx="333" cy="78" r="2"/><circle class="fillr" cx="344" cy="78" r="2"/>' +
+        '<circle class="fillr" cx="320" cy="96" r="2"/><circle class="fillr" cx="331" cy="96" r="2"/><circle class="fillr" cx="342" cy="96" r="2"/>' +
+        '<circle class="fillr" cx="319" cy="114" r="2"/><circle class="fillr" cx="330" cy="114" r="2"/><circle class="fillr" cx="341" cy="114" r="2"/>' +
+        '<circle class="fillr" cx="320" cy="132" r="2"/><circle class="fillr" cx="331" cy="132" r="2"/><circle class="fillr" cx="342" cy="132" r="2"/>' +
+        '<circle class="fillr" cx="322" cy="150" r="2"/><circle class="fillr" cx="333" cy="150" r="2"/><circle class="fillr" cx="344" cy="150" r="2"/>' +
+        '<text class="lbl" x="334" y="14" text-anchor="middle">BLADE</text>',
+      anchors: [[218, 162], [245, 84], [250, 162]],
+    },
+
     /* FIRST competition robot: drivetrain, bumpers, elevator, claw holding a game piece */
     frc: {
       box: "40 16 300 194",

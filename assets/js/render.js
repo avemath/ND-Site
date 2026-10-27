@@ -322,18 +322,55 @@
     return parts;
   }
 
+  // Videos loop silently, but only while on screen. With reduced motion they wait
+  // on their poster frame until someone presses Play.
+  function syncVideo(v) {
+    var want = v._userWants != null ? v._userWants : !reduceMotion;
+    if (want && v._onScreen) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    else v.pause();
+  }
+  var videoQ = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { e.target._onScreen = e.isIntersecting; syncVideo(e.target); });
+  });
+  onMotionChange.push(function () { document.querySelectorAll(".art-box video").forEach(syncVideo); });
+
+  function video(item, box) {
+    var v = document.createElement("video");
+    v.muted = true; v.loop = true; v.playsInline = true;
+    v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.preload = "metadata";
+    [[item.videoWebm, "video/webm"], [item.video, "video/mp4"]].forEach(function (s) {
+      if (!s[0]) return;
+      var src = document.createElement("source");
+      src.src = s[0]; src.type = s[1];
+      v.appendChild(src);
+    });
+    if (item.imageAlt) { v.setAttribute("role", "img"); v.setAttribute("aria-label", item.imageAlt); }
+    if (item.image) v.poster = item.image;
+    figCount++;
+    var tag = el("span", "art-tag mono", ["Fig. " + (figCount < 10 ? "0" : "") + figCount + " / " + (item.mediaTag || "Video")]);
+    tag.setAttribute("aria-hidden", "true");
+    var btn = el("button", "pill pill-ghost vid-btn", ["Play"]);
+    btn.type = "button";
+    function label() {
+      var t = v.paused ? "Play" : "Pause";
+      btn.textContent = t;
+      btn.setAttribute("aria-label", t + " the " + (item.mediaTag || "video").toLowerCase());
+    }
+    v.addEventListener("play", label);
+    v.addEventListener("pause", label);
+    label();
+    btn.addEventListener("click", function () { v._userWants = v.paused; syncVideo(v); });
+    box.appendChild(tag);
+    box.appendChild(el("div", "video-wrap", [v]));
+    box.appendChild(btn);
+    box.classList.add("has-video");
+    videoQ.observe(v);
+  }
+
   function media(item, cls) {
     var box = el("div", cls);
     if (item.video) {
-      var v = document.createElement("video");
-      v.src = item.video; v.muted = true; v.loop = true; v.playsInline = true;
-      v.setAttribute("playsinline", ""); v.preload = "metadata";
-      if (item.imageAlt) v.setAttribute("aria-label", item.imageAlt);
-      if (item.image) v.poster = item.image;
-      v.controls = true;
-      if (!reduceMotion) v.autoplay = true;
-      box.appendChild(v);
-      box.classList.add("has-photo");
+      video(item, box);
     } else if (item.image) {
       var img = document.createElement("img");
       img.src = item.image; img.alt = item.imageAlt || ""; img.loading = "lazy";
@@ -436,7 +473,7 @@
       var card = el("article", "card", [
         media(p, "card-media art-box"),
         el("div", "card-body", [
-          el("p", "card-meta mono", [el("span", null, [p.dates]), el("span", null, [p.role])]),
+          el("p", "card-meta mono", [p.dates ? el("span", null, [p.dates]) : null, el("span", null, [p.role])]),
           el("h3", "card-title", [p.title]),
           p.hook ? el("p", "card-hook", [p.hook]) : null,
           p.points && p.points.length ? cardBullets(p.points, "more-" + p._id, p.robots) : null,

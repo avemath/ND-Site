@@ -177,6 +177,46 @@ window.SITE = {
       link: "",
     },
     {
+      title: "USV Path Planning",
+      timelineLabel: "USV path planning",
+      role: "iCORE Lab",
+      dates: "Mar 2026 to now",
+      hook: "I'm building a path planner for unmanned surface vessels, in simulation.",
+      points: [
+        "Tuning an artificial potential field model and an ant colony optimization model so each one works accurately on its own",
+        "Next, combining them into one planner that uses a perception system to avoid static and dynamic obstacles that weren't in the simulation, while still reaching the goal by the best path",
+      ],
+      tools: ["Python", "Matplotlib"],
+      // His Matplotlib animation of the potential field model. "image" is the still
+      // frame shown before it plays (and with reduced motion). "mediaTag" labels it.
+      video: "assets/video/usv-apf.mp4",
+      videoWebm: "assets/video/usv-apf.webm",
+      image: "assets/video/usv-apf-poster.jpg",
+      imageAlt: "Simulation of the artificial potential field model: the agent, a blue dot, moves across an X/Y grid toward the goal, a red star.",
+      mediaTag: "Simulation",
+      resume: false,                       // already covered under the iCORE Lab job on the resume
+      link: "",
+    },
+    {
+      title: "Wind Turbine Blade Inspection Mount",
+      timelineLabel: "Wind turbine mount",
+      role: "iCORE Lab",
+      dates: "",                           // QUESTION: when did he work on this?
+      hook: "I designed the mount that holds a laser and a depth sensor on a UR5e robot arm, to inspect wind turbine blades.",
+      points: [
+        "Designed the mount in SolidWorks",
+        "The laser projects a grid pattern onto the blade, and the depth sensor uses it to find surface imperfections",
+        "Built toward an eventual belt sanding system for the blades",
+      ],
+      tools: ["SolidWorks", "UR5e"],
+      art: "turbine",
+      callouts: ["Mount", "Laser projecting a grid pattern", "Depth sensor"],
+      image: "",
+      imageAlt: "",
+      resume: false,                       // already covered under the iCORE Lab job on the resume
+      link: "",
+    },
+    {
       title: "Mock Welding Robotic Arm",
       timelineLabel: "Welding arm",        // shorter name used on the timeline
       role: "iCORE Lab",
@@ -298,15 +338,17 @@ window.SITE = {
       org: "LSU iCORE Lab",
       place: "Baton Rouge, LA",
       dates: "Mar 2026 to now",
+      // QUESTION: his resume says "a laser camera and an RGB camera", but his answers say
+      // "a laser and a depth sensor". The site uses his answers. Which is right?
       points: [
-        "Research proximity hazard avoidance and path planning for unmanned surface vessels",
-        "Designed a mount for a laser camera and an RGB camera on a UR5e robotic arm to detect surface defects on wind turbine blades (ROS, Python)",
+        "Research proximity hazard avoidance and path planning for unmanned surface vessels (see Projects)",
+        "Designed a mount for a laser and a depth sensor on a UR5e robotic arm to find surface imperfections on wind turbine blades (see Projects)",
         "Built a 3D-printed 5-DOF robotic arm for mock welding (see Projects)",
       ],
       // Used on the printable resume page (resume.html) instead of "points".
       resumePoints: [
-        "Research proximity hazard avoidance and path planning for unmanned surface vessels",
-        "Designed a mount for a laser camera and an RGB camera on a UR5e robotic arm to detect surface defects on wind turbine blades (ROS, Python)",
+        "Building a path planner for unmanned surface vessels in Python, tuning artificial potential field and ant colony optimization models in simulation",
+        "Designed a SolidWorks mount for a laser and a depth sensor on a UR5e robotic arm to find surface imperfections on wind turbine blades",
         // The mock welding arm is left out here: it has its own entry under Projects on the resume.
       ],
     },
@@ -402,7 +444,8 @@ window.SITE = {
   /* ---------- Skills (spec sheet rows) ---------- */
   skills: [
     { group: "CAD", items: ["SolidWorks (since 2018)", "Onshape", "Fusion 360", "Inventor"] },
-    { group: "Code and controls", items: ["Python", "ROS 2", "MATLAB", "Arduino"] },
+    // QUESTION: what did he use ROS 2 for? (He used ROS 2, but not on the UR5e mount.)
+    { group: "Code and controls", items: ["Python", "Matplotlib", "ROS 2", "MATLAB", "Arduino"] },
     { group: "Fabrication", items: ["3D printing", "Markforged", "MIG welding", "Manual lathe", "Haas CNC", "G-code", "CNC router", "VCarve", "Drill press", "Band saw", "Miter saw"] },
   ],
 

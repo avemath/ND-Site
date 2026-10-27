@@ -79,7 +79,7 @@
   }
 
   /* projects. The featured project is left out here: it's already covered under Experience (Integer). */
-  var projects = live(S.projects);
+  var projects = live(S.projects).filter(function (p) { return p.resume !== false; });   // resume: false leaves a card off
   if (projects.length) {
     root.appendChild(section("Projects", projects.map(function (p) {
       // "resumePoints" (when set) replaces the card's bullets and result on the resume
