@@ -606,8 +606,7 @@ window.SITE = {
       { tool: "Fusion 360", usedOn: ["featured"] },
     ] },
     { group: "Code and controls", items: [
-      { tool: "Python", usedOn: ["USV Path Planning"] },
-      { tool: "Matplotlib", usedOn: ["USV Path Planning"] },
+      { tool: "Python (Matplotlib)", usedOn: ["USV Path Planning"] },
       { tool: "Arduino IDE, Arduino Uno", usedOn: ["Mock Welding Robotic Arm"] },
       // "coursework" links to the coursework band; a label can name the course work it was used in
       { tool: "MATLAB", note: "Across classes and class projects", usedOn: ["coursework"] },
@@ -622,9 +621,7 @@ window.SITE = {
       { tool: "MIG welding", usedOn: ["Manufacturing Lab Projects"] },
       { tool: "Soldering", usedOn: ["Mock Welding Robotic Arm"] },
       // his resume: he taught younger WildStang members to use hand lathes, drills, miter saws, and band saws
-      { tool: "Drill press", usedOn: ["WildStang Robotics"] },
-      { tool: "Band saw", usedOn: ["WildStang Robotics"] },
-      { tool: "Miter saw", usedOn: ["WildStang Robotics"] },
+      { tool: "Shop tools: drill press, band saw, miter saw", usedOn: ["WildStang Robotics"] },
     ] },
     // the other tags on project cards: equipment he designed for, and the standard he designed to
     { group: "Equipment and standards", items: [
