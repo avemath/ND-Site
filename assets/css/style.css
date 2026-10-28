@@ -1237,7 +1237,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 .pill-split > .pill:hover { position: relative; z-index: 1; }   /* the hovered half's border shows whole */
 @media print { .pill-pdf { display: none; } }
 
-/* ---------- timeline: his degree as a hatched bar, with his minors written above it ---------- */
+/* ---------- timeline: his degree as a hatched bar, with his minor written above it ---------- */
 .tl-key .school::before { background: repeating-linear-gradient(135deg, var(--fg) 0 1.5px, transparent 1.5px 4px); border: 1.5px solid var(--fg); }
 .tl-bar.school { background: repeating-linear-gradient(135deg, var(--fg) 0 1.5px, transparent 1.5px 4px); border: 1.5px solid var(--fg); }
 .tl-row.has-note .tl-track { height: 56px; }

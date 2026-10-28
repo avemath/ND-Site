@@ -120,7 +120,7 @@
       "@context": "https://schema.org", "@type": "Person", name: fullName,
       url: S.siteUrl || undefined, email: L.email ? "mailto:" + L.email : undefined,
       jobTitle: S.discipline ? S.discipline + " student" : undefined,
-      description: S.discipline && S.school ? S.discipline + " student at " + S.school + (S.minor ? "; minors: " + S.minor : "") : undefined,
+      description: S.discipline && S.school ? S.discipline + " student at " + S.school + (S.minor ? "; minor: " + S.minor : "") : undefined,
       affiliation: S.school ? { "@type": "CollegeOrUniversity", name: S.school } : undefined,
       knowsAbout: (S.skills || []).reduce(function (all, g) { return all.concat(g.items || []); }, [])
         .reduce(function (all, t) {   // skills are objects with a "tool" name; one row can name several tools
@@ -979,7 +979,7 @@
       var r = range(p.dates);
       if (r) rowsData.push({ label: p.timelineLabel || p.title, kind: "project", r: r, dates: p.dates, target: p._id });
     });
-    // his degree, with his minors written over its bar; the row links to the About facts
+    // his degree, with his minor written over its bar; the row links to the About facts
     var deg = T.degree && range(T.degree.dates);
     if (deg) rowsData.push({ label: T.degree.label, kind: "school", r: deg, dates: T.degree.dates, target: "about-facts",
       note: S.minor ? (/,/.test(S.minor) ? "Minors: " : "Minor: ") + S.minor : "" });
