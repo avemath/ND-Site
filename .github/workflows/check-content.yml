@@ -1,0 +1,25 @@
+# Checks content.js on every push and pull request. If something's wrong (like a
+# missing comma, a date the timeline can't read, or a photo file that isn't there),
+# the commit gets a red X on GitHub with the line number. This only checks; it
+# doesn't change or publish anything, so it can't get in the way of GitHub Pages.
+name: Check content.js
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: content.js has no syntax errors
+        run: node --check content.js
+      - name: content.js has what the site needs
+        run: node .github/scripts/check-content.js
