@@ -597,22 +597,24 @@ window.SITE = {
                links. To change a link's label, write { to: "coursework", label: "..." }.
      Tools with no usedOn are listed together on an "Also used" line at the bottom,
      unless they have row: true.
+     sheet: 1 or 2 puts a group in the left or right column on wide screens (phones
+     show the groups in the order listed here).
      The resume page has its own two Skills lines, in the "resume" block above. */
   skillsTitle: "Tools and skills, with where each was used",
   skills: [
-    { group: "CAD", items: [
+    { group: "CAD", sheet: 1, items: [
       { tool: "SolidWorks", since: 2018, usedOn: ["Senior Design: Electric Boat", "Mock Welding Robotic Arm", "Wind Turbine Blade Inspection Mount", "Robot Maze Navigation", "Inclusive Playground", "WildStang Robotics"] },
       { tool: "Onshape", note: "Led CAD at WildStang", usedOn: ["WildStang Robotics"] },
       { tool: "Fusion 360", usedOn: ["featured"] },
     ] },
-    { group: "Code and controls", items: [
+    { group: "Code and controls", sheet: 1, items: [
       { tool: "Python (Matplotlib)", usedOn: ["USV Path Planning"] },
       { tool: "Arduino IDE, Arduino Uno", usedOn: ["Mock Welding Robotic Arm"] },
       // "coursework" links to the coursework band; a label can name the course work it was used in
       { tool: "MATLAB", note: "Across classes and class projects", usedOn: ["coursework"] },
       { tool: "ROS 2", usedOn: [{ to: "coursework", label: "Industrial Robotics labs" }] },
     ] },
-    { group: "Fabrication", items: [
+    { group: "Fabrication", sheet: 2, items: [
       { tool: "3D printing (PLA, PETG)", usedOn: ["featured", "Mock Welding Robotic Arm", "Robot Maze Navigation"] },
       { tool: "Markforged (Onyx)", usedOn: ["WildStang Robotics"] },
       { tool: "CNC router, VCarve", note: "Ran the team's router", usedOn: ["WildStang Robotics"] },
@@ -624,7 +626,7 @@ window.SITE = {
       { tool: "Shop tools: drill press, band saw, miter saw", usedOn: ["WildStang Robotics"] },
     ] },
     // the other tags on project cards: equipment he designed for, and the standard he designed to
-    { group: "Equipment and standards", items: [
+    { group: "Equipment and standards", sheet: 1, items: [
       { tool: "UR5e robot arm", note: "Designed a sensor mount for it", usedOn: ["Wind Turbine Blade Inspection Mount"] },
       { tool: "ADA guidelines", usedOn: ["Inclusive Playground"] },
     ] },

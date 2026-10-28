@@ -1162,14 +1162,14 @@
     band.appendChild(pause);
   } else hide(band);
 
-  /* ======================= skills: a bill of materials =======================
-     Laid out like the parts list on a drawing. Each tool links to the project
-     cards it was used on: hovering or focusing a row outlines those cards, and
-     selecting a tag jumps to its card. Tools without a project go on one
-     "Also used" line at the bottom. Under one shared title block, the groups split
-     into two sheets (a group's "sheet" in content.js, 1 or 2; otherwise the first half
-     of the groups, then the rest), side by side on wide screens and one after the
-     other on narrow ones, numbered straight through. */
+  /* ======================= skills: a parts list in category blocks =======================
+     One thin title-block frame, then each group as a block: a small mono heading,
+     and each skill as plain text with its note beside it and the projects it was used
+     on as quiet grey links under it. Hovering or focusing a skill outlines those
+     project cards; selecting a link jumps to its card. On wide screens the groups sit
+     in two columns: a group's "sheet" in content.js (1 is the left column, 2 the
+     right), stacked top to bottom in content.js order within each column. On phones
+     they stack in content.js order. Tools without a project go on one "Also used" line. */
 
   var skills = live(S.skills);
   if (skills.length) {
@@ -1183,65 +1183,62 @@
       var w = where[typeof k === "string" ? k : k.to];
       return w && typeof k !== "string" && k.label ? { id: w.id, label: k.label } : w;
     }
-    var rowsN = 0, also = [], half = Math.ceil(skills.length / 2), bodies = [el("tbody", null, []), el("tbody", null, [])];
-    // sheet 1's groups are numbered first, then sheet 2's
-    var sheetOf = function (g, gi) { return g.sheet ? g.sheet - 1 : gi < half ? 0 : 1; };
-    skills = skills.map(function (g, gi) { return { g: g, s: sheetOf(g, gi) }; })
-      .sort(function (a, b) { return a.s - b.s; }).map(function (x) { x.g._sheet = x.s; return x.g; });
-    skills.forEach(function (g) {
-      var tbody = bodies[g._sheet];
-      var linked = function (t) { return (t.usedOn && t.usedOn.length) || t.row; };   // row: true keeps an unlinked tool in the table
+    var itemsN = 0, also = [], cols = [[], []];
+    var blocks = [];
+    skills.forEach(function (g, gi) {
+      var linked = function (t) { return (t.usedOn && t.usedOn.length) || t.row; };   // row: true keeps an unlinked tool in the list
       var listed = (g.items || []).filter(linked);
       (g.items || []).forEach(function (t) { if (!linked(t)) also.push(t.tool); });
       if (!listed.length) return;
-      var gh = el("th", "mono", [g.group]);
-      gh.colSpan = 3; gh.scope = "colgroup";
-      tbody.appendChild(el("tr", "bom-group", [gh]));
-      listed.forEach(function (t) {
-        rowsN++;
+      var block = el("section", "sk-group", [el("h3", "sk-h mono", [g.group])].concat(listed.map(function (t) {
+        itemsN++;
         var note = t.since ? (new Date().getFullYear() - t.since) + " yrs, since " + t.since : t.note;
         var targets = (t.usedOn || []).map(target).filter(Boolean);
-        var name = el("th", "bom-tool", [el("span", "bom-name", [t.tool]), note ? el("span", "bom-note mono", [note]) : null]);
-        name.scope = "row";
-        var tr = el("tr", "bom-row", [
-          el("td", "bom-n mono", [(rowsN < 10 ? "0" : "") + rowsN]),
-          name,
-          el("td", "bom-used", [el("div", "bom-links", targets.map(function (w) {
-            var a = el("a", "bom-link mono", [w.label]);
-            a.href = "#" + w.id;
-            a.addEventListener("click", function () {
-              var c = document.getElementById(w.id);
-              if (!c) return;
-              // after the browser follows the link: focus the card and flash it (a steady
-              // outline instead of the flash when motion is reduced)
-              setTimeout(function () {
-                jumpTo(c);
-                if (reduceMotion) { c.classList.add("skill-hot"); setTimeout(function () { c.classList.remove("skill-hot"); }, 1600); }
-              }, 0);
-            });
-            return a;
-          }))]),
-        ]);
+        var used = el("p", "sk-used", []);
+        targets.forEach(function (w, i) {
+          if (i) used.appendChild(el("span", "sk-dot", [" · "]));
+          var a = el("a", null, [w.label]);
+          a.href = "#" + w.id;
+          a.addEventListener("click", function () {
+            var c = document.getElementById(w.id);
+            if (!c) return;
+            // after the browser follows the link: focus the card and flash it (a steady
+            // outline instead of the flash when motion is reduced)
+            setTimeout(function () {
+              jumpTo(c);
+              if (reduceMotion) { c.classList.add("skill-hot"); setTimeout(function () { c.classList.remove("skill-hot"); }, 1600); }
+            }, 0);
+          });
+          used.appendChild(a);
+        });
+        var item = el("div", "sk-item", [el("p", "sk-name", [t.tool, note ? " " : null, note ? el("span", "sk-note mono", [note]) : null]), used]);
         function mark(on) {
           targets.forEach(function (w) { var c = document.getElementById(w.id); if (c) c.classList.toggle("skill-hot", on); });
         }
-        tr.addEventListener("mouseenter", function () { mark(true); });
-        tr.addEventListener("mouseleave", function () { mark(false); });
-        tr.addEventListener("focusin", function () { mark(true); });
-        tr.addEventListener("focusout", function () { mark(false); });
-        tbody.appendChild(tr);
+        item.addEventListener("mouseenter", function () { mark(true); });
+        item.addEventListener("mouseleave", function () { mark(false); });
+        item.addEventListener("focusin", function () { mark(true); });
+        item.addEventListener("focusout", function () { mark(false); });
+        return item;
+      })));
+      var col = g.sheet ? g.sheet - 1 : (gi < Math.ceil(skills.length / 2) ? 0 : 1);
+      cols[Math.min(1, Math.max(0, col))].push(block);
+      blocks.push(block);
+    });
+    // wide screens: each column's groups stack top to bottom; the last group in the
+    // shorter column takes the remaining rows, so the other column never pushes it down
+    var rows = Math.max(cols[0].length, cols[1].length, 1);
+    cols.forEach(function (list, c) {
+      list.forEach(function (b, i) {
+        b.style.setProperty("--col", c + 1);
+        b.style.setProperty("--row", (i + 1) + (i === list.length - 1 ? " / " + (rows + 1) : ""));
       });
     });
-    var sheets = bodies.filter(function (b) { return b.children.length; }).map(function (b) {
-      return el("div", "bom-sheet", [el("table", "bom-table", [
-        el("thead", "mono", [el("tr", null, ["Item", "Tool", "Used on"].map(function (h) { var th = el("th", null, [h]); th.scope = "col"; return th; }))]),
-        b,
-      ])]);
-    });
-    var cell = function (k, v) { return el("span", "bom-cell", [el("span", "bom-k", [k]), el("span", "bom-v", [v])]); };
+    var groupsBox = el("div", "sk-groups", blocks);
+    groupsBox.style.setProperty("--rows", rows > 1 ? "repeat(" + (rows - 1) + ", auto) 1fr" : "auto");
     sk.appendChild(el("div", "bom", [
-      el("div", "bom-head mono", [cell("Title", S.skillsTitle || "Tools and skills"), cell("Type", "Parts list"), cell("Items", String(rowsN))]),
-      el("div", "bom-sheets", sheets),
+      el("p", "bom-title mono", [el("span", null, [S.skillsTitle || "Tools and skills"]), el("span", null, [itemsN + " items"])]),
+      groupsBox,
       also.length ? el("p", "bom-also", [el("span", "bom-also-k mono", [(S.skillsAlsoLabel || "Also used") + ":"]), " " + also.join(", ")]) : null,
       S.skillsHint ? el("p", "bom-hint mono", [
         el("span", "hint-mouse", [S.skillsHint]),

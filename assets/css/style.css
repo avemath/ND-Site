@@ -1034,53 +1034,31 @@ body.menu-open .bar-sec { visibility: hidden; }
   .rev-panel:hover .rev-photo img { scale: none; }
 }
 
-/* ---------- Skills: a bill of materials, like the parts list on a drawing ----------
-   A white sheet with a heavy drawing border and a title-block header. Each tool is
-   a numbered item; its tags link to the project cards it was used on. */
-.bom { background: #fff; border: 1.5px solid #111; border-radius: 4px; overflow: hidden; box-shadow: 0 16px 32px -14px rgba(0,0,0,.16); }
-.bom-head { display: grid; grid-template-columns: 1fr auto auto; border-bottom: 1.5px solid #111; }
-.bom-cell { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-left: 1px solid #111; }
-.bom-cell:first-child { border-left: 0; }
-.bom-k { font-size: 0.7rem; color: var(--fg-3); }
-.bom-v { font-size: 0.8rem; color: #111; }
-.bom-table { width: 100%; border-collapse: collapse; }
-.bom-table thead th { padding: 10px 16px; border-bottom: 1px solid #111; background: #F6F7F9; text-align: left; font-size: 0.7rem; font-weight: 400; color: var(--fg-3); }
-.bom-table thead th + th, .bom-row > * + * { border-left: 1px solid var(--card-ln); }
-.bom-group th { padding: 16px 16px 8px; border-top: 1px solid #111; text-align: left; font-size: 0.75rem; font-weight: 700; letter-spacing: .08em; color: var(--fg); }
-.bom-group:first-child th { border-top: 0; }
-.bom-row > * { padding: 11px 16px; border-top: 1px solid #E3E5E9; vertical-align: middle; text-align: left; }
-.bom-n { width: 1%; font-size: 0.75rem; font-weight: 700; color: var(--fg-3); }
-.bom-tool { width: 30%; font-weight: 500; }
-.bom-name { display: block; }
-.bom-note { display: block; margin-top: 3px; font-size: 0.7rem; font-weight: 400; color: var(--fg-3); }
-.bom-links { display: flex; flex-wrap: wrap; gap: 6px; }
-.bom-link {
-  display: inline-flex; align-items: center; min-height: 30px; padding: 2px 11px;
-  border: 1px solid var(--tag); border-radius: 999px; font-size: 0.7rem; color: #111; text-decoration: none;
-  transition: border-color .15s var(--ease), color .15s var(--ease), background-color .15s var(--ease);
-}
-.bom-link:hover, .bom-link:focus-visible { border-color: var(--accent); color: var(--accent); }
-/* the row under the pointer (or holding keyboard focus) is selected, like a row in a parts list */
-.bom-row { position: relative; transition: background-color .15s var(--ease); }
-.bom-row:hover, .bom-row:focus-within { background: var(--tint); }
-.bom-row:hover .bom-link, .bom-row:focus-within .bom-link { border-color: var(--accent); color: var(--accent); }
-.bom-also { margin: 0; padding: 12px 16px; border-top: 1px solid #111; font-size: 1rem; color: var(--fg-2); }
+/* ---------- Skills: a parts list in category blocks ----------
+   One thin title-block frame (the title and the item count), then the groups as
+   blocks: a small mono heading with a thin rule, and each skill as plain text with
+   its note beside it and the projects it was used on as quiet grey links under it.
+   On wide screens the groups sit in two columns (a group's "sheet" in content.js);
+   on phones they stack in content.js order. */
+.bom { background: #fff; border: 1.5px solid #111; border-radius: 4px; box-shadow: 0 16px 32px -18px rgba(0,0,0,.16); }
+.bom-title { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; margin: 0; padding: 12px 20px; border-bottom: 1.5px solid #111; font-size: .72rem; letter-spacing: .06em; color: #111; }
+.sk-groups { display: grid; gap: 26px; padding: 26px clamp(16px, 3vw, 40px) 14px; }
+@media (min-width: 900px) { .sk-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 72px); row-gap: 26px; align-items: start; } }
+.sk-h { margin: 0 0 4px; padding-bottom: 8px; border-bottom: 1px solid #111; font-size: .72rem; font-weight: 700; letter-spacing: .08em; color: #111; }
+.sk-item { position: relative; padding: 10px 0 9px; border-bottom: 1px solid #EEF0F3; }
+.sk-item:last-child { border-bottom: 0; }
+.sk-name { margin: 0; font-size: 1.125rem; font-weight: 500; line-height: 1.3; color: #111; }
+.sk-note { display: inline-block; margin-left: 0; font-size: .68rem; font-weight: 400; letter-spacing: .06em; color: var(--fg-3); vertical-align: 2px; }
+.sk-used { margin: 3px 0 0; font-size: .95rem; line-height: 1.5; color: var(--fg-3); }
+.sk-used a { color: var(--fg-3); text-decoration: none; text-underline-offset: 3px; }
+.sk-used a:hover, .sk-used a:focus-visible { color: var(--accent); text-decoration: underline; }
+.sk-item:hover .sk-used a, .sk-item:focus-within .sk-used a { color: var(--accent); }   /* the skill's projects light up, and so do their cards */
+.sk-dot { color: #B5B9C0; }
+.bom-also { margin: 0; padding: 12px 20px; border-top: 1px solid #111; font-size: 1rem; color: var(--fg-2); }
 .bom-also-k { font-size: 0.7rem; color: var(--fg-3); }
-.bom-hint { margin: 0; padding: 10px 16px; border-top: 1.5px solid #111; font-size: 0.7rem; color: var(--fg-3); }
-/* project cards a Skills row points to get a blue outline */
+.bom-hint { margin: 0; padding: 10px 20px; border-top: 1px solid #111; font-size: 0.7rem; color: var(--fg-3); }
+/* project cards a skill points to get a blue outline */
 .card.skill-hot, .feature.skill-hot { border-color: var(--accent); }
-/* phones: each row stacks (number, tool and note, then its project tags) */
-@media (max-width: 640px) {
-  .bom-head { grid-template-columns: 1fr 1fr; }
-  .bom-head .bom-cell:first-child { grid-column: 1 / -1; border-bottom: 1px solid #111; }
-  .bom-head .bom-cell:nth-child(2) { border-left: 0; }
-  .bom-table thead { display: none; }
-  .bom-row { display: grid; grid-template-columns: 2.4em minmax(0, 1fr); padding: 10px 16px; border-top: 1px solid #E3E5E9; }
-  .bom-row > * { padding: 2px 0; border: 0 !important; width: auto; }
-  .bom-row .bom-used { grid-column: 2; padding-top: 6px; }
-  .bom-group th { display: block; }
-}
-@media (prefers-reduced-motion: reduce) { .bom-row, .bom-link { transition: none; } }
 @media print { .bom { box-shadow: none; } .bom-hint { display: none; } }
 /* hints that differ by device: the mouse wording by default, the touch wording on touch screens */
 .hint-touch { display: none; }
@@ -1208,8 +1186,8 @@ body.menu-open .bar-sec { visibility: hidden; }
 
 /* mono labels: one letter-spacing for labels and buttons, a wider one for table and
    title-block headers (set here so a parent's tracking doesn't carry over in px) */
-.media-tab, .card-more, .rev-more, .gal-cap, .gal-count, .facts dt, .bom-k, .bom-v, .bom-note, .bom-link, .rev-tag, .rev-year, .tag { letter-spacing: .06em; }
-.bom-table thead th, .bom-group th, .bom-also-k, .num::before { letter-spacing: .08em; }
+.media-tab, .card-more, .rev-more, .gal-cap, .gal-count, .facts dt, .rev-tag, .rev-year, .tag { letter-spacing: .06em; }
+.bom-also-k, .num::before { letter-spacing: .08em; }
 
 /* one line weight across the drawings: the big featured drawing and the schematic
    are drawn larger, so their lines are set thinner to land near the cards' ~1.4px */
@@ -1223,7 +1201,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 /* one "selected" look across the site: the CAD corner brackets the cards use, here on
    robot panels and Skills rows too (hover, keyboard focus, or the open robot) */
 .rev-panel { position: relative; }
-.rev-panel::after, .bom-row::after {
+.rev-panel::after {
   content: ""; position: absolute; inset: 8px; z-index: 2; pointer-events: none; opacity: 0;
   --b: linear-gradient(var(--accent), var(--accent));
   background:
@@ -1234,9 +1212,8 @@ body.menu-open .bar-sec { visibility: hidden; }
   background-repeat: no-repeat;
   transition: opacity .15s var(--ease);
 }
-.bom-row::after { inset: 4px 6px; }
-@media (hover: hover) { .rev-panel:hover::after, .bom-row:hover::after { opacity: 1; } }
-.rev-panel[aria-expanded="true"]::after, .rev-panel:focus-visible::after, .bom-row:focus-within::after { opacity: 1; }
+@media (hover: hover) { .rev-panel:hover::after { opacity: 1; } }
+.rev-panel[aria-expanded="true"]::after, .rev-panel:focus-visible::after { opacity: 1; }
 
 /* ---------- featured card: the picture and the spec table share the left column ----------
    On a wide card they stay in view together under the top bar while the text scrolls
@@ -1305,21 +1282,7 @@ body.menu-open .bar-sec { visibility: hidden; }
 /* in a stretched card the drawing scales up to nearly the full width (it stays centered top to bottom) */
 .cards .card.is-filled .drawing-wrap { padding-left: 8px; padding-right: 8px; }
 
-/* ---------- Skills, compact: tighter rows, each note on the tool's own line when there's
-   room (it wraps under the name when there isn't), and two parts-list sheets side by
-   side under the shared title block from 1100px up ---------- */
-@media (min-width: 641px) {
-  .bom-row > * { padding-top: 7px; padding-bottom: 7px; }
-  .bom-group th { padding: 12px 16px 6px; }
-}
-@media (max-width: 640px) { .bom-row { padding-top: 8px; padding-bottom: 8px; } .bom-row .bom-used { padding-top: 4px; } }
-.bom-name { display: inline; margin-right: 10px; }
-.bom-note { display: inline-block; margin-top: 0; }
-.bom-sheet + .bom-sheet { border-top: 1px solid #111; }
-.bom-sheet + .bom-sheet thead { display: none; }   /* one column: it reads as one table */
-@media (min-width: 1100px) {
-  .bom-sheets { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
-  .bom-sheet + .bom-sheet { border-top: 0; border-left: 1.5px solid #111; }
-  .bom-sheet + .bom-sheet thead { display: table-header-group; }
-  .bom-sheet .bom-tool { width: 44%; }   /* names stay on one line; the tags wrap instead */
+@media (min-width: 900px) {
+  .sk-groups { grid-template-rows: var(--rows, auto); }
+  .sk-group { grid-column: var(--col, auto); grid-row: var(--row, auto); }
 }
