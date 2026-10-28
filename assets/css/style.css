@@ -1304,3 +1304,22 @@ body.menu-open .bar-sec { visibility: hidden; }
 .cards .card.is-filled .card-media.has-tabs:has(> .tab-stack > .tab-media.has-photo:first-child) > .tab-stack { flex: 1; aspect-ratio: auto; }   /* a photo tab grows too (overrides its 4:3) */
 /* in a stretched card the drawing scales up to nearly the full width (it stays centered top to bottom) */
 .cards .card.is-filled .drawing-wrap { padding-left: 8px; padding-right: 8px; }
+
+/* ---------- Skills, compact: tighter rows, each note on the tool's own line when there's
+   room (it wraps under the name when there isn't), and two parts-list sheets side by
+   side under the shared title block from 1100px up ---------- */
+@media (min-width: 641px) {
+  .bom-row > * { padding-top: 7px; padding-bottom: 7px; }
+  .bom-group th { padding: 12px 16px 6px; }
+}
+@media (max-width: 640px) { .bom-row { padding-top: 8px; padding-bottom: 8px; } .bom-row .bom-used { padding-top: 4px; } }
+.bom-name { display: inline; margin-right: 10px; }
+.bom-note { display: inline-block; margin-top: 0; }
+.bom-sheet + .bom-sheet { border-top: 1px solid #111; }
+.bom-sheet + .bom-sheet thead { display: none; }   /* one column: it reads as one table */
+@media (min-width: 1100px) {
+  .bom-sheets { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+  .bom-sheet + .bom-sheet { border-top: 0; border-left: 1.5px solid #111; }
+  .bom-sheet + .bom-sheet thead { display: table-header-group; }
+  .bom-sheet .bom-tool { width: 44%; }   /* names stay on one line; the tags wrap instead */
+}

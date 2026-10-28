@@ -121,7 +121,10 @@
       description: S.discipline && S.school ? S.discipline + " student at " + S.school + (S.minor ? "; minors: " + S.minor : "") : undefined,
       affiliation: S.school ? { "@type": "CollegeOrUniversity", name: S.school } : undefined,
       knowsAbout: (S.skills || []).reduce(function (all, g) { return all.concat(g.items || []); }, [])
-        .map(function (t) { return String(t.tool || t).replace(/\s*\(.*?\)/g, ""); }),   // skills are objects with a "tool" name
+        .reduce(function (all, t) {   // skills are objects with a "tool" name; one row can name several tools
+          var s = String(t.tool || t).replace(/^[^:]*:\s*/, "").replace(/\s*\(([^)]*)\)/g, ", $1");
+          return all.concat(s.split(/\s*,\s*/).filter(Boolean));
+        }, []),
       sameAs: [L.linkedin, L.github].filter(Boolean),
     };
     var tag = document.createElement("script");
@@ -1163,7 +1166,10 @@
      Laid out like the parts list on a drawing. Each tool links to the project
      cards it was used on: hovering or focusing a row outlines those cards, and
      selecting a tag jumps to its card. Tools without a project go on one
-     "Also used" line at the bottom. */
+     "Also used" line at the bottom. Under one shared title block, the groups split
+     into two sheets (a group's "sheet" in content.js, 1 or 2; otherwise the first half
+     of the groups, then the rest), side by side on wide screens and one after the
+     other on narrow ones, numbered straight through. */
 
   var skills = live(S.skills);
   if (skills.length) {
@@ -1177,8 +1183,13 @@
       var w = where[typeof k === "string" ? k : k.to];
       return w && typeof k !== "string" && k.label ? { id: w.id, label: k.label } : w;
     }
-    var rowsN = 0, also = [], tbody = el("tbody", null, []);
+    var rowsN = 0, also = [], half = Math.ceil(skills.length / 2), bodies = [el("tbody", null, []), el("tbody", null, [])];
+    // sheet 1's groups are numbered first, then sheet 2's
+    var sheetOf = function (g, gi) { return g.sheet ? g.sheet - 1 : gi < half ? 0 : 1; };
+    skills = skills.map(function (g, gi) { return { g: g, s: sheetOf(g, gi) }; })
+      .sort(function (a, b) { return a.s - b.s; }).map(function (x) { x.g._sheet = x.s; return x.g; });
     skills.forEach(function (g) {
+      var tbody = bodies[g._sheet];
       var linked = function (t) { return (t.usedOn && t.usedOn.length) || t.row; };   // row: true keeps an unlinked tool in the table
       var listed = (g.items || []).filter(linked);
       (g.items || []).forEach(function (t) { if (!linked(t)) also.push(t.tool); });
@@ -1221,14 +1232,16 @@
         tbody.appendChild(tr);
       });
     });
-    var table = el("table", "bom-table", [
-      el("thead", "mono", [el("tr", null, ["Item", "Tool", "Used on"].map(function (h) { var th = el("th", null, [h]); th.scope = "col"; return th; }))]),
-      tbody,
-    ]);
+    var sheets = bodies.filter(function (b) { return b.children.length; }).map(function (b) {
+      return el("div", "bom-sheet", [el("table", "bom-table", [
+        el("thead", "mono", [el("tr", null, ["Item", "Tool", "Used on"].map(function (h) { var th = el("th", null, [h]); th.scope = "col"; return th; }))]),
+        b,
+      ])]);
+    });
     var cell = function (k, v) { return el("span", "bom-cell", [el("span", "bom-k", [k]), el("span", "bom-v", [v])]); };
     sk.appendChild(el("div", "bom", [
       el("div", "bom-head mono", [cell("Title", S.skillsTitle || "Tools and skills"), cell("Type", "Parts list"), cell("Items", String(rowsN))]),
-      table,
+      el("div", "bom-sheets", sheets),
       also.length ? el("p", "bom-also", [el("span", "bom-also-k mono", [(S.skillsAlsoLabel || "Also used") + ":"]), " " + also.join(", ")]) : null,
       S.skillsHint ? el("p", "bom-hint mono", [
         el("span", "hint-mouse", [S.skillsHint]),
