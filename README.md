@@ -55,9 +55,11 @@ Since he's a mechanical engineer, I added a few engineering touches:
   current roles marked Now. Selecting a job on the timeline scrolls to its line and
   highlights it. Each line can link to its project cards (`cards` in `content.js`),
   and `segments` splits one timeline row into separate bars (the two server jobs).
-- Skills is laid out like the parts list (bill of materials) on an engineering
-  drawing. Each tool links to the projects it was used on: hovering a row outlines
-  those project cards, and selecting a project jumps to its card.
+- Skills is four groups (CAD, Code and controls, Fabrication, Equipment and
+  standards) inside one thin title-block frame. Under each skill, the projects it
+  was used on are grey links: hovering a skill outlines those project cards, and
+  selecting a project jumps to its card. On a wide screen the groups sit in two
+  columns; `sheet: 1` or `sheet: 2` on a group in `content.js` picks its column.
 - In "Off the clock", the piano and the guitar are playable (the guitar is in
   standard tuning and shows the note you played), and the drone's propellers spin
   when you hover over or tap its card.
