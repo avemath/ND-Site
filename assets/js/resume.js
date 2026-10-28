@@ -6,7 +6,12 @@
   "use strict";
   var S = window.SITE, root = document.getElementById("resume");
   if (!root) return;
-  if (!S) { root.innerHTML = '<p class="noscript">content.js didn\'t load. Check it for a missing quote or comma.</p>'; return; }
+  if (!S) {
+    // content.js didn't load or has a mistake: show what and where (assets/js/content-guard.js)
+    if (window.showContentError) window.showContentError(root);
+    else root.innerHTML = '<p class="noscript">content.js didn\'t load. Check it for a missing quote or comma.</p>';
+    return;
+  }
   var R = S.resume || {}, L = S.links || {};
 
   function el(tag, cls, kids) {

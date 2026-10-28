@@ -39,7 +39,9 @@
   </nav>
   <main class="sheet" id="resume"></main>
   <noscript><p class="noscript">This page needs JavaScript turned on to show the resume.</p></noscript>
-  <script src="content.js"></script>
+  <!-- content-guard.js turns a mistake in content.js into a clear message instead of a blank page -->
+  <script src="assets/js/content-guard.js"></script>
+  <script src="content.js" onerror="window.SITE_ERROR = { message: 'content.js could not be loaded. It may be missing, renamed, or not in the main folder.', line: 0 }"></script>
   <script src="assets/js/resume.js"></script>
 </body>
 </html>

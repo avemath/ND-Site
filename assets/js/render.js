@@ -7,8 +7,10 @@
 
   var S = window.SITE;
   if (!S) {
-    document.getElementById("main").innerHTML =
-      '<p class="load-error">content.js didn\'t load. Check it for a missing quote or comma.</p>';
+    // content.js didn't load or has a mistake: show what and where (assets/js/content-guard.js)
+    var mainEl = document.getElementById("main");
+    if (window.showContentError) window.showContentError(mainEl);
+    else mainEl.innerHTML = '<p class="load-error">content.js didn\'t load. Check it for a missing quote or comma.</p>';
     return;
   }
 

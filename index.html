@@ -150,7 +150,9 @@
 
 
   <!-- content.js must load before render.js -->
-  <script src="content.js"></script>
+  <!-- content-guard.js turns a mistake in content.js into a clear message instead of a blank page -->
+  <script src="assets/js/content-guard.js"></script>
+  <script src="content.js" onerror="window.SITE_ERROR = { message: 'content.js could not be loaded. It may be missing, renamed, or not in the main folder.', line: 0 }"></script>
   <script src="assets/js/drawings.js"></script>
   <script src="assets/js/model3d.js"></script>
   <script src="assets/js/render.js"></script>
