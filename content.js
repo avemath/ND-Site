@@ -20,17 +20,16 @@
 
    QUESTIONS FOR NICHOLAS (still open; each one is also marked // QUESTION below)
    1. BlueROV2: is the BlueLink SARbot BlueROV2 Heavy based?
-   2. Senior design: is the competition ASNE's Promoting Electric Propulsion (PEP)?
-   3. Senior design: what does the radio frequency controller do?
-   4. WildStang: were the 40 to 50 hours a week during build season?
-   5. Welding arm: does a Sharpie stand in for the welding torch?
-   6. Welding arm: Arduino Uno R3 or R4? (His wiring schematic says R3; the site says R4.)
-   7. Welding arm: what does the Raspberry Pi do?
-   8. Welding arm: which motor controller board is it?
-   9. Wind turbine mount: when did he work on it? (no dates yet, so it's not on the timeline)
-   10. Open to relocating?
-   11. Is there a public repo for the USV path planner he could link?
-   12. Who is his iCORE Lab advisor (to name on the site, if he wants)?
+   2. Senior design: what does the radio frequency controller do?
+   3. WildStang: were the 40 to 50 hours a week during build season?
+   4. Welding arm: does a Sharpie stand in for the welding torch?
+   5. Welding arm: Arduino Uno R3 or R4? (His wiring schematic says R3; the site says R4.)
+   6. Welding arm: what does the Raspberry Pi do?
+   7. Welding arm: which motor controller board is it?
+   8. Wind turbine mount: when did he work on it? (no dates yet, so it's not on the timeline)
+   9. Open to relocating?
+   10. Is there a public repo for the USV path planner he could link?
+   11. Who is his iCORE Lab advisor (to name on the site, if he wants)?
    ========================================================================== */
 
 window.SITE = {
@@ -128,7 +127,7 @@ window.SITE = {
     ],
     projects: [
       { title: "Senior Design: Electric Boat", dates: "Aug 2026 to May 2027", points: [
-        "Team lead for a team of 8 (4 mechanical, 3 electrical, 1 computer engineer) building an electric boat for ASNE's Promoting Electric Propulsion (PEP) national student competition, sponsored by ONR",
+        "Team lead for a team of 8 (4 mechanical, 3 electrical, 1 computer engineer) building an electric boat for the Promoting Electric Propulsion (PEP) national student competition, sponsored by ASNE and ONR",
         "Designing the custom, jet-ski-inspired hull in SolidWorks",
         "Leading the first LSU senior design team to take on this project, designing a new boat on a $7,000 first-year budget",
       ] },
@@ -328,8 +327,7 @@ window.SITE = {
       timelineLabel: "Senior design",
       role: "Team lead, team of 8 (4 mechanical, 3 electrical, 1 computer engineer)",
       dates: "Aug 2026 to May 2027",       // a two-semester course
-      // QUESTION: confirm the competition name (he said "Mike Briscoe ASNE ONR national competition")
-      hook: "I'm leading a team of 8 building an electric boat with a custom, jet-ski-inspired hull for ASNE's Promoting Electric Propulsion (PEP) competition, a national student competition sponsored by ONR.",
+      hook: "I'm leading a team of 8 building an electric boat with a custom, jet-ski-inspired hull for the Promoting Electric Propulsion (PEP) competition, a national student competition sponsored by ASNE and ONR.",
       points: [
         "Designing the custom hull in SolidWorks",
         // his team is the first to take on this project, so it gets the larger first-year
