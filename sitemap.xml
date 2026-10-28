@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Tells search engines which pages the site has. If the site moves to
-     Nicholas's GitHub, update both addresses (the README lists every spot). -->
+<!-- Tells search engines which pages the site has. If the site address ever
+     changes, update both addresses (the README lists every spot). -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://avemath.github.io/nmdomke/</loc>
+    <loc>https://nmdomke.github.io/</loc>
   </url>
   <url>
-    <loc>https://avemath.github.io/nmdomke/resume.html</loc>
+    <loc>https://nmdomke.github.io/resume.html</loc>
   </url>
 </urlset>

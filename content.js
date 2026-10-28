@@ -110,10 +110,10 @@ window.SITE = {
   // Shown in the drawing title block in the footer. Bump the letter (C, D, E...)
   // whenever the site gets a real update, like a revision on an engineering drawing.
   revision: "D",
-  // The live address. Update this if the site moves to his own GitHub account.
-  siteUrl: "https://avemath.github.io/nmdomke/",
+  // The live address. If it ever changes, see "If the site address changes" in the README.
+  siteUrl: "https://nmdomke.github.io/",
 
-  // Under his name at the top. TODO: confirm (see private notes)
+  // Under his name at the top. TODO: confirm with Nicholas
   tagline:
     "I design robot parts in CAD, build them in the shop, and test them in the real world.",
 
