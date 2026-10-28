@@ -18,9 +18,9 @@
     return d;
   }
 
-  /* Wiring schematic for the welding arm, redrawn from Nicholas's drawing (his
-     original is in the private folder, not this repo). Stacked top to bottom in the
-     order the signal flows, with only the parts, pins, and wires he drew.
+  /* Wiring schematic for the welding arm, based on Nicholas's own wiring schematic.
+     Stacked top to bottom in the order the signal flows, with only the parts, pins,
+     and wires he drew.
      d1, d2, d3 lengthen the three runs of wire (Pi to Arduino, Arduino to motor
      controller, controller to servos); render.js stretches them the same way to fill
      a taller picture area.

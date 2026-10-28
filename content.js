@@ -20,8 +20,7 @@
 
    PRIVACY NOTE
    The repo is public, so everything in this file is public too, even the
-   comments. His phone number is intentionally NOT on the site. A "TODO: confirm"
-   note points to notes kept outside this repo.
+   comments. His phone number is intentionally NOT on the site.
    ========================================================================== */
 
 /* ---------- TEMPLATES (copy, paste, and fill in) ----------
@@ -231,7 +230,7 @@ window.SITE = {
   ],
 
   /* ---------- About ----------
-     Each string is one paragraph. TODO: confirm (see private notes) */
+     Each string is one paragraph. TODO: confirm with Nicholas */
   about: [
     "I started using SolidWorks in 2018 on my high school FIRST Robotics Competition team, WildStang. " +
       "Over four years I built five robots with the team, drove every season, and was the team's primary lead my junior and senior years. " +
@@ -274,7 +273,7 @@ window.SITE = {
       { label: "Role", value: "Mechanical Engineering Intern" },
       { label: "CAD", value: "Fusion 360" },
       { label: "Materials", value: "PLA, PETG" },
-      // TODO: confirm (see private notes)
+      // TODO: confirm with Nicholas
       { label: "Vehicle", value: "BlueLink SARbot (BlueROV2 Heavy based)" },
     ],
     art: "rov",
@@ -338,12 +337,12 @@ window.SITE = {
         "Verified the CAD model in simulation software, then measured the real arm against it",
         "3D printed the arm and end effector",
         "Soldered wires to the servos' potentiometers so the arm could read its joint positions",
-        // TODO: confirm (see private notes)
+        // TODO: confirm with Nicholas
         "Wired the electronics around an Arduino Uno R4",
       ],
       result: "Measured 0.83% position error over 5 straight-line runs, comparing where the end effector ended up with where it should have been.",
       tools: ["SolidWorks", "3D printing", "Arduino Uno R4", "Arduino IDE", "Soldering"],
-      art: "arm",                          // TODO: confirm (see private notes)
+      art: "arm",                          // TODO: confirm with Nicholas
       callouts: ["End effector", "Servo potentiometers", "Arduino Uno R4"],
       // His real CAD as an interactive 3D model. It replaces the drawing once it loads;
       // the drawing stays if it can't. Rebuilt from his STEP files (see the README).
@@ -359,7 +358,7 @@ window.SITE = {
       tabs: [
         { label: "3D model" },
         // His wiring schematic, redrawn in assets/js/drawings.js ("wiring"). The labels say
-        // only what his drawing shows. TODO: confirm (see private notes)
+        // only what his drawing shows. TODO: confirm with Nicholas
         { label: "Wiring", schematic: "wiring", tag: "Schematic",   // tag: the label after "Fig. 0N /"
           hint: "Hover or tap a part to see its connections.",
           hintTouch: "Tap a part to see its connections.",
@@ -390,7 +389,7 @@ window.SITE = {
         // his team is the first to take on this project, so it gets the larger first-year
         // budget (returning teams get a smaller one to revise their previous boat)
         "Leading the first LSU senior design team to take on this project, designing a new boat on a $7,000 first-year budget",
-        "Our design uses a radio frequency controller for communications",   // TODO: confirm (see private notes)
+        "Our design uses a radio frequency controller for communications",   // TODO: confirm with Nicholas
       ],
       tools: ["SolidWorks"],
       art: "boat",
@@ -403,7 +402,7 @@ window.SITE = {
       title: "Wind Turbine Blade Inspection Mount",
       timelineLabel: "Wind turbine mount",
       role: "iCORE Lab",
-      dates: "",                           // TODO: confirm (see private notes)
+      dates: "",                           // TODO: confirm with Nicholas
       hook: "I designed the mount that holds a laser and a depth sensor on a UR5e robot arm, to inspect wind turbine blades.",
       points: [
         "Designed the mount in SolidWorks",
@@ -483,7 +482,7 @@ window.SITE = {
         "Co-led the team sophomore year, then was primary team lead junior and senior years, and drove in competition all four years as one of the team's two drivers",
         "Built 5 competition robots in 4 years on a team of about 80",
         "Led CAD in SolidWorks and Onshape and trained younger members on CAD and power tools",
-        "Put in 40 to 50 hours a week in the shop during build season",   // TODO: confirm (see private notes)
+        "Put in 40 to 50 hours a week in the shop during build season",   // TODO: confirm with Nicholas
       ],
       // a link under the card to the "Five robots, four seasons" strip (robots, below)
       moreLink: { label: "See all 5 robots", href: "#robots" },
@@ -706,7 +705,7 @@ window.SITE = {
   /* ---------- Off the clock (hobbies) ----------
      Nicholas said yes to this being public (Oct 2026). Shows on a blue panel
      above "Let's talk", with its own menu link. Delete an item to remove it.
-     TODO: confirm (see private notes) */
+     TODO: confirm with Nicholas */
   hobbies: {
     title: "Off the clock",
     menuLabel: "Off the clock",

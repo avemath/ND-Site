@@ -1,18 +1,21 @@
 # Nicholas Domke's portfolio site
 
-I built this site for Nicholas Domke, and I keep it up to date. It's his portfolio
-and a longer version of his resume. It's hosted for free on GitHub Pages (GitHub's
-service that turns a repo into a website).
+This is your portfolio site: a longer version of your resume, with your projects,
+your experience, and a little about you. It lives in your GitHub account and is
+hosted for free on GitHub Pages (GitHub's service that turns a repo into a website).
+Ave (GitHub: avemath) built it and is a collaborator on the repo, so she can help
+keep it up to date.
 
 It's just plain HTML, CSS, and JavaScript files. There's no build step (nothing to
-compile or convert first) and nothing to install.
+compile or convert first) and nothing to install. Almost everything you'll want to
+change is in one file, `content.js`.
 
-Live site: https://avemath.github.io/nmdomke/
-Printable resume: `resume.html` (the same address with `resume.html` on the end)
+Live site: https://nmdomke.github.io/
+Printable resume: https://nmdomke.github.io/resume.html
 
 ## What the site looks like
 
-I based the design on nothing.tech:
+The design is based on nothing.tech:
 
 - The big lettering is dot-matrix type, using Doto, a free Google font.
 - The page has a black top section (the hero) and a black contact section. In
@@ -36,13 +39,13 @@ I based the design on nothing.tech:
 - The menu opens full screen.
 - The top section has a grid of dots that reacts to the mouse.
 - Each project has a line drawing that sketches itself in as you scroll to it.
-- The welding arm card shows Nicholas's real CAD as a 3D model, drawn in the same
-  line style, with his end effector in blue. Hovering over the card (or tapping it
-  on a phone) pulls the end effector apart like an exploded view on an assembly
-  drawing, and you can drag the arm to turn it a little.
+- The welding arm card shows your real CAD as a 3D model, drawn in the same line
+  style, with your end effector in blue. Hovering over the card (or tapping it on a
+  phone) pulls the end effector apart like an exploded view on an assembly drawing,
+  and you can drag the arm to turn it a little.
 - Headings "decode" into place, like a scrambled sign settling.
 
-Since he's a mechanical engineer, I added a few engineering touches:
+A few engineering touches, since you're a mechanical engineer:
 
 - The footer looks like the title block in the corner of an engineering drawing.
 - A gear in the top bar turns as you scroll.
@@ -63,9 +66,9 @@ Since he's a mechanical engineer, I added a few engineering touches:
 - In "Off the clock", the piano and the guitar are playable (the guitar is in
   standard tuning and shows the note you played), and the drone's propellers spin
   when you hover over or tap its card.
-- Right after the project cards, "Five robots, four seasons" shows his five WildStang
-  robots like the revision block on a drawing, REV A (2019) through REV E (2022).
-  Selecting one opens its details. On a phone the robots scroll sideways.
+- Right after the project cards, "Five robots, four seasons" shows your five
+  WildStang robots like the revision block on a drawing, REV A (2019) through REV E
+  (2022). Selecting one opens its details. On a phone the robots scroll sideways.
 - On a computer, hovering over a card (a project or a hobby) selects it
   like a part in CAD: the card lifts a little, its border turns blue, and small
   corner brackets snap in around it. Tabbing into a card with the keyboard does
@@ -80,23 +83,23 @@ turn off automatically.
 |---|---|
 | `content.js` | **All of the site's text and links. This is the only file you need to edit.** |
 | `index.html` | The main page's structure, plus the link preview tags (what shows up when the link is shared) |
-| `resume.html` | His resume as a web page, built from `content.js` and styled like his PDF. No phone number. Visitors can print it or download his PDF |
-| `assets/Nicholas_Domke_Resume.pdf` | His resume PDF (the Download PDF buttons). No phone number |
+| `resume.html` | Your resume as a web page, built from `content.js` and styled like your PDF. No phone number. Visitors can print it or download your PDF |
+| `assets/Nicholas_Domke_Resume.pdf` | Your resume PDF (the Download PDF buttons). No phone number |
 | `assets/css/style.css` | How the main page looks |
 | `assets/css/resume.css` | How the resume page looks, on screen and printed |
 | `assets/js/render.js` | Builds the main page from `content.js` |
 | `assets/js/resume.js` | Builds the resume page from `content.js` |
 | `assets/js/drawings.js` | The project line drawings (used until photos replace them) |
 | `assets/js/model3d.js` | The 3D model viewer on the welding arm card |
-| `assets/models/` | The 3D model file (`welding-arm.glb`), made from Nicholas's CAD |
+| `assets/js/content-guard.js` | If `content.js` has a mistake, this shows a message with the line number instead of a blank page |
+| `assets/models/` | The 3D model file (`welding-arm.glb`), made from your CAD |
 | `assets/og.png` | The preview image that shows up when the link is shared in a text, on LinkedIn, or in Slack |
 | `assets/favicon.svg`, `assets/apple-touch-icon.png` | The little "N" icon in browser tabs, search results, and on phone home screens |
-| `404.html` | The page people see if they go to an address on the site that doesn't exist |
-| `sitemap.xml` | A list of the site's pages for search engines |
 | `assets/img/` | Project photos. Each one has its location and camera data removed and is under 300 KB |
-| `assets/video/` | Short silent clips, like his path planning simulation (an MP4, a WebM, and a still frame) |
+| `assets/video/` | Short silent clips, like your path planning simulation (an MP4, a WebM, and a still frame) |
+| `404.html` | The page people see if they go to an address on the site that doesn't exist |
+| `sitemap.xml`, `robots.txt` | A list of the site's pages for search engines, and a note pointing them to it |
 | `.nojekyll` | A hidden, empty file that tells GitHub Pages to serve the files as they are. Leave it. |
-| `assets/js/content-guard.js` | If `content.js` has a mistake, this shows a message with the line number instead of a blank page |
 | `.github/` | The automatic check that runs on `content.js` every time you save a change to GitHub (see below) |
 
 ## Editing the content
@@ -113,30 +116,29 @@ Open `content.js` and follow the notes at the top. The short version:
   while it's on screen, with a Play/Pause button.
 - **Tabs:** a card's picture area can have tabs, like "Drawing / Photos (2)" on the
   featured card or "3D model / Wiring / Photo" on the welding arm. The Wiring tab is
-  Nicholas's wiring schematic, redrawn in `assets/js/drawings.js`; its part notes
-  are in `content.js`. The first tab is the card's
-  usual picture; each other tab is a list of photos with captions, shown one at a
-  time with arrows. To add a tab, copy one of the entries under `tabs`.
+  your wiring schematic, redrawn in `assets/js/drawings.js`; its part notes are in
+  `content.js`. The first tab is the card's usual picture; each other tab is a list
+  of photos with captions, shown one at a time with arrows. To add a tab, copy one
+  of the entries under `tabs`.
 - **Spotlights:** `spotlight: 1` and `spotlight: 2` on a project make it one of the
   full-width cards under the featured one (now the welding arm, then USV path
   planning). Leave it off to put a project in the grid of smaller cards.
 - **Second photo:** a project card can also show a smaller second photo under its
   bullets, with a small caption. Fill in `image2`, `image2Alt`, and
-  `image2Caption`. Leave `image2` as `""` to hide it. (The maze robot's SolidWorks
-  render is now a "CAD model" tab instead.)
+  `image2Caption`. Leave `image2` as `""` to hide it.
 - **Results:** `result` on a project adds a highlighted line about how it turned out.
   Leave it `""` until there's a real one.
 - **Spec table:** `specs` on the featured project is the small table (Role, CAD,
   Materials, and so on). When it's filled in, it shows instead of the tool pills
   (the small rounded labels).
-- **Resume page:** the `resume` block in `content.js` is his resume PDF, line for
+- **Resume page:** the `resume` block in `content.js` is your resume PDF, line for
   line and in the same order (education, experience, skills, projects). The resume
-  page is built from it and styled like his PDF: Times New Roman style font, black
-  on white, two printed pages with Projects starting on the second. When his resume
-  changes, I update that block and replace `assets/Nicholas_Domke_Resume.pdf`
-  together. Before I add a new PDF, I check it has no phone number and that it
-  links to the site's current address.
-- **Resume PDF:** `resumePdf` under `links` is his PDF. The Resume button at the top
+  page is built from it and styled like your PDF: Times New Roman style font, black
+  on white, two printed pages with Projects starting on the second. When your resume
+  changes, update that block and replace `assets/Nicholas_Domke_Resume.pdf`
+  together. Before adding a new PDF, check it has no phone number and that it links
+  to the site's current address.
+- **Resume PDF:** `resumePdf` under `links` is your PDF. The Resume button at the top
   and bottom of the main page has a small "PDF" half that downloads it, and the
   resume page has a Download PDF button next to Print. Leave `resumePdf` as `""`
   to hide those.
@@ -228,7 +230,7 @@ from the site and the resume page. Delete the line to show it again.
 
 1. Export the new PDF and name it `Nicholas_Domke_Resume.pdf`.
 2. Check it has no phone number, and that its portfolio link is the site's current
-   address.
+   address (https://nmdomke.github.io/).
 3. On github.com, open the `assets` folder, click **Add file > Upload files**, drop
    in the new PDF (it replaces the old one), and commit.
 4. Update the `resume:` block in `content.js` to match, so the resume page and the
@@ -259,90 +261,65 @@ lines around it instead of the page.
    **History**, open the last version that worked, copy all of it, then edit the
    current file, paste it in, and commit.
 
-## Still needed
+## Still to do
 
-All of his info is filled in from his October 2026 resume and his answers to my
-questions. Here's what's left:
-
-- [ ] Go through my private notes (`QUESTIONS.md` in my private folder, outside this
-      repo) for the details I still want to check with him. Each spot they cover is
-      marked `TODO: confirm` in `content.js`.
-- [ ] Photos of his iCORE Lab work (he said it's all public and he'll send some),
-      plus any of the maze robot and the senior design boat. The BlueROV2 and
-      WildStang photos are up (Integer approved theirs)
+- [ ] Look over the spots marked `TODO: confirm with Nicholas` in `content.js` and
+      fix anything that isn't quite right (then delete the TODO).
+- [ ] Photos of your iCORE Lab work, plus any of the maze robot and the senior
+      design boat. The BlueROV2 and WildStang photos are up (Integer approved theirs)
 - [ ] Drone photos for "Off the clock" (3 to 6 is plenty). Before adding them, strip
       their location and camera data, like the other photos. They replace the drone
       drawing with a grid framed like a drone camera view
-- [ ] Optional: link his GitHub (github.com/nmdomke) once he has projects on it
+- [ ] The welding arm photo is a small copy. Swap in the full-size original
+      (see the TODO next to it in `content.js`)
+- [ ] Optional: link your GitHub (github.com/nmdomke) under `links` once it has
+      projects on it
 - [ ] Optional: add the site to Google Search Console and submit `sitemap.xml`, so
       Google finds it sooner
-- [ ] Keep `content.js` (and the PDF) in sync whenever his resume changes
+- [ ] Keep `content.js` (and the PDF) in sync whenever your resume changes
 
-## Turning on GitHub Pages
+## GitHub Pages
+
+The site is published from this repo by GitHub Pages. If it's ever turned off (for
+example after moving the repo), turn it back on:
 
 1. On GitHub, open the repo, then go to **Settings > Pages**.
 2. Under **Build and deployment**, set Source to **Deploy from a branch**.
 3. Set the branch to `main` and the folder to `/ (root)`. Click **Save**.
-4. After a minute or two, the site is live at
-   `https://<username>.github.io/<repo-name>/`
-   (right now that's `https://avemath.github.io/nmdomke/`).
+4. After a minute or two, the site is live at https://nmdomke.github.io/. (Because
+   the repo is named `nmdomke.github.io`, the address has no repo name on the end.)
 
-## Handing it off to Nicholas
+## Who can edit
 
-When I hand this off to Nicholas, I'll do one of these:
+The repo is yours. Ave (avemath) is a collaborator with write access, so she can
+help with updates. You can see and change who has access under **Settings >
+Collaborators**. If avemath isn't listed there, add her so she can keep helping.
 
-- **Transfer the repo** (this keeps the full history of changes): go to
-  Settings > General > Danger Zone > Transfer ownership, and enter his GitHub
-  username. Then he turns on Pages in his copy (steps above). The address becomes
-  `https://<his-username>.github.io/nmdomke/`.
-  - After the transfer, he adds me (avemath) as a collaborator with write access, so
-    I can keep updating it. That's under Settings > Collaborators.
-  - He can also rename the repo to `<his-username>.github.io` (Settings > General >
-    Repository name). Then the address is just `https://<his-username>.github.io/`,
-    with no repo name on the end.
-- **Fresh copy:** he makes a new repo, uploads all of these files (including the
-  hidden `.nojekyll`), and turns on Pages. The same naming tip works here: if he
-  names the new repo `<his-username>.github.io`, the address is the shorter one.
+## If the site address ever changes
 
-### After the move, update the address
+Link previews and search engines need the site's full address, so it's written out
+in a few places. If the address changes (for example, if the repo is renamed), update
+each of these:
 
-Link previews and search engines need the full address, so the old one has to be
-replaced everywhere it appears. I did this once already, when I renamed the repo
-from ND-Site to nmdomke in October 2026 (the address went from
-`avemath.github.io/ND-Site/` to `avemath.github.io/nmdomke/`). If the address
-changes again, these are the ten spots in five files, plus the live site line at
-the top of this README:
-
-`content.js`
-- [ ] `siteUrl`: the site's address, used on the resume page and in the info for
-      search engines
-
-`index.html` (near the top)
-- [ ] `canonical`: tells search engines which address is the main one
-- [ ] `og:url`: the address that link previews point to
-- [ ] `og:image`: the full address of the preview image (`assets/og.png`)
-
-`resume.html` (near the top)
-- [ ] `canonical`: same as above, for the resume page (keep `resume.html` on the end)
-- [ ] `og:url`: same as above, for the resume page (keep `resume.html` on the end)
-- [ ] `og:image`: the full address of the preview image
-
-`sitemap.xml`
-- [ ] Both addresses: the main page and `resume.html`
-
-`404.html` (near the top)
-- [ ] `<base href="/nmdomke/">`: change `/nmdomke/` to the new repo name, like
-      `/<new-repo-name>/`. If he renames the repo to `<his-username>.github.io`,
-      it's just `/`
+- `content.js`: `siteUrl` (used on the resume page and in the info for search engines)
+- `index.html` (near the top): `canonical`, `og:url`, and `og:image`
+- `resume.html` (near the top): `canonical`, `og:url`, and `og:image` (keep
+  `resume.html` on the end of the first two)
+- `sitemap.xml`: both addresses
+- `robots.txt`: the sitemap address
+- `404.html` (near the top): `<base href="/">`. At https://nmdomke.github.io/ it's
+  `/`; if the site ever lives in a folder, like `/my-site/`, use that.
+- The portfolio link in your resume PDF
+- The live site line at the top of this README
 
 ## The 3D model
 
-The welding arm model is made from Nicholas's STEP files, which I keep in a private
-folder outside this repo (along with the steps and scripts to redo it). The short
-version: a converter turns the STEP assembly into one 3D file, a cleanup script
-takes out the limit switch (it isn't part of the finished arm) and gives every part
-a plain name, and a last step shrinks the file to about 175 KB. The result replaces
-`assets/models/welding-arm.glb`.
+The welding arm model is made from your STEP files. The STEP files and the scripts
+used to rebuild the model are kept outside this repo; ask Ave (avemath) for a copy.
+The short version of how it's made: a converter turns the STEP assembly into one 3D
+file, a cleanup script takes out the limit switch (it isn't part of the finished arm)
+and gives every part a plain name, and a last step shrinks the file to about 175 KB.
+The result replaces `assets/models/welding-arm.glb`.
 
 The viewer uses three.js, a free 3D library. The site only downloads it when the
 welding arm card is about to scroll into view, so it doesn't slow down the rest of
