@@ -11,14 +11,82 @@
    - To hide a single field, set it to "" (empty quotes).
    - To remove an item, delete everything from its { to its }, plus the comma.
    - To add an item, copy an existing one (from { to },) and paste it below.
-   - Keep the quotes and commas. If the page goes blank after an edit, a
-     missing quote or comma is almost always the cause.
+   - Keep the quotes and commas. If something's wrong, the page shows a message
+     with the line number instead of the site; a missing quote or comma near that
+     line (often the line just above) is almost always the cause.
+   - Every push to GitHub runs a check on this file. A red X next to the commit
+     means it found a problem; click it to see which line.
+   - Copy-paste templates for the most common edits are just below.
 
    PRIVACY NOTE
    The repo is public, so everything in this file is public too, even the
    comments. His phone number is intentionally NOT on the site. A "TODO: confirm"
    note points to notes kept outside this repo.
    ========================================================================== */
+
+/* ---------- TEMPLATES (copy, paste, and fill in) ----------
+   These are inside a comment, so they don't change the site. Copy the part you
+   need (from { to },), paste it into the right list further down, delete the
+   lines you don't need, and fill in the rest. Keep each one's comma at the end.
+
+   ADD A PROJECT CARD: paste into "projects: [" (the order there is the order on
+   the page; the welding arm and USV cards have "spotlight" to stay up top).
+     {
+       title: "Project Name",
+       timelineLabel: "Short name",          // its row name on the timeline
+       role: "Course or lab, team of 4",
+       dates: "Jan 2027 to May 2027",        // or "Jan 2027 to now"
+       hook: "One sentence about what it is and what I did.",
+       points: [
+         "What I did, starting with a verb",
+         "Another thing I did",
+       ],
+       result: "",                           // optional: how it turned out
+       tools: ["SolidWorks", "3D printing"],
+       image: "assets/img/project-name.jpg", // a photo (see PHOTOS below)
+       imageAlt: "What the photo shows, for screen readers",
+       link: "",
+     },
+
+   ADD AN EXPERIENCE ROW: paste into "experience: [" (newest first)
+     {
+       role: "Job Title",
+       org: "Company or Lab",
+       place: "City, ST",
+       dates: "Jun 2027 to now",             // "now" marks it current
+       points: [
+         "What I did there",
+       ],
+       cards: ["Project Name"],              // optional: project cards it links to (exact titles)
+     },
+   The resume page has its own copy of each job in "resume:" below (it matches
+   the PDF line for line); add the job there too.
+
+   ADD A SKILL: paste into the "items: [" list of a group under "skills: [".
+   The groups are CAD, Code and controls, Fabrication, and Equipment and standards.
+     { tool: "Tool Name", note: "", usedOn: ["Project Name"] },
+   usedOn takes exact project titles ("featured" means the featured project,
+   "coursework" the coursework band). note is the small grey label beside it.
+
+   PHOTOS: put the file in assets/img/ and point to it, like
+     image: "assets/img/my-photo.jpg",
+     imageAlt: "What the photo shows",
+   Before adding a photo: remove its location and camera data (EXIF), make it
+   2000 pixels wide or less, and keep it under about 300 KB (squoosh.app does all
+   three). Don't use photos that show other people's faces. To swap a photo, give
+   the new file the same name, or change the name here.
+
+   DRONE PHOTOS: in "hobbies:", find the drone item and fill in its photos list
+   (3 to 6 look best). They replace the drone drawing.
+     photos: [
+       { image: "assets/img/drone-1.jpg", alt: "Aerial view of ...", caption: "" },
+       { image: "assets/img/drone-2.jpg", alt: "Aerial view of ...", caption: "" },
+     ],
+
+   DRAFTS: add this line to any item to hide it from the site and the resume page
+   until it's ready, then delete the line to show it:
+     draft: true,
+   ---------------------------------------------------------- */
 
 window.SITE = {
 

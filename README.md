@@ -96,6 +96,8 @@ turn off automatically.
 | `assets/img/` | Project photos. Each one has its location and camera data removed and is under 300 KB |
 | `assets/video/` | Short silent clips, like his path planning simulation (an MP4, a WebM, and a still frame) |
 | `.nojekyll` | A hidden, empty file that tells GitHub Pages to serve the files as they are. Leave it. |
+| `assets/js/content-guard.js` | If `content.js` has a mistake, this shows a message with the line number instead of a blank page |
+| `.github/` | The automatic check that runs on `content.js` every time you save a change to GitHub (see below) |
 
 ## Editing the content
 
@@ -140,11 +142,122 @@ Open `content.js` and follow the notes at the top. The short version:
   to hide those.
 - **Revision letter:** `revision` is the REV box in the footer. Bump the letter
   (C to D, and so on) when the site gets a real update.
-- **If the page goes blank after an edit,** look for a missing quote or comma.
+- **If something's wrong after an edit,** the page shows a message with the line
+  number. See "If the page shows an error" below.
 
-To edit on github.com: open `content.js`, click the pencil icon, make your changes,
-then click **Commit changes** (GitHub's word for saving). The live site updates in
-about a minute.
+## Making common edits
+
+### Two ways to edit
+
+**On github.com (easiest):** open the repo, click `content.js`, then click the pencil
+icon (top right of the file). Make your change, click **Commit changes...** (GitHub's
+word for saving), add a short note about what you changed, and click **Commit
+changes** again. The live site updates in about a minute.
+
+**On your computer:** download the repo (the green **Code** button, then **Download
+ZIP**, or clone it with Git), edit `content.js` in any text editor, and preview it
+(see "Previewing on your computer" at the bottom). Then upload the changed files on
+github.com (**Add file > Upload files**), or push them with Git.
+
+Every time a change is saved to GitHub, an automatic check reads `content.js`. A
+green check next to the commit means it's fine. A red X means it found a problem:
+click the X, then **Details**, and it tells you the line number and what's wrong
+(a missing comma, a date the timeline can't read, or a photo file that isn't there).
+The check only looks; it never changes or blocks anything, so the site still
+publishes either way. Fix the line and commit again.
+
+The top of `content.js` has copy-paste templates for the edits below.
+
+### Add a project card
+
+1. In `content.js`, find `projects: [`.
+2. Copy the "ADD A PROJECT CARD" template from the top of the file and paste it
+   where you want the card (the order in the list is the order on the page).
+3. Fill in the title, role, dates, a one-line hook, and the bullets. Dates look like
+   `"Jan 2027 to May 2027"` or `"Jan 2027 to now"`; the timeline adds the project
+   on its own.
+4. For a picture, add a photo (below), or leave `image` as `""` for now.
+
+### Add an Experience row
+
+1. Find `experience: [` (newest first) and paste the "ADD AN EXPERIENCE ROW"
+   template.
+2. Fill in the role, organization, place, dates, and what you did. Use `"now"` as the
+   end date for a current job; it gets a Now tag.
+3. To link it to project cards, list their exact titles in `cards`.
+4. The resume page keeps its own copy of each job (under `resume:`, matching the
+   PDF), so add it there too, and update the PDF (below).
+
+### Add a skill
+
+1. Find `skills: [` and pick the group: CAD, Code and controls, Fabrication, or
+   Equipment and standards.
+2. Paste `{ tool: "Tool Name", note: "", usedOn: ["Project Name"] },` into that
+   group's `items` list.
+3. `usedOn` takes exact project titles, so each one becomes a link to that card.
+   `note` is the small grey label next to the name (leave it `""` if there isn't one).
+4. The resume page's Skills lines are under `resume:` > `skills`.
+
+### Add or swap a photo
+
+1. Get the photo ready: remove its location and camera data (EXIF), make it 2000
+   pixels wide or less, and keep it under about 300 KB. squoosh.app (free, in the
+   browser) does all three: open the photo, set the width, and download the result.
+   Don't use photos that show other people's faces.
+2. On github.com, open the `assets/img` folder, click **Add file > Upload files**,
+   drop the photo in, and commit.
+3. In `content.js`, set the card's `image` to `"assets/img/your-photo.jpg"` and
+   write `imageAlt` (what the photo shows, for screen readers).
+4. To swap a photo, upload the new one with the same file name (it replaces the
+   old one), or upload it with a new name and change `image`.
+
+### Add drone photos
+
+1. Get each photo ready the same way (no location data, 2000 pixels wide or less,
+   under about 300 KB) and upload them to `assets/img/`.
+2. In `content.js`, find the drone item under `hobbies:` and fill in its `photos`
+   list (the "DRONE PHOTOS" template). 3 to 6 look best. They replace the drone
+   drawing.
+
+### Hide something until it's ready (drafts)
+
+Add `draft: true,` to any item (a project, a job, a skill group) and it's hidden
+from the site and the resume page. Delete the line to show it again.
+
+### Update the resume PDF
+
+1. Export the new PDF and name it `Nicholas_Domke_Resume.pdf`.
+2. Check it has no phone number, and that its portfolio link is the site's current
+   address.
+3. On github.com, open the `assets` folder, click **Add file > Upload files**, drop
+   in the new PDF (it replaces the old one), and commit.
+4. Update the `resume:` block in `content.js` to match, so the resume page and the
+   PDF say the same thing.
+
+### Change the "Now" line
+
+Near the top of `content.js`, `status` is the line with the blue dot in the top
+section ("Now: building a path planner ..."), and `seeking` is the line under it.
+Change the text in the quotes. Set either to `""` to hide it.
+
+### Update the numbers card
+
+The four big numbers are under `numbers:` near the top of `content.js`. Each has a
+`value` (or `since: 2018`, which counts the years on its own), a small `unit` like
+`"yrs"`, and a `label` under it. `spoken` is what screen readers say instead (so
+"4/5" is read as "4 of 5"); update it if you change that value.
+
+### If the page shows an error
+
+If `content.js` has a mistake, the site shows a box with the line number and the
+lines around it instead of the page.
+
+1. Go to that line (the mistake is usually there or on the line just above).
+2. Look for a missing comma at the end of a line, a missing or extra quote, or a
+   bracket that isn't closed.
+3. If you can't find it, undo the edit: on github.com, open `content.js`, click
+   **History**, open the last version that worked, copy all of it, then edit the
+   current file, paste it in, and commit.
 
 ## Still needed
 
