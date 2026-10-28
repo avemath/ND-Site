@@ -16,20 +16,8 @@
 
    PRIVACY NOTE
    The repo is public, so everything in this file is public too, even the
-   comments. His phone number is intentionally NOT on the site.
-
-   QUESTIONS FOR NICHOLAS (still open; each one is also marked // QUESTION below)
-   1. BlueROV2: is the BlueLink SARbot BlueROV2 Heavy based?
-   2. Senior design: what does the radio frequency controller do?
-   3. WildStang: were the 40 to 50 hours a week during build season?
-   4. Welding arm: does a Sharpie stand in for the welding torch?
-   5. Welding arm: Arduino Uno R3 or R4? (His wiring schematic says R3; the site says R4.)
-   6. Welding arm: what does the Raspberry Pi do?
-   7. Welding arm: which motor controller board is it?
-   8. Wind turbine mount: when did he work on it? (no dates yet, so it's not on the timeline)
-   9. Open to relocating?
-   10. Is there a public repo for the USV path planner he could link?
-   11. Who is his iCORE Lab advisor (to name on the site, if he wants)?
+   comments. His phone number is intentionally NOT on the site. A "TODO: confirm"
+   note points to notes kept outside this repo.
    ========================================================================== */
 
 window.SITE = {
@@ -57,7 +45,7 @@ window.SITE = {
   // The live address. Update this if the site moves to his own GitHub account.
   siteUrl: "https://avemath.github.io/nmdomke/",
 
-  // Under his name at the top. DRAFT: have him approve the wording.
+  // Under his name at the top. TODO: confirm (see private notes)
   tagline:
     "I design robot parts in CAD, build them in the shop, and test them in the real world.",
 
@@ -175,7 +163,7 @@ window.SITE = {
   ],
 
   /* ---------- About ----------
-     Each string is one paragraph. DRAFT: have him rewrite in his own voice. */
+     Each string is one paragraph. TODO: confirm (see private notes) */
   about: [
     "I started using SolidWorks in 2018 on my high school FIRST Robotics Competition team, WildStang. " +
       "Over four years I built five robots with the team, drove every season, and was the team's primary lead my junior and senior years. " +
@@ -218,7 +206,7 @@ window.SITE = {
       { label: "Role", value: "Mechanical Engineering Intern" },
       { label: "CAD", value: "Fusion 360" },
       { label: "Materials", value: "PLA, PETG" },
-      // QUESTION: confirm the SARbot is BlueROV2 Heavy based (BlueLink says its systems are modified BlueROV2 Heavy vehicles)
+      // TODO: confirm (see private notes)
       { label: "Vehicle", value: "BlueLink SARbot (BlueROV2 Heavy based)" },
     ],
     art: "rov",
@@ -282,13 +270,12 @@ window.SITE = {
         "Verified the CAD model in simulation software, then measured the real arm against it",
         "3D printed the arm and end effector",
         "Soldered wires to the servos' potentiometers so the arm could read its joint positions",
-        // QUESTION: Uno R3 or R4? His wiring schematic says R3. Also: what does the Raspberry Pi
-        // in the schematic do, and which motor controller board is it?
+        // TODO: confirm (see private notes)
         "Wired the electronics around an Arduino Uno R4",
       ],
       result: "Measured 0.83% position error over 5 straight-line runs, comparing where the end effector ended up with where it should have been.",
       tools: ["SolidWorks", "3D printing", "Arduino Uno R4", "Arduino IDE", "Soldering"],
-      art: "arm",                          // QUESTION: is the "torch" in the drawing a Sharpie standing in for a welding torch?
+      art: "arm",                          // TODO: confirm (see private notes)
       callouts: ["End effector", "Servo potentiometers", "Arduino Uno R4"],
       // His real CAD as an interactive 3D model. It replaces the drawing once it loads;
       // the drawing stays if it can't. Rebuilt from his STEP files (see the README).
@@ -304,7 +291,7 @@ window.SITE = {
       tabs: [
         { label: "3D model" },
         // His wiring schematic, redrawn in assets/js/drawings.js ("wiring"). The labels say
-        // only what his drawing shows. QUESTION: Uno R3 or R4 (his drawing says r3)?
+        // only what his drawing shows. TODO: confirm (see private notes)
         { label: "Wiring", schematic: "wiring", tag: "Schematic",   // tag: the label after "Fig. 0N /"
           hint: "Hover or tap a part to see its connections.",
           hintTouch: "Tap a part to see its connections.",
@@ -315,9 +302,7 @@ window.SITE = {
             mg995: "MG995 servo (1 of 3): wired to a motor controller output",
             sg90: "SG90 servo (1 of 2): wired to a motor controller output",
           } },
-        // NOTE: this photo is a low-res copy (388 x 500 after the crop). Replace it with the
-        // full-size original from his phone (at least about 1300 x 2300), cropped the same way
-        // (the person's arm and side at the left edge cut off), then delete noEnlarge.
+        // TODO: replace with full-size original, then remove noEnlarge.
         // noEnlarge: true keeps the browser from blowing it up past its real size.
         { label: "Photo", photos: [
           { image: "assets/img/welding-arm-build.jpg", caption: "The built arm on the lab bench.", noEnlarge: true,
@@ -337,7 +322,7 @@ window.SITE = {
         // his team is the first to take on this project, so it gets the larger first-year
         // budget (returning teams get a smaller one to revise their previous boat)
         "Leading the first LSU senior design team to take on this project, designing a new boat on a $7,000 first-year budget",
-        "Our design uses a radio frequency controller for communications",   // QUESTION: what does the radio system do?
+        "Our design uses a radio frequency controller for communications",   // TODO: confirm (see private notes)
       ],
       tools: ["SolidWorks"],
       art: "boat",
@@ -350,7 +335,7 @@ window.SITE = {
       title: "Wind Turbine Blade Inspection Mount",
       timelineLabel: "Wind turbine mount",
       role: "iCORE Lab",
-      dates: "",                           // QUESTION: when did he work on this?
+      dates: "",                           // TODO: confirm (see private notes)
       hook: "I designed the mount that holds a laser and a depth sensor on a UR5e robot arm, to inspect wind turbine blades.",
       points: [
         "Designed the mount in SolidWorks",
@@ -430,7 +415,7 @@ window.SITE = {
         "Co-led the team sophomore year, then was primary team lead junior and senior years, and drove in competition all four years as one of the team's two drivers",
         "Built 5 competition robots in 4 years on a team of about 80",
         "Led CAD in SolidWorks and Onshape and trained younger members on CAD and power tools",
-        "Put in 40 to 50 hours a week in the shop during build season",   // QUESTION: confirm "during build season"
+        "Put in 40 to 50 hours a week in the shop during build season",   // TODO: confirm (see private notes)
       ],
       // a link under the card to the "Five robots, four seasons" strip (robots, below)
       moreLink: { label: "See all 5 robots", href: "#robots" },
@@ -654,7 +639,7 @@ window.SITE = {
   /* ---------- Off the clock (hobbies) ----------
      Nicholas said yes to this being public (Oct 2026). Shows on a blue panel
      above "Let's talk", with its own menu link. Delete an item to remove it.
-     DRAFT wording: have him check it reads like him. */
+     TODO: confirm (see private notes) */
   hobbies: {
     title: "Off the clock",
     menuLabel: "Off the clock",

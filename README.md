@@ -149,15 +149,15 @@ about a minute.
 All of his info is filled in from his October 2026 resume and his answers to my
 questions. Here's what's left:
 
-- [ ] Get his answers to the open questions at the top of `content.js` (things
-      like the SARbot, the competition name, and which Arduino the arm uses)
+- [ ] Go through my private notes (`QUESTIONS.md` in my private folder, outside this
+      repo) for the details I still want to check with him. Each spot they cover is
+      marked `TODO: confirm` in `content.js`.
 - [ ] Photos of his iCORE Lab work (he said it's all public and he'll send some),
       plus any of the maze robot and the senior design boat. The BlueROV2 and
       WildStang photos are up (Integer approved theirs)
 - [ ] Drone photos for "Off the clock" (3 to 6 is plenty). Before adding them, strip
       their location and camera data, like the other photos. They replace the drone
       drawing with a grid framed like a drone camera view
-- [ ] Have him read the tagline and the About paragraphs (I drafted them in his voice)
 - [ ] Optional: link his GitHub (github.com/nmdomke) once he has projects on it
 - [ ] Optional: add the site to Google Search Console and submit `sitemap.xml`, so
       Google finds it sooner
