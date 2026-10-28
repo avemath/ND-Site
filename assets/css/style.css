@@ -1292,3 +1292,13 @@ body.menu-open .bar-sec { visibility: hidden; }
 /* About: on wide screens the facts panel stays in view below the top bar while the text
    beside it scrolls past, like the featured card's left column (stacked as before on narrow) */
 @media (min-width: 900px) { .about .facts { position: sticky; top: 96px; align-self: start; } }
+
+/* a card stretched to even out the grid's bottom: its picture area takes the extra
+   height (render.js sets it); the drawing, photo, or tabs inside grow to fill it */
+.cards .card.is-filled .card-media { aspect-ratio: auto; flex: none; }
+.cards .card.is-filled .card-media.has-drawing .drawing-wrap { flex: 1; aspect-ratio: auto; }
+.cards .card.is-filled .card-media.has-tabs > .tab-stack { flex: 1; aspect-ratio: auto; }
+.cards .card.is-filled .tab-stack > .tab-media.has-drawing:first-child .drawing-wrap { flex: 1; aspect-ratio: auto; }
+.cards .card.is-filled .card-media.has-tabs:has(> .tab-stack > .tab-media.has-photo:first-child) > .tab-stack { flex: 1; aspect-ratio: auto; }   /* a photo tab grows too (overrides its 4:3) */
+/* in a stretched card the drawing scales up to nearly the full width (it stays centered top to bottom) */
+.cards .card.is-filled .drawing-wrap { padding-left: 8px; padding-right: 8px; }

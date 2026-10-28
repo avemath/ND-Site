@@ -735,25 +735,44 @@
      in its column, 16px apart, with no gaps. The grid's rows are 1px tall and each card
      spans its own height in rows plus the gap. Cards go, in order, into the column that
      ends highest (the leftmost on a tie), so the first row reads left to right.
-     A ResizeObserver re-packs on any size change: window, fonts, photos, video, tabs.
-     Without JavaScript (or with one column) it's a plain grid. */
+     Then the bottoms are evened out: the cards in each shorter column share the
+     difference, each picture area growing by an equal part (never empty space under
+     the text), so the columns end together. A ResizeObserver re-packs on any size change: window,
+     fonts, photos, video, tabs. Without JavaScript (or with one column) it's a plain grid. */
   function masonry(grid) {
     var items = [].slice.call(grid.children), queued = 0;
+    function unfill() {
+      items.forEach(function (c) { var m = c.querySelector(".card-media"); c.classList.remove("is-filled"); if (m) m.style.height = ""; });
+    }
     function pack() {
       queued = 0;
+      unfill();   // measure every card at its own height
       var cs = getComputedStyle(grid);
       var cols = cs.gridTemplateColumns.split(" ").filter(Boolean).length;
       var gap = parseFloat(cs.columnGap) || 16;
       grid.classList.toggle("is-packed", cols > 1);
       if (cols < 2) { items.forEach(function (c) { c.style.gridColumn = c.style.gridRow = ""; }); return; }
-      var tops = [];
-      for (var i = 0; i < cols; i++) tops.push(0);
+      var tops = [], inCol = [];
+      for (var i = 0; i < cols; i++) { tops.push(0); inCol.push([]); }
       items.forEach(function (c) {
         var h = Math.ceil(c.offsetHeight);
         var col = tops.indexOf(Math.min.apply(null, tops));
         c.style.gridColumn = String(col + 1);
-        c.style.gridRow = (tops[col] + 1) + " / span " + Math.max(1, h);
+        inCol[col].push({ card: c, h: h });
         tops[col] += h + gap;
+      });
+      // even out the bottoms: the cards in each shorter column share the difference
+      var bottom = Math.max.apply(null, tops);
+      inCol.forEach(function (list, k) {
+        var extra = bottom - tops[k], top = 0;
+        list.forEach(function (it, j) {
+          // an equal share for each card (the remainder goes to the last one)
+          var add = extra < 2 ? 0 : Math.floor(extra / list.length) + (j === list.length - 1 ? extra % list.length : 0);
+          var m = add && it.card.querySelector(".card-media");
+          if (m) { m.style.height = (m.offsetHeight + add) + "px"; it.card.classList.add("is-filled"); } else add = 0;
+          it.card.style.gridRow = (top + 1) + " / span " + Math.max(1, it.h + add);
+          top += it.h + add + gap;
+        });
       });
     }
     function queue() { if (!queued) queued = requestAnimationFrame(pack); }
