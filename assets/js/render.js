@@ -188,7 +188,7 @@
     numbers.forEach(function (n) {
       // "since: 2018" turns into the number of years since then
       var value = n.since ? String(new Date().getFullYear() - n.since) : n.value;
-      var v = el("span", "num-value", [value]);
+      var v = el("span", "num-value dot", [value]);
       v.setAttribute("data-count", value);
       v.setAttribute("aria-hidden", "true");   // the digits scramble; screen readers get the sr-only copy
 
