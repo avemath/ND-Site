@@ -415,6 +415,7 @@
     function show(n) {
       i = (n + photos.length) % photos.length;
       img.src = photos[i].image; img.alt = photos[i].alt || "";
+      open.classList.toggle("no-enlarge", !!photos[i].noEnlarge);   // shown at most at its real size
       cap.textContent = photos[i].caption || "";
       count.textContent = (i + 1) + " / " + photos.length;
     }

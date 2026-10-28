@@ -315,8 +315,12 @@ window.SITE = {
             mg995: "MG995 servo (1 of 3): wired to a motor controller output",
             sg90: "SG90 servo (1 of 2): wired to a motor controller output",
           } },
+        // NOTE: this photo is a low-res copy (388 x 500 after the crop). Replace it with the
+        // full-size original from his phone (at least about 1300 x 2300), cropped the same way
+        // (the person's arm and side at the left edge cut off), then delete noEnlarge.
+        // noEnlarge: true keeps the browser from blowing it up past its real size.
         { label: "Photo", photos: [
-          { image: "assets/img/welding-arm-build.jpg", caption: "The built arm on the lab bench.",
+          { image: "assets/img/welding-arm-build.jpg", caption: "The built arm on the lab bench.", noEnlarge: true,
             alt: "The 3D-printed arm in pink on a lab bench, wired to a control board, with its end effector reaching over a checkerboard mat" },
         ] },
       ],
