@@ -1273,16 +1273,15 @@ body.menu-open .bar-sec { visibility: hidden; }
 }
 
 /* ---------- About facts on pale blueprint paper: a hint of color without blue text
-   (blue stays for things you can select). Light blue paper with the faint grid of the
-   blue sections, navy labels and lines, black values. ---------- */
+   (blue stays for things you can select). Light blue paper with only the faint 20px
+   grid as texture (no heavier lines, so it stays easy to read), navy labels and
+   lines, black values. ---------- */
 .facts {
   background-color: #E8EFFA;
   background-image:
-    linear-gradient(rgba(20,80,168,.16) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20,80,168,.16) 1px, transparent 1px),
     linear-gradient(rgba(20,80,168,.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(20,80,168,.07) 1px, transparent 1px);
-  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-size: 20px 20px, 20px 20px;
   background-position: -1px -1px;
   border-color: #0D3B80;
 }
