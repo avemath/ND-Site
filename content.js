@@ -625,7 +625,7 @@ window.SITE = {
     {
       role: "Volunteer",
       org: "FIRST LEGO League",
-      timelineLabel: "FIRST LEGO League",
+      timelineLabel: "FIRST LEGO League referee",
       dates: "2017 to 2022",
       compact: true,
       points: [

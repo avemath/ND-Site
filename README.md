@@ -265,8 +265,8 @@ lines around it instead of the page.
 
 - [ ] Look over the spots marked `TODO: confirm with Nicholas` in `content.js` and
       fix anything that isn't quite right (then delete the TODO).
-- [ ] Photos of your iCORE Lab work, plus any of the maze robot and the senior
-      design boat. The BlueROV2 and WildStang photos are up (Integer approved theirs)
+- [ ] Photos of your iCORE Lab work, plus any of the senior design boat. The
+      BlueROV2 and WildStang photos are up (Integer approved theirs)
 - [ ] Drone photos for "Off the clock" (3 to 6 is plenty). Before adding them, strip
       their location and camera data, like the other photos. They replace the drone
       drawing with a grid framed like a drone camera view
