@@ -95,6 +95,7 @@ turn off automatically.
 | `assets/models/` | The 3D model file (`welding-arm.glb`), made from your CAD |
 | `assets/og.png` | The preview image that shows up when the link is shared in a text, on LinkedIn, or in Slack |
 | `assets/favicon.svg`, `assets/apple-touch-icon.png` | The little "N" icon in browser tabs, search results, and on phone home screens |
+| `assets/cursors/` | The white hand cursors you see when dragging the 3D model (Chrome on Windows draws its own as a fuzzy black hand) |
 | `assets/img/` | Project photos. Each one has its location and camera data removed and is under 300 KB |
 | `assets/video/` | Short silent clips, like your path planning simulation (an MP4, a WebM, and a still frame) |
 | `404.html` | The page people see if they go to an address on the site that doesn't exist |

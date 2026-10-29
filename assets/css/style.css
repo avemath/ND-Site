@@ -942,8 +942,8 @@ body.menu-open .bar-sec { visibility: hidden; }
    It sits exactly where the drawing was, so nothing moves when it swaps in. */
 .drawing-wrap { position: relative; }
 .has-model .drawing { visibility: hidden; }
-.model3d { position: absolute; inset: 36px 0 0; cursor: grab; touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
-.model3d.dragging { cursor: grabbing; }
+.model3d { position: absolute; inset: 36px 0 0; cursor: url(../cursors/grab.svg) 12 12, grab; touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+.model3d.dragging { cursor: url(../cursors/grabbing.svg) 12 13, grabbing; }
 .model3d canvas { display: block; width: 100%; height: 100%; }
 .model3d:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 10px; }   /* inset: its box clips an outer ring */
 /* under the model: one key and the hint, on one line. The drawing's numbered
